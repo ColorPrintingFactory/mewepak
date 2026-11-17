@@ -239,14 +239,23 @@ function withSecurityHeaders(response, path) {
   return result;
 }
 
-async function fetchStaticAsset(request, env) {
+async function fetchStaticAsset(request, env, context) {
   if (env.ASSETS && typeof env.ASSETS.fetch === 'function') return env.ASSETS.fetch(request);
+  if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed.', { status: 405, headers: { allow: 'GET, HEAD' } });
   const commit = cleanText(env.ASSET_COMMIT_SHA, 64);
   if (!/^[a-f0-9]{40}$/.test(commit)) return new Response('Static asset source is not configured.', { status: 503 });
   const url = new URL(request.url);
   const requestedPath = url.pathname === '/' ? '/index.html' : (url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname);
   const upstream = `https://raw.githubusercontent.com/ColorPrintingFactory/mewepak/${commit}/mewepak-admin/public${requestedPath}`;
-  const response = await fetch(upstream, { headers: { accept: request.headers.get('accept') || '*/*' } });
+  const cacheKey = new Request(upstream, { headers: { accept: request.headers.get('accept') || '*/*' } });
+  const cache = caches.default;
+  const cached = await cache.match(cacheKey);
+  if (cached) return request.method === 'HEAD' ? new Response(null, cached) : cached;
+  let response = await fetch(cacheKey);
+  if (!response.ok && response.status !== 404) {
+    const mirror = `https://cdn.jsdelivr.net/gh/ColorPrintingFactory/mewepak@${commit}/mewepak-admin/public${requestedPath}`;
+    response = await fetch(mirror, { headers: { accept: request.headers.get('accept') || '*/*' } });
+  }
   if (!response.ok) return new Response(response.status === 404 ? 'Not found.' : 'Static asset unavailable.', { status: response.status });
   const headers = new Headers(response.headers);
   const extension = requestedPath.split('.').pop()?.toLowerCase() || '';
@@ -256,12 +265,14 @@ async function fetchStaticAsset(request, env) {
     webp: 'image/webp', svg: 'image/svg+xml', glb: 'model/gltf-binary', ico: 'image/x-icon',
   };
   if (mimeTypes[extension]) headers.set('content-type', mimeTypes[extension]);
-  headers.set('cache-control', requestedPath.endsWith('.html') ? 'no-cache' : 'public, max-age=3600');
-  return new Response(response.body, { status: response.status, headers });
+  headers.set('cache-control', requestedPath.endsWith('.html') ? 'public, max-age=60' : 'public, max-age=31536000, immutable');
+  const result = new Response(response.body, { status: response.status, headers });
+  if (context?.waitUntil) context.waitUntil(cache.put(cacheKey, result.clone()));
+  return request.method === 'HEAD' ? new Response(null, result) : result;
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, context) {
     const url = new URL(request.url);
     if (url.pathname === '/api/config' && request.method === 'GET') {
       const supabaseUrl = String(env.SUPABASE_URL || '').trim();
@@ -272,6 +283,6 @@ export default {
     if (url.pathname === '/api/booking-slots' && request.method === 'GET') return bookingSlotsResponse(request, env);
     if (url.pathname === '/api/bookings' && request.method === 'POST') return createBookingResponse(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
-    return withSecurityHeaders(await fetchStaticAsset(request, env), url.pathname);
+    return withSecurityHeaders(await fetchStaticAsset(request, env, context), url.pathname);
   },
 };
