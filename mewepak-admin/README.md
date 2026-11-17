@@ -12,13 +12,17 @@
 
 ## 当前代码
 
+- `public/index.html`：独立实现的公开站点首页，包含原站导航、产品大菜单、Hero、市场/规格入口、产品展示、3D 预览、生产流程、可持续发展和询价入口。
+- `public/products/`：从 Supabase 读取分类和产品的产品展示页。
+- `public/booking/`：读取后台预约规则并提交预约的客户预约页。
+- `public/assets/`：从备份中保留的原 Logo、产品图片、3D 模型及公开站点样式和交互。
 - `public/admin/`：员工登录与后台管理界面。
-- `functions/`：Cloudflare Pages Functions，包括运行配置、预约时段读取和预约提交接口。
+- `functions/`：Cloudflare Pages Functions，包括公开内容读取、运行配置、预约时段读取和预约提交接口。
 - `database/schema.sql`：Supabase 表、RLS、媒体桶、预约原子写入函数及 12 个产品分类的初始化脚本。
 - `database/upgrade_admin_roles_booking_options.sql`：已有 CMS 项目的预约字段升级与 admin/editor 数据权限收紧脚本。
 - `docs/DEVELOPMENT_PLAN.md`：全站重建与后台建设计划。
 
-分类、产品、页面、文章、媒体、3D 资源、预约、询价和站点设置已有管理界面骨架；内容导入、预约邮件、客户级编辑器和公开站点的新前端仍在开发中。部署前台之前不会改动或替换当前线上 WordPress。
+分类、产品、页面、文章、媒体、3D 资源、预约、询价和站点设置已有管理界面骨架；公开站点首页、产品页、预约页及 3D 预览已有第一版实现。其余原站页面、完整内容导入、预约邮件和客户级编辑器仍在开发中。部署前台之前不会改动或替换当前线上 WordPress。
 
 ## 运行配置
 
@@ -30,6 +34,7 @@
 | `SUPABASE_PUBLISHABLE_KEY` | 登录和员工数据访问使用的公开 key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Pages Functions 专用服务端密钥，绝不放入浏览器 |
 | `TURNSTILE_SECRET_KEY` | 公开预约表单的人机验证 |
+| `TURNSTILE_SITE_KEY` | 预约页加载的人机验证公开 site key |
 
 本地开发时，将 `.dev.vars.example` 复制为 `.dev.vars` 并填写开发环境值。`.dev.vars` 已加入 Git 忽略规则。
 

@@ -6,5 +6,10 @@ export function onRequestGet({ env }) {
   if (!supabaseUrl || !supabasePublishableKey) {
     return json({ configured: false }, 503);
   }
-  return json({ configured: true, supabaseUrl, supabasePublishableKey });
+  return json({
+    configured: true,
+    supabaseUrl,
+    supabasePublishableKey,
+    turnstileSiteKey: String(env.TURNSTILE_SITE_KEY || '').trim(),
+  });
 }
