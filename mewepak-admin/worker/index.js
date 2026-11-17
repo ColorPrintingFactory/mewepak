@@ -13,7 +13,7 @@ function json(data, status = 200) {
 
 function databaseConfig(env, privileged = false) {
   const base = String(env.SUPABASE_URL || '').replace(/\/$/, '');
-  const key = String(privileged ? env.SUPABASE_SERVICE_ROLE_KEY : env.SUPABASE_PUBLISHABLE_KEY || '');
+  const key = String(privileged ? (env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_PUBLISHABLE_KEY) : env.SUPABASE_PUBLISHABLE_KEY || '');
   if (!base || !key) throw new Error('Database credentials are not configured.');
   return { base, key };
 }
@@ -78,7 +78,7 @@ function slotsForDate(settings) {
 }
 
 async function getBookingSettings(env) {
-  const response = await databaseRequest(env, 'booking_settings?select=*&id=eq.1', {}, true);
+  const response = await databaseRequest(env, 'booking_settings_public?select=*&id=eq.1');
   if (!response.ok) throw new Error('Could not read booking settings.');
   const rows = await response.json();
   if (!rows.length) throw new Error('Booking settings are missing.');
@@ -125,13 +125,14 @@ async function bookingSlotsResponse(request, env) {
       avatar_url: settings.avatar_url || '',
     };
     if (!dateIsBookable(date, settings)) return json(publicSettings);
-    const query = new URLSearchParams({ select: 'slot_start,status', booking_date: `eq.${date}`, status: 'in.(pending,confirmed)' });
-    const response = await databaseRequest(env, `appointments?${query}`, {}, true);
+    const response = await databaseRequest(env, 'rpc/get_booked_slot_counts', {
+      method: 'POST', body: JSON.stringify({ p_booking_date: date }),
+    });
     if (!response.ok) return json({ error: 'Could not read appointment availability.' }, 502);
     const counts = new Map();
     for (const booking of await response.json()) {
       const time = String(booking.slot_start).slice(0, 5);
-      counts.set(time, (counts.get(time) || 0) + 1);
+      counts.set(time, Number(booking.booked || 0));
     }
     publicSettings.slots = slotsForDate(settings).filter((slot) => (counts.get(slot.slice(0, 5)) || 0) < settings.max_per_slot);
     return json(publicSettings);
@@ -207,18 +208,15 @@ async function createBookingResponse(request, env) {
   try {
     const verified = await verifyTurnstile(turnstileToken, secret, request.headers.get('cf-connecting-ip') || '');
     if (!verified) return json({ error: 'Verification failed. Please try again.' }, 400);
+    const bookingApiSecret = String(env.BOOKING_API_SECRET || '');
+    if (!bookingApiSecret) return json({ error: 'Booking protection is not configured.' }, 503);
     const modernPayload = {
       p_booking_date: date, p_slot_start: `${slotMatch[1]}:00`, p_contact_name: contactName,
       p_company: company, p_email: email, p_phone: phone, p_topic: topic,
       p_meeting_type: meetingType, p_meeting_duration_minutes: duration, p_customer_timezone: timezone,
+      p_api_secret: bookingApiSecret,
     };
-    let response = await databaseRequest(env, 'rpc/create_booking', { method: 'POST', body: JSON.stringify(modernPayload) }, true);
-    if (response.status === 404) {
-      const legacyPayload = { ...modernPayload };
-      delete legacyPayload.p_meeting_duration_minutes;
-      delete legacyPayload.p_customer_timezone;
-      response = await databaseRequest(env, 'rpc/create_booking', { method: 'POST', body: JSON.stringify(legacyPayload) }, true);
-    }
+    const response = await databaseRequest(env, 'rpc/create_booking_from_worker', { method: 'POST', body: JSON.stringify(modernPayload) });
     const result = await response.json().catch(() => null);
     if (response.status === 409) return json({ error: 'That time is no longer available. Please choose another slot.' }, 409);
     if (response.status === 400) return json({ error: 'That booking option is unavailable.' }, 400);
@@ -241,6 +239,27 @@ function withSecurityHeaders(response, path) {
   return result;
 }
 
+async function fetchStaticAsset(request, env) {
+  if (env.ASSETS && typeof env.ASSETS.fetch === 'function') return env.ASSETS.fetch(request);
+  const commit = cleanText(env.ASSET_COMMIT_SHA, 64);
+  if (!/^[a-f0-9]{40}$/.test(commit)) return new Response('Static asset source is not configured.', { status: 503 });
+  const url = new URL(request.url);
+  const requestedPath = url.pathname === '/' ? '/index.html' : (url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname);
+  const upstream = `https://raw.githubusercontent.com/ColorPrintingFactory/mewepak/${commit}/mewepak-admin/public${requestedPath}`;
+  const response = await fetch(upstream, { headers: { accept: request.headers.get('accept') || '*/*' } });
+  if (!response.ok) return new Response(response.status === 404 ? 'Not found.' : 'Static asset unavailable.', { status: response.status });
+  const headers = new Headers(response.headers);
+  const extension = requestedPath.split('.').pop()?.toLowerCase() || '';
+  const mimeTypes = {
+    html: 'text/html; charset=utf-8', css: 'text/css; charset=utf-8', js: 'text/javascript; charset=utf-8',
+    json: 'application/json; charset=utf-8', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg',
+    webp: 'image/webp', svg: 'image/svg+xml', glb: 'model/gltf-binary', ico: 'image/x-icon',
+  };
+  if (mimeTypes[extension]) headers.set('content-type', mimeTypes[extension]);
+  headers.set('cache-control', requestedPath.endsWith('.html') ? 'no-cache' : 'public, max-age=3600');
+  return new Response(response.body, { status: response.status, headers });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -253,6 +272,6 @@ export default {
     if (url.pathname === '/api/booking-slots' && request.method === 'GET') return bookingSlotsResponse(request, env);
     if (url.pathname === '/api/bookings' && request.method === 'POST') return createBookingResponse(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
-    return withSecurityHeaders(await env.ASSETS.fetch(request), url.pathname);
+    return withSecurityHeaders(await fetchStaticAsset(request, env), url.pathname);
   },
 };

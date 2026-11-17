@@ -38,6 +38,8 @@
 | `SUPABASE_SERVICE_ROLE_KEY` | Worker 专用服务端密钥，绝不放入浏览器 |
 | `TURNSTILE_SECRET_KEY` | 公开预约表单的人机验证 |
 | `TURNSTILE_SITE_KEY` | 预约页加载的人机验证公开 site key |
+| `BOOKING_API_SECRET` | Worker 调用受保护预约 RPC 的专用随机密钥 |
+| `ASSET_COMMIT_SHA` | 未接入 Git 构建时用于预览静态资源的 GitHub commit SHA |
 
 本地开发时，将 `.dev.vars.example` 复制为 `.dev.vars` 并填写开发环境值。`.dev.vars` 已加入 Git 忽略规则。
 
@@ -46,6 +48,7 @@
 - `admin`：管理全部内容、网站设置、预约与询价资料。
 - `editor`：管理分类、产品、页面、文章、媒体和 3D 资源；不能读取预约、询价个人资料或修改网站私有设置。
 - 角色保存于可信的 Supabase `app_metadata`。前端导航隐藏不代表授权；数据库 RLS 才是最终访问控制。
+- 公开预约不向浏览器暴露 Supabase 服务角色密钥。Worker 通过 `BOOKING_API_SECRET` 调用受保护 RPC，数据库只保存该密钥的 SHA-256 哈希。
 
 首次初始化前，先核对目标 Supabase 项目和 SQL 内容。首位管理员账号由项目管理员创建，再通过 `app_metadata.role = 'admin'` 授予权限。关闭公开注册；不要把密钥放进仓库或浏览器。
 
