@@ -247,11 +247,14 @@ async function fetchStaticAsset(request, env, context) {
   const url = new URL(request.url);
   const requestedPath = url.pathname === '/' ? '/index.html' : (url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname);
   const upstream = `https://raw.githubusercontent.com/ColorPrintingFactory/mewepak/${commit}/mewepak-admin/public${requestedPath}`;
-  const cacheKey = new Request(upstream, { headers: { accept: request.headers.get('accept') || '*/*' } });
+  const cacheUrl = new URL(request.url);
+  cacheUrl.pathname = requestedPath;
+  cacheUrl.search = `?__asset_commit=${commit}`;
+  const cacheKey = new Request(cacheUrl.toString(), { headers: { accept: request.headers.get('accept') || '*/*' } });
   const cache = caches.default;
   const cached = await cache.match(cacheKey);
   if (cached) return request.method === 'HEAD' ? new Response(null, cached) : cached;
-  let response = await fetch(cacheKey);
+  let response = await fetch(upstream, { headers: { accept: request.headers.get('accept') || '*/*' } });
   if (!response.ok && response.status !== 404) {
     const mirror = `https://cdn.jsdelivr.net/gh/ColorPrintingFactory/mewepak@${commit}/mewepak-admin/public${requestedPath}`;
     response = await fetch(mirror, { headers: { accept: request.headers.get('accept') || '*/*' } });
