@@ -198,8 +198,8 @@ function setupView() {
     <div class="signin-brand"><span class="brand-mark">M</span><div><div class="brand-name">Mewepak Studio</div><div class="brand-caption">CMS setup</div></div></div>
     <h1>Connect the admin to Supabase</h1>
     <p>The repository is ready for the standalone admin. Add the runtime settings to the Cloudflare Worker, then run the database setup script.</p>
-    <ol><li>Set <code>SUPABASE_URL</code>, <code>SUPABASE_PUBLISHABLE_KEY</code> and <code>TURNSTILE_SITE_KEY</code> as Worker variables.</li><li>Set <code>SUPABASE_SERVICE_ROLE_KEY</code> and <code>TURNSTILE_SECRET_KEY</code> as server-only Worker secrets.</li><li>Run <code>database/schema.sql</code> once in the Supabase SQL Editor and add the admin role to the first approved user’s <code>app_metadata</code>.</li></ol>
-    <p>The service role key is only read by server functions. It is never returned to this page.</p>
+    <ol><li>Set <code>SUPABASE_URL</code>, <code>SUPABASE_PUBLISHABLE_KEY</code> and <code>TURNSTILE_SITE_KEY</code> as Worker variables.</li><li>Set <code>BOOKING_API_SECRET</code> and <code>TURNSTILE_SECRET_KEY</code> as server-only Worker secrets.</li><li>Run the database migrations and add the admin role to the first approved user’s <code>app_metadata</code>.</li></ol>
+    <p>The public site only receives the Supabase publishable key. Private booking secrets stay in the Worker and are never returned to this page.</p>
   </section></div>`;
 }
 

@@ -35,7 +35,6 @@
 | --- | --- |
 | `SUPABASE_URL` | Supabase 项目 URL |
 | `SUPABASE_PUBLISHABLE_KEY` | 登录和员工数据访问使用的公开 key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Worker 专用服务端密钥，绝不放入浏览器 |
 | `TURNSTILE_SECRET_KEY` | 公开预约表单的人机验证 |
 | `TURNSTILE_SITE_KEY` | 预约页加载的人机验证公开 site key |
 | `BOOKING_API_SECRET` | Worker 调用受保护预约 RPC 的专用随机密钥 |
