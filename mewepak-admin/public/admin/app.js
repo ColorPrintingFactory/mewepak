@@ -197,8 +197,8 @@ function setupView() {
   app.innerHTML = `<div class="signin-wrap"><section class="setup-card">
     <div class="signin-brand"><span class="brand-mark">M</span><div><div class="brand-name">Mewepak Studio</div><div class="brand-caption">CMS setup</div></div></div>
     <h1>Connect the admin to Supabase</h1>
-    <p>The repository is ready for the standalone admin. Add the runtime settings in Cloudflare Pages, then run the database setup script.</p>
-    <ol><li>Set <code>SUPABASE_URL</code> and <code>SUPABASE_PUBLISHABLE_KEY</code> for Pages Functions.</li><li>Set the server-only <code>SUPABASE_SERVICE_ROLE_KEY</code> and <code>TURNSTILE_SECRET_KEY</code>.</li><li>Run <code>database/schema.sql</code> once in the Supabase SQL Editor and add the admin role to the first approved user’s <code>app_metadata</code>.</li></ol>
+    <p>The repository is ready for the standalone admin. Add the runtime settings to the Cloudflare Worker, then run the database setup script.</p>
+    <ol><li>Set <code>SUPABASE_URL</code>, <code>SUPABASE_PUBLISHABLE_KEY</code> and <code>TURNSTILE_SITE_KEY</code> as Worker variables.</li><li>Set <code>SUPABASE_SERVICE_ROLE_KEY</code> and <code>TURNSTILE_SECRET_KEY</code> as server-only Worker secrets.</li><li>Run <code>database/schema.sql</code> once in the Supabase SQL Editor and add the admin role to the first approved user’s <code>app_metadata</code>.</li></ol>
     <p>The service role key is only read by server functions. It is never returned to this page.</p>
   </section></div>`;
 }
@@ -710,7 +710,7 @@ async function bootstrap() {
       }
     });
   } catch (error) {
-    app.innerHTML = `<div class="signin-wrap"><section class="setup-card"><h1>Admin connection unavailable</h1><p>${esc(error.message || 'Check that the Pages Functions are deployed and configured.')}</p><button class="btn btn-primary" type="button" data-action="reload">Try again</button></section></div>`;
+    app.innerHTML = `<div class="signin-wrap"><section class="setup-card"><h1>Admin connection unavailable</h1><p>${esc(error.message || 'Check that the Worker is deployed and configured.')}</p><button class="btn btn-primary" type="button" data-action="reload">Try again</button></section></div>`;
   }
 }
 

@@ -2,7 +2,7 @@
 
 **目标仓库：** ColorPrintingFactory/mewepak  
 **方案日期：** 2026-11-17  
-**目标技术栈：** GitHub、Cloudflare Pages / Pages Functions、Supabase
+**目标技术栈：** GitHub、Cloudflare Workers / Static Assets、Supabase
 
 ## 1. 项目目标与边界
 
@@ -19,25 +19,25 @@
 - 当前 /booking/ 的预约流程包含日期/时段选择、时区选项、15/30 分钟会议选项、联系人与公司信息、Video Call / Factory Visit，以及客户回执和管理员通知邮件。新站保留这些用户可见的能力，不依赖原 WordPress 插件。
 - 当前 3D 预览使用 Three.js 与 GLB 模型，访客可上传正面和背面稿件，在包装模型上实时预览，并旋转、缩放和切换背景。新站保留这些交互，不要求沿用原插件代码。
 - 客户 Supabase 项目目前已有 10 张后台表，全部启用 RLS；产品分类与默认预约设置已建立。现有预约表结构还需补入预约时区、会议时长、预约页展示设置、时区选项和通知邮箱等字段，才能覆盖当前 WordPress 行为。
-- 客户 Cloudflare 账号已连接，目前还没有 Pages 项目。目标 GitHub 仓库目前没有应用代码；本方案先作为首个文档提交，后续实现走功能分支和 PR。
+- 客户 Cloudflare 账号已连接，目前还没有对应的 Worker 项目。应用代码通过功能分支和 PR 开发，生产发布前使用 Workers Preview 验收。
 
 ## 3. 推荐架构
 
 ~~~mermaid
 flowchart TD
-  GH["GitHub：分支与 PR"] --> CF["Cloudflare Pages"]
+  GH["GitHub：分支与 PR"] --> CF["Cloudflare Worker"]
   CF --> WEB["公开网站与 /admin"]
-  CF --> API["Pages Functions：预约与询价 API"]
+  CF --> API["Worker API：预约与询价"]
   WEB --> DB["Supabase：公开内容、媒体与数据库"]
   WEB --> AUTH["Supabase Auth：后台登录"]
   API --> DB
 ~~~
 
 - GitHub 保存前端、后台、数据库迁移与部署配置。日常开发通过功能分支和 PR 进入预览环境。
-- Cloudflare Pages 托管公开网站与 /admin/ 后台；Pages Functions 处理预约、询价等需要服务端密钥的操作。
+- Cloudflare Worker 通过 Static Assets 托管公开网站与 /admin/ 后台；同一个 Worker 处理预约、询价等需要服务端密钥的 API。
 - Supabase 提供 Auth、Postgres 和 Storage。公开访问只读已发布内容；预约、询价和草稿内容仅授权员工可读。
 - 新前台独立选用适配 Cloudflare 的技术栈重新实现，不搬运或运行 WordPress 的 PHP、FSE 主题或插件。开发时参考现站截图与备份中的页面/素材，把页面布局、颜色、字体、间距、移动端表现和交互做成相同的用户体验。
-- 为保持搜索引擎可读取页面正文，公开页面在部署构建时生成静态 HTML；管理员发布内容后由服务端触发 Cloudflare Pages Deploy Hook 重新生成页面。Hook URL 只存服务器端。预约和询价仍通过 Pages Functions 即时处理。[Cloudflare Pages Deploy Hooks 文档](https://developers.cloudflare.com/pages/configuration/deploy-hooks/)
+- 公开页面保留静态 HTML 与可索引正文，动态分类、产品和文章通过 Worker 读取 Supabase 已发布内容。预约和询价由 Worker 即时处理，服务端密钥只保存在 Worker Secrets。
 
 ## 4. 后台模块与内容范围
 
@@ -119,7 +119,7 @@ flowchart TD
 
 - 按页面清单检查路径、菜单、产品、媒体、SEO、移动端、询价、预约和 3D 交互。
 - 验证未登录/非员工不能读取或修改后台数据；检查请求体限制、输入验证、CSP、安全响应头与文件权限。
-- 保留 WordPress 站点和备份，先让客户审阅 Cloudflare Pages 预览；确认后再切换域名。
+- 保留 WordPress 站点和备份，先让客户审阅 Cloudflare Workers Preview；确认后再切换域名。
 - 切换后观察 404、表单、日志和索引情况；如发现关键问题，回切原 WordPress 站点。
 
 **粗略工期：** 前台与后台约 15–25 个工作日，假设现有截图/备份完整、页面类型可归并且无需新增复杂功能。阶段 0 完成后，根据页面数量、视觉细节和内容清理量重新估时。

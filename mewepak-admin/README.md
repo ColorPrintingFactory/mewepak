@@ -1,6 +1,6 @@
 # Mewepak Studio
 
-独立开发的 Mewepak 网站管理后台。后台使用 Cloudflare Pages Functions 和 Supabase；公开站点将按现有网站的版式、交互、页面路径、原文案与原素材独立实现，不依赖 WordPress 主题或插件。
+独立开发的 Mewepak 网站和管理后台。Cloudflare Worker 同时提供静态前端与 API，Supabase 提供数据库、账号和内容权限；公开站点按现有网站的版式、交互、页面路径、原文案与原素材独立实现，不依赖 WordPress 主题或插件。
 
 ## 开发边界
 
@@ -17,7 +17,7 @@
 - `public/booking/`：读取后台预约规则并提交预约的客户预约页。
 - `public/assets/`：从备份中保留的原 Logo、产品图片、3D 模型及公开站点样式和交互。
 - `public/admin/`：员工登录与后台管理界面。
-- `functions/`：Cloudflare Pages Functions，包括公开内容读取、运行配置、预约时段读取和预约提交接口。
+- `worker/index.js`：Cloudflare Worker 入口，包括静态资源、安全响应头、公开内容读取、运行配置、预约时段读取和预约提交接口。
 - `database/schema.sql`：Supabase 表、RLS、媒体桶、预约原子写入函数及 12 个产品分类的初始化脚本。
 - `database/upgrade_admin_roles_booking_options.sql`：已有 CMS 项目的预约字段升级与 admin/editor 数据权限收紧脚本。
 - `docs/DEVELOPMENT_PLAN.md`：全站重建与后台建设计划。
@@ -26,13 +26,13 @@
 
 ## 运行配置
 
-在 Cloudflare Pages 的 Preview 和 Production 环境分别设置：
+在 Cloudflare Worker 的 Preview 和 Production 环境分别设置：
 
 | 变量 | 用途 |
 | --- | --- |
 | `SUPABASE_URL` | Supabase 项目 URL |
 | `SUPABASE_PUBLISHABLE_KEY` | 登录和员工数据访问使用的公开 key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Pages Functions 专用服务端密钥，绝不放入浏览器 |
+| `SUPABASE_SERVICE_ROLE_KEY` | Worker 专用服务端密钥，绝不放入浏览器 |
 | `TURNSTILE_SECRET_KEY` | 公开预约表单的人机验证 |
 | `TURNSTILE_SITE_KEY` | 预约页加载的人机验证公开 site key |
 
@@ -48,7 +48,7 @@
 
 ## 部署
 
-Cloudflare Pages 根目录为 `mewepak-admin`，静态输出目录为 `public`；Functions 从 `functions/` 自动加载。后台入口为 `/admin/`。发布到客户环境前，先使用 Preview 环境核对登录、角色访问、媒体上传与数据库策略。
+Cloudflare Worker 项目根目录为 `mewepak-admin`，静态资源目录为 `public`，API 入口为 `worker/index.js`。后台入口为 `/admin/`。生产发布前，先使用 Workers Preview 核对公开页面、登录、角色访问、媒体上传与数据库策略。
 
 ## 预约接口
 
