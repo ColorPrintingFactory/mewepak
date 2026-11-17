@@ -15,14 +15,17 @@
 - `public/index.html`：独立实现的公开站点首页，包含原站导航、产品大菜单、Hero、市场/规格入口、产品展示、3D 预览、生产流程、可持续发展和询价入口。
 - `public/products/`：从 Supabase 读取分类和产品的产品展示页。
 - `public/booking/`：读取后台预约规则并提交预约的客户预约页。
+- `public/3d-preview/`：使用原站模型与交互逻辑实现的独立 3D 包装预览页，支持前后图上传、旋转、缩放和背景切换；设计图只在浏览器本地处理。
 - `public/assets/`：从备份中保留的原 Logo、产品图片、3D 模型及公开站点样式和交互。
 - `public/admin/`：员工登录与后台管理界面。
 - `worker/index.js`：Cloudflare Worker 入口，包括静态资源、安全响应头、公开内容读取、运行配置、预约时段读取和预约提交接口。
 - `database/schema.sql`：Supabase 表、RLS、媒体桶、预约原子写入函数及 12 个产品分类的初始化脚本。
 - `database/upgrade_admin_roles_booking_options.sql`：已有 CMS 项目的预约字段升级与 admin/editor 数据权限收紧脚本。
+- `scripts/extract-wordpress-content.mjs`：从 WordPress SQL 备份提取原页面、产品、文章、分类和媒体映射。
+- `migration/wordpress-content.json`：本次备份生成的可复核迁移清单，保留原 WordPress HTML 和原媒体路径。
 - `docs/DEVELOPMENT_PLAN.md`：全站重建与后台建设计划。
 
-分类、产品、页面、文章、媒体、3D 资源、预约、询价和站点设置已有管理界面骨架；公开站点首页、产品页、预约页及 3D 预览已有第一版实现。其余原站页面、完整内容导入、预约邮件和客户级编辑器仍在开发中。部署前台之前不会改动或替换当前线上 WordPress。
+分类、产品、页面、文章、媒体、3D 资源、预约、询价和站点设置已有管理界面骨架；公开站点首页、产品页、预约页及独立 3D 预览已有第一版实现。Supabase 已导入备份中的 12 个产品分类、3 个在用产品、52 个非商城页面、11 篇文章、33 个有效媒体记录和 1 个 3D 模型记录。其余原站页面渲染、预约邮件和客户级编辑器仍在开发中。部署前台之前不会改动或替换当前线上 WordPress。
 
 ## 运行配置
 
@@ -49,6 +52,16 @@
 ## 部署
 
 Cloudflare Worker 项目根目录为 `mewepak-admin`，静态资源目录为 `public`，API 入口为 `worker/index.js`。后台入口为 `/admin/`。生产发布前，先使用 Workers Preview 核对公开页面、登录、角色访问、媒体上传与数据库策略。
+
+Cloudflare 账号必须先完成邮箱验证，否则 Workers API 会返回错误代码 `10034`，无法创建 Worker 或 Preview。
+
+## 重新提取 WordPress 内容
+
+```bash
+npm run extract:wordpress -- ../studio-backup-db-export-2026-11-17-14-03-08.sql ./migration/wordpress-content.json
+```
+
+提取器会排除购物车、结账、账户页、已删除产品和 WordPress 示例页，并保留真实页面的层级路径，避免父页面下同名子页面发生 slug 冲突。
 
 ## 预约接口
 
