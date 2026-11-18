@@ -52,6 +52,42 @@ async function quoteCategories(database) {
   return response.ok ? response.json() : [];
 }
 
+const connectPhotoRoot = '/assets/client-design/images/';
+const connectPhotoGroups = [
+  ['30e138afb1ec62c7', '12cf35da5b04561a', '497b30600ed09447'],
+  ['70ca70e35365e5ab', 'fc7a6f96dc5e2acf', 'ebeeb82dedcb3576'],
+];
+
+function renderConnectSection() {
+  const [left, right] = connectPhotoGroups.map((photos) => photos.map((photo) =>
+    `<img src="${connectPhotoRoot}${photo}.webp" width="145" height="189" alt="" loading="lazy" decoding="async">`
+  ).join(''));
+  return `<section id="contact" class="storefront-connect" aria-label="Stay connected with Mewepak">
+    <div class="storefront-connect__grid">
+      <div class="storefront-connect__photos" aria-hidden="true">${left}</div>
+      <div class="storefront-connect__copy">
+        <p class="storefront-connect__eyebrow">Ideas worth staying connected to</p>
+        <h2>Stay<br>Connected</h2>
+        <p>Packaging ideas, product options and practical insights for your next project.</p>
+        <form class="storefront-connect__form" data-mewepak-subscribe action="/api/submissions/newsletter" method="post">
+          <div class="storefront-connect__email">
+            <input name="email" type="email" aria-label="Newsletter email address" placeholder="Email address" autocomplete="email" maxlength="254" required>
+            <button type="submit">Subscribe</button>
+          </div>
+          <p class="storefront-connect__status" data-subscribe-message aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="storefront-connect__copy">
+        <p class="storefront-connect__eyebrow">Bring your next idea to the table</p>
+        <h2>Let’s Talk<br>Packaging</h2>
+        <p>Share your product, your brand and the packaging you have in mind. Let’s explore the next step together.</p>
+        <a href="/inquiry/#quote-request" class="storefront-connect__link">Contact Us <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="storefront-connect__photos storefront-connect__photos--right" aria-hidden="true">${right}</div>
+    </div>
+  </section>`;
+}
+
 function storefrontPageType(url, path) {
   if (path.startsWith('/search') || (path === '/' && url.searchParams.has('s'))) return 'search';
   if (path === '/booking') return 'booking';
@@ -122,6 +158,10 @@ export async function connectStorefront(request, response, database, projectUrl)
   if (path === '/markets/coffee-tea' || path === '/10-design-tips-for-maximum-shelf-impact') {
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/related-content.css">', { html: true }));
   }
+  on('main section#contact.from-gray-100', (el) => {
+    el.replace(renderConnectSection(), { html: true });
+  });
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-connect.css">', { html: true }));
   const pageType = storefrontPageType(url, path);
   let themedMain = false;
   let bodyClass = '';
