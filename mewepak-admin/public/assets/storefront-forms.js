@@ -33,6 +33,7 @@
     verification.className = 'mt-3';
     message.before(verification);
     let widget;
+    let pending = false;
     let token = '';
     let sending = false;
     const show = (text, error = false) => {
@@ -42,12 +43,19 @@
       message.setAttribute('role', error ? 'alert' : 'status');
     };
     async function submit() {
-      if (!token || sending || !form.reportValidity()) return;
+      if (!token || sending) return;
+      if (form.closest('[hidden]') || !form.reportValidity()) {
+        pending = false;
+        token = '';
+        button.disabled = false;
+        if (widget !== undefined) window.turnstile.reset(widget);
+        return;
+      }
       sending = true;
       button.disabled = true;
       const inputs = Object.fromEntries(new FormData(form));
       inputs.source_page = location.pathname;
-      if (quote) inputs.product_context = new URLSearchParams(location.search).get('product') || '';
+      if (quote && !inputs.product_context) inputs.product_context = new URLSearchParams(location.search).get('product') || '';
       try {
         const response = await fetch('/api/submissions/' + type, {
           method: 'POST',
@@ -60,6 +68,7 @@
         verification.hidden = true;
         show(quote ? 'Thank you. Your quote request has been received.' : 'Thanks for subscribing.');
       } finally {
+        pending = false;
         sending = false;
         button.disabled = false;
         token = '';
@@ -68,7 +77,8 @@
     }
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (button.disabled || !form.reportValidity()) return;
+      if (pending || sending || !form.reportValidity()) return;
+      pending = true;
       button.disabled = true;
       try {
         if (token) return await submit();
@@ -76,22 +86,31 @@
         if (widget === undefined) {
           const sitekey = await loadProtection();
           widget = window.turnstile.render(verification, {
-            sitekey, action: type, size: 'flexible',
+            sitekey, action: type, size: 'flexible', execution: 'execute',
+            appearance: 'interaction-only', retry: 'never',
             callback: (value) => {
+              if (!pending || sending) return;
               token = value;
               show('Sending…');
               submit().catch((error) => show(error.message || 'Unable to submit. Please try again.', true));
             },
-            'expired-callback': () => { token = ''; },
-            'error-callback': () => { token = ''; show('Verification failed. Please try again.', true); },
+            'expired-callback': () => {
+              token = ''; pending = false; button.disabled = false;
+              show('Verification expired. Please submit again.', true);
+            },
+            'error-callback': () => {
+              token = ''; pending = false; button.disabled = false;
+              show('Verification failed. Please try again.', true);
+            },
           });
         }
-        if (!token) show('Complete the verification to submit.');
-        else await submit();
+        show('Checking verification…');
+        window.turnstile.execute(verification);
       } catch (error) {
+        pending = false;
         show(error.message || 'Unable to submit. Please try again.', true);
       } finally {
-        if (!sending) button.disabled = false;
+        if (!sending && !pending) button.disabled = false;
       }
     });
   }
