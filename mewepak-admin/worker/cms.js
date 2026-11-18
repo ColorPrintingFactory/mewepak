@@ -80,14 +80,13 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
   if (request.method !== 'GET' || /^\/(admin|booking|3d-preview|assets)(\/|$)/.test(path) || /\.[a-z0-9]+\/$/i.test(path)) return asset;
   if (asset.ok && !asset.headers.get('content-type')?.includes('text/html')) return asset;
   try {
-    const lists = await Promise.all(Object.entries(tables).map(async ([table, select]) => {
+    const [lists, base] = await Promise.all([Promise.all(Object.entries(tables).map(async ([table, select]) => {
       const response = await database(table + '?' + new URLSearchParams({ select, status: 'eq.published', order: table === 'product_categories' ? 'menu_order.asc,slug.asc' : 'slug.asc' }));
       if (!response.ok) throw new Error('Published content unavailable');
       return (await response.json()).map((row) => ({ table, row, path: pathFor[table](row) }));
-    }));
+    })), getAsset('/assets/original/cms-baseline.json')]);
     const entries = lists.flat();
     const entry = entries.find((candidate) => candidate.path === path);
-    const base = await getAsset('/assets/original/cms-baseline.json');
     if (!base.ok) return asset;
     const baseline = await base.json();
     if (!entry && baseline[path]) return new Response('Page not found.', { status: 404 });
@@ -117,6 +116,9 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         }));
         edit('#mewepak-homepage', (el) => el.setAttribute('data-hero-overrides', JSON.stringify(banners)));
         const first = banners[0];
+        first?.photos.forEach((src, i) => {
+          if (src) edit(`img[data-hero-shot="${i}"]`, (el) => el.setAttribute('src', src));
+        });
         if (first?.kicker) replace('#v2-hero-kicker', first.kicker);
         if (first?.description) replace('#v2-hero-description', first.description);
       }
@@ -232,9 +234,13 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       if (newEntries.length) edit('main', (el) => el.append(`<div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-5">${renderCards(newEntries)}</div>`, { html: true }));
     }
     edit('script[src="/assets/original/runtime-data.js"]', (el) => {
-      el.after(`<script src="/api/frontend-navigation"></script>`, { html: true });
+      if (path === '/') el.setAttribute('defer', '');
+      el.after(`<script src="/api/frontend-navigation"${path === '/' ? ' defer' : ''}></script>`, { html: true });
     });
-    edit('script[src="/assets/original/main.js"]', (el) => el.setAttribute('src', '/assets/original/main.js?cms=1'));
+    edit('script[src="/assets/original/main.js"]', (el) => {
+      el.setAttribute('src', '/assets/original/main.js?cms=1');
+      if (path === '/') el.setAttribute('defer', '');
+    });
     capturePage?.(entry, entries);
     const result = rewriter.transform(new Response(source.body, { status: 200, headers: source.headers }));
     result.headers.set('cache-control', 'no-store');

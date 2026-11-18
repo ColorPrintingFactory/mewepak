@@ -92,6 +92,12 @@
     button.replaceWith(link);
   }
 
+  const homepageThumbnails = {
+    '/assets/media/2026/06/Frozen-Candied-Grapes-Atomic-Sourberry-Hanging-Pouch-1-scaled.jpeg': 'frozen-grapes',
+    '/assets/media/2026/06/Premium-Almonds-Window-Stand-Up-Pouch-1-scaled.jpeg': 'almond-pouch',
+    '/assets/media/2026/06/Cotton-Candy-Pastel-Pink-Hanging-Pouch-1-scaled.jpeg': 'cotton-candy',
+  };
+
   async function home() {
     for (const button of document.querySelectorAll('button.mw-market')) {
       const id = (button.dataset.marketPhoto || button.dataset.preview || '').replace(/^market-/, '').replace(/-photo$/, '');
@@ -108,8 +114,19 @@
         if (!product?.category?.slug) continue;
         const href = '/products/' + encodeURIComponent(product.category.slug) + '/' + encodeURIComponent(slug) + '/';
         for (const button of document.querySelectorAll('button[data-preview="' + key + '"]')) detailLink(button, href);
-        const image = document.querySelector('img[data-asset="' + key + '"]');
-        if (image && /^(?:\/(?![\\/])|https:\/\/)/i.test(product.primary_image_url || '')) image.src = product.primary_image_url;
+        const src = product.primary_image_url || '';
+        if (!/^(?:\/(?![\\/])|https:\/\/)/i.test(src)) continue;
+        const thumbnail = homepageThumbnails[src];
+        for (const image of document.querySelectorAll('img.mw-product-image[data-asset="' + key + '"]')) {
+          if (thumbnail) {
+            const base = '/assets/media/home-thumbs/' + thumbnail;
+            image.sizes = '(max-width: 600px) calc(100vw - 36px), (max-width: 1000px) 43vw, 310px';
+            image.srcset = base + '-400.webp 400w, ' + base + '-800.webp 800w';
+            image.src = base + '-400.webp';
+          } else {
+            image.src = src;
+          }
+        }
       }
     } catch {
       // The authored gallery remains usable while the catalog is offline.

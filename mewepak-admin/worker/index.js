@@ -322,6 +322,25 @@ async function fetchStaticAsset(request, env, context) {
   return request.method === 'HEAD' ? new Response(null, result) : result;
 }
 
+function storefrontCacheKey(request, url, env, context) {
+  // Cache only anonymous, query-free storefront pages. The commit partitions deployments.
+  if (!context?.waitUntil || request.method !== 'GET' || url.search || !env.ASSET_COMMIT_SHA ||
+      request.headers.has('authorization') || request.headers.has('cookie') ||
+      /^\/(?:admin|assets|search|booking|3d-preview)(?:\/|$)/.test(url.pathname) ||
+      !/^\/(?:[a-z0-9_-]+\/)*[a-z0-9_-]*$/i.test(url.pathname)) return null;
+  const key = new URL(url);
+  key.searchParams.set('__storefront_commit', env.ASSET_COMMIT_SHA);
+  return new Request(key);
+}
+
+function serveCachedPage(response, status) {
+  const result = new Response(response.body, response);
+  // Keep browser refreshes predictable while the edge copy has its own short TTL.
+  result.headers.set('cache-control', 'no-store');
+  result.headers.set('x-mewepak-cache', status);
+  return result;
+}
+
 export default {
   async scheduled(_controller, env) {
     await dispatchLeadNotifications(env, (path, options) => databaseRequest(env, path, options));
@@ -355,6 +374,17 @@ export default {
     };
     const assetPath = aliases[url.pathname];
     const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : request;
+    const cacheKey = storefrontCacheKey(request, url, env, context);
+    const pageCache = cacheKey ? caches.default : null;
+    if (pageCache) {
+      const cached = await pageCache.match(cacheKey);
+      if (cached) return serveCachedPage(cached, 'HIT');
+    }
+    const started = Date.now();
+    const documentRequest = request.method === 'GET' && !/^\/(?:admin|assets)(?:\/|$)/.test(url.pathname) &&
+      !/\.[a-z0-9]+$/i.test(url.pathname);
+    const preparedSettings = documentRequest ? publicSiteSettings(database).catch(() => ({})) : null;
+    const defaults = documentRequest ? getAsset('/assets/original/seo-page-defaults.json').catch(() => null) : null;
     const asset = await fetchStaticAsset(assetRequest, env, context);
     let page;
     let catalog;
@@ -363,7 +393,17 @@ export default {
       page = entry;
       catalog = entries;
     });
-    const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL, (value) => { settings = value; });
-    return withSecurityHeaders(await optimizePageSeo(request, storefront, env, getAsset, { page, catalog, settings }), url.pathname, env, settings);
+    const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings);
+    const seoAsset = (path) => defaults && path === '/assets/original/seo-page-defaults.json' ? defaults : getAsset(path);
+    const rendered = await optimizePageSeo(request, storefront, env, seoAsset, { page, catalog, settings });
+    const result = withSecurityHeaders(rendered, url.pathname, env, settings);
+    if (!pageCache || !result.ok || !catalog || !settings?.usLocations ||
+        !result.headers.get('content-type')?.includes('text/html') || result.headers.has('set-cookie')) return result;
+    result.headers.set('server-timing', `storefront;dur=${Date.now() - started}`);
+    const edge = new Response(result.clone().body, result);
+    edge.headers.set('cache-control', 'public, max-age=20');
+    edge.headers.delete('server-timing');
+    context.waitUntil(pageCache.put(cacheKey, edge).catch(() => {}));
+    return serveCachedPage(result, 'MISS');
   },
 };

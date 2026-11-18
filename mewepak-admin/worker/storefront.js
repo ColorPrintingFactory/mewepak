@@ -165,7 +165,7 @@ function usTel(number) {
   return /^\d{10}$/.test(value) ? '+1' + value : value.startsWith('+') ? value : '+' + value;
 }
 
-export async function connectStorefront(request, response, database, projectUrl, captureSettings) {
+export async function connectStorefront(request, response, database, projectUrl, captureSettings, preparedSettings) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
   if (!response.ok || request.method !== 'GET' || /^\/admin(?:\/|$)/.test(path) || !response.headers.get('content-type')?.includes('text/html')) return response;
@@ -173,7 +173,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   const useModels = path === '/' || path === '/3d-preview' || !!productSlug;
   const hasQuote = path === '/contact' || path === '/inquiry';
   const [settings, models, categories] = await Promise.all([
-    publicSiteSettings(database).catch(() => ({})),
+    preparedSettings || publicSiteSettings(database).catch(() => ({})),
     useModels ? publishedModels(database, projectUrl).catch(() => []) : [],
     hasQuote ? quoteCategories(database).catch(() => []) : [],
   ]);
@@ -238,7 +238,8 @@ export async function connectStorefront(request, response, database, projectUrl,
   }
   if (settings.tagline) text('[data-mewepak-header] p.tracking-wide', settings.tagline);
   else on('[data-mewepak-header] p.tracking-wide', (el) => el.remove());
-  if (settings.logo) set('.mewepak-header-logo,.mewepak-footer-logo', 'src', settings.logo);
+  const siteLogo = settings.logo === '/assets/media/2026/06/logo.png' ? '/assets/media/home-thumbs/mewepak-logo-420.webp' : settings.logo;
+  if (siteLogo) set('.mewepak-header-logo,.mewepak-footer-logo', 'src', siteLogo);
   else on('.mewepak-header-logo,.mewepak-footer-logo', (el) => el.replace(
     `<span>${encode(settings.name || 'Mewepak')}</span>`, { html: true }));
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
@@ -246,7 +247,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=settings-3');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
-  set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=contact');
+  set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=home-performance-1');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=mobile-2');
   set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=settings-3');
