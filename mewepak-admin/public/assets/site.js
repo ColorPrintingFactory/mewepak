@@ -101,3 +101,15 @@ renderFooter();
 bindMobile();
 renderCatalog();
 renderProducts();
+fetch('/api/public-site').then((response) => response.json()).then((settings) => {
+  for (const [selector, value, href, prefix] of [
+    ['.utility a[href^="mailto:"]', settings.email, 'mailto:' + settings.email, ''],
+    ['.utility a[href^="tel:"]', settings.phone, 'tel:' + (settings.phone || '').replace(/[^+\d]/g, ''), 'Call Us: '],
+    ['a[href^="https://wa.me/"]', settings.whatsapp, 'https://wa.me/' + (settings.whatsapp || '').replace(/\D/g, ''), 'WhatsApp: '],
+  ]) {
+    if (!value) continue;
+    document.querySelectorAll(selector).forEach((link) => { link.href = href; link.textContent = prefix + value; });
+  }
+  if (settings.logo) document.querySelectorAll('.brand img,.mobile-top img,.footer-logo').forEach((image) => { image.src = settings.logo; });
+  if (settings.tagline) document.querySelectorAll('.utility strong,.footer-bottom span:last-child').forEach((label) => { label.textContent = settings.tagline; });
+}).catch(() => {});

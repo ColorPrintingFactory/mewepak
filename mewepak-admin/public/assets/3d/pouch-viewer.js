@@ -6,6 +6,8 @@
 	class PouchViewer {
 		constructor( container ) {
 			this.container = container;
+			this.modelUrl = container.dataset.modelUrl || MODEL_URL;
+			container.querySelector('[data-model-poster]')?.remove();
 			this.bgColor = container.dataset.bgColor || '#f0f0f0';
 			this.model = null;
 			this.frontImage = null;
@@ -13,6 +15,8 @@
 
 			this.init();
 			this.createUI();
+			if (container.dataset.frontArtwork === 'false') container.querySelector('#upload-front').style.display = 'none';
+			if (container.dataset.backArtwork === 'false') container.querySelector('#upload-back').style.display = 'none';
 			this.addLights();
 			this.addControls();
 			this.loadModel();
@@ -195,7 +199,7 @@
 			var self = this;
 			var loader = new THREE.GLTFLoader();
 
-			loader.load( MODEL_URL, function( gltf ) {
+			loader.load( this.modelUrl, function( gltf ) {
 				self.model = gltf.scene;
 
 				// Auto-center and scale the model

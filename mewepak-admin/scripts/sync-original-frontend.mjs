@@ -218,7 +218,7 @@ async function externalizeRuntimeData(routes) {
     }
     html = html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (tag, attributes, body) => {
       if (!/mewepak(?:ProductsMenuData|MenuCategoryImages|Forms)/.test(body)) return tag;
-      runtimeData ||= body;
+      runtimeData ||= body.replace(/^\s*var mewepakForms\s*=.*;\s*$/m, '');
       return '<script src="/assets/original/runtime-data.js"></script>';
     });
     await writeFile(output, html);

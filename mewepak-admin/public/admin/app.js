@@ -28,10 +28,11 @@ const navGroups = [
     { id: 'appointments', label: 'Appointments', icon: 'calendar', adminOnly: true },
     { id: 'booking-settings', label: 'Booking schedule', icon: 'clock', adminOnly: true },
     { id: 'inquiries', label: 'Quote inquiries', icon: 'mail', adminOnly: true },
+    { id: 'subscribers', label: 'Newsletter subscribers', icon: 'mail', adminOnly: true },
   ] },
 ];
 
-const adminOnlySections = new Set(['settings', 'appointments', 'booking-settings', 'inquiries']);
+const adminOnlySections = new Set(['settings', 'appointments', 'booking-settings', 'inquiries', 'subscribers']);
 
 const icons = {
   grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
@@ -150,24 +151,29 @@ const definitions = {
     columns: ['file_name', 'mime_type', 'public_url', 'created_at'],
     fields: [
       { name: 'file_name', label: 'File name', required: true },
-      { name: '_upload', label: 'Choose file', type: 'file', full: true, accept: 'image/*,.glb,.gltf', target: 'public_url', folder: 'uploads' },
+      { name: '_upload', label: 'Choose file', type: 'file', full: true, accept: 'image/*,video/mp4,video/webm,.glb,.gltf', target: 'public_url', folder: 'uploads' },
       { name: 'alt_text', label: 'Alternative text', type: 'textarea', full: true },
       { name: 'public_url', label: 'File URL', type: 'text', full: true },
       { name: 'mime_type', label: 'MIME type' },
     ],
   },
   settings: {
-    table: 'site_settings', title: 'Site settings', description: 'Edit shared public details and frontend configuration values.', singular: 'setting', add: 'Add setting',
+    table: 'site_settings', title: 'Site settings', description: 'Manage shared branding, contact links, factory video, and available language destinations.', singular: 'setting', add: 'Add setting',
     columns: ['key', 'value', 'is_public'],
     fields: [
       { name: 'key', label: 'Setting key', required: true },
-      { name: 'value', label: 'Value (JSON)', type: 'json', full: true },
+      { name: 'value', label: 'Value (JSON)', type: 'json', full: true, help: 'factory_tour uses video_url and poster_url. languages uses links with label and url for each translated site.' },
       { name: 'is_public', label: 'Expose to public frontend', type: 'checkbox' },
     ],
   },
   inquiries: {
     table: 'inquiries', title: 'Quote inquiries', description: 'Review customer requests and track follow-up status.', singular: 'inquiry', add: null,
     columns: ['contact_name', 'company', 'email', 'status', 'created_at'], fields: [],
+  },
+  subscribers: {
+    table: 'newsletter_subscribers', title: 'Newsletter subscribers',
+    description: 'Review emails collected from the website subscription forms.', singular: 'subscriber', add: null,
+    columns: ['email', 'source_page', 'created_at'], fields: [],
   },
 };
 
@@ -340,7 +346,7 @@ function tableHead(columns) {
     model_url: 'Model file', product: 'Product', file_name: 'File', mime_type: 'Type', public_url: 'URL',
     key: 'Key', value: 'Value', is_public: 'Public', contact_name: 'Contact', company: 'Company', email: 'Email',
     created_at: 'Created', booking_date: 'Date', slot_start: 'Time', meeting_type: 'Meeting type', topic: 'Topic',
-    alt_text: 'Alt text',
+    alt_text: 'Alt text', source_page: 'Source page',
   };
   return `<thead><tr>${columns.map((column) => `<th>${esc(labels[column] || column)}</th>`).join('')}<th style="text-align:right">Actions</th></tr></thead>`;
 }
@@ -367,7 +373,8 @@ function rowFor(module, row) {
   if (module === 'models') return `<tr><td><div class="row-primary">${esc(row.name)}</div><div class="row-secondary">${esc(row.model_url || '')}</div></td><td>${row.product?.name ? esc(row.product.name) : 'Unassigned'}</td><td>${statusBadge(row.status)}</td><td>${actionsFor(module,id)}</td></tr>`;
   if (module === 'media') return `<tr><td><div class="row-primary">${esc(row.file_name)}</div><div class="row-secondary">${esc(row.alt_text || '')}</div></td><td>${esc(row.mime_type || '—')}</td><td><a href="${esc(row.public_url)}" target="_blank" rel="noopener">Open file ${icon('external')}</a></td><td>${formatDate(row.created_at)}</td><td>${actionsFor(module,id)}</td></tr>`;
   if (module === 'settings') return `<tr><td><div class="row-primary">${esc(row.key)}</div></td><td><div class="row-secondary">${esc(JSON.stringify(row.value).slice(0,100))}</div></td><td>${row.is_public ? '<span class="badge published">Public</span>' : '<span class="badge archived">Private</span>'}</td><td>${actionsFor(module,id,false)}</td></tr>`;
-  if (module === 'inquiries') return `<tr><td><div class="row-primary">${esc(row.contact_name)}</div><div class="row-secondary">${esc(row.phone || '')}</div></td><td>${esc(row.company || '—')}</td><td>${esc(row.email)}</td><td><select class="select-small" data-action="inquiry-status" data-id="${id}">${[['new','New'],['in_progress','In progress'],['replied','Replied'],['closed','Closed']].map(([v,l])=>`<option value="${v}"${row.status===v?' selected':''}>${l}</option>`).join('')}</select></td><td>${formatDate(row.created_at)}</td><td><span class="row-secondary">—</span></td></tr>`;
+  if (module === 'inquiries') return `<tr><td><div class="row-primary">${esc(row.contact_name)}</div><div class="row-secondary">${esc(row.phone || '')}</div></td><td>${esc(row.company || '—')}</td><td>${esc(row.email)}</td><td><select class="select-small" data-action="inquiry-status" data-id="${id}">${[['new','New'],['in_progress','In progress'],['replied','Replied'],['closed','Closed']].map(([v,l])=>`<option value="${v}"${row.status===v?' selected':''}>${l}</option>`).join('')}</select></td><td>${formatDate(row.created_at)}</td><td><button class="btn btn-plain" type="button" data-inquiry-detail="${id}">Details</button></td></tr>`;
+  if (module === 'subscribers') return `<tr><td>${esc(row.email)}</td><td>${esc(row.source_page)}</td><td>${formatDate(row.created_at)}</td><td><button class="icon-btn" type="button" data-action="delete" data-module="subscribers" data-id="${id}" aria-label="Remove subscriber">${icon('trash')}</button></td></tr>`;
   return '';
 }
 
@@ -387,6 +394,7 @@ async function renderListModule(module) {
     } else {
       rows = await queryTable(definition.table, '*', module === 'categories' ? 'menu_order' : 'created_at', module === 'categories');
     }
+    if (module === 'settings') rows = rows.filter((row) => row.key !== 'booking_api_secret');
     moduleState.set(module, rows);
     if (module === 'categories') cachedCategories = rows;
     const title = definition.title;
@@ -477,6 +485,14 @@ function bindShellEvents() {
   app.querySelectorAll('[data-action="add"]').forEach((button) => button.addEventListener('click', () => openEditor(button.dataset.module)));
   app.querySelectorAll('[data-action="edit"]').forEach((button) => button.addEventListener('click', () => openEditor(button.dataset.module, button.dataset.id)));
   app.querySelectorAll('[data-action="delete"]').forEach((button) => button.addEventListener('click', () => deleteRecord(button.dataset.module, button.dataset.id)));
+  app.querySelectorAll('[data-inquiry-detail]').forEach((button) => button.addEventListener('click', () => {
+    const inquiry = moduleState.get('inquiries')?.find((row) => row.id === button.dataset.inquiryDetail);
+    if (!inquiry) return;
+    const fields = [['Name', inquiry.contact_name], ['Company', inquiry.company], ['Email', inquiry.email], ['Phone', inquiry.phone], ['Product format', inquiry.product_type], ['Product', inquiry.product_context], ['Quantity', inquiry.quantity], ['Project details', inquiry.message]];
+    dialog.innerHTML = `<div class="dialog-head"><h2>Quote request</h2><button type="button" class="icon-btn" data-close aria-label="Close">×</button></div><div class="dialog-body"><dl>${fields.filter(([,value]) => value).map(([label,value]) => `<dt class="row-primary">${esc(label)}</dt><dd style="margin:0 0 12px;white-space:pre-wrap;overflow-wrap:anywhere">${esc(value)}</dd>`).join('')}</dl></div>`;
+    dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
+    dialog.showModal();
+  }));
   app.querySelectorAll('[data-action="booking-status"],[data-action="inquiry-status"]').forEach((select) => select.addEventListener('change', async () => updateStatus(select.dataset.action === 'booking-status' ? 'appointments' : 'inquiries', select.dataset.id, select.value)));
   app.querySelector('#list-search')?.addEventListener('input', (event) => {
     const query = event.target.value.trim().toLowerCase();

@@ -1,4 +1,5 @@
 import { serveCms, frontendNavigation } from './cms.js';
+import { connectStorefront, publicSiteSettings } from './storefront.js';
 
 const MAX_BODY_BYTES = 12_000;
 
@@ -166,13 +167,47 @@ async function readLimitedJson(request) {
   return JSON.parse(new TextDecoder().decode(body));
 }
 
-async function verifyTurnstile(token, secret, remoteIp) {
+async function verifyTurnstile(token, secret, remoteIp, expected = null) {
   const body = new URLSearchParams({ secret, response: token });
   if (remoteIp) body.set('remoteip', remoteIp);
   const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body,
   });
-  return response.ok && (await response.json()).success === true;
+  if (!response.ok) return false;
+  const result = await response.json();
+  return result.success === true && (!expected || (result.action === expected.action && result.hostname === expected.hostname));
+}
+
+async function storefrontSubmission(request, env, type) {
+  const requestUrl = new URL(request.url);
+  if (request.headers.get('origin') !== requestUrl.origin) return json({ error: 'Cross-origin request rejected.' }, 403);
+  if (!request.headers.get('content-type')?.startsWith('application/json')) return json({ error: 'JSON is required.' }, 415);
+  let input;
+  try { input = await readLimitedJson(request); }
+  catch (error) { return json({ error: 'Invalid or oversized form.' }, error.status || 400); }
+  const email = typeof input?.email === 'string' ? input.email.trim() : '';
+  const token = typeof input?.turnstile_token === 'string' ? input.turnstile_token : '';
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !token || token.length > 2048) {
+    return json({ error: 'Check your email and complete verification.' }, 400);
+  }
+  if (type === 'quote' && !['name', 'company', 'details', 'product_type'].every((key) => typeof input[key] === 'string' && input[key].trim())) {
+    return json({ error: 'Complete all required fields.' }, 400);
+  }
+  if (!env.BOOKING_API_SECRET || !env.TURNSTILE_SECRET_KEY) return json({ error: 'Submission service unavailable.' }, 503);
+  try {
+    if (!await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, request.headers.get('cf-connecting-ip'), { action: type, hostname: requestUrl.hostname })) {
+      return json({ error: 'Verification expired or failed. Please retry.' }, 400);
+    }
+    const { base, key } = databaseConfig(env);
+    const response = await fetch(base + '/functions/v1/storefront-submissions', {
+      method: 'POST',
+      headers: { apikey: key, 'content-type': 'application/json', 'x-mewepak-gateway-key': env.BOOKING_API_SECRET },
+      body: JSON.stringify({ ...input, turnstile_token: undefined, type }),
+    });
+    return response.ok ? json({ ok: true }, 201) : json({ error: 'Could not save your submission. Please retry.' }, 502);
+  } catch {
+    return json({ error: 'Submission service unavailable. Please retry.' }, 503);
+  }
 }
 
 async function createBookingResponse(request, env) {
@@ -229,15 +264,16 @@ async function createBookingResponse(request, env) {
   }
 }
 
-function withSecurityHeaders(response, path) {
+function withSecurityHeaders(response, path, env) {
   const result = new Response(response.body, response);
   result.headers.set('x-content-type-options', 'nosniff');
   result.headers.set('referrer-policy', 'strict-origin-when-cross-origin');
   result.headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()');
   const admin = path.startsWith('/admin');
+  const storageOrigin = /^https:\/\/[a-z0-9]+\.supabase\.co\/?$/i.test(env.SUPABASE_URL || '') ? env.SUPABASE_URL.replace(/\/$/, '') : '';
   result.headers.set('content-security-policy', admin
     ? "default-src 'self'; script-src 'self' https://esm.sh; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://esm.sh; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-    : "default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'");
+    : `default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' ${storageOrigin}; connect-src 'self' blob: https://challenges.cloudflare.com ${storageOrigin}; frame-src https://challenges.cloudflare.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'`);
   return result;
 }
 
@@ -287,13 +323,21 @@ export default {
       return json({ configured: Boolean(supabaseUrl && supabasePublishableKey), supabaseUrl, supabasePublishableKey, turnstileSiteKey: String(env.TURNSTILE_SITE_KEY || '').trim() }, supabaseUrl && supabasePublishableKey ? 200 : 503);
     }
     const database = (path) => databaseRequest(env, path);
+    if (url.pathname === '/api/public-site' && request.method === 'GET') {
+      try { return json(await publicSiteSettings(database)); }
+      catch { return json({}, 503); }
+    }
     if (url.pathname === '/api/frontend-navigation' && request.method === 'GET') return frontendNavigation(database);
     if (url.pathname === '/api/content' && request.method === 'GET') return contentResponse(request, env);
     if (url.pathname === '/api/booking-slots' && request.method === 'GET') return bookingSlotsResponse(request, env);
     if (url.pathname === '/api/bookings' && request.method === 'POST') return createBookingResponse(request, env);
+    if (request.method === 'POST' && ['/api/submissions/quote', '/api/submissions/newsletter'].includes(url.pathname)) {
+      return storefrontSubmission(request, env, url.pathname.split('/').pop());
+    }
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
     const asset = await fetchStaticAsset(request, env, context);
     const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
-    return withSecurityHeaders(await serveCms(request, asset, database, getAsset), url.pathname);
+    const cms = await serveCms(request, asset, database, getAsset);
+    return withSecurityHeaders(await connectStorefront(request, cms, database, env.SUPABASE_URL), url.pathname, env);
   },
 };
