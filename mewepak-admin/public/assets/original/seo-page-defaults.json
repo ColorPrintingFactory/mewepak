@@ -105,7 +105,7 @@
   },
   "/contact/": {
     "name": "Tell us about your next pack.",
-    "description": "Contact Mewepak to request a packaging quote, ask about samples or discuss the right pouch format for your product.",
+    "description": "Contact Mewepak for custom packaging quotes, sample enquiries or guidance on materials, pouch formats and artwork.",
     "image": "/assets/client-design/images/12cf35da5b04561a.webp"
   },
   "/flat-bottom-vs-stand-up-pouch-which-fits-your-brand/": {
@@ -125,7 +125,7 @@
   },
   "/": {
     "name": "Custom packaging. Made for your brand.",
-    "description": "Explore Mewepak custom flexible packaging, pouch formats, printed film, and packaging for your market.",
+    "description": "Mewepak makes custom flexible packaging for businesses, including printed pouches, spout pouches and roll stock film. Compare formats or request a quote.",
     "image": "/assets/client-design/images/8518a408df421d96.webp"
   },
   "/inquiry/": {
@@ -170,7 +170,8 @@
   },
   "/markets/coffee-tea/": {
     "name": "Coffee & Tea Packaging Solutions",
-    "description": "Premium packaging for specialty coffee and tea brands. Explore custom coffee & tea options for brand presentation, product protection, and flexible project requirements. Compare related formats, markets, and services before requesting a packaging quote."
+    "description": "Explore custom packaging for whole-bean coffee, ground coffee and loose-leaf tea. Compare pouch formats, closure options and print finishes.",
+    "image": "/assets/client-design/images/873549651fc1a911.webp"
   },
   "/markets/cosmetics/": {
     "name": "Cosmetics Packaging Solutions",
@@ -184,8 +185,8 @@
   },
   "/markets/frozen-food/": {
     "name": "Frozen Food Packaging Solutions",
-    "description": "Cold-resistant packaging for frozen products. Explore custom frozen food options for brand presentation, product protection, and flexible project requirements. Compare related formats, markets, and services before requesting a packaging quote.",
-    "image": "/assets/media/woocommerce-placeholder-600x600.webp"
+    "description": "Explore pouch and film formats for frozen foods. Compare packaging options around filling, freezer handling and storage conditions.",
+    "image": "/assets/client-design/images/457e72a2cbb71194.webp"
   },
   "/markets/fruits-veggies/": {
     "name": "Fruits & Veggies Packaging Solutions",
@@ -209,8 +210,8 @@
   },
   "/markets/pet-food/": {
     "name": "Pet Food Packaging Solutions",
-    "description": "Durable packaging for pet food and treats. Explore custom pet food options for brand presentation, product protection, and flexible project requirements. Compare related formats, markets, and services before requesting a packaging quote.",
-    "image": "/assets/media/woocommerce-placeholder-600x600.webp"
+    "description": "Compare pouch and bag formats for dry pet food, treats and prepared portions, with custom printing and closure options.",
+    "image": "/assets/client-design/images/cfcdbd746a6ff3b8.webp"
   },
   "/markets/powder-spices/": {
     "name": "Powder & Spices Packaging Solutions",
@@ -229,7 +230,8 @@
   },
   "/markets/snacks-sweets/": {
     "name": "Snacks & Sweets Packaging Solutions",
-    "description": "Eye-catching packaging for snacks and confectionery. Explore custom snacks & sweets options for brand presentation, product protection, and flexible project requirements. Compare related formats, markets, and services before requesting a packaging quote."
+    "description": "Explore printed pouches and roll stock film for snacks and confectionery, from single-serve packs to sharable bags.",
+    "image": "/assets/client-design/images/d1b92713ab295161.webp"
   },
   "/markets/supplement/": {
     "name": "Supplement Packaging Solutions",
@@ -335,7 +337,7 @@
   },
   "/solutions/printing/": {
     "name": "Printing",
-    "description": "Printing support helps brands compare artwork direction, finish options, and production requirements for custom flexible packaging projects."
+    "description": "Review Mewepak’s printing process, from artwork setup and finish selection to sample review and production planning."
   },
   "/solutions/recycling/": {
     "name": "Recycling",
@@ -360,7 +362,7 @@
   },
   "/sustainability/lca-tool/": {
     "name": "Life Cycle Analysis Tool",
-    "description": "Compare the packaging weight and estimated climate impact of two options using your project data or the example inputs."
+    "description": "Compare packaging weight and estimate climate impact for two packaging scenarios using project data or example inputs."
   },
   "/sustainability/operations/": {
     "name": "Operations Sustainability",

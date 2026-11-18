@@ -105,8 +105,10 @@ export function pageMetadata(policy, defaults, { page, catalog, settings } = {},
   const kind = page?.table || local.kind;
   const name = text(row.title || row.name || local.name || head.title || brand);
   const title = text(head.title || row.seo_title || name);
-  const description = excerpt(row.seo_description || head.description || row.short_description ||
-    row.excerpt || row.summary || local.description || (path === '/' ? summary : ''));
+  const originalDescription = [row.seo_description, head.description].find((value) =>
+    text(value) && !/^Explore custom .+ options for brand presentation, product protection, and flexible project requirements\./i.test(text(value)));
+  const description = excerpt(originalDescription || local.description || row.short_description ||
+    row.excerpt || row.summary || (path === '/' ? summary : ''));
   const image = assetUrl(row.primary_image_url || row.featured_image_url || row.image_url || local.image, origin);
   const logo = assetUrl(settings?.logo || '/assets/media/2026/06/logo.png', origin);
   const siteImage = assetUrl(defaults['/']?.image || logo, origin);
