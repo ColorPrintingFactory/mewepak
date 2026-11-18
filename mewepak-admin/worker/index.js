@@ -335,7 +335,10 @@ export default {
       return storefrontSubmission(request, env, url.pathname.split('/').pop());
     }
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
-    const asset = await fetchStaticAsset(request, env, context);
+    const assetRequest = url.pathname === '/assets/original/storefront-navigation.js'
+      ? new Request(new URL('/assets/original/main.js', url), request)
+      : request;
+    const asset = await fetchStaticAsset(assetRequest, env, context);
     const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
     const cms = await serveCms(request, asset, database, getAsset);
     return withSecurityHeaders(await connectStorefront(request, cms, database, env.SUPABASE_URL), url.pathname, env);

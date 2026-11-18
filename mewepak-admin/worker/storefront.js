@@ -113,12 +113,15 @@ export async function connectStorefront(request, response, database, projectUrl)
   if (settings.tagline) text('[data-mewepak-header] p.tracking-wide', settings.tagline);
   if (settings.logo) set('.mewepak-header-logo,.mewepak-footer-logo', 'src', settings.logo);
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
-  set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/main.js?storefront=1');
-  set('script[src="/assets/original/main.js"]', 'src', '/assets/original/main.js?storefront=1');
+  set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
+  set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=1');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
+  if (path === '/markets/coffee-tea' || path === '/10-design-tips-for-maximum-shelf-impact') {
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/related-content.css">', { html: true }));
+  }
   const pageType = storefrontPageType(url, path);
   let themedMain = false;
   let bodyClass = '';

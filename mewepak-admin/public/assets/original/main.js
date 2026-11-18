@@ -124,7 +124,10 @@
   function hydrateCategoryMenuImages(root) {
     if (!root || !window.mewepakMenuCategoryImages) return;
 
-    root.querySelectorAll('a[href^="/products/"]').forEach(function (link) {
+    const navigationLinks = ['[data-mewepak-header]', '[data-mobile-menu]', 'footer']
+      .map(function (region) { return region + ' a[href^="/products/"]'; })
+      .join(',');
+    root.querySelectorAll(navigationLinks).forEach(function (link) {
       if (link.querySelector('[data-category-menu-thumb]')) return;
       var href = link.getAttribute('href');
       if (!href || /^\/products\/?(#|$)/.test(href)) return;
