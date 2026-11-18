@@ -47,15 +47,22 @@ async function publishedModels(database, projectUrl) {
   });
 }
 
+async function quoteCategories(database) {
+  const response = await database('product_categories?select=slug,name&status=eq.published&order=menu_order.asc,name.asc');
+  return response.ok ? response.json() : [];
+}
+
 export async function connectStorefront(request, response, database, projectUrl) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
   if (!response.ok || request.method !== 'GET' || /^\/admin(?:\/|$)/.test(path) || !response.headers.get('content-type')?.includes('text/html')) return response;
   const productSlug = path.match(/^\/products\/[^/]+\/([^/]+)$/)?.[1];
   const useModels = path === '/' || path === '/3d-preview' || !!productSlug;
-  const [settings, models] = await Promise.all([
+  const hasQuote = path === '/contact' || path === '/inquiry';
+  const [settings, models, categories] = await Promise.all([
     publicSiteSettings(database).catch(() => ({})),
     useModels ? publishedModels(database, projectUrl).catch(() => []) : [],
+    hasQuote ? quoteCategories(database).catch(() => []) : [],
   ]);
   const rewrite = new HTMLRewriter();
   const on = (selector, element) => rewrite.on(selector, { element });
@@ -75,6 +82,24 @@ export async function connectStorefront(request, response, database, projectUrl)
   if (settings.email) set('#call a[href="mailto:info@mewepak.com"]', 'href', 'mailto:' + settings.email);
   if (settings.phone) set('#call a[href="tel:+86123456789"]', 'href', 'tel:' + settings.phone.replace(/[^+\d]/g, ''));
   if (settings.whatsapp) set('#call a[href="https://wa.me/86123456789"]', 'href', 'https://wa.me/' + settings.whatsapp.replace(/\D/g, ''));
+  if (settings.phone) {
+    set('a[href="tel:+8612345678"]', 'href', 'tel:' + settings.phone.replace(/[^+\d]/g, ''));
+    text('a[href="tel:+8612345678"]', 'Phone: ' + settings.phone);
+  }
+  if (settings.whatsapp) {
+    set('a[href="https://wa.me/8612345678"]', 'href', 'https://wa.me/' + settings.whatsapp.replace(/\D/g, ''));
+    text('a[href="https://wa.me/8612345678"]', 'WhatsApp: ' + settings.whatsapp);
+  }
+  if (categories.length) {
+    const selected = url.searchParams.get('category');
+    const options = categories.map(({ slug, name }) =>
+      '<option value="' + encode(slug) + '"' + (slug === selected ? ' selected' : '') + '>' + encode(name) + '</option>').join('');
+    on('form[data-mewepak-quote] select[name="product_type"]', (el) => el.setInnerContent('<option value="">Select a product</option>' + options + '<option value="other">Other</option>', { html: true }));
+  }
+  for (const [form,type] of [['form[data-mewepak-quote]','quote'],['form[data-mewepak-subscribe]','newsletter']]) {
+    set(form, 'method', 'post');
+    set(form, 'action', '/api/submissions/' + type);
+  }
   if (settings.tagline) text('[data-mewepak-header] p.tracking-wide', settings.tagline);
   if (settings.logo) set('.mewepak-header-logo,.mewepak-footer-logo', 'src', settings.logo);
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
