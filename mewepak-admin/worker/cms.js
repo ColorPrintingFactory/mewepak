@@ -14,6 +14,13 @@ const pathFor = {
 
 const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+const bullets = (items) => '<ul class="list-disc pl-6 space-y-2">' + items.map((item) => '<li>' + escape(item) + '</li>').join('') + '</ul>';
+const specificationFields = [
+  ['features', 'Features', '0'],
+  ['material_options', 'Materials', '1'],
+  ['printing_options', 'Printing and finishing', null],
+  ['applications', 'Applications', '3'],
+];
 
 async function digest(value) {
   const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
@@ -35,7 +42,7 @@ async function sanitize(markup) {
     for (const [name, value] of el.attributes) {
       if (/^(href|src|poster)$/.test(name)) {
         if (!safeUrl(value) && !/^#[\w-]+$/.test(value)) el.removeAttribute(name);
-      } else if (!/^(class|id|alt|title|role|width|height|loading|decoding|type|controls|muted|autoplay|loop|playsinline|tabindex|colspan|rowspan|aria-[\w-]+|viewbox|fill|stroke|stroke-width|d|points|cx|cy|r|x|y|x1|x2|y1|y2)$/i.test(name)) {
+      } else if (!/^(class|id|alt|title|role|width|height|loading|decoding|type|controls|muted|autoplay|loop|playsinline|tabindex|colspan|rowspan|aria-[\w-]+|data-(?:category-gallery(?:-main|-thumb)?|single-gallery(?:-track|-thumb|-next|-prev)?|product-tabs|tab|panel|full-alt)|viewbox|fill|stroke|stroke-width|d|points|cx|cy|r|x|y|x1|x2|y1|y2)$/i.test(name)) {
         el.removeAttribute(name);
       }
     }
@@ -77,6 +84,19 @@ export async function serveCms(request, asset, database, getAsset) {
     const replaceHtml = (selector, value) => edit(selector, (el) => el.setInnerContent(value, { html: true }));
     const previous = baseline[path] || {};
     const row = entry?.row;
+    const publishedPaths = new Set(entries.map((item) => item.path));
+    edit('a[href]', (el) => {
+      const href = el.getAttribute('href');
+      if (!href.startsWith('/') || href.startsWith('//')) return;
+      const target = href.split(/[?#]/)[0].replace(/\/+$/, '') + '/';
+      if (baseline[target] && !publishedPaths.has(target) && !['/booking/', '/3d-preview/'].includes(target)) el.remove();
+    });
+    if (path === '/contact/' || path === '/inquiry/') {
+      edit('main form[data-mewepak-quote]', (el) => el.before('<p class="mb-5"><a href="/booking/" class="!font-semibold !text-[#007f7c]">Book a packaging consultation</a></p>', { html: true }));
+    }
+    if (path === '/') {
+      edit('main a[href="#viewer"]', (el) => el.after('<a href="/3d-preview/" class="inline-flex px-4 py-3 !font-semibold !text-[#007f7c]">Open 3D Preview</a>', { html: true }));
+    }
     if (row) {
       const title = row.title || row.name;
       if (row.seo_title !== previous.seo_title || title !== previous.title) replace('title', row.seo_title || title);
@@ -105,7 +125,28 @@ export async function serveCms(request, asset, database, getAsset) {
           edit('main', (el) => el.append(`<section class="max-w-7xl mx-auto p-6 mewepak-prose">${html}</section>`, { html: true }));
         }
         const image = safeUrl(row.primary_image_url);
-        if (image && image !== previous.primary_image_url) edit('[data-single-gallery-track] > div:first-child img,[data-product-zoom-preview],[data-single-gallery-thumb="0"] img', (el) => el.setAttribute('src', image));
+        if (JSON.stringify(row.gallery_urls) !== JSON.stringify(previous.gallery_urls || [])) {
+          const gallery = [...new Set([image, ...row.gallery_urls.map(safeUrl)].filter(Boolean))];
+          if (gallery.length) {
+            const width = 100 / gallery.length + '%';
+            edit('[data-single-gallery-track]', (el) => el.setAttribute('style', 'width:' + gallery.length * 100 + '%'));
+            replaceHtml('[data-single-gallery-track]', gallery.map((src) => `<div class="h-full flex-shrink-0 flex items-center justify-center" style="width:${width}"><img src="${escape(src)}" alt="${escape(title)}" class="mewepak-single-product__image w-full h-full object-contain"></div>`).join(''));
+            edit('[data-single-gallery-thumb]', (el) => {
+              if (el.getAttribute('data-single-gallery-thumb') === '0') {
+                el.before(gallery.map((src, index) => `<button type="button" data-single-gallery-thumb="${index}" class="aspect-square border !rounded-xl p-2"><img src="${escape(src)}" alt="View image ${index + 1}"></button>`).join(''), { html: true });
+              }
+              el.remove();
+            });
+            edit('[data-product-zoom-preview]', (el) => el.setAttribute('src', gallery[0]));
+          }
+        } else if (image && image !== previous.primary_image_url) {
+          edit('[data-single-gallery-track] > div:first-child img,[data-product-zoom-preview],[data-single-gallery-thumb="0"] img', (el) => el.setAttribute('src', image));
+        }
+        for (const [field, label, panel] of specificationFields) {
+          if (!row[field]?.length) continue;
+          if (panel) replaceHtml(`[data-product-tabs] [data-panel="${panel}"]`, bullets(row[field]));
+          else edit('main', (el) => el.append(`<section class="max-w-7xl mx-auto p-6"><h2>${label}</h2>${bullets(row[field])}</section>`, { html: true }));
+        }
       }
       if (entry.table === 'product_categories' && asset.ok) {
         if (row.short_description !== previous.short_description) replace('main h1 ~ p', row.short_description);
@@ -119,7 +160,11 @@ export async function serveCms(request, asset, database, getAsset) {
       });
       if (!asset.ok && typeof pageBody !== 'string' && !isSearch) {
         const body = await sanitize(row.body || row.description || '');
-        replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16 mewepak-prose"><h1>${escape(title)}</h1>${renderCards([entry])}${body}</section>`);
+        const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
+        const gallery = images.map((src) => `<img class="w-full h-64 object-contain" src="${escape(src)}" alt="${escape(title)}">`).join('');
+        const specifications = specificationFields.filter(([key]) => row[key]?.length).map(([key, label]) => `<h2>${label}</h2>${bullets(row[key])}`).join('');
+        const inquiry = entry.table === 'products' ? `<a href="/inquiry/?product=${encodeURIComponent(title)}">Request a Quote</a>` : '';
+        replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16 mewepak-prose"><h1>${escape(title)}</h1><p>${escape(row.short_description || row.excerpt || row.summary)}</p><div class="grid md:grid-cols-3 gap-5">${gallery}</div>${body}${specifications}${inquiry}</section>`);
       }
     }
     if (isSearch) {

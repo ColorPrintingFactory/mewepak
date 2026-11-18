@@ -615,7 +615,7 @@ async function saveEditor(event) {
       }
       if (field.type === 'datetime-local') value = value ? new Date(value).toISOString() : null;
       if ((field.type === 'category' || field.type === 'product') && value === '') value = null;
-      if (value !== '' || ['textarea','array','json','select'].includes(field.type) || field.name === 'value') payload[field.name] = value;
+      if (value !== '' || ['textarea','array','json','select'].includes(field.type) || ['value','seo_title','primary_image_url','image_url','featured_image_url'].includes(field.name)) payload[field.name] = value;
     }
     if (module === 'media' && !payload.file_name) {
       const file = form.elements.namedItem('_upload')?.files?.[0];

@@ -10,6 +10,7 @@ const add = (path, row) => {
     short_description: row.short_description,
     image_url: row.image_url,
     primary_image_url: row.primary_image_url,
+    gallery_urls: row.gallery_urls,
     featured_image_url: row.featured_image_url,
     body_hash: row.body === undefined ? undefined : hash(row.body),
     description_hash: row.description === undefined ? undefined : hash(row.description),
