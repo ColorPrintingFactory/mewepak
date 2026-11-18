@@ -104,7 +104,8 @@ export async function serveCms(request, asset, database, getAsset) {
     const publishedPaths = new Set(entries.map((item) => item.path));
     const sections = Array.isArray(row?.sections) ? row.sections : [];
     const choices = sections.find((section) => section.type === 'recommended_formats')?.slugs;
-    applyRecommendations(path, edit, publishedPaths, baseline, choices);
+    const categories = entries.filter((item) => item.table === 'product_categories').map((item) => item.row);
+    applyRecommendations(path, edit, publishedPaths, baseline, choices, categories);
 
     if (path === '/') {
       const slides = sections.find((section) => section.type === 'home_banners')?.slides;

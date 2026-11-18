@@ -106,7 +106,7 @@ function card(href, title, description, image, action) {
   </a></li>`;
 }
 
-export function applyRecommendations(path, edit, publishedPaths, baseline, choices) {
+export function applyRecommendations(path, edit, publishedPaths, baseline, choices, categories = []) {
   const [, family, slug] = path.split('/');
   if (path !== keyPath(family, slug)) return;
   const available = href => publishedPaths.has(href) || !Object.hasOwn(baseline, href);
@@ -116,21 +116,32 @@ export function applyRecommendations(path, edit, publishedPaths, baseline, choic
   });
 
   if (family === 'markets' && Object.hasOwn(markets, slug)) {
+    const dedicatedSection = { 'coffee-tea': 'coffee-packaging-formats', 'snacks-sweets': 'snacks-packaging-formats' }[slug];
+    const categoryBySlug = new Map(categories.map((row) => [row.slug, row]));
     const selected = Array.isArray(choices) && choices.length
-      ? [...new Set(choices)].filter((key) => Object.hasOwn(formats, key)).slice(0, 4)
+      ? [...new Set(choices)].filter((key) => categoryBySlug.has(key)).slice(0, 4)
       : formatChoices[slug];
     if (selected) {
       const cards = selected.flatMap(key => {
-        const [title, description, photo] = formats[key];
+        const row = categoryBySlug.get(key);
+        const [title, description, photo] = formats[key] || [row.name, row.short_description, 'icon-stand-up-pouch.webp'];
         const href = keyPath('products', key);
-        return available(href) ? [card(href, title, description, formatImage(photo), 'Explore format')] : [];
+        const customImage = /^https:\/\/|^\/(?![\/\\])/i.test(row?.image_url || '') ? row.image_url : '';
+        const escape = (value) => String(value || '').replace(/[&<>"]/g, (char) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]);
+        return available(href) && /^\/products\/[a-z0-9-]+\/$/.test(href)
+          ? [card(href, escape(title), escape(description), escape(customImage || formatImage(photo)), 'Explore format')]
+          : [];
       });
       if (cards.length) {
         let first = true;
-        edit('main .mewepak-market-detail > section.mewepak-market-section.bg-white', (el) => {
+        const selector = dedicatedSection
+          ? 'main #' + dedicatedSection
+          : 'main .mewepak-market-detail > section.mewepak-market-section.bg-white';
+        edit(selector, (el) => {
           if (!first) return;
           first = false;
-          el.replace(formatSection(slug + '-packaging-formats', `Packaging formats for <span>${markets[slug][0].replaceAll('&', '&amp;')}.</span>`,
+          el.replace(formatSection(dedicatedSection || slug + '-packaging-formats', `Packaging formats for <span>${markets[slug][0].replaceAll('&', '&amp;')}.</span>`,
             'Compare suitable formats, then explore the wider packaging range.', cards, otherFormats(selected), 'See more packaging formats'), { html: true });
         });
       }
