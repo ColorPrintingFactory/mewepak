@@ -138,9 +138,9 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
 #mewepak-homepage .v2-hero-grid { display:grid; grid-template-columns:1fr 1.1fr; min-height:562px; width:calc(100% - 80px); max-width:1240px; margin:auto; align-items:center; }
 #mewepak-homepage .v2-hero-copy { position:relative; z-index:2; padding:38px 0 42px; }
 #mewepak-homepage .v2-hero-copy .mw-eyebrow { letter-spacing:1.7px; margin-bottom:21px; }
-#mewepak-homepage .v2-hero-title { font-size:clamp(40px,4.25vw,62px); line-height:1.04; font-weight:600; letter-spacing:-2.7px; margin:0; max-width:600px; color:#102b35; }
+#mewepak-homepage .v2-hero-title { font-size:clamp(40px,4.25vw,62px); line-height:1.04; min-block-size:3lh; font-weight:600; letter-spacing:-2.7px; margin:0; max-width:600px; color:#102b35; }
 #mewepak-homepage .v2-hero-title span { color:#008a82; }
-#mewepak-homepage .v2-hero-description { font-size:16px; line-height:1.75; color:#5c7479; max-width:405px; margin:26px 0 28px; }
+#mewepak-homepage .v2-hero-description { font-size:16px; line-height:1.75; min-block-size:2lh; color:#5c7479; max-width:405px; margin:26px 0 28px; }
 #mewepak-homepage .v2-hero-actions { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
 #mewepak-homepage .v2-hero-actions .mw-quote { background:#008c84; border-color:#008c84; border-radius:30px; padding:13px 23px; font-size:13px; }
 #mewepak-homepage .v2-hero-art { position:relative; height:562px; min-width:0; }
@@ -152,8 +152,8 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
 #mewepak-homepage .v2-hero-shot:nth-of-type(1) { left:39px; transform:rotate(-11deg); }
 #mewepak-homepage .v2-hero-shot:nth-of-type(2) { left:211px; top:125px; z-index:3; transform:rotate(1deg); }
 #mewepak-homepage .v2-hero-shot:nth-of-type(3) { left:381px; transform:rotate(12deg); }
-#mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(1) { left:125px; top:155px; transform:rotate(-9deg); }
-#mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(2) { left:355px; top:155px; transform:rotate(9deg); }
+#mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(1) { left:105px; top:169px; transform:rotate(-9deg); }
+#mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(2) { left:315px; top:125px; transform:rotate(9deg); }
 #mewepak-homepage .v2-hero-round-caption { position:absolute; left:176px; top:520px; color:#49786b; font-size:10px; text-transform:uppercase; letter-spacing:2.8px; }
 #mewepak-homepage .mw-carousel-controls { max-width:1240px; width:calc(100% - 80px); margin:auto; background:transparent; }
 #mewepak-homepage .hy-product-track .mw-product { flex:0 0 calc((100% - 72px)/4); }
@@ -245,8 +245,8 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .v2-hero-shot:nth-of-type(1) { left:35px; }
  #mewepak-homepage .v2-hero-shot:nth-of-type(2) { left:155px; top:59px; }
  #mewepak-homepage .v2-hero-shot:nth-of-type(3) { left:272px; }
- #mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(1) { left:82px; top:75px; }
- #mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(2) { left:225px; top:75px; }
+ #mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(1) { left:82px; top:88px; }
+ #mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(2) { left:225px; top:59px; }
  #mewepak-homepage .v2-hero-round-caption { top:313px; left:95px; font-size:8px; letter-spacing:1.5px; }
  #mewepak-homepage .mw-carousel-controls { width:calc(100% - 36px); }
  #mewepak-homepage .hy-product-track .mw-product { flex-basis:100%; }
@@ -328,4 +328,9 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .v3-certification-band { padding-inline:15px; }
  #mewepak-homepage .v3-certification-logos { gap:17px 11px; }
  #mewepak-homepage .v3-cert-logo { height:84px; }
+}
+
+@media (max-width: 360px) {
+  #mewepak-homepage .v2-hero-title { min-block-size: 4lh; }
+  #mewepak-homepage .v2-hero-description { min-block-size: 3lh; }
 }
