@@ -350,8 +350,14 @@ export default {
     const assetPath = aliases[url.pathname];
     const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : request;
     const asset = await fetchStaticAsset(assetRequest, env, context);
-    const cms = await serveCms(request, asset, database, getAsset);
-    const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL);
-    return withSecurityHeaders(optimizePageSeo(request, storefront, env), url.pathname, env);
+    let page;
+    let catalog;
+    let settings;
+    const cms = await serveCms(request, asset, database, getAsset, (entry, entries) => {
+      page = entry;
+      catalog = entries;
+    });
+    const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL, (value) => { settings = value; });
+    return withSecurityHeaders(await optimizePageSeo(request, storefront, env, getAsset, { page, catalog, settings }), url.pathname, env);
   },
 };

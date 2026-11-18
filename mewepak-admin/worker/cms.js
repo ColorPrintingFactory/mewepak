@@ -2,7 +2,7 @@ import { applyRecommendations } from './recommendations.js';
 
 const tables = {
   pages: 'slug,title,summary,sections,seo_title,seo_description',
-  articles: 'slug,title,excerpt,body,featured_image_url,seo_title,seo_description',
+  articles: 'slug,title,excerpt,body,featured_image_url,seo_title,seo_description,published_at',
   product_categories: 'id,slug,name,short_description,image_url,menu_group,menu_order,show_in_menu,seo_title,seo_description',
   products: 'slug,name,short_description,description,primary_image_url,gallery_urls,features,material_options,printing_options,applications,seo_title,seo_description,category:product_categories(slug)',
 };
@@ -74,7 +74,7 @@ export async function catalogPaths(database) {
   return lists.flat().filter((path) => /^\/(?:[a-z0-9_-]+\/)*$/i.test(path));
 }
 
-export async function serveCms(request, asset, database, getAsset) {
+export async function serveCms(request, asset, database, getAsset, capturePage) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') + '/';
   if (request.method !== 'GET' || /^\/(admin|booking|3d-preview|assets)(\/|$)/.test(path) || /\.[a-z0-9]+\/$/i.test(path)) return asset;
@@ -235,6 +235,7 @@ export async function serveCms(request, asset, database, getAsset) {
       el.after(`<script src="/api/frontend-navigation"></script>`, { html: true });
     });
     edit('script[src="/assets/original/main.js"]', (el) => el.setAttribute('src', '/assets/original/main.js?cms=1'));
+    capturePage?.(entry, entries);
     const result = rewriter.transform(new Response(source.body, { status: 200, headers: source.headers }));
     result.headers.set('cache-control', 'no-store');
     result.headers.delete('etag');

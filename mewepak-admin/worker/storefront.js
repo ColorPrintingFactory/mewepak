@@ -113,7 +113,7 @@ function storefrontPageType(url, path) {
   return 'detail';
 }
 
-export async function connectStorefront(request, response, database, projectUrl) {
+export async function connectStorefront(request, response, database, projectUrl, captureSettings) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
   if (!response.ok || request.method !== 'GET' || /^\/admin(?:\/|$)/.test(path) || !response.headers.get('content-type')?.includes('text/html')) return response;
@@ -125,6 +125,7 @@ export async function connectStorefront(request, response, database, projectUrl)
     useModels ? publishedModels(database, projectUrl).catch(() => []) : [],
     hasQuote ? quoteCategories(database).catch(() => []) : [],
   ]);
+  captureSettings?.(settings);
   const rewrite = new HTMLRewriter();
   const on = (selector, element) => rewrite.on(selector, { element });
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
