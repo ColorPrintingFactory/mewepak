@@ -87,7 +87,6 @@ const auto=setInterval(()=>{
  if(!reduce.matches&&!document.hidden&&!still)productMove(1);
 },content.productIntervalMs);
 window.addEventListener('resize',()=>{normalizeProduct();setProductPosition(false);});
-const search=root.querySelector('#mw-search-form');if(search)search.addEventListener('submit',event=>{event.preventDefault();const q=root.querySelector('#mw-search-input').value.trim().toLowerCase();if(!q)return;const match=[...root.querySelectorAll('[data-search]:not([aria-hidden="true"])')].find(card=>card.dataset.search.toLowerCase().includes(q));root.querySelector('#mw-search-status').textContent=match?'Found '+match.dataset.search:'No matching packaging in this preview.';if(match){if(match.classList.contains('mw-product')){normalizeProduct();productIndex=count+originals.indexOf(match);setProductPosition(false);}if(match.hidden&&expand.getAttribute('aria-expanded')!=='true')expand.click();match.scrollIntoView({block:'center',behavior:'smooth'});}});
 const images=[...root.querySelectorAll('img[src]')];Promise.all(images.map(img=>img.complete?Promise.resolve():new Promise(done=>{img.addEventListener('load',done,{once:true});img.addEventListener('error',done,{once:true});}))).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{document.body.dataset.homepageReady='1';document.body.dataset.homepageBrokenImages=String(images.filter(img=>!img.naturalWidth).length);})));
 })();
 

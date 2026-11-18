@@ -101,9 +101,6 @@
   review.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
  });
  root.querySelector('#pk-edit').addEventListener('click',()=>{review.hidden=true;root.querySelector('#pk-name').focus();});
- root.querySelector('#mw-search-form').addEventListener('submit',event=>{
-  event.preventDefault();search.value=root.querySelector('#mw-search-input').value;activeFilter='all';applyFilters();root.querySelector('#formats').scrollIntoView({block:'start',behavior:'smooth'});
- });
  const initialImages=[...root.querySelectorAll('img[src]')];
  Promise.all(initialImages.map(img=>img.complete?Promise.resolve():new Promise(done=>{img.addEventListener('load',done,{once:true});img.addEventListener('error',done,{once:true});}))).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{pageReady=true;postSize();})));
  new ResizeObserver(()=>requestAnimationFrame(postSize)).observe(root);

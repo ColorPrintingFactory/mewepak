@@ -15,7 +15,8 @@ from lxml import etree, html
 from PIL import Image
 
 
-ROOT = Path(__file__).resolve().parents[1] / "public"
+SCRIPTS = Path(__file__).resolve().parent
+ROOT = SCRIPTS.parent / "public"
 DESIGN = ROOT / "assets" / "client-design"
 IMAGES = DESIGN / "images"
 PREFIX = "/assets/client-design/"
@@ -125,6 +126,31 @@ def newsletter(doc, element_id):
     append(form, '<p data-subscribe-message class="client-message" aria-live="polite"></p>')
 
 
+def apply_site_shell(design):
+    shell = html.parse(str(SCRIPTS / "templates" / "mewepak-site-shell.html")).getroot()
+    head = exactly(shell, "//head")
+    for element in design.xpath('//head/title|//head/meta[@name="description" or @name="robots"]|//head/link'):
+        head.append(element)
+
+    content = exactly(design, '//*[@id="mewepak-homepage"]')
+    for element in content.xpath('./header|./footer|./div[@id="mw-top"]|./a[@class="qt-skip"]|./p[@id="mw-search-status"]'):
+        element.drop_tree()
+
+    main = exactly(content, './main')
+    target = main.get("id") or "wp--skip-link--target"
+    main.set("id", target)
+    exactly(shell, '//*[@id="wp-skip-link"]').set("href", "#" + target)
+    slot = exactly(shell, '//*[@data-client-content]')
+    slot.getparent().replace(slot, content)
+
+    body = exactly(shell, "//body")
+    for element in design.xpath("//body/script"):
+        if element.get("src") in (PREFIX + "home.js", PREFIX + "packaging.js"):
+            element.set("src", element.get("src") + "?shell=1")
+        body.append(element)
+    return shell
+
+
 def import_page(page, source, output):
     raw = DATA.sub(external_image, source.read_text(encoding="utf-8-sig"))
     if page == "packaging":
@@ -220,6 +246,10 @@ def import_page(page, source, output):
                 anchor.set("href", "/inquiry/#quote-request")
         append(exactly(doc, '//*[@id="mw-products"]'), '<div class="mw-inner client-crosslinks"><a href="/products/">Explore all packaging formats ↗</a><a href="/3d-preview/">Try the interactive 3D preview ↗</a></div>')
         js += "\nwindow.mewepakClient.home();\n"
+    if page == "home":
+        js = re.sub(r"^.*root\.querySelector\('#mw-search-form'\).*\n", "", js, flags=re.M)
+    elif page == "packaging":
+        js = re.sub(r"^ root\.querySelector\('#mw-search-form'\)\.addEventListener[^\n]+\n[^\n]+\n \}\);\n", "", js, flags=re.M)
     # Remove preview-only parent-window messages and eager loading.
     js = re.sub(r"if\(parent!==window\)parent\.postMessage\([^;]+;", "", js)
     js = js.replace("img.loading='eager';", "").replace("image.loading='eager';", "")
@@ -238,7 +268,7 @@ def import_page(page, source, output):
         append(head, f'<link rel="stylesheet" href="{PREFIX}{path}">')
     for path in ("integration.js", page + ".js"):
         append(body, f'<script src="{PREFIX}{path}" defer></script>')
-    output.write_text(html.tostring(doc, encoding="unicode", doctype="<!doctype html>"), encoding="utf-8")
+    output.write_text(html.tostring(apply_site_shell(doc), encoding="unicode", doctype="<!doctype html>"), encoding="utf-8")
 
 
 if __name__ == "__main__":
