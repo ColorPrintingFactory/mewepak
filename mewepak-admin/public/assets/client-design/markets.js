@@ -35,11 +35,21 @@
  root.querySelectorAll('[data-sector]').forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.sector;search.value='';apply();scrollToSection('#markets');}));
  apply();
  const dialog=root.querySelector('#mk-market-dialog'),form=root.querySelector('#mk-enquiry-form'),review=root.querySelector('#mk-review');
+ const marketPages = {
+  coffee: 'coffee-tea', snacks: 'snacks-sweets', supplement: 'supplement', pet: 'pet-food',
+  sauce: 'sauce-soup', baby: 'baby-food', beverage: 'beverage', frozen: 'frozen-food',
+  home: 'home-care', produce: 'fruits-veggies',
+ };
+ const dialogScroll = root.querySelector('.mk-dialog-scroll');
+ const viewMarket = root.querySelector('#mk-view-market');
+ let trigger = null;
+ let restoreFocus = true;
  const marketSelect=root.querySelector('#mk-market-select'),formatSelect=root.querySelector('#mk-format-select'),status=root.querySelector('#mk-selected');
  function chooseMarket(format){
   if(!selectedMarket)return;
   marketSelect.value=selectedMarket.id;formatSelect.value=format||'';review.hidden=true;
   status.hidden=false;status.textContent=selectedMarket.name+' selected'+(format?' with '+format.toLowerCase():'')+' for your brief.';
+  restoreFocus = false;
   dialog.close();scrollToSection('#market-enquiry');root.querySelector('#mk-product').focus({preventScroll:true});
  }
  root.addEventListener('click',event=>{
@@ -51,7 +61,16 @@
   const image=root.querySelector('#mk-dialog-image');image.src=assets[selectedMarket.image];image.alt=selectedMarket.name+' illustrative packaging scene';
   root.querySelector('#mk-dialog-questions').replaceChildren(...selectedMarket.questions.map(q=>el('li','',q)));
   root.querySelector('#mk-dialog-formats').replaceChildren(...selectedMarket.formats.map(format=>{const n=el('button','',format+' ↗');n.type='button';n.addEventListener('click',()=>chooseMarket(format));return n;}));
+  trigger = b;
+  restoreFocus = true;
+  viewMarket.href = '/markets/' + marketPages[selectedMarket.id] + '/';
   dialog.showModal();
+  document.body.classList.add('market-dialog-open');
+  dialogScroll.scrollTop = 0;
+ });
+ dialog.addEventListener('close', () => {
+  document.body.classList.remove('market-dialog-open');
+  if (restoreFocus) trigger?.focus({preventScroll:true});
  });
  root.querySelector('#mk-close-dialog').addEventListener('click',()=>dialog.close());
  root.querySelector('#mk-build-brief').addEventListener('click',()=>chooseMarket(''));

@@ -1,0 +1,145 @@
+body.market-dialog-open {
+  overflow: hidden;
+}
+
+#mewepak-homepage.markets-page .mk-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(94vw, 1020px);
+  max-width: none;
+  max-height: min(90dvh, 820px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+  color: #102b35;
+}
+
+#mewepak-homepage.markets-page .mk-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+#mewepak-homepage .mk-dialog-scroll {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+#mewepak-homepage.markets-page .mk-dialog-head,
+#mewepak-homepage .mk-dialog-actions {
+  background: #f7faf9;
+  border-color: #dce9e4;
+}
+
+#mewepak-homepage.markets-page .mk-dialog-head {
+  padding: 12px clamp(16px, 2.4vw, 26px);
+  color: #526b71;
+}
+
+#mewepak-homepage.markets-page .mk-dialog-head button {
+  min-height: 44px;
+  color: #102b35;
+}
+
+#mewepak-homepage.markets-page .mk-dialog-grid {
+  grid-template-columns: minmax(0, .62fr) minmax(0, 1fr);
+}
+
+#mewepak-homepage.markets-page .mk-dialog-visual {
+  justify-content: flex-start;
+  align-items: center;
+  background: #eef5ef;
+}
+
+#mewepak-homepage.markets-page .mk-dialog-copy {
+  padding: clamp(20px, 3vw, 36px);
+}
+
+#mewepak-homepage.markets-page .mk-dialog-copy h2 {
+  margin-bottom: 12px;
+  color: #102b35;
+  font-size: clamp(26px, 3vw, 36px);
+}
+
+#mewepak-homepage.markets-page #mk-dialog-description,
+#mewepak-homepage.markets-page #mk-dialog-questions li,
+#mewepak-homepage.markets-page .mk-dialog-note,
+#mewepak-homepage.markets-page .mk-dialog-copy > h3 {
+  color: #526b71;
+}
+
+#mewepak-homepage.markets-page .mk-dialog-copy .mk-dialog-note {
+  font-size: 12px;
+}
+
+#mewepak-homepage .mk-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 12px clamp(16px, 2.4vw, 26px);
+  border-top: 1px solid #dce9e4;
+}
+
+#mewepak-homepage .mk-dialog-market-link,
+#mewepak-homepage .mk-dialog-actions .mk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding-inline: 16px;
+}
+
+#mewepak-homepage .mk-dialog-market-link {
+  color: #00756e;
+  font-weight: 600;
+}
+
+#mewepak-homepage .mk-dialog-market-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  #mewepak-homepage.markets-page .mk-dialog {
+    width: 100%;
+    max-height: 100dvh;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  #mewepak-homepage.markets-page .mk-dialog-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #mewepak-homepage.markets-page .mk-dialog-visual {
+    padding: 12px;
+    max-height: none;
+  }
+
+  #mewepak-homepage.markets-page .mk-dialog-visual img {
+    width: 100%;
+    height: clamp(120px, 27dvh, 220px);
+    object-fit: contain;
+  }
+
+  #mewepak-homepage .mk-dialog-actions {
+    padding-block-end: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 430px) {
+  #mewepak-homepage .mk-dialog-actions {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 6px;
+  }
+
+  #mewepak-homepage .mk-dialog-actions :is(a, button) {
+    padding-inline: 7px;
+    text-align: center;
+  }
+}

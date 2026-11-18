@@ -155,7 +155,8 @@ export async function connectStorefront(request, response, database, projectUrl)
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
-  if (path === '/markets/coffee-tea' || path === '/10-design-tips-for-maximum-shelf-impact') {
+  if (path === '/markets') set('script[src="/assets/client-design/markets.js"]', 'src', '/assets/client-design/market-browser.js');
+  if (['/markets/coffee-tea', '/markets/snacks-sweets', '/products/stand-up-pouch', '/10-design-tips-for-maximum-shelf-impact'].includes(path)) {
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/related-content.css">', { html: true }));
   }
   on('section#contact.from-gray-100', (el) => {

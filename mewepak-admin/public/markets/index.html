@@ -81,7 +81,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
 	<title>Markets | Mewepak</title><meta name="description" content="Explore Mewepak packaging ideas for ten markets, from coffee and snacks to pet food, beverages and home care. Start your product-specific packaging brief."><meta name="robots" content="index,follow,max-image-preview:large">
-<link rel="canonical" href="/markets/"><link rel="stylesheet" href="/assets/client-design/markets.css"><link rel="stylesheet" href="/assets/client-design/integration.css"></head>
+<link rel="canonical" href="/markets/"><link rel="stylesheet" href="/assets/client-design/markets.css"><link rel="stylesheet" href="/assets/client-design/market-dialog.css"><link rel="stylesheet" href="/assets/client-design/integration.css"></head>
 
 <body class="wp-singular page-template-default page page-id-11 wp-embed-responsive wp-theme-mewepak-fse theme-mewepak-fse woocommerce-uses-block-theme woocommerce-block-theme-has-button-styles woocommerce-no-js">
 
@@ -544,7 +544,25 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     </form></div><button type="button" id="mk-edit-brief">Edit my details</button></section></div></div></section>
 </main>
 
-<dialog class="mk-dialog" id="mk-market-dialog" aria-labelledby="mk-dialog-title"><div class="mk-dialog-head"><span id="mk-dialog-category">Market guide</span><button id="mk-close-dialog" type="button" aria-label="Close market details">Close ×</button></div><div class="mk-dialog-grid"><div class="mk-dialog-visual"><img id="mk-dialog-image" width="850" height="850" alt="" loading="lazy" decoding="async"><p>Explore the market. Shape the brief.</p></div><div class="mk-dialog-copy"><p class="mk-eyebrow">Packaging around your product</p><h2 id="mk-dialog-title"></h2><p id="mk-dialog-description"></p><h3>Format ideas to discuss</h3><div class="mk-dialog-formats" id="mk-dialog-formats"></div><h3>Useful to bring along</h3><ul id="mk-dialog-questions"></ul><button class="mk-btn" type="button" id="mk-build-brief">Build my market brief ↗</button><p class="mk-dialog-note">Final material and format suitability are reviewed for the specific product and filling process.</p></div></div></dialog>
+<dialog class="mk-dialog" id="mk-market-dialog" aria-labelledby="mk-dialog-title" aria-describedby="mk-dialog-description">
+ <div class="mk-dialog-head"><span id="mk-dialog-category">Market guide</span><button id="mk-close-dialog" type="button" aria-label="Close market details" autofocus>Close ×</button></div>
+ <div class="mk-dialog-scroll">
+  <div class="mk-dialog-grid">
+   <div class="mk-dialog-visual"><img id="mk-dialog-image" width="850" height="850" alt="" decoding="async"></div>
+   <div class="mk-dialog-copy">
+    <h2 id="mk-dialog-title"></h2>
+    <p id="mk-dialog-description"></p>
+    <h3>Format ideas to discuss</h3><div class="mk-dialog-formats" id="mk-dialog-formats"></div>
+    <h3>Useful to bring along</h3><ul id="mk-dialog-questions"></ul>
+    <p class="mk-dialog-note">Final material and format suitability are reviewed for the specific product and filling process.</p>
+   </div>
+  </div>
+ </div>
+ <div class="mk-dialog-actions">
+  <a class="mk-dialog-market-link" id="mk-view-market" href="/markets/">View market page <span aria-hidden="true">↗</span></a>
+  <button class="mk-btn" type="button" id="mk-build-brief">Build my market brief <span aria-hidden="true">↗</span></button>
+ </div>
+</dialog>
 </div><footer class="wp-block-template-part">
 <footer class="!bg-[#00cfca] pt-20 pb-8">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
