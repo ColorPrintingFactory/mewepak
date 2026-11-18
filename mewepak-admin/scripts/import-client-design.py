@@ -127,6 +127,15 @@ def newsletter(doc, element_id):
 
 def import_page(page, source, output):
     raw = DATA.sub(external_image, source.read_text(encoding="utf-8-sig"))
+    if page == "packaging":
+        raw = raw.replace("Check the details before opening your email draft.", "Check the details before sending your request.")
+        raw = raw.replace("Have artwork or reference photos? Attach them in your email app before sending.", "Have artwork or reference photos? Mention them in the project notes so our team can follow up.")
+        raw = raw.replace("Review your details, then open your email draft to send your enquiry.", "Review your details, then send your enquiry directly to Mewepak.")
+        raw = raw.replace("Use the form to prepare and review your brief, then open the email draft. Attach your artwork, photographs or reference documents in your email app before sending.", "Mention any artwork, photographs or reference documents in the project notes. Our team will follow up to collect the files.")
+        raw = raw.replace("Company <small>Optional</small>", "Company <em>*</em>")
+    if page == "quote":
+        raw = raw.replace("Company or brand <small>Optional</small>", 'Company or brand <b aria-hidden="true">*</b>')
+        raw = raw.replace("Yes. Attach artwork, a dieline or a photo of the existing pack when you open the email draft.", "Yes. Mention any artwork, dielines or reference photos in your request, and our team will follow up to collect them.")
     doc = html.document_fromstring(raw)
     head = exactly(doc, "//head")
     for meta in head.xpath('./meta[@name="referrer"]'):
