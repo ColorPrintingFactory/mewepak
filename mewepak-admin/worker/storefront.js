@@ -116,7 +116,7 @@ export async function connectStorefront(request, response, database, projectUrl)
   set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/main.js?storefront=1');
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/main.js?storefront=1');
   set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=1');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-viewer.js?storefront=2');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
   const pageType = storefrontPageType(url, path);
