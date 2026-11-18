@@ -147,6 +147,13 @@ tbody tr:hover { background: #fcfefe; }
 .dialog-body { max-height: calc(90vh - 155px); overflow-y: auto; padding: 18px 23px; }
 .dialog-foot { display: flex; justify-content: flex-end; gap: 9px; padding: 14px 23px; border-top: 1px solid var(--line); background: #fbfcfd; }
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.advanced-fields { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+.advanced-fields summary { cursor: pointer; font-weight: 650; }
+.advanced-fields[open] summary { margin-bottom: 14px; }
+.setting-toggle { margin-top: 18px; }
+.language-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,2fr) auto; gap: 10px; align-items: end; margin-bottom: 12px; }
+.language-row label { display: grid; gap: 6px; }
+@media (max-width: 640px) { .language-row { grid-template-columns: minmax(0,1fr); } }
 .field { min-width: 0; display: grid; gap: 6px; }
 .field.full { grid-column: 1 / -1; }
 .field label { color: #526176; font-size: 11px; font-weight: 700; }
