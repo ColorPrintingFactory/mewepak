@@ -1,4 +1,4 @@
-import { catalogPaths } from './cms.js';
+import { catalogPaths, processPath } from './cms.js';
 
 const privatePaths = /^\/(?:admin|api|assets|search)(?:\/|$)/;
 const legacyAliases = new Map([
@@ -22,6 +22,11 @@ export async function seoEndpoint(request, env, database, getAsset) {
   const url = new URL(request.url);
   if (!['GET', 'HEAD'].includes(request.method)) return null;
   const policy = seoPolicy(url, env);
+  if (policy.path === '/solutions/') {
+    const target = new URL(processPath, policy.origin);
+    target.search = url.search;
+    return Response.redirect(target, 301);
+  }
   const redirect = legacyAliases.get(url.pathname);
   if (redirect) return Response.redirect(new URL(redirect, policy.origin), 301);
   if (url.pathname === '/' || url.pathname === '/index.php') {

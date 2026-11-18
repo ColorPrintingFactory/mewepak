@@ -1,3 +1,5 @@
+import { processPath } from './cms.js';
+
 const encode = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
@@ -182,6 +184,15 @@ export async function connectStorefront(request, response, database, projectUrl,
   const on = (selector, element) => rewrite.on(selector, { element });
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
+  on('a[href^="/solutions"]', (el) => {
+    const href = el.getAttribute('href');
+    const match = /^\/solutions\/?([?#].*)?$/.exec(href);
+    if (match) el.setAttribute('href', processPath + (match[1] || '#packaging-services'));
+  });
+  on('[data-mega-panel="Sustainability"] ul.space-y-2', (el) => el.prepend(
+    `<li><a href="${processPath}" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Our Process</a></li>`, { html: true }));
+  on('[data-mobile-menu] a[href="/sustainability"],[data-mobile-menu] a[href="/sustainability/"]', (el) => el.after(
+    `<a class="block py-2 pl-8 pr-4 text-sm !text-gray-700 hover:!text-[#00cfca]" href="${processPath}">Our Process</a>`, { html: true }));
   const { usLocations = {}, languages = [] } = settings;
   set('body', 'data-mewepak-settings', JSON.stringify(settings));
   rewriteContactEmail(rewrite, settings.email);
@@ -245,7 +256,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
   set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
-  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=settings-3');
+  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=process-nav');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=home-performance-1');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');

@@ -7,8 +7,10 @@ const tables = {
   products: 'slug,name,short_description,description,primary_image_url,gallery_urls,features,material_options,printing_options,applications,seo_title,seo_description,category:product_categories(slug)',
 };
 
+export const processPath = '/sustainability/our-process/';
+
 const pathFor = {
-  pages: (row) => row.slug === 'home' ? '/' : '/' + row.slug + '/',
+  pages: (row) => row.slug === 'home' ? '/' : row.slug === 'solutions' ? processPath : '/' + row.slug + '/',
   articles: (row) => '/' + row.slug + '/',
   product_categories: (row) => '/products/' + row.slug + '/',
   products: (row) => '/products/' + (row.category?.slug || 'uncategorized') + '/' + row.slug + '/',
@@ -83,7 +85,10 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     const [lists, base] = await Promise.all([Promise.all(Object.entries(tables).map(async ([table, select]) => {
       const response = await database(table + '?' + new URLSearchParams({ select, status: 'eq.published', order: table === 'product_categories' ? 'menu_order.asc,slug.asc' : 'slug.asc' }));
       if (!response.ok) throw new Error('Published content unavailable');
-      return (await response.json()).map((row) => ({ table, row, path: pathFor[table](row) }));
+      return (await response.json()).map((row) => {
+        if (table === 'pages' && row.slug === 'solutions' && row.title === 'Solutions') row.title = 'Our Process';
+        return { table, row, path: pathFor[table](row) };
+      });
     })), getAsset('/assets/original/cms-baseline.json')]);
     const entries = lists.flat();
     const entry = entries.find((candidate) => candidate.path === path);

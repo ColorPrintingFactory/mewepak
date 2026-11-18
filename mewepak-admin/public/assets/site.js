@@ -55,16 +55,16 @@ function renderHeader() {
         <div class="nav-item"><a href="/">Home</a></div>
         <div class="nav-item"><a href="/products/">Products <span class="nav-caret">⌄</span></a><div class="mega"><div class="container mega-inner"><div class="mega-columns"><div><h3>Pouch Formats</h3><ul>${pouch.slice(0,5).map(categoryLink).join('')}</ul></div><div><h3>&nbsp;</h3><ul>${pouch.slice(5).map(categoryLink).join('')}</ul></div><div><h3>Specialty Packaging</h3><ul>${specialty.map(categoryLink).join('')}</ul></div></div><aside class="mega-feature"><span class="eyebrow">Featured</span><h4>Explore Our Premium Products</h4><p>Discover high-quality, customized packaging solutions tailored for your business needs.</p><a class="button button-dark" href="/products/">View All Products</a></aside></div></div></div>
         <div class="nav-item"><a href="/#markets">Markets <span class="nav-caret">⌄</span></a></div>
-        <div class="nav-item"><a href="/#process">Solutions <span class="nav-caret">⌄</span></a></div>
+        <div class="nav-item"><a href="/sustainability/our-process/#packaging-services">Solutions <span class="nav-caret">⌄</span></a></div>
         <div class="nav-item"><a href="/3d-preview/">3D Preview</a></div>
         <div class="nav-item"><a href="/#viewer">Added Value <span class="nav-caret">⌄</span></a></div>
-        <div class="nav-item"><a href="/#sustainability">Sustainability <span class="nav-caret">⌄</span></a></div>
+        <div class="nav-item"><a href="/sustainability/">Sustainability <span class="nav-caret">⌄</span></a><div class="mega"><div class="container mega-inner"><a href="/sustainability/our-process/">Our Process</a></div></div></div>
         <div class="nav-item"><a href="/#blog">Blog</a></div>
         <div class="nav-item"><a href="/booking/">Contact</a></div>
         <div class="nav-item"><a href="/#about">About Us <span class="nav-caret">⌄</span></a></div>
       </nav>
     </header>
-    <div class="mobile-panel" data-mobile-panel><div class="mobile-top">${branding}<button class="mobile-close" data-mobile-close aria-label="Close menu">×</button></div><nav class="mobile-nav"><a href="/">Home</a><a href="/products/">Products</a><a href="/#markets">Markets</a><a href="/#process">Solutions</a><a href="/3d-preview/">3D Preview</a><a href="/#sustainability">Sustainability</a><a href="/booking/">Request a Quote</a></nav>${languages}</div>`;
+    <div class="mobile-panel" data-mobile-panel><div class="mobile-top">${branding}<button class="mobile-close" data-mobile-close aria-label="Close menu">×</button></div><nav class="mobile-nav"><a href="/">Home</a><a href="/products/">Products</a><a href="/#markets">Markets</a><a href="/sustainability/our-process/#packaging-services">Solutions</a><a href="/3d-preview/">3D Preview</a><a href="/sustainability/">Sustainability</a><a href="/sustainability/our-process/" style="padding-inline-start:20px">Our Process</a><a href="/booking/">Request a Quote</a></nav>${languages}</div>`;
 }
 
 function renderFooter() {
