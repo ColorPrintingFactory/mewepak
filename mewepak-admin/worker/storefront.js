@@ -171,7 +171,7 @@ export async function connectStorefront(request, response, database, projectUrl)
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
   if (path === '/markets') set('script[src="/assets/client-design/markets.js"]', 'src', '/assets/client-design/market-browser.js');
-  if (['/markets/coffee-tea', '/markets/snacks-sweets', '/products/stand-up-pouch', '/10-design-tips-for-maximum-shelf-impact'].includes(path)) {
+  if (/^\/(?:markets|products)\/[^/]+$/.test(path) || path === '/10-design-tips-for-maximum-shelf-impact') {
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/related-content.css">', { html: true }));
   }
   on('section#contact.from-gray-100', (el) => {

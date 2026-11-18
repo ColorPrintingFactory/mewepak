@@ -1,3 +1,5 @@
+import { applyRecommendations } from './recommendations.js';
+
 const tables = {
   pages: 'slug,title,summary,sections,seo_title,seo_description',
   articles: 'slug,title,excerpt,body,featured_image_url,seo_title,seo_description',
@@ -85,6 +87,7 @@ export async function serveCms(request, asset, database, getAsset) {
     const previous = baseline[path] || {};
     const row = entry?.row;
     const publishedPaths = new Set(entries.map((item) => item.path));
+    applyRecommendations(path, edit, publishedPaths, baseline);
     edit('a[href]', (el) => {
       const href = el.getAttribute('href');
       if (!href.startsWith('/') || href.startsWith('//')) return;
