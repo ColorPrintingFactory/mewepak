@@ -129,6 +129,8 @@ def import_page(page, source, output):
     raw = DATA.sub(external_image, source.read_text(encoding="utf-8-sig"))
     doc = html.document_fromstring(raw)
     head = exactly(doc, "//head")
+    for meta in head.xpath('./meta[@name="referrer"]'):
+        meta.drop_tree()
     body = exactly(doc, "//body")
     main = exactly(doc, "//main")
     main.set("data-client-page", page)
@@ -141,6 +143,8 @@ def import_page(page, source, output):
     canonical = {"home": "/", "packaging": "/products/", "quote": "/inquiry/"}[page]
     if not head.xpath('./link[@rel="canonical"]'):
         append(head, f'<link rel="canonical" href="{canonical}">')
+    if page == "home" and not head.xpath('./meta[@name="description"]'):
+        append(head, '<meta name="description" content="Explore Mewepak custom flexible packaging, pouch formats, printed film, and packaging for your market.">')
     for el in doc.xpath('//*[@href]'):
         el.set("href", local_link(el.get("href"), page))
     for el in doc.xpath('//*[@src]'):
