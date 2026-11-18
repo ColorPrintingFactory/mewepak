@@ -108,7 +108,7 @@
 					'<label>Auto Rotate</label>' +
 					'<label class="mewepak-toggle"><input type="checkbox" id="auto-rotate" checked /><span></span></label>' +
 				'</div>' +
-				'<div class="mewepak-3d-hint">Drag to rotate · Scroll to zoom</div>';
+				'<div class="mewepak-3d-hint">Drag to rotate · Pinch or scroll to zoom</div>';
 
 			this.wrapper.appendChild( panel );
 			this.panel = panel;

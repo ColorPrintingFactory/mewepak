@@ -5,7 +5,18 @@ const content={"productIntervalMs":4200,"heroSlides":[{"name":"Custom packaging"
 root.querySelector('.hy-connect').style.backgroundImage='url('+assets['v2-connect-pattern']+'),url('+assets['premium-cover-bg']+')';root.querySelector('.hy-connect').style.backgroundSize='cover,cover';
 root.querySelectorAll('img[data-asset]').forEach(img=>{img.src=assets[img.dataset.asset];});
 // Banner text is real HTML. All supplied product artwork remains unchanged.
-const slides=content.heroSlides;
+let overrides;
+try { overrides = JSON.parse(root.dataset.heroOverrides || '[]'); }
+catch { overrides = []; }
+const textFields = ['name', 'kicker', 'title', 'accent', 'description'];
+const slides = content.heroSlides.map((slide, index) => {
+ const edited = overrides[index];
+ if (!edited) return slide;
+ const copy = { ...slide, photos: slide.photos.map((photo, i) =>
+  edited.photos?.[i] ? { src: edited.photos[i], alt: edited.name || slide.name } : photo) };
+ for (const field of textFields) if (edited[field]) copy[field] = edited[field];
+ return copy;
+});
 let current=0;
 function showSlide(index){
  current=(index+slides.length)%slides.length;
@@ -16,7 +27,7 @@ function showSlide(index){
  const accent=document.createElement('span');accent.textContent=slide.accent;title.append(accent);
  root.querySelector('#v2-hero-description').textContent=slide.description;
  root.querySelector('.v2-hero-circle').dataset.count=String(slide.photos.length);
- root.querySelectorAll('[data-hero-shot]').forEach((img,i)=>{img.parentElement.hidden=i>=slide.photos.length;if(i<slide.photos.length){img.src=assets[slide.photos[i].key];img.alt=slide.photos[i].alt;}});
+ root.querySelectorAll('[data-hero-shot]').forEach((img,i)=>{img.parentElement.hidden=i>=slide.photos.length;if(i<slide.photos.length){img.src=slide.photos[i].src||assets[slide.photos[i].key];img.alt=slide.photos[i].alt;}});
  root.querySelector('#mw-slide-count').textContent=(current+1)+' / '+slides.length;
  root.querySelector('#mw-slide-title').textContent=slide.name;
  root.querySelector('#mw-slide-status').textContent=slide.name+', banner '+(current+1)+' of '+slides.length;
@@ -24,7 +35,11 @@ function showSlide(index){
 }
 root.querySelector('#mw-previous').addEventListener('click',()=>showSlide(current-1));
 root.querySelector('#mw-next').addEventListener('click',()=>showSlide(current+1));
-root.querySelectorAll('[data-slide]').forEach(dot=>dot.addEventListener('click',()=>showSlide(Number(dot.dataset.slide))));
+root.querySelectorAll('[data-slide]').forEach(dot => {
+ const index = Number(dot.dataset.slide);
+ dot.setAttribute('aria-label', slides[index].name + ' banner');
+ dot.addEventListener('click', () => showSlide(index));
+});
 root.querySelector('#mw-carousel-controls').addEventListener('keydown',event=>{
  if(event.key==='ArrowRight'){event.preventDefault();showSlide(current+1);}
  if(event.key==='ArrowLeft'){event.preventDefault();showSlide(current-1);}

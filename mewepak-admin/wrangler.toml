@@ -14,3 +14,6 @@ ENVIRONMENT = "production"
 
 [previews.vars]
 ENVIRONMENT = "preview"
+
+[triggers]
+crons = ["*/5 * * * *"]

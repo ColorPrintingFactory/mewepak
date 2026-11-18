@@ -59,6 +59,21 @@ function renderCards(entries) {
   }).join('');
 }
 
+export async function catalogPaths(database) {
+  const fields = {
+    pages: 'slug',
+    articles: 'slug',
+    product_categories: 'slug',
+    products: 'slug,category:product_categories(slug)',
+  };
+  const lists = await Promise.all(Object.entries(fields).map(async ([table, select]) => {
+    const response = await database(table + '?' + new URLSearchParams({ select, status: 'eq.published' }));
+    if (!response.ok) throw new Error('Published content unavailable');
+    return (await response.json()).map(pathFor[table]);
+  }));
+  return lists.flat().filter((path) => /^\/(?:[a-z0-9_-]+\/)*$/i.test(path));
+}
+
 export async function serveCms(request, asset, database, getAsset) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') + '/';
@@ -87,7 +102,24 @@ export async function serveCms(request, asset, database, getAsset) {
     const previous = baseline[path] || {};
     const row = entry?.row;
     const publishedPaths = new Set(entries.map((item) => item.path));
-    applyRecommendations(path, edit, publishedPaths, baseline);
+    const sections = Array.isArray(row?.sections) ? row.sections : [];
+    const choices = sections.find((section) => section.type === 'recommended_formats')?.slugs;
+    applyRecommendations(path, edit, publishedPaths, baseline, choices);
+
+    if (path === '/') {
+      const slides = sections.find((section) => section.type === 'home_banners')?.slides;
+      if (Array.isArray(slides)) {
+        const banners = slides.slice(0, 4).map((slide) => ({
+          ...Object.fromEntries(['name', 'kicker', 'title', 'accent', 'description'].map((field) =>
+            [field, typeof slide?.[field] === 'string' ? slide[field].trim().slice(0, 250) : ''])),
+          photos: Array.isArray(slide?.photos) ? slide.photos.slice(0, 3).map((src) => safeUrl(src)) : [],
+        }));
+        edit('#mewepak-homepage', (el) => el.setAttribute('data-hero-overrides', JSON.stringify(banners)));
+        const first = banners[0];
+        if (first?.kicker) replace('#v2-hero-kicker', first.kicker);
+        if (first?.description) replace('#v2-hero-description', first.description);
+      }
+    }
     edit('a[href]', (el) => {
       const href = el.getAttribute('href');
       if (!href.startsWith('/') || href.startsWith('//')) return;
@@ -103,10 +135,13 @@ export async function serveCms(request, asset, database, getAsset) {
     if (row) {
       const title = row.title || row.name;
       if (row.seo_title !== previous.seo_title || title !== previous.title) replace('title', row.seo_title || title);
-      if (row.seo_description && row.seo_description !== previous.seo_description) {
-        edit('meta[name="description"],meta[property="og:description"]', (el) => el.setAttribute('content', row.seo_description));
-        edit('head', (el) => el.append(`<meta name="description" content="${escape(row.seo_description)}">`, { html: true }));
+      const description = (row.seo_description || row.short_description || row.excerpt || row.summary || '').trim();
+      if (description) {
         edit('meta[name="description"]', (el) => el.remove());
+        edit('meta[property="og:description"]', (el) => el.setAttribute('content', description));
+        edit('head', (el) => el.append(`<meta name="description" content="${escape(description)}">`, { html: true }));
+      } else if (!asset.ok) {
+        edit('meta[name="description"],meta[property="og:description"]', (el) => el.remove());
       }
       if (title !== previous.title && asset.ok && path !== '/') {
         let headingUpdated = false;

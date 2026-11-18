@@ -167,8 +167,11 @@ export async function connectStorefront(request, response, database, projectUrl)
   set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=1');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js');
-  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');
+  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=mobile-2');
+  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=banner-editor');
+  set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
+  set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
   if (path === '/markets') set('script[src="/assets/client-design/markets.js"]', 'src', '/assets/client-design/market-browser.js');
   if (/^\/(?:markets|products)\/[^/]+$/.test(path) || path === '/10-design-tips-for-maximum-shelf-impact') {

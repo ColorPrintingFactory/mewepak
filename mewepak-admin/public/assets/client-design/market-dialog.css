@@ -143,3 +143,14 @@ body.market-dialog-open {
     text-align: center;
   }
 }
+
+@media (max-width: 700px) {
+  #mewepak-homepage.markets-page .mk-dialog-head {
+    padding-block-start: max(10px, env(safe-area-inset-top));
+  }
+
+  #mewepak-homepage.markets-page .mk-dialog-head button,
+  #mewepak-homepage.markets-page .mk-dialog-actions :is(a, button) {
+    min-height: 44px;
+  }
+}

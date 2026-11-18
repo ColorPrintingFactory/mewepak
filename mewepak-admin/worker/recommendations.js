@@ -106,7 +106,7 @@ function card(href, title, description, image, action) {
   </a></li>`;
 }
 
-export function applyRecommendations(path, edit, publishedPaths, baseline) {
+export function applyRecommendations(path, edit, publishedPaths, baseline, choices) {
   const [, family, slug] = path.split('/');
   if (path !== keyPath(family, slug)) return;
   const available = href => publishedPaths.has(href) || !Object.hasOwn(baseline, href);
@@ -116,7 +116,9 @@ export function applyRecommendations(path, edit, publishedPaths, baseline) {
   });
 
   if (family === 'markets' && Object.hasOwn(markets, slug)) {
-    const selected = formatChoices[slug];
+    const selected = Array.isArray(choices) && choices.length
+      ? [...new Set(choices)].filter((key) => Object.hasOwn(formats, key)).slice(0, 4)
+      : formatChoices[slug];
     if (selected) {
       const cards = selected.flatMap(key => {
         const [title, description, photo] = formats[key];

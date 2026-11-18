@@ -655,6 +655,56 @@ function openSiteSetting(item, editor) {
   dialog.showModal();
 }
 
+const bannerFields = [
+  ['name', '轮播名称'], ['kicker', '标题上方短句'], ['title', '第一行标题'],
+  ['accent', '第二行标题'], ['description', '说明文字'],
+];
+const bannerNames = ['定制包装', '吸嘴袋', '冷鲜与冷冻食品', '自立袋'];
+
+function renderPageOptions(item) {
+  const sections = item.sections || [];
+  if (item.slug === 'home') {
+    const slides = sections.find((section) => section.type === 'home_banners')?.slides || [];
+    return `<details class="advanced-fields" open><summary>首页轮播</summary><p class="field-help">填写需要更新的内容，空白字段会使用原版。图片可从媒体库复制链接。</p>
+      ${bannerNames.map((label, index) => {
+        const slide = slides[index] || {};
+        const photos = index === 1 ? 2 : 3;
+        return `<details class="advanced-fields"><summary>第 ${index + 1} 张 · ${label}</summary><div class="field-grid">
+          ${bannerFields.map(([name, title]) => `<label class="field">${title}<input class="control" name="banner-${index}-${name}" value="${esc(slide[name])}" maxlength="250"></label>`).join('')}
+          ${Array.from({ length: photos }, (_, photo) => `<label class="field full">产品图 ${photo + 1}<input class="control" name="banner-${index}-photo-${photo}" value="${esc(slide.photos?.[photo])}"></label>`).join('')}
+        </div></details>`;
+      }).join('')}</details>`;
+  }
+  if (item.slug?.startsWith('markets/') && cachedCategories.length) {
+    const chosen = sections.find((section) => section.type === 'recommended_formats')?.slugs || [];
+    return `<details class="advanced-fields" open><summary>推荐包装</summary><p class="field-help">从已发布的分类里挑选，按以下顺序展示。四项都留空时恢复原版推荐。</p><div class="field-grid">
+      ${Array.from({ length: 4 }, (_, index) => `<label class="field">第 ${index + 1} 项<select class="control" name="market-format-${index}"><option value="">留空</option>
+        ${cachedCategories.filter((category) => category.status === 'published').map(({slug, name}) => `<option value="${esc(slug)}" ${slug === chosen[index] ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select></label>`).join('')}
+      </div></details>`;
+  }
+  return '';
+}
+
+function applyPageOptions(form, sections) {
+  const data = new FormData(form);
+  const write = (type, content) => [...sections.filter((section) => section.type !== type), { type, ...content }];
+  if (data.has('banner-0-name')) {
+    const slides = bannerNames.map((_, index) => ({
+      ...Object.fromEntries(bannerFields.map(([name]) => [name, data.get(`banner-${index}-${name}`).trim()])),
+      photos: Array.from({ length: 3 }, (_, i) => String(data.get(`banner-${index}-photo-${i}`) || '').trim()),
+    }));
+    if (slides.some((slide) => slide.photos.some((url) => url && !/^https:\/\/|^\/(?![\/\\])/i.test(url)))) {
+      throw new Error('轮播图片请填写 HTTPS 链接或网站内路径。');
+    }
+    return write('home_banners', { slides });
+  }
+  if (data.has('market-format-0')) {
+    const slugs = [...new Set(Array.from({ length: 4 }, (_, i) => data.get(`market-format-${i}`)).filter(Boolean))];
+    return write('recommended_formats', { slugs });
+  }
+  return sections;
+}
+
 async function openEditor(module, id = '') {
   const definition = definitions[module];
   if (!definition) return;
@@ -666,7 +716,7 @@ async function openEditor(module, id = '') {
   if (module === 'settings' && findSettingEditor(item.key)) {
     return openSiteSetting(item, findSettingEditor(item.key));
   }
-  if (module === 'products' || module === 'models') {
+  if (module === 'products' || module === 'models' || (module === 'pages' && item.slug?.startsWith('markets/'))) {
     try { cachedCategories = await queryTable('product_categories','*','menu_order',true); } catch { cachedCategories = []; }
     if (module === 'models') {
       try { cachedProducts = await queryTable('products','*','name'); } catch { cachedProducts = []; }
@@ -690,7 +740,7 @@ async function openEditor(module, id = '') {
   const advancedNames = new Set(['seo_title', 'seo_description', 'template_key', 'page_html', 'preview_settings', 'mime_type']);
   const basic = definition.fields.filter((field) => !advancedNames.has(field.name));
   const advanced = definition.fields.filter((field) => advancedNames.has(field.name) && !(field.name === 'page_html' && ['booking','3d-preview'].includes(item.slug)));
-  dialog.innerHTML = `<form id="editor-form" data-module="${esc(module)}" data-id="${esc(id)}"><div class="dialog-head"><div><h2>${esc(dialogTitle)}</h2></div><button type="button" class="icon-btn" data-close aria-label="关闭">×</button></div><div class="dialog-body"><div class="field-grid">${basic.map((field)=>renderEditorField(field,item)).join('')}</div>${advanced.length ? `<details class="advanced-fields"><summary>高级选项</summary><div class="field-grid">${advanced.map((field)=>renderEditorField(field,item)).join('')}</div></details>` : ''}<div id="form-error" class="error-box" style="display:none;margin-top:14px"></div></div><div class="dialog-foot"><button type="button" class="btn btn-plain" data-close>取消</button><button type="submit" class="btn btn-primary">保存</button></div></form>`;
+  dialog.innerHTML = `<form id="editor-form" data-module="${esc(module)}" data-id="${esc(id)}"><div class="dialog-head"><div><h2>${esc(dialogTitle)}</h2></div><button type="button" class="icon-btn" data-close aria-label="关闭">×</button></div><div class="dialog-body"><div class="field-grid">${basic.map((field)=>renderEditorField(field,item)).join('')}</div>${module === 'pages' ? renderPageOptions(item) : ''}${advanced.length ? `<details class="advanced-fields"><summary>高级选项</summary><div class="field-grid">${advanced.map((field)=>renderEditorField(field,item)).join('')}</div></details>` : ''}<div id="form-error" class="error-box" style="display:none;margin-top:14px"></div></div><div class="dialog-foot"><button type="button" class="btn btn-plain" data-close>取消</button><button type="submit" class="btn btn-primary">保存</button></div></form>`;
   dialog.querySelectorAll('[data-close]').forEach((button)=>button.addEventListener('click',()=>dialog.close()));
   dialog.querySelector('#editor-form').addEventListener('submit', saveEditor);
   dialog.querySelectorAll('input[type="file"]').forEach((input) => input.addEventListener('change', () => {
@@ -753,6 +803,11 @@ async function saveEditor(event) {
       if (field.type === 'datetime-local') value = value ? new Date(value).toISOString() : null;
       if ((field.type === 'category' || field.type === 'product') && value === '') value = null;
       if (value !== '' || ['textarea','array','json','select'].includes(field.type) || ['value','seo_title','primary_image_url','image_url','featured_image_url'].includes(field.name)) payload[field.name] = value;
+    }
+    if (module === 'pages') {
+      const previous = moduleState.get(module)?.find((row) => String(row.id) === id)?.sections || [];
+      const sections = applyPageOptions(form, payload.sections || previous);
+      if (sections !== previous) payload.sections = sections;
     }
     if (module === 'media' && !payload.file_name) {
       const file = form.elements.namedItem('_upload')?.files?.[0];

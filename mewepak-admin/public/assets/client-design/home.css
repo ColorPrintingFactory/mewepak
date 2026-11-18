@@ -233,7 +233,7 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .v2-hero-grid { display:block; width:100%; }
  #mewepak-homepage .v2-hero-copy { padding:35px 24px 24px; }
  #mewepak-homepage .v2-hero-copy .mw-eyebrow { font-size:9px; margin-bottom:17px; }
- #mewepak-homepage .v2-hero-title { font-size:38px; letter-spacing:-1.7px; max-width:400px; }
+ #mewepak-homepage .v2-hero-title { font-size:clamp(30px, 9vw, 38px); letter-spacing:-1.7px; max-width:400px; overflow-wrap:anywhere; }
  #mewepak-homepage .v2-hero-description { margin:20px 0 20px; font-size:14px; }
  #mewepak-homepage .v2-hero-actions { gap:19px; }
  #mewepak-homepage .v2-hero-actions .mw-quote { padding:11px 19px; }
@@ -330,7 +330,11 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .v3-cert-logo { height:84px; }
 }
 
-@media (max-width: 360px) {
-  #mewepak-homepage .v2-hero-title { min-block-size: 4lh; }
-  #mewepak-homepage .v2-hero-description { min-block-size: 3lh; }
+@media (max-width: 600px) {
+  #mewepak-homepage .v2-hero-art { height: clamp(258px, 85vw, 331px); }
+  #mewepak-homepage .v2-hero-circle { transform-origin: center top; }
+}
+@media (max-width: 380px) {
+  #mewepak-homepage .v2-hero-circle { scale: .84; transform: none; }
+  #mewepak-homepage .v2-hero-round-caption { top: 296px; }
 }

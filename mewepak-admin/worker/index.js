@@ -1,3 +1,5 @@
+import { dispatchLeadNotifications } from './notifications.js';
+import { optimizePageSeo, seoEndpoint } from './seo.js';
 import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
 
@@ -315,6 +317,9 @@ async function fetchStaticAsset(request, env, context) {
 }
 
 export default {
+  async scheduled(_controller, env) {
+    await dispatchLeadNotifications(env, (path, options) => databaseRequest(env, path, options));
+  },
   async fetch(request, env, context) {
     const url = new URL(request.url);
     if (url.pathname === '/api/config' && request.method === 'GET') {
@@ -323,6 +328,9 @@ export default {
       return json({ configured: Boolean(supabaseUrl && supabasePublishableKey), supabaseUrl, supabasePublishableKey, turnstileSiteKey: String(env.TURNSTILE_SITE_KEY || '').trim() }, supabaseUrl && supabasePublishableKey ? 200 : 503);
     }
     const database = (path) => databaseRequest(env, path);
+    const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
+    const seo = await seoEndpoint(request, env, database, getAsset);
+    if (seo) return seo;
     if (url.pathname === '/api/public-site' && request.method === 'GET') {
       try { return json(await publicSiteSettings(database)); }
       catch { return json({}, 503); }
@@ -342,8 +350,8 @@ export default {
     const assetPath = aliases[url.pathname];
     const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : request;
     const asset = await fetchStaticAsset(assetRequest, env, context);
-    const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
     const cms = await serveCms(request, asset, database, getAsset);
-    return withSecurityHeaders(await connectStorefront(request, cms, database, env.SUPABASE_URL), url.pathname, env);
+    const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL);
+    return withSecurityHeaders(optimizePageSeo(request, storefront, env), url.pathname, env);
   },
 };

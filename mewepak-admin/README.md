@@ -75,3 +75,11 @@ Content-Type: application/json
 
 提交接口会验证同源、输入长度、Turnstile 和时段容量；数据库函数在事务锁内再次检查容量。公开可约接口只返回时段，不返回已有预约人的资料。
 
+
+### 预约与询价邮件
+
+应用 `database/lead_notifications.sql` 后，新的预约、预约确认及询价会在同一笔数据库事务内加入通知队列。Worker 的五分钟定时任务会发送通知并重试暂时失败的请求。需要在 Cloudflare Worker 配置 `NOTIFICATIONS_FROM`（客户账号下已验证的发件地址）和密钥 `RESEND_API_KEY`，并在后台「预约时间设置」填写业务通知邮箱。发送配置缺失时，表单仍可正常保存，定时任务会保留待发送状态。发送前先在预览环境用指定测试邮箱核对业务通知和客户回执。
+
+### 索引与换站
+
+预览 Worker 的 HTML 返回 `X-Robots-Tag: noindex, follow`。在生产环境使用正式 Mewepak 域名时，`robots.txt` 才会公布站点地图。部署上线后，检查媒体和主要页面的旧链接、canonical 及 `/sitemap.xml`，再在对应的 Search Console 资源提交站点地图。
