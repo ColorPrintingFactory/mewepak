@@ -52,6 +52,16 @@ async function quoteCategories(database) {
   return response.ok ? response.json() : [];
 }
 
+function storefrontPageType(url, path) {
+  if (path.startsWith('/search') || (path === '/' && url.searchParams.has('s'))) return 'search';
+  if (path === '/booking') return 'booking';
+  if (path === '/3d-preview') return 'viewer';
+  if (path.startsWith('/category/')) return 'archive';
+  if (/^\/products\/[^/]+\/[^/]+$/.test(path)) return 'product';
+  if (path.startsWith('/products/')) return 'category';
+  return 'detail';
+}
+
 export async function connectStorefront(request, response, database, projectUrl) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
@@ -109,6 +119,18 @@ export async function connectStorefront(request, response, database, projectUrl)
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-viewer.js?storefront=1');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
+  const pageType = storefrontPageType(url, path);
+  let themedMain = false;
+  let bodyClass = '';
+  on('body', (el) => { bodyClass = el.getAttribute('class') || ''; });
+  on('main', (el) => {
+    const design = el.getAttribute('data-client-page');
+    if (themedMain || (design && pageType !== 'search' && (design !== 'home' || path === '/'))) return;
+    themedMain = true;
+    const type = pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass) ? 'article' : pageType;
+    el.setAttribute('data-storefront-page', type);
+  });
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-pages.css"><script src="/assets/original/storefront-pages.js" defer></script>', { html: true }));
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=2" defer></script>', { html: true }));
   if (settings.languages?.length) {
     const links = settings.languages.map(({ label, url: href }) => '<a class="block px-4 py-2 !text-gray-700 hover:!text-[#007f7c]" href="' + encode(href) + '">' + encode(label) + '</a>').join('');
