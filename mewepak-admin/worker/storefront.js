@@ -196,7 +196,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     else on(row, (el) => el.remove());
   }
   for (const [position, title, number] of [[1, 'Toll-Free', tollFree], [2, 'Front Desk', frontDesk]]) {
-    const selector = `${locations} + div > div:nth-child(${position})`;
+    const selector = `footer div.mt-6.space-y-3 > div:nth-child(${position})`;
     if (!number) on(selector, (el) => el.remove());
     else on(selector + ' > span', (el) => el.replace(
       `<a class="!text-sm !text-white/80" href="tel:${usTel(number)}">${title}: ${encode(number)}</a>`, { html: true }));
