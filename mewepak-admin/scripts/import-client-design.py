@@ -145,7 +145,7 @@ def apply_site_shell(design):
 
     body = exactly(shell, "//body")
     for element in design.xpath("//body/script"):
-        if element.get("src") in (PREFIX + "home.js", PREFIX + "packaging.js"):
+        if element.get("src") in (PREFIX + "home.js", PREFIX + "packaging.js", PREFIX + "integration.js"):
             element.set("src", element.get("src") + "?shell=1")
         body.append(element)
     return shell
