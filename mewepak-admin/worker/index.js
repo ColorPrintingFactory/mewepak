@@ -266,16 +266,22 @@ async function createBookingResponse(request, env) {
   }
 }
 
-function withSecurityHeaders(response, path, env) {
+function withSecurityHeaders(response, path, env, settings) {
   const result = new Response(response.body, response);
   result.headers.set('x-content-type-options', 'nosniff');
   result.headers.set('referrer-policy', 'strict-origin-when-cross-origin');
   result.headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()');
   const admin = path.startsWith('/admin');
   const storageOrigin = /^https:\/\/[a-z0-9]+\.supabase\.co\/?$/i.test(env.SUPABASE_URL || '') ? env.SUPABASE_URL.replace(/\/$/, '') : '';
+  const videoUrl = settings?.factory_tour?.video_url;
+  let mediaOrigin = '';
+  if (videoUrl) {
+    const video = new URL(videoUrl, 'https://mewepak.invalid');
+    if (video.protocol === 'https:' && video.hostname !== 'mewepak.invalid') mediaOrigin = ' ' + video.origin;
+  }
   result.headers.set('content-security-policy', admin
     ? "default-src 'self'; script-src 'self' https://esm.sh; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://esm.sh; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-    : `default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' ${storageOrigin}; connect-src 'self' blob: https://challenges.cloudflare.com ${storageOrigin}; frame-src https://challenges.cloudflare.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'`);
+    : `default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' ${storageOrigin}${mediaOrigin}; connect-src 'self' blob: https://challenges.cloudflare.com ${storageOrigin}; frame-src https://challenges.cloudflare.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'`);
   return result;
 }
 
@@ -358,6 +364,6 @@ export default {
       catalog = entries;
     });
     const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL, (value) => { settings = value; });
-    return withSecurityHeaders(await optimizePageSeo(request, storefront, env, getAsset, { page, catalog, settings }), url.pathname, env);
+    return withSecurityHeaders(await optimizePageSeo(request, storefront, env, getAsset, { page, catalog, settings }), url.pathname, env, settings);
   },
 };

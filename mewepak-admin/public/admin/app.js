@@ -46,8 +46,15 @@ const siteSettingEditors = {
     { name: 'phone', label: '联系电话', type: 'tel', help: '请包含国际区号。' },
     { name: 'whatsapp', label: 'WhatsApp 号码', type: 'tel', help: '请包含国际区号。' },
   ] },
+  us_locations: { title: '页脚美国联系方式', fields: [
+    { name: 'address_1', label: '美国地址 1', full: true },
+    { name: 'address_2', label: '美国地址 2', full: true },
+    { name: 'address_3', label: '美国地址 3', full: true },
+    { name: 'toll_free', label: '美国免费电话', type: 'tel' },
+    { name: 'front_desk', label: '美国前台电话', type: 'tel' },
+  ] },
   factory_tour: { title: '工厂视频', fields: [
-    { name: 'video_url', label: '视频链接', full: true },
+    { name: 'video_url', label: '视频链接', full: true, help: '请填写 MP4 或 WebM 视频文件的直接链接，也可上传文件。' },
     { name: '_video', label: '上传工厂视频', type: 'file', accept: 'video/mp4,video/webm', target: 'video_url', folder: 'factory-videos', full: true },
     { name: 'poster_url', label: '视频封面链接', full: true },
     { name: '_poster', label: '上传视频封面', type: 'file', accept: 'image/png,image/jpeg,image/webp,image/avif', target: 'poster_url', folder: 'factory-posters', full: true },
@@ -77,6 +84,7 @@ function settingSummary(row) {
   const value = row.value || {};
   if (row.key === 'brand') return [value.name, value.tagline].filter(Boolean).join(' · ');
   if (row.key === 'company_contact') return [value.email, value.phone, value.whatsapp].filter(Boolean).join(' · ');
+  if (row.key === 'us_locations') return [value.address_1, value.address_2, value.address_3, value.toll_free, value.front_desk].filter(Boolean).join(' · ');
   if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';
   if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';
   return '高级设置';
@@ -637,6 +645,12 @@ function openSiteSetting(item, editor) {
           const file = data.get(field.name);
           if (file?.size) value[field.target] = await uploadFile(file, field.folder);
         }
+      }
+      if (item.key === 'factory_tour' && value.video_url && !/\.(mp4|webm)(?:[?#]|$)/i.test(value.video_url)) {
+        throw new Error('请使用 MP4 或 WebM 视频文件的直接链接。');
+      }
+      if (item.key === 'us_locations' && [value.toll_free, value.front_desk].some((number) => number && !/^\+?[\d ().-]{6,30}$/.test(number))) {
+        throw new Error('美国电话号码只能使用数字、国际区号及常见分隔符。');
       }
       const { error } = await supabase.from('site_settings').update({
         value, is_public: data.has('enabled'), updated_at: new Date().toISOString(),

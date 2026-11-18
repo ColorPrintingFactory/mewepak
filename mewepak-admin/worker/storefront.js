@@ -2,7 +2,7 @@ const encode = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
 export async function publicSiteSettings(database) {
-  const response = await database('site_settings?select=key,value&is_public=eq.true&key=in.(brand,company_contact,factory_tour,languages)');
+  const response = await database('site_settings?select=key,value&is_public=eq.true&key=in.(brand,company_contact,factory_tour,languages,us_locations)');
   if (!response.ok) return {};
   const values = Object.fromEntries((await response.json()).map(({ key, value }) => [key, value]));
   const contact = values.company_contact || {};
@@ -11,14 +11,30 @@ export async function publicSiteSettings(database) {
   const email = line(contact.email);
   const phone = line(contact.phone);
   const whatsapp = line(contact.whatsapp);
-  const link = (value) => typeof value === 'string' && (/^\/(?![\\/])/.test(value) || /^https:\/\//i.test(value)) ? value : '';
+  const office = values.us_locations || {};
+  const telephone = (value) => /^\+?[\d ().-]{6,30}$/.test(value) && /^\d{6,15}$/.test(value.replace(/\D/g, '')) ? value : '';
+  const video = (url) => /\.(mp4|webm)(?:[?#]|$)/i.test(url) ? url : '';
+  const link = (value) => {
+    if (typeof value !== 'string') return '';
+    if (/^\/(?![\\/])/.test(value)) return value;
+    try {
+      const url = new URL(value);
+      if (url.protocol === 'https:' && !url.username && !url.password) return url.href;
+    } catch {}
+    return '';
+  };
   return {
+    factoryEnabled: !!values.factory_tour,
     name: line(brand.name), tagline: line(brand.tagline),
     logo: link(brand.logo_url),
     email: /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(email) ? email : '',
-    phone: /^\+?[\d ().-]{6,30}$/.test(phone) ? phone : '',
-    whatsapp: /^\+?[\d ().-]{6,30}$/.test(whatsapp) ? whatsapp : '',
-    factory_tour: { video_url: link(values.factory_tour?.video_url), poster_url: link(values.factory_tour?.poster_url) },
+    phone: telephone(phone),
+    whatsapp: telephone(whatsapp),
+    factory_tour: { video_url: video(link(values.factory_tour?.video_url)), poster_url: link(values.factory_tour?.poster_url) },
+    usLocations: {
+      addresses: ['address_1','address_2','address_3'].map((key) => line(office[key])).filter(Boolean),
+      tollFree: telephone(line(office.toll_free)), frontDesk: telephone(line(office.front_desk)),
+    },
     languages: Array.isArray(values.languages?.links) ? values.languages.links.slice(0, 20).flatMap((item) =>
       line(item?.label) && link(item?.url) ? [{ label: line(item.label), url: link(item.url) }] : []) : [],
   };
@@ -138,6 +154,17 @@ export function rewriteContactEmail(rewriter, email) {
   });
 }
 
+function languageMenu(links) {
+  return `<details class="mewepak-language-menu"><summary aria-label="Language selector">◎ Language</summary><nav aria-label="Available languages">${links.map(({ label, url }) =>
+    `<a href="${encode(url)}">${encode(label)}</a>`).join('')}</nav></details>`;
+}
+
+const dial = (number) => number.replace(/[^+\d]/g, '');
+function usTel(number) {
+  const value = dial(number);
+  return /^\d{10}$/.test(value) ? '+1' + value : value.startsWith('+') ? value : '+' + value;
+}
+
 export async function connectStorefront(request, response, database, projectUrl, captureSettings) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
@@ -155,17 +182,40 @@ export async function connectStorefront(request, response, database, projectUrl,
   const on = (selector, element) => rewrite.on(selector, { element });
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
+  const { usLocations = {}, languages = [] } = settings;
+  set('body', 'data-mewepak-settings', JSON.stringify(settings));
   rewriteContactEmail(rewrite, settings.email);
+  if (!settings.email) on('a[href^="mailto:"]', (el) => {
+    if (publicMailto.test(el.getAttribute('href'))) el.remove();
+  });
+  const locations = 'footer ul.space-y-4';
+  const { addresses = [], tollFree, frontDesk } = usLocations;
+  for (let i = 0; i < 3; i++) {
+    const row = `${locations} > li:nth-child(${i + 1})`;
+    if (addresses[i]) text(row + ' > span', addresses[i]);
+    else on(row, (el) => el.remove());
+  }
+  for (const [position, title, number] of [[1, 'Toll-Free', tollFree], [2, 'Front Desk', frontDesk]]) {
+    const selector = `${locations} + div > div:nth-child(${position})`;
+    if (!number) on(selector, (el) => el.remove());
+    else on(selector + ' > span', (el) => el.replace(
+      `<a class="!text-sm !text-white/80" href="tel:${usTel(number)}">${title}: ${encode(number)}</a>`, { html: true }));
+  }
   const oldContact = [
     ['tel:+8613423118038', settings.phone, 'tel:' + (settings.phone || '').replace(/[^+\d]/g, ''), 'Call Us: ' + settings.phone],
     ['https://wa.me/8613537663353', settings.whatsapp, 'https://wa.me/' + (settings.whatsapp || '').replace(/\D/g, ''), 'WhatsApp: ' + settings.whatsapp],
   ];
   for (const [old, value, href, label] of oldContact) {
-    if (!value) continue;
     const link = 'a[href="' + old + '"]';
+    if (!value) {
+      on(link, (el) => el.remove());
+      continue;
+    }
     set(link, 'href', href);
     text('[data-mewepak-header] ' + link + ' > span', label);
   }
+  if (!settings.phone) on('a[href="tel:+86123456789"],a[href="tel:+8612345678"]', (el) => el.remove());
+  if (!settings.whatsapp) on('a[href="https://wa.me/86123456789"],a[href="https://wa.me/8612345678"]', (el) => el.remove());
   if (settings.phone) set('#call a[href="tel:+86123456789"]', 'href', 'tel:' + settings.phone.replace(/[^+\d]/g, ''));
   if (settings.whatsapp) set('#call a[href="https://wa.me/86123456789"]', 'href', 'https://wa.me/' + settings.whatsapp.replace(/\D/g, ''));
   if (settings.phone) {
@@ -187,16 +237,19 @@ export async function connectStorefront(request, response, database, projectUrl,
     set(form, 'action', '/api/submissions/' + type);
   }
   if (settings.tagline) text('[data-mewepak-header] p.tracking-wide', settings.tagline);
+  else on('[data-mewepak-header] p.tracking-wide', (el) => el.remove());
   if (settings.logo) set('.mewepak-header-logo,.mewepak-footer-logo', 'src', settings.logo);
+  else on('.mewepak-header-logo,.mewepak-footer-logo', (el) => el.replace(
+    `<span>${encode(settings.name || 'Mewepak')}</span>`, { html: true }));
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
   set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
-  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=contact-2');
-  set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=contact');
+  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=settings-3');
+  set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=contact');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=mobile-2');
-  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=banner-editor');
+  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=settings-3');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
@@ -231,20 +284,31 @@ export async function connectStorefront(request, response, database, projectUrl,
     el.setAttribute('data-storefront-page', type);
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=service-process"><script src="/assets/original/storefront-layout.js" defer></script>', { html: true }));
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=verification-3" defer></script>', { html: true }));
-  if (settings.languages?.length) {
-    const links = settings.languages.map(({ label, url: href }) => '<a class="block px-4 py-2 !text-gray-700 hover:!text-[#007f7c]" href="' + encode(href) + '">' + encode(label) + '</a>').join('');
-    on('button[aria-label="Language selector"]', (el) => el.replace('<details class="relative hidden lg:block"><summary class="cursor-pointer text-sm text-gray-600">◎ Language</summary><nav aria-label="Available languages" class="absolute right-0 z-50 mt-2 rounded-lg bg-white shadow-lg min-w-36">' + links + '</nav></details>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=verification-3" defer></script>', { html: true }));
+  const languageSelector = 'button[aria-label="Language selector"]';
+  if (languages.length) {
+    const menu = languageMenu(languages);
+    on(languageSelector, (el) => el.replace('<div class="hidden lg:block">' + menu + '</div>', { html: true }));
+    on('[data-mobile-menu] nav', (el) => el.after(menu, { html: true }));
+  } else {
+    on(languageSelector, (el) => el.remove());
   }
-  if (path === '/' && settings.factory_tour) {
-    const { video_url, poster_url } = settings.factory_tour;
-    const video = storageAsset(video_url, projectUrl);
-    const poster = poster_url || 'https://placehold.co/800x450/d1d5db/64748b?text=Factory+Tour';
-    if (video && /\.(mp4|webm)(?:\?|$)/i.test(video)) {
-      on('img[alt="Factory tour"]', (el) => el.replace('<video controls playsinline preload="none" class="w-full h-full object-cover" aria-label="Factory tour" poster="' + encode(poster) + '" src="' + encode(video) + '"></video>', { html: true }));
-      on('img[alt="Factory tour"] + div', (el) => el.remove());
-    } else if (poster_url) {
-      set('img[alt="Factory tour"]', 'src', poster_url);
+  if (path === '/') {
+    if (!settings.factoryEnabled) {
+      on('.hy-factory', (el) => el.remove());
+    } else {
+      const { video_url: video, poster_url: poster } = settings.factory_tour;
+      if (video) {
+        on('button.hy-video-cover', (el) => el.replace(
+          `<video class="hy-video-cover mewepak-factory-video" controls playsinline preload="none" aria-label="Mewepak factory tour" poster="${encode(poster || '/assets/client-design/images/7a70e9c1e5090a83.webp')}" src="${encode(video)}"></video>`, { html: true }));
+        text('.hy-video-caption', 'Mewepak factory tour');
+      } else if (poster) {
+        set('button.hy-video-cover', 'data-factory-poster', poster);
+        on('button.hy-video-cover .v2-cover-background', (el) => {
+          el.removeAttribute('data-asset');
+          el.setAttribute('src', poster);
+        });
+      }
     }
   }
   const defaultModel = models.find((model) => !model.product) || models[0];

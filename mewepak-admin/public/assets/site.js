@@ -16,7 +16,23 @@ const productCategories = [
 const esc = (value='') => String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const arrow = '<span aria-hidden="true">→</span>';
 
-const contactEmail = document.body.dataset.mewepakContactEmail;
+const settings = JSON.parse(document.body.dataset.mewepakSettings || '{}');
+const brandName = settings.name || 'Mewepak';
+const branding = settings.logo
+  ? `<img src="${esc(settings.logo)}" alt="${esc(brandName)}">`
+  : `<span>${esc(brandName)}</span>`;
+const phoneNumber = (number) => number.replace(/[^+\d]/g, '');
+const locationPhone = (label, number) => {
+  if (!number) return '';
+  const dial = phoneNumber(number);
+  const href = /^\d{10}$/.test(dial) ? '+1' + dial : dial.startsWith('+') ? dial : '+' + dial;
+  return `<li><a href="tel:${href}">${label}: ${esc(number)}</a></li>`;
+};
+const contactEmail = settings.email ? `<a href="mailto:${esc(settings.email)}">${esc(settings.email)}</a>` : '';
+const contactPhone = settings.phone ? `<a href="tel:${phoneNumber(settings.phone)}">Call Us: ${esc(settings.phone)}</a>` : '';
+const whatsappUrl = settings.whatsapp ? 'https://wa.me/' + settings.whatsapp.replace(/\D/g, '') : '';
+const languages = settings.languages?.length ? `<details class="mewepak-language-menu"><summary aria-label="Language selector">◎ Language</summary><nav aria-label="Available languages">${settings.languages.map(({url,label}) =>
+  `<a href="${esc(url)}">${esc(label)}</a>`).join('')}</nav></details>` : '';
 
 function categoryLink(item) {
   return `<li><a href="/products/?category=${encodeURIComponent(item.slug)}">${esc(item.name)}</a></li>`;
@@ -29,11 +45,11 @@ function renderHeader() {
   const specialty = productCategories.filter(x => x.group === 'specialty-packaging');
   host.innerHTML = `
     <header class="site-header">
-      <div class="utility"><div class="container"><strong>Customized Packaging Factory Since 2007.</strong><div class="utility-links"><a href="https://wa.me/8613537663353">WhatsApp: +86 13537663353</a><a href="tel:+8613423118038">Call Us: +86-13423118038</a><a href="mailto:${esc(contactEmail || 'sales@mewepak.com')}">${esc(contactEmail || 'sales@mewepak.com')}</a></div></div></div>
+      <div class="utility"><div class="container">${settings.tagline ? `<strong>${esc(settings.tagline)}</strong>` : ''}<div class="utility-links">${whatsappUrl ? `<a href="${whatsappUrl}">WhatsApp: ${esc(settings.whatsapp)}</a>` : ''}${contactPhone}${contactEmail}</div></div></div>
       <div class="container header-main">
-        <a class="brand" href="/"><img src="/assets/images/logo.png" alt="Mewepak — Packaging Solutions Provider"></a>
+        <a class="brand" href="/">${branding}</a>
         <form class="search-form" action="/products/" role="search"><input name="q" type="search" placeholder="Search for products |" aria-label="Search for products"><button aria-label="Search">⌕</button></form>
-        <div class="header-actions"><span class="language">◎ EN⌄</span><a class="button button-primary" href="/booking/">Request a Quote</a><button class="mobile-toggle" type="button" data-mobile-open aria-label="Open menu">☰</button></div>
+        <div class="header-actions">${languages ? `<div class="language">${languages}</div>` : ''}<a class="button button-primary" href="/booking/">Request a Quote</a><button class="mobile-toggle" type="button" data-mobile-open aria-label="Open menu">☰</button></div>
       </div>
       <nav class="container nav" aria-label="Main navigation">
         <div class="nav-item"><a href="/">Home</a></div>
@@ -48,13 +64,13 @@ function renderHeader() {
         <div class="nav-item"><a href="/#about">About Us <span class="nav-caret">⌄</span></a></div>
       </nav>
     </header>
-    <div class="mobile-panel" data-mobile-panel><div class="mobile-top"><img src="/assets/images/logo.png" alt="Mewepak"><button class="mobile-close" data-mobile-close aria-label="Close menu">×</button></div><nav class="mobile-nav"><a href="/">Home</a><a href="/products/">Products</a><a href="/#markets">Markets</a><a href="/#process">Solutions</a><a href="/3d-preview/">3D Preview</a><a href="/#sustainability">Sustainability</a><a href="/booking/">Request a Quote</a></nav></div>`;
+    <div class="mobile-panel" data-mobile-panel><div class="mobile-top">${branding}<button class="mobile-close" data-mobile-close aria-label="Close menu">×</button></div><nav class="mobile-nav"><a href="/">Home</a><a href="/products/">Products</a><a href="/#markets">Markets</a><a href="/#process">Solutions</a><a href="/3d-preview/">3D Preview</a><a href="/#sustainability">Sustainability</a><a href="/booking/">Request a Quote</a></nav>${languages}</div>`;
 }
 
 function renderFooter() {
   const host = document.querySelector('[data-site-footer]');
   if (!host) return;
-  host.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid"><div><img class="footer-logo" src="/assets/images/logo.png" alt="Mewepak"><p class="footer-note">The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.</p></div><div class="footer-column"><h4>Products</h4><ul>${productCategories.slice(0,7).map(categoryLink).join('')}</ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/">Home</a></li><li><a href="/#about">About Us</a></li><li><a href="/products/">Products</a></li><li><a href="/3d-preview/">3D Preview</a></li><li><a href="/booking/">Contact</a></li><li><a href="/booking/">Book a Consultation</a></li></ul></div><div class="footer-column"><h4>Contact</h4><ul><li><a href="tel:+18003961840">Toll-Free: 1-800-396-1840</a></li><li><a href="tel:+16303643944">Front Desk: 630-364-3944</a></li><li><a href="mailto:${esc(contactEmail || 'support@mewepak.com')}">${esc(contactEmail || 'support@mewepak.com')}</a></li><li><a href="https://wa.me/8613537663353">WhatsApp</a></li></ul></div></div><div class="footer-bottom"><span>© 2007–2026 Mewepak. All rights reserved.</span><span>Customized Packaging Factory Since 2007.</span></div></div></footer>`;
+  host.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid"><div><div class="footer-logo">${branding}</div><p class="footer-note">The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.</p></div><div class="footer-column"><h4>Products</h4><ul>${productCategories.slice(0,7).map(categoryLink).join('')}</ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/">Home</a></li><li><a href="/#about">About Us</a></li><li><a href="/products/">Products</a></li><li><a href="/3d-preview/">3D Preview</a></li><li><a href="/booking/">Contact</a></li><li><a href="/booking/">Book a Consultation</a></li></ul></div><div class="footer-column"><h4>Contact</h4><ul>${(settings.usLocations?.addresses || []).map((address) => `<li>${esc(address)}</li>`).join('')}${locationPhone('Toll-Free', settings.usLocations?.tollFree)}${locationPhone('Front Desk', settings.usLocations?.frontDesk)}${contactEmail ? '<li>' + contactEmail + '</li>' : ''}${whatsappUrl ? `<li><a href="${whatsappUrl}">WhatsApp</a></li>` : ''}</ul></div></div><div class="footer-bottom"><span>© 2007–2026 Mewepak. All rights reserved.</span><span>Customized Packaging Factory Since 2007.</span></div></div></footer>`;
 }
 
 async function loadCategories() {
@@ -103,15 +119,3 @@ renderFooter();
 bindMobile();
 renderCatalog();
 renderProducts();
-fetch('/api/public-site').then((response) => response.json()).then((settings) => {
-  for (const [selector, value, href, prefix] of [
-    ['.utility a[href^="mailto:"]', settings.email, 'mailto:' + settings.email, ''],
-    ['.utility a[href^="tel:"]', settings.phone, 'tel:' + (settings.phone || '').replace(/[^+\d]/g, ''), 'Call Us: '],
-    ['a[href^="https://wa.me/"]', settings.whatsapp, 'https://wa.me/' + (settings.whatsapp || '').replace(/\D/g, ''), 'WhatsApp: '],
-  ]) {
-    if (!value) continue;
-    document.querySelectorAll(selector).forEach((link) => { link.href = href; link.textContent = prefix + value; });
-  }
-  if (settings.logo) document.querySelectorAll('.brand img,.mobile-top img,.footer-logo').forEach((image) => { image.src = settings.logo; });
-  if (settings.tagline) document.querySelectorAll('.utility strong,.footer-bottom span:last-child').forEach((label) => { label.textContent = settings.tagline; });
-}).catch(() => {});

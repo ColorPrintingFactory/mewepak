@@ -50,7 +50,7 @@
  $('#pr-next').addEventListener('click',()=>selectStage(current+1));
  root.querySelectorAll('[data-stage-link]').forEach(link=>link.addEventListener('click',()=>selectStage(Number(link.dataset.stageLink))));
  root.querySelectorAll('[data-download]').forEach(link=>link.href=assets[link.dataset.download]);
- const checklist='MEWEPAK — PACKAGING PROJECT CHECKLIST\n\nProduct and intended fill quantity:\nPreferred pouch or bag format:\nApproximate dimensions:\nOpening and closure preferences:\nFilling and storage conditions:\nArtwork, logo and colour references available:\nApproximate quantity per design:\nQuestions for the packaging conversation:\n\nAttach artwork and reference photos to your email before sending to '+(document.body.dataset.mewepakContactEmail || 'sales@mewepak.com')+'.\n';
+ const checklist='MEWEPAK — PACKAGING PROJECT CHECKLIST\n\nProduct and intended fill quantity:\nPreferred pouch or bag format:\nApproximate dimensions:\nOpening and closure preferences:\nFilling and storage conditions:\nArtwork, logo and colour references available:\nApproximate quantity per design:\nQuestions for the packaging conversation:\n\nAttach artwork and reference photos to your email before sending to our team'+(document.body.dataset.mewepakContactEmail ? ' at '+document.body.dataset.mewepakContactEmail : '')+'.\n';
  $('#pr-checklist-download').href='data:text/plain;charset=utf-8,'+encodeURIComponent(checklist);
 
  const form=$('#pr-enquiry-form');let briefUrl='';
