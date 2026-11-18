@@ -93,6 +93,10 @@ main[data-storefront-page] {
     color: #fff !important;
   }
 
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :last-child h2 {
+    font-size: clamp(20px, 2.3vw, 29px) !important;
+  }
+
   main[data-storefront-page="booking"] .booking-info h1 {
     font-size: clamp(30px, 3.2vw, 46px) !important;
   }
@@ -155,6 +159,29 @@ main[data-storefront-page="product"] .mewepak-single-product__media-stage,
 main[data-storefront-page="category"] .mewepak-category-hero-media {
   border-radius: var(--page-radius);
   background-color: var(--page-surface);
+}
+
+main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) {
+  gap: clamp(20px, 3vw, 44px);
+}
+
+main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :last-child {
+  text-align: start;
+}
+
+@media (min-width: 1024px) {
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) {
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: center;
+  }
+
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :nth-child(2) {
+    grid-area: 1 / 2 / span 2;
+  }
+
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :last-child {
+    grid-column: 1;
+  }
 }
 
 main[data-storefront-page="category"] .mewepak-category-grid {

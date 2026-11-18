@@ -17,6 +17,11 @@
     new ResizeObserver(positionContent).observe(header);
   }
 
+  if (main.dataset.storefrontPage === 'archive') {
+    const title = main.querySelector('.wp-block-query-title');
+    if (title) title.textContent = title.textContent.trim().replace(/^分类[:：]\s*/, '');
+  }
+
   if (['article', 'archive'].includes(main.dataset.storefrontPage)) {
     const dateFormat = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
     for (const time of main.querySelectorAll('time[datetime]')) {

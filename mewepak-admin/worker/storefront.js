@@ -130,7 +130,7 @@ export async function connectStorefront(request, response, database, projectUrl)
     const type = pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass) ? 'article' : pageType;
     el.setAttribute('data-storefront-page', type);
   });
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-pages.css"><script src="/assets/original/storefront-pages.js" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css"><script src="/assets/original/storefront-layout.js" defer></script>', { html: true }));
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=2" defer></script>', { html: true }));
   if (settings.languages?.length) {
     const links = settings.languages.map(({ label, url: href }) => '<a class="block px-4 py-2 !text-gray-700 hover:!text-[#007f7c]" href="' + encode(href) + '">' + encode(label) + '</a>').join('');
