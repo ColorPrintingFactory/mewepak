@@ -4,13 +4,22 @@
   let protection;
   function loadProtection() {
     protection ||= Promise.all([
-      fetch('/api/config').then((response) => response.json()),
+      fetch('/api/config', { signal: AbortSignal.timeout(10000) }).then((response) => {
+        if (!response.ok) throw new Error('Verification could not load. Please retry.');
+        return response.json();
+      }),
       new Promise((resolve, reject) => {
         if (window.turnstile) return resolve();
         const script = document.createElement('script');
         script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-        script.onload = resolve;
-        script.onerror = () => { script.remove(); reject(new Error('Verification could not load. Please retry.')); };
+        const fail = () => {
+          clearTimeout(timer);
+          script.remove();
+          reject(new Error('Verification could not load. Please retry.'));
+        };
+        const timer = setTimeout(fail, 10000);
+        script.onload = () => { clearTimeout(timer); resolve(); };
+        script.onerror = fail;
         document.head.append(script);
       }),
     ]).then(([config]) => {
@@ -36,12 +45,28 @@
     let pending = false;
     let token = '';
     let sending = false;
+    let verificationTimer;
+    form.addEventListener('focusin', () => { loadProtection().catch(() => {}); });
+    form.addEventListener('input', () => { loadProtection().catch(() => {}); });
     const show = (text, error = false) => {
       message.textContent = text;
       message.classList.remove('hidden');
       message.classList.toggle('!text-red-600', error);
       message.setAttribute('role', error ? 'alert' : 'status');
     };
+    function failVerification(text) {
+      clearTimeout(verificationTimer);
+      if (!pending || sending) return;
+      pending = false;
+      token = '';
+      button.disabled = false;
+      if (widget !== undefined) {
+        window.turnstile.remove(widget);
+        widget = undefined;
+      }
+      verification.hidden = true;
+      show(text, true);
+    }
     async function submit() {
       if (!token || sending) return;
       if (form.closest('[hidden]') || !form.reportValidity()) {
@@ -59,6 +84,7 @@
       try {
         const response = await fetch('/api/submissions/' + type, {
           method: 'POST',
+          signal: AbortSignal.timeout(12000),
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ ...inputs, turnstile_token: token }),
         });
@@ -67,6 +93,11 @@
         form.reset();
         verification.hidden = true;
         show(quote ? 'Thank you. Your quote request has been received.' : 'Thanks for subscribing.');
+      } catch (error) {
+        if (error.name === 'TimeoutError') {
+          throw new Error('The server is taking too long to respond. Please check your connection and try again.');
+        }
+        throw error;
       } finally {
         pending = false;
         sending = false;
@@ -84,31 +115,28 @@
         if (token) return await submit();
         verification.hidden = false;
         if (widget === undefined) {
+          show('Loading verification…');
           const sitekey = await loadProtection();
           widget = window.turnstile.render(verification, {
             sitekey, action: type, size: 'flexible', execution: 'execute',
             appearance: 'interaction-only', retry: 'never',
             callback: (value) => {
               if (!pending || sending) return;
+              clearTimeout(verificationTimer);
               token = value;
               show('Sending…');
               submit().catch((error) => show(error.message || 'Unable to submit. Please try again.', true));
             },
-            'expired-callback': () => {
-              token = ''; pending = false; button.disabled = false;
-              show('Verification expired. Please submit again.', true);
-            },
-            'error-callback': () => {
-              token = ''; pending = false; button.disabled = false;
-              show('Verification failed. Please try again.', true);
-            },
+            'expired-callback': () => failVerification('Verification expired. Please submit again.'),
+            'timeout-callback': () => failVerification('Verification timed out. Please try again.'),
+            'error-callback': () => failVerification('Verification failed. Please try again.'),
           });
         }
         show('Checking verification…');
+        verificationTimer = setTimeout(() => failVerification('Verification is taking too long. Please try again.'), 15000);
         window.turnstile.execute(verification);
       } catch (error) {
-        pending = false;
-        show(error.message || 'Unable to submit. Please try again.', true);
+        failVerification(error.message || 'Unable to submit. Please try again.');
       } finally {
         if (!sending && !pending) button.disabled = false;
       }
