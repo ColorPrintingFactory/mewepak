@@ -1,0 +1,746 @@
+body { margin: 0; }
+
+/* MewePak shared header and footer */
+#mewepak-homepage {
+  --mw-ink:#21343c;
+  --mw-teal:#00cfca;
+  --mw-deep:#102b35;
+  --mw-muted:#61747b;
+  --mw-line:#e1e9e9;
+  --mw-soft:#f3f7f6;
+  background:#fff;
+  color:var(--mw-ink);
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  color-scheme:light;
+  width:100%;
+  min-width:0;
+}
+
+#mewepak-homepage * {
+  box-sizing:border-box;
+}
+
+#mewepak-homepage [hidden] {
+  display:none!important;
+}
+
+#mewepak-homepage a {
+  color:inherit;
+  text-decoration:none;
+}
+
+#mewepak-homepage img {
+  display:block;
+  max-width:100%;
+}
+
+#mewepak-homepage p,#mewepak-homepage h2,#mewepak-homepage h3 {
+  margin-top:0;
+}
+
+#mewepak-homepage .mw-inner {
+  width:calc(100% - 80px);
+  max-width:1240px;
+  margin:0 auto;
+}
+
+#mewepak-homepage .mw-topbar {
+  background:var(--mw-deep);
+  color:#e1efee;
+  font-size:11px;
+  letter-spacing:.2px;
+}
+
+#mewepak-homepage .mw-topbar .mw-inner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  min-height:32px;
+}
+
+#mewepak-homepage .mw-topbar-mail {
+  color:#c2d4d8;
+}
+
+#mewepak-homepage .mw-header-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:98px;
+}
+
+#mewepak-homepage .mw-logo {
+  width:146px;
+  height:auto;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+#mewepak-homepage .mw-nav {
+  display:flex;
+  align-items:center;
+  gap:24px;
+  margin-left:auto;
+}
+
+#mewepak-homepage .mw-nav a {
+  font-size:12px;
+  font-weight:600;
+  padding:14px 0;
+  color:#465b63;
+}
+
+#mewepak-homepage .mw-nav a:hover {
+  color:#007b79;
+}
+
+#mewepak-homepage .mw-quote {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:17px;
+  min-height:44px;
+  padding:11px 20px;
+  background:var(--mw-deep);
+  color:#fff;
+  border:1px solid var(--mw-deep);
+  border-radius:5px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+#mewepak-homepage .mw-quote:hover {
+  background:#1b4450;
+}
+
+#mewepak-homepage .mw-mobile-menu {
+  display:none;
+  border-top:1px solid var(--mw-line);
+  border-bottom:1px solid var(--mw-line);
+}
+
+#mewepak-homepage .mw-mobile-menu summary {
+  padding:12px 0;
+  font-size:13px;
+}
+
+#mewepak-homepage .mw-mobile-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 24px;
+  padding:4px 0 20px;
+  font-size:13px;
+}
+
+#mewepak-homepage .mw-footer {
+  background:#f2f6f5;
+  padding:48px 0 22px;
+}
+
+#mewepak-homepage .mw-footer-top {
+  display:grid;
+  grid-template-columns:1.2fr .7fr 1fr;
+  gap:50px;
+  padding-bottom:36px;
+}
+
+#mewepak-homepage .mw-footer-logo {
+  width:151px;
+  height:auto;
+  object-fit:contain;
+  object-position:left;
+}
+
+#mewepak-homepage .mw-footer p {
+  font-size:12px;
+  color:#667c82;
+  margin:16px 0 0;
+  line-height:1.7;
+  max-width:240px;
+}
+
+#mewepak-homepage .mw-footer h3 {
+  font-size:12px;
+  line-height:1.4;
+  margin:0 0 14px;
+  font-weight:600;
+}
+
+#mewepak-homepage .mw-footer-links {
+  display:grid;
+  gap:9px;
+  align-content:start;
+  font-size:12px;
+  color:#5c7279;
+}
+
+#mewepak-homepage .mw-footer-contact a {
+  font-size:14px;
+  color:#007f7a;
+}
+
+#mewepak-homepage .mw-footer-contact p {
+  margin-top:8px;
+}
+
+#mewepak-homepage .mw-footer-bottom {
+  border-top:1px solid #d9e4e2;
+  padding-top:19px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:11px;
+  color:#6e8287;
+}
+
+#mewepak-homepage .mw-quote[aria-current="page"] {
+  background: #00766d;
+  border-color: #00766d;
+}
+#mewepak-homepage .mw-quote[aria-current="page"]:hover { background: #005f59; }
+#mewepak-homepage .mw-mobile-links a { padding: 9px 0; }
+#mewepak-homepage .mw-footer a:hover { text-decoration: underline; }
+
+@media (min-width: 1200px) {
+  #mewepak-homepage .mw-nav { gap: 30px; }
+  #mewepak-homepage .mw-nav a { font-size: 13px; }
+  #mewepak-homepage .mw-header-row { gap: 35px; }
+}
+@media (max-width: 900px) {
+  #mewepak-homepage .mw-inner { width: calc(100% - 56px); }
+  #mewepak-homepage .mw-header-row { min-height: 87px; gap: 17px; }
+  #mewepak-homepage .mw-nav { gap: 16px; }
+  #mewepak-homepage .mw-nav a { font-size: 11px; }
+  #mewepak-homepage .mw-logo { width: 131px; }
+  #mewepak-homepage .mw-quote { gap: 9px; padding: 10px 13px; }
+  #mewepak-homepage .mw-footer-top { gap: 30px; }
+}
+@media (max-width: 720px) {
+  #mewepak-homepage .mw-inner { width: calc(100% - 36px); }
+  #mewepak-homepage .mw-topbar-mail { display: none; }
+  #mewepak-homepage .mw-header-row { min-height: 74px; }
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+@media (max-width: 550px) {
+  #mewepak-homepage .mw-footer { padding-top: 32px; }
+  #mewepak-homepage .mw-footer-top { grid-template-columns: 1fr; gap: 23px; }
+  #mewepak-homepage .mw-footer-bottom { flex-wrap: wrap; gap: 8px; }
+}
+
+
+/* Gallery & Design navigation */
+#mewepak-homepage .mw-nav { gap: clamp(13px, 1.65vw, 27px); }
+#mewepak-homepage .mw-gallery-link { white-space: nowrap; }
+#mewepak-homepage .mw-gallery-link[aria-current="page"] { color: #00756b; }
+@media (max-width: 940px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* About Us navigation */
+#mewepak-homepage .mw-nav { gap: clamp(12px, 1.55vw, 26px); }
+#mewepak-homepage .mw-about-link { white-space: nowrap; }
+#mewepak-homepage .mw-about-link[aria-current="page"] { color: #196447; font-weight: 700; }
+#mewepak-homepage .mw-nav .mw-about-link[aria-current="page"] { box-shadow: inset 0 -2px #278361; }
+@media (max-width: 1000px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* Our Capabilities navigation */
+#mewepak-homepage .mw-nav { gap: clamp(11px, 1.32vw, 22px); }
+#mewepak-homepage .mw-nav a { white-space: nowrap; }
+#mewepak-homepage .mw-capabilities-link[aria-current="page"] {
+  color: #196447;
+  font-weight: 700;
+}
+#mewepak-homepage .mw-nav .mw-capabilities-link[aria-current="page"] {
+  box-shadow: inset 0 -2px #278361;
+}
+@media (max-width: 1080px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* FAQ navigation */
+#mewepak-homepage .mw-nav { gap: clamp(11px, 1.24vw, 21px); }
+#mewepak-homepage .mw-nav a { white-space: nowrap; }
+#mewepak-homepage .mw-faq-link[aria-current="page"] {
+  color: #196447;
+  font-weight: 700;
+}
+#mewepak-homepage .mw-nav .mw-faq-link[aria-current="page"] {
+  box-shadow: inset 0 -2px #278361;
+}
+@media (max-width: 1140px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* Sustainability navigation */
+#mewepak-homepage .mw-nav { gap: clamp(8px, 1.05vw, 16px); }
+#mewepak-homepage .mw-nav a { white-space: nowrap; }
+#mewepak-homepage .mw-sustainability-link[aria-current="page"] { color: #196447; font-weight: 700; }
+#mewepak-homepage .mw-nav .mw-sustainability-link[aria-current="page"] { box-shadow: inset 0 -2px #278361; }
+#mewepak-homepage .mw-sustainability-cta { display: inline-block; margin-top: 18px; padding: 9px 0; color: #1e7054; font-size: 14px; font-weight: 700; }
+#mewepak-homepage .mw-sustainability-cta:hover { text-decoration: underline; }
+@media (max-width: 1260px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+#mewepak-homepage.sustainability-page {
+  --su-forest: #103d34;
+  --su-ink: #183f34;
+  --su-body: #496157;
+  --su-green: #1e7054;
+  --su-lime: #deedac;
+  --su-sage: #eef4ed;
+  --su-warm: #f8f7f0;
+  --su-line: #d5e1d7;
+}
+#mewepak-homepage.sustainability-page .su-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#mewepak-homepage.sustainability-page .su-skip {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  z-index: 20;
+  padding: 12px 18px;
+  background: #fff;
+  color: var(--su-forest);
+  transform: translateY(-200%);
+}
+#mewepak-homepage.sustainability-page .su-skip:focus { transform: none; }
+#mewepak-homepage.sustainability-page :is(a, button, summary, input):focus-visible {
+  outline: 2px solid #208568;
+  outline-offset: 4px;
+}
+#mewepak-homepage.sustainability-page :is(.su-hero, .su-cta) a:focus-visible { outline-color: var(--su-lime); }
+#mewepak-homepage.sustainability-page .su-icon { width: 16px; height: 16px; flex: none; vertical-align: middle; }
+#mewepak-homepage.sustainability-page .su-breadcrumb {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 43px;
+  font-size: 12px;
+  color: var(--su-body);
+}
+#mewepak-homepage.sustainability-page .su-breadcrumb [aria-current] { color: var(--su-green); font-weight: 700; }
+#mewepak-homepage.sustainability-page .su-breadcrumb a:hover { text-decoration: underline; }
+
+#mewepak-homepage.sustainability-page .su-hero {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: var(--su-forest);
+}
+#mewepak-homepage.sustainability-page .su-hero-picture { position: absolute; inset: 0 0 0 44%; }
+#mewepak-homepage.sustainability-page .su-hero-picture img { width: 100%; height: 100%; object-fit: cover; object-position: 43% center; }
+#mewepak-homepage.sustainability-page .su-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #103d34 0%, #103d34 44%, rgba(16,61,52,.85) 51%, rgba(16,61,52,.05) 70%, rgba(16,61,52,0) 85%);
+}
+#mewepak-homepage.sustainability-page .su-hero-inner {
+  position: relative;
+  z-index: 1;
+  padding: clamp(45px, 5.8vw, 82px) 0 clamp(55px, 6vw, 88px);
+}
+#mewepak-homepage.sustainability-page .su-hero-copy { max-width: 570px; width: 49%; }
+#mewepak-homepage.sustainability-page .su-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 15px;
+  color: var(--su-green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+#mewepak-homepage.sustainability-page .su-eyebrow::before { content: ""; width: 20px; height: 1px; background: currentColor; }
+#mewepak-homepage.sustainability-page :is(.su-hero, .su-cta) .su-eyebrow { color: var(--su-lime); }
+#mewepak-homepage.sustainability-page #su-title {
+  margin: 0 0 22px;
+  font-size: clamp(42px, 4.75vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -.058em;
+  color: #fff;
+}
+#mewepak-homepage.sustainability-page #su-title em { color: var(--su-lime); font-style: normal; }
+#mewepak-homepage.sustainability-page .su-hero-copy > p:not(.su-eyebrow) { max-width: 410px; margin: 0 0 27px; font-size: 17px; line-height: 1.58; color: #e1ece3; }
+#mewepak-homepage.sustainability-page .su-hero-caption {
+  position: absolute;
+  right: 0;
+  bottom: 19px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  background: rgba(16,61,52,.82);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+#mewepak-homepage.sustainability-page .su-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+#mewepak-homepage.sustainability-page .su-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 11px 16px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font: 700 13px/1.3 Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#mewepak-homepage.sustainability-page .su-btn-lime { background: var(--su-lime); color: var(--su-forest); }
+#mewepak-homepage.sustainability-page .su-btn-lime:hover { background: #edf5cc; }
+#mewepak-homepage.sustainability-page .su-btn-outline { border-color: #a5bfb1; color: #fff; }
+#mewepak-homepage.sustainability-page .su-btn-outline:hover { background: rgba(255,255,255,.1); }
+#mewepak-homepage.sustainability-page .su-btn-dark { background: var(--su-forest); color: #fff; }
+#mewepak-homepage.sustainability-page .su-btn-dark:hover { background: var(--su-green); }
+#mewepak-homepage.sustainability-page .su-section-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px clamp(13px, 2vw, 26px);
+  min-height: 64px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--su-line);
+  color: var(--su-ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+#mewepak-homepage.sustainability-page .su-section-nav > span { margin-right: 6px; color: var(--su-body); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+#mewepak-homepage.sustainability-page .su-section-nav a { padding: 7px 0; }
+#mewepak-homepage.sustainability-page .su-section-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+#mewepak-homepage.sustainability-page .su-section { padding: clamp(46px, 6.5vw, 96px) 0; scroll-margin-top: 18px; }
+#mewepak-homepage.sustainability-page main h2 {
+  margin: 0 0 17px;
+  color: var(--su-ink);
+  font-size: clamp(34px, 4.05vw, 58px);
+  line-height: 1.05;
+  letter-spacing: -.052em;
+}
+#mewepak-homepage.sustainability-page .su-section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .58fr);
+  align-items: end;
+  gap: 20px 50px;
+  margin-bottom: 30px;
+}
+#mewepak-homepage.sustainability-page .su-section-heading h2 { margin-bottom: 0; }
+#mewepak-homepage.sustainability-page .su-section-heading > p { margin: 0; color: var(--su-body); font-size: 16px; line-height: 1.6; }
+#mewepak-homepage.sustainability-page .su-pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
+#mewepak-homepage.sustainability-page .su-pillar {
+  overflow: hidden;
+  border: 1px solid var(--su-line);
+  border-radius: 9px;
+  background: var(--su-warm);
+}
+#mewepak-homepage.sustainability-page :is(.su-pillar, .su-material) > summary { list-style: none; cursor: pointer; }
+#mewepak-homepage.sustainability-page summary::-webkit-details-marker { display: none; }
+#mewepak-homepage.sustainability-page .su-pillar img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
+#mewepak-homepage.sustainability-page .su-pillar-summary { display: block; padding: 21px 23px; }
+#mewepak-homepage.sustainability-page .su-pillar-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+#mewepak-homepage.sustainability-page .su-pillar h3 { margin: 0; font-size: 29px; color: var(--su-ink); letter-spacing: -.04em; }
+#mewepak-homepage.sustainability-page .su-pillar summary p { margin: 9px 0 0; color: var(--su-body); font-size: 15px; line-height: 1.5; }
+#mewepak-homepage.sustainability-page .su-round-icon { display: grid; place-items: center; height: 29px; width: 29px; flex: none; border-radius: 50%; background: #fff; color: var(--su-green); }
+#mewepak-homepage.sustainability-page details[open] > summary .su-plus-vertical { opacity: 0; }
+#mewepak-homepage.sustainability-page .su-pillar-content { padding: 0 23px 22px; }
+#mewepak-homepage.sustainability-page .su-pillar-content p { padding-top: 15px; border-top: 1px solid var(--su-line); color: var(--su-body); font-size: 14px; }
+#mewepak-homepage.sustainability-page .su-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 5px 0;
+  border: 0;
+  background: none;
+  color: var(--su-green);
+  font: 700 13px/1.45 Arial, Helvetica, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+#mewepak-homepage.sustainability-page .su-text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+#mewepak-homepage.sustainability-page .su-dashboard { background: var(--su-sage); }
+#mewepak-homepage.sustainability-page .su-dashboard-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 17px; }
+#mewepak-homepage.sustainability-page .su-status-chip { display: inline-flex; padding: 7px 12px; border: 1px solid #c8d9c9; border-radius: 99px; color: var(--su-ink); font-size: 11px; font-weight: 700; }
+#mewepak-homepage.sustainability-page .su-segmented { display: flex; gap: 3px; border: 1px solid #c7d6c9; padding: 3px; border-radius: 6px; }
+#mewepak-homepage.sustainability-page .su-segmented button { min-height: 35px; padding: 7px 12px; border: 0; border-radius: 4px; background: transparent; color: var(--su-ink); font-size: 12px; cursor: pointer; }
+#mewepak-homepage.sustainability-page .su-segmented button[aria-pressed="true"] { background: var(--su-forest); color: #fff; }
+#mewepak-homepage.sustainability-page .su-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+#mewepak-homepage.sustainability-page .su-metrics article { padding: 23px 20px; border-radius: 8px; border: 1px solid var(--su-line); background: #fff; min-width: 0; }
+#mewepak-homepage.sustainability-page .su-metrics p { margin: 0 0 18px; font-size: 12px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-metrics strong { display: block; min-height: 50px; font-size: clamp(25px, 3vw, 42px); letter-spacing: -.05em; line-height: 1.1; color: var(--su-ink); overflow-wrap: anywhere; }
+#mewepak-homepage.sustainability-page .su-metrics span { display: block; margin-top: 8px; font-size: 11px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-chart { margin-top: 18px; padding: 25px; border-radius: 8px; background: #fff; border: 1px solid var(--su-line); }
+#mewepak-homepage.sustainability-page .su-chart-intro { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+#mewepak-homepage.sustainability-page .su-chart h3 { margin: 0; font-size: 18px; color: var(--su-ink); }
+#mewepak-homepage.sustainability-page .su-chart-row { margin: 17px 0; }
+#mewepak-homepage.sustainability-page .su-chart-row > div:first-child { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 6px; font-size: 12px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-chart-row strong { font-size: 12px; color: var(--su-ink); }
+#mewepak-homepage.sustainability-page .su-bar { display: flex; width: 100%; height: 21px; overflow: hidden; border-radius: 4px; background: #eef2ec; }
+#mewepak-homepage.sustainability-page .su-bar span { display: block; height: 100%; }
+#mewepak-homepage.sustainability-page .su-key-materials { background: #1c7154; }
+#mewepak-homepage.sustainability-page .su-key-converting { background: #8dbf82; }
+#mewepak-homepage.sustainability-page .su-key-freight { background: #51757d; }
+#mewepak-homepage.sustainability-page .su-key-end { background: #d7bd77; }
+#mewepak-homepage.sustainability-page .su-chart-legend { display: flex; flex-wrap: wrap; gap: 9px 22px; margin: 18px 0 0; padding: 0; list-style: none; font-size: 11px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-chart-legend li { display: flex; align-items: center; gap: 7px; }
+#mewepak-homepage.sustainability-page .su-chart-legend i { width: 9px; height: 9px; border-radius: 2px; }
+#mewepak-homepage.sustainability-page .su-fineprint { margin: 17px 0 0; max-width: 980px; color: var(--su-body); font-size: 12px; line-height: 1.5; }
+
+#mewepak-homepage.sustainability-page .su-filterbar { display: flex; gap: 8px; flex-wrap: wrap; }
+#mewepak-homepage.sustainability-page .su-filterbar button { padding: 9px 16px; border: 1px solid var(--su-line); border-radius: 99px; background: #fff; color: var(--su-body); min-height: 40px; font: 700 12px/1.3 Arial, Helvetica, sans-serif; cursor: pointer; }
+#mewepak-homepage.sustainability-page .su-filterbar button[aria-pressed="true"] { background: var(--su-forest); border-color: var(--su-forest); color: #fff; }
+#mewepak-homepage.sustainability-page .su-filter-count { margin: 13px 0 20px; color: var(--su-body); font-size: 12px; }
+#mewepak-homepage.sustainability-page .su-material-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+#mewepak-homepage.sustainability-page .su-material { border: 1px solid var(--su-line); overflow: hidden; border-radius: 8px; background: #fff; }
+#mewepak-homepage.sustainability-page .su-material-thumb { display: block; background: #f2f3ec; }
+#mewepak-homepage.sustainability-page .su-material img { width: 100%; height: 215px; padding: 20px; object-fit: contain; }
+#mewepak-homepage.sustainability-page .su-material[data-material="format"] img { object-fit: cover; padding: 0; }
+#mewepak-homepage.sustainability-page .su-material-summary { display: block; padding: 18px 20px 20px; }
+#mewepak-homepage.sustainability-page .su-tag { display: inline-block; margin-bottom: 9px; color: var(--su-green); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+#mewepak-homepage.sustainability-page .su-material h3 { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 8px; color: var(--su-ink); font-size: 20px; line-height: 1.2; letter-spacing: -.025em; }
+#mewepak-homepage.sustainability-page .su-material summary p { margin: 0; color: var(--su-body); font-size: 13px; }
+#mewepak-homepage.sustainability-page .su-material-more { padding: 0 20px 19px; }
+#mewepak-homepage.sustainability-page .su-material-more p { padding-top: 13px; border-top: 1px solid var(--su-line); color: var(--su-body); font-size: 13px; }
+
+#mewepak-homepage.sustainability-page .su-process-section { background: var(--su-warm); }
+#mewepak-homepage.sustainability-page .su-process-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); gap: clamp(30px, 7vw, 100px); align-items: start; }
+#mewepak-homepage.sustainability-page .su-process-intro > p:not(.su-eyebrow) { color: var(--su-body); font-size: 16px; }
+#mewepak-homepage.sustainability-page .su-process-intro figure { margin: 25px 0 12px; }
+#mewepak-homepage.sustainability-page .su-process-intro img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 8px; }
+#mewepak-homepage.sustainability-page .su-process-intro figcaption { margin-top: 8px; font-size: 11px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-timeline { margin: 0; padding: 0; list-style: none; }
+#mewepak-homepage.sustainability-page .su-timeline li { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 17px; padding: 0 0 28px; }
+#mewepak-homepage.sustainability-page .su-timeline li:not(:last-child)::before { content: ""; position: absolute; top: 40px; bottom: 0; left: 20px; width: 1px; background: #b9cdbb; }
+#mewepak-homepage.sustainability-page .su-timeline li > span { display: grid; place-items: center; height: 40px; width: 40px; border-radius: 50%; background: var(--su-forest); color: var(--su-lime); font-size: 12px; font-weight: 700; }
+#mewepak-homepage.sustainability-page .su-timeline h3 { margin: 4px 0 5px; font-size: 21px; letter-spacing: -.025em; color: var(--su-ink); }
+#mewepak-homepage.sustainability-page .su-timeline p { margin: 0; color: var(--su-body); font-size: 14px; line-height: 1.55; }
+
+#mewepak-homepage.sustainability-page .su-document-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+#mewepak-homepage.sustainability-page .su-document { display: flex; flex-direction: column; align-items: flex-start; padding: 27px; border: 1px solid var(--su-line); border-radius: 9px; background: var(--su-warm); }
+#mewepak-homepage.sustainability-page .su-document-accent { background: var(--su-sage); }
+#mewepak-homepage.sustainability-page .su-doc-icon { display: grid; place-items: center; width: 51px; height: 51px; margin-bottom: 25px; border-radius: 10px; background: #fff; color: var(--su-green); }
+#mewepak-homepage.sustainability-page .su-doc-icon .su-icon { width: 27px; height: 27px; }
+#mewepak-homepage.sustainability-page .su-document h3 { margin: 0 0 10px; font-size: 25px; line-height: 1.13; letter-spacing: -.04em; color: var(--su-ink); }
+#mewepak-homepage.sustainability-page .su-document p { margin: 0 0 20px; color: var(--su-body); font-size: 14px; line-height: 1.6; }
+#mewepak-homepage.sustainability-page .su-document .su-text-link:first-of-type { margin-top: auto; }
+
+#mewepak-homepage.sustainability-page .su-lca-section { background: var(--su-sage); }
+#mewepak-homepage.sustainability-page .su-model-note { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 20px; padding: 18px 21px; border-left: 3px solid #95b75b; margin-bottom: 22px; color: var(--su-body); background: #e5edda; font-size: 12px; }
+#mewepak-homepage.sustainability-page .su-model-note strong { color: var(--su-ink); font-size: 12px; }
+#mewepak-homepage.sustainability-page .su-model-note span { flex: 1; flex-basis: 450px; }
+#mewepak-homepage.sustainability-page .su-lca-form { padding: clamp(20px, 3vw, 38px); border-radius: 9px; border: 1px solid var(--su-line); background: #fff; }
+#mewepak-homepage.sustainability-page .su-lca-global { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.5fr); gap: 18px; margin-bottom: 24px; }
+#mewepak-homepage.sustainability-page .su-lca-form label { display: grid; gap: 7px; color: var(--su-ink); font-size: 12px; font-weight: 700; }
+#mewepak-homepage.sustainability-page .su-lca-form input { width: 100%; min-width: 0; height: 44px; padding: 9px 11px; border: 1px solid #c3d2c6; border-radius: 5px; color: var(--su-ink); background: #fff; font: 15px/1.4 Arial, Helvetica, sans-serif; }
+#mewepak-homepage.sustainability-page .su-lca-form input[type="number"] { font-variant-numeric: tabular-nums; }
+#mewepak-homepage.sustainability-page .su-scenario-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+#mewepak-homepage.sustainability-page .su-scenario { margin: 0; min-width: 0; padding: 19px; border: 1px solid var(--su-line); border-radius: 7px; background: var(--su-warm); }
+#mewepak-homepage.sustainability-page .su-scenario:last-child { background: var(--su-sage); }
+#mewepak-homepage.sustainability-page .su-scenario legend { padding: 0 8px; color: var(--su-ink); font-size: 18px; font-weight: 700; }
+#mewepak-homepage.sustainability-page .su-factor-label { display: block; margin: 16px 0 12px; color: var(--su-body); font-size: 11px; line-height: 1.4; }
+#mewepak-homepage.sustainability-page .su-factor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+#mewepak-homepage.sustainability-page .su-lca-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 24px; }
+#mewepak-homepage.sustainability-page .su-quiet-button { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 8px 0; border: 0; background: none; color: var(--su-green); font: 700 12px/1.4 Arial, Helvetica, sans-serif; cursor: pointer; }
+#mewepak-homepage.sustainability-page .su-quiet-button:hover { text-decoration: underline; }
+#mewepak-homepage.sustainability-page button:disabled { opacity: .5; cursor: default; }
+#mewepak-homepage.sustainability-page .su-error { margin: 18px 0 0; color: #9d342b; font-size: 13px; }
+#mewepak-homepage.sustainability-page .su-lca-breakdown { margin-top: 27px; border: 1px solid var(--su-line); border-radius: 8px; background: #fff; overflow: hidden; }
+#mewepak-homepage.sustainability-page .su-lca-breakdown > div:first-child { padding: 21px 24px 0; }
+#mewepak-homepage.sustainability-page .su-lca-breakdown h3 { margin: 0 0 5px; color: var(--su-ink); font-size: 21px; }
+#mewepak-homepage.sustainability-page .su-lca-breakdown p { margin: 0; font-size: 12px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-table-wrap { overflow-x: auto; padding: 14px 24px; }
+#mewepak-homepage.sustainability-page .su-table-wrap table { width: 100%; border-collapse: collapse; min-width: 390px; font-size: 13px; color: var(--su-body); }
+#mewepak-homepage.sustainability-page .su-table-wrap th,
+#mewepak-homepage.sustainability-page .su-table-wrap td { padding: 10px 4px; border-bottom: 1px solid var(--su-line); text-align: right; font-variant-numeric: tabular-nums; }
+#mewepak-homepage.sustainability-page .su-table-wrap th:first-child { text-align: left; }
+#mewepak-homepage.sustainability-page .su-table-wrap thead,
+#mewepak-homepage.sustainability-page .su-table-wrap tfoot { color: var(--su-ink); font-weight: 700; }
+#mewepak-homepage.sustainability-page #su-comparison-summary { padding: 0 24px 22px; }
+#mewepak-homepage.sustainability-page .su-method { margin-top: 19px; color: var(--su-body); border-top: 1px solid #c8d9ca; border-bottom: 1px solid #c8d9ca; }
+#mewepak-homepage.sustainability-page .su-method summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; list-style: none; padding: 17px 0; font-size: 14px; font-weight: 700; color: var(--su-ink); cursor: pointer; }
+#mewepak-homepage.sustainability-page .su-method > div { padding: 0 0 17px; max-width: 940px; font-size: 13px; line-height: 1.6; }
+#mewepak-homepage.sustainability-page .su-method p { margin: 0 0 10px; }
+#mewepak-homepage.sustainability-page .su-reading { display: flex; gap: 10px 24px; flex-wrap: wrap; }
+#mewepak-homepage.sustainability-page .su-reading a { color: var(--su-green); text-decoration: underline; text-underline-offset: 3px; }
+
+#mewepak-homepage.sustainability-page .su-cta { background: var(--su-forest); color: #fff; }
+#mewepak-homepage.sustainability-page .su-cta-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px 42px; padding: clamp(45px, 6vw, 86px) 0; }
+#mewepak-homepage.sustainability-page .su-cta h2 { color: #fff; }
+#mewepak-homepage.sustainability-page .su-cta p:not(.su-eyebrow) { margin: 0; max-width: 470px; font-size: 16px; color: #dfebe2; }
+
+@media (max-width: 1000px) {
+  #mewepak-homepage.sustainability-page .su-hero-copy { width: 56%; }
+  #mewepak-homepage.sustainability-page .su-pillars { gap: 14px; }
+  #mewepak-homepage.sustainability-page .su-pillar-summary { padding: 17px; }
+  #mewepak-homepage.sustainability-page .su-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #mewepak-homepage.sustainability-page .su-document { padding: 21px; }
+  #mewepak-homepage.sustainability-page .su-cta-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  #mewepak-homepage.sustainability-page .su-hero-picture { position: relative; inset: auto; height: 300px; }
+  #mewepak-homepage.sustainability-page .su-hero::after { display: none; }
+  #mewepak-homepage.sustainability-page .su-hero-inner { padding: 32px 0 49px; }
+  #mewepak-homepage.sustainability-page .su-hero-copy { width: 100%; max-width: 100%; }
+  #mewepak-homepage.sustainability-page .su-hero-caption { bottom: 12px; font-size: 9px; }
+  #mewepak-homepage.sustainability-page .su-section-nav > span { flex-basis: 100%; padding-top: 4px; }
+  #mewepak-homepage.sustainability-page .su-section-heading,
+  #mewepak-homepage.sustainability-page .su-process-grid,
+  #mewepak-homepage.sustainability-page .su-scenario-grid,
+  #mewepak-homepage.sustainability-page .su-lca-global { grid-template-columns: minmax(0, 1fr); }
+  #mewepak-homepage.sustainability-page .su-section-heading { gap: 16px; }
+  #mewepak-homepage.sustainability-page .su-pillars,
+  #mewepak-homepage.sustainability-page .su-document-grid { grid-template-columns: minmax(0, 1fr); }
+  #mewepak-homepage.sustainability-page .su-material-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+}
+@media (max-width: 480px) {
+  #mewepak-homepage.sustainability-page #su-title { font-size: clamp(38px, 9.9vw, 47px); }
+  #mewepak-homepage.sustainability-page .su-hero-picture { height: 245px; }
+  #mewepak-homepage.sustainability-page .su-material-grid { grid-template-columns: minmax(0, 1fr); }
+  #mewepak-homepage.sustainability-page .su-chart { padding: 18px; }
+  #mewepak-homepage.sustainability-page .su-metrics { gap: 10px; }
+  #mewepak-homepage.sustainability-page .su-metrics article { padding: 17px 13px; }
+  #mewepak-homepage.sustainability-page .su-factor-grid { grid-template-columns: minmax(0, 1fr); }
+  #mewepak-homepage.sustainability-page .su-model-note { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #mewepak-homepage.sustainability-page * { scroll-behavior: auto; }
+}
+
+/* Sustainability refinements — 16 November 2026 */
+#mewepak-homepage.sustainability-page .su-hero-picture { inset: 0; }
+#mewepak-homepage.sustainability-page .su-hero-picture img { object-position: center; }
+#mewepak-homepage.sustainability-page .su-hero::after { background: linear-gradient(90deg,rgba(9,43,34,.93),rgba(9,43,34,.62) 44%,rgba(9,43,34,.07)); }
+#mewepak-homepage.sustainability-page .su-hero-inner { padding: clamp(68px,8vw,118px) 0; }
+#mewepak-homepage.sustainability-page .su-hero-copy { width: 58%; max-width: 680px; }
+#mewepak-homepage.sustainability-page #su-title { font-size: clamp(45px,5.4vw,76px); line-height:1.02; }
+#mewepak-homepage.sustainability-page .su-hero-copy > p:not(.su-eyebrow) { max-width: 460px; }
+#mewepak-homepage.sustainability-page .su-hero-caption { display:none; }
+#mewepak-homepage.sustainability-page .su-overview { padding-bottom: 0; }
+#mewepak-homepage.sustainability-page .su-overview-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:40px 76px; }
+#mewepak-homepage.sustainability-page .su-overview-copy > p:not(.su-eyebrow) { color:var(--su-body); font-size:16px; max-width:520px; }
+#mewepak-homepage.sustainability-page .su-balance { display:block; width:100%; max-width:460px; height:auto; margin:auto; }
+#mewepak-homepage.sustainability-page .su-balance text { font-family:Arial,Helvetica,sans-serif; }
+#mewepak-homepage.sustainability-page .su-circular-panel { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:40px 65px; padding:clamp(26px,4vw,52px); margin-top:55px; background:var(--su-forest); border-radius:18px; color:#fff; }
+#mewepak-homepage.sustainability-page .su-circular-panel h3 { margin:0 0 17px; color:#fff; font-size:clamp(29px,3.3vw,44px); line-height:1.06; letter-spacing:-.045em; }
+#mewepak-homepage.sustainability-page .su-circular-panel p { color:#deebe2; font-size:15px; margin:0 0 20px; }
+#mewepak-homepage.sustainability-page .su-circular-panel .su-eyebrow { color:var(--su-lime); font-size:10px; }
+#mewepak-homepage.sustainability-page .su-circular-panel .su-text-link { color:var(--su-lime); }
+#mewepak-homepage.sustainability-page .su-cycle-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 25px; padding:0; margin:0; list-style:none; }
+#mewepak-homepage.sustainability-page .su-cycle-grid li { border-top:1px solid #4d7062; padding-top:16px; }
+#mewepak-homepage.sustainability-page .su-cycle-grid span { color:var(--su-lime); font-size:11px; letter-spacing:.08em; }
+#mewepak-homepage.sustainability-page .su-cycle-grid strong { display:block; font-size:18px; margin:5px 0 7px; }
+#mewepak-homepage.sustainability-page .su-cycle-grid p { font-size:13px; margin:0; }
+#mewepak-homepage.sustainability-page .su-benefits-section { background:var(--su-warm); }
+#mewepak-homepage.sustainability-page .su-benefit-toolbar { display:flex; justify-content:space-between; align-items:center; gap:15px; margin-bottom:18px; }
+#mewepak-homepage.sustainability-page .su-benefit-toolbar p { color:var(--su-body); margin:0; font-size:12px; }
+#mewepak-homepage.sustainability-page .su-carousel-controls { display:flex; gap:8px; }
+#mewepak-homepage.sustainability-page .su-carousel-controls button { display:grid; place-items:center; width:44px; height:44px; border-radius:50%; border:1px solid #b8cabe; background:#fff; color:var(--su-forest); cursor:pointer; }
+#mewepak-homepage.sustainability-page .su-carousel-controls button:hover:not(:disabled) { background:var(--su-lime); }
+#mewepak-homepage.sustainability-page .su-carousel-controls button:disabled { opacity:.35; cursor:default; }
+#mewepak-homepage.sustainability-page .su-benefit-track { --su-benefit-columns:3; display:grid; grid-auto-flow:column; grid-auto-columns:calc((100% - (var(--su-benefit-columns) - 1)*20px)/var(--su-benefit-columns)); gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:thin; padding:4px 3px 14px; margin:0 -3px; list-style:none; }
+#mewepak-homepage.sustainability-page .su-benefit-card { padding:30px; border-radius:10px 42px 10px 42px; min-width:0; scroll-snap-align:start; color:#fff; background:var(--su-forest); }
+#mewepak-homepage.sustainability-page .su-benefit-card:nth-child(2) { background:#dde9d6; color:var(--su-forest); }
+#mewepak-homepage.sustainability-page .su-benefit-card:nth-child(3) { background:#36594d; }
+#mewepak-homepage.sustainability-page .su-benefit-card:nth-child(4) { background:#e9dcc9; color:#4a4435; }
+#mewepak-homepage.sustainability-page .su-line-icon { display:block; width:42px; height:42px; margin-bottom:29px; flex:none; }
+#mewepak-homepage.sustainability-page .su-benefit-card h3 { margin:0 0 12px; font-size:22px; line-height:1.15; letter-spacing:-.025em; color:inherit; }
+#mewepak-homepage.sustainability-page .su-benefit-card p { margin:0; font-size:14px; line-height:1.6; }
+#mewepak-homepage.sustainability-page .su-route-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:start; gap:22px; }
+#mewepak-homepage.sustainability-page .su-route { border:1px solid var(--su-line); border-radius:12px; background:var(--su-warm); overflow:hidden; }
+#mewepak-homepage.sustainability-page .su-route > summary { list-style:none; display:block; cursor:pointer; padding:28px 26px; }
+#mewepak-homepage.sustainability-page .su-route > summary::-webkit-details-marker { display:none; }
+#mewepak-homepage.sustainability-page .su-route-icon { width:64px; height:64px; display:grid; place-items:center; border-radius:50%; color:var(--su-forest); background:var(--su-lime); margin-bottom:24px; }
+#mewepak-homepage.sustainability-page .su-route-icon .su-line-icon { margin:0; width:32px; height:32px; }
+#mewepak-homepage.sustainability-page .su-route h3 { color:var(--su-ink); font-size:25px; line-height:1.1; letter-spacing:-.035em; margin:0 0 13px; }
+#mewepak-homepage.sustainability-page .su-route-intro { display:block; font-size:14px; color:var(--su-body); line-height:1.6; min-height:89px; }
+#mewepak-homepage.sustainability-page .su-route-toggle { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:23px; padding-top:17px; border-top:1px solid var(--su-line); font-size:12px; font-weight:700; color:var(--su-green); }
+#mewepak-homepage.sustainability-page .su-route[open] .su-plus-vertical { display:none; }
+#mewepak-homepage.sustainability-page .su-route-content { padding:0 26px 28px; }
+#mewepak-homepage.sustainability-page .su-route-content > strong { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--su-ink); }
+#mewepak-homepage.sustainability-page .su-route-content ul { margin:12px 0 24px; padding-left:17px; color:var(--su-body); font-size:13px; }
+#mewepak-homepage.sustainability-page .su-route-content li { margin-bottom:10px; }
+#mewepak-homepage.sustainability-page .su-route-content li::marker { color:var(--su-green); }
+#mewepak-homepage.sustainability-page .su-performance { background:var(--su-warm); }
+#mewepak-homepage.sustainability-page .su-performance-grid { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:40px 80px; }
+#mewepak-homepage.sustainability-page .su-performance-copy > p:not(.su-eyebrow) { font-size:16px; color:var(--su-body); margin:0 0 24px; }
+#mewepak-homepage.sustainability-page .su-concern { border-bottom:1px solid #cddbd0; }
+#mewepak-homepage.sustainability-page .su-concern:first-child { border-top:1px solid #cddbd0; }
+#mewepak-homepage.sustainability-page .su-concern > summary { list-style:none; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:22px 0; color:var(--su-ink); font-size:17px; font-weight:700; cursor:pointer; }
+#mewepak-homepage.sustainability-page .su-concern > summary::-webkit-details-marker { display:none; }
+#mewepak-homepage.sustainability-page .su-concern[open] .su-plus-vertical { display:none; }
+#mewepak-homepage.sustainability-page .su-concern > p { margin:0 0 22px; font-size:14px; color:var(--su-body); }
+#mewepak-homepage.sustainability-page .su-strategy { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-radius:16px; overflow:hidden; margin-top:60px; background:var(--su-forest); color:#fff; }
+#mewepak-homepage.sustainability-page .su-strategy figure { margin:0; position:relative; min-height:345px; }
+#mewepak-homepage.sustainability-page .su-strategy img { width:100%; height:100%; object-fit:cover; display:block; }
+#mewepak-homepage.sustainability-page .su-strategy figcaption { position:absolute; bottom:15px; left:17px; padding:5px 9px; border-radius:3px; color:#fff; background:rgba(16,61,52,.82); font-size:10px; }
+#mewepak-homepage.sustainability-page .su-strategy-copy { align-self:center; padding:clamp(26px,4vw,50px); }
+#mewepak-homepage.sustainability-page .su-strategy .su-eyebrow { color:var(--su-lime); }
+#mewepak-homepage.sustainability-page .su-strategy h3 { font-size:clamp(29px,3vw,42px); line-height:1.08; letter-spacing:-.04em; margin:0 0 18px; color:#fff; }
+#mewepak-homepage.sustainability-page .su-strategy p:not(.su-eyebrow) { font-size:14px; color:#dfebe2; margin:0 0 22px; }
+#mewepak-homepage.sustainability-page .su-cta { background:#fff; padding:clamp(42px,6vw,82px) 0; }
+#mewepak-homepage.sustainability-page .su-advice-panel { padding:clamp(28px,5vw,62px); border-radius:18px; background:var(--su-forest); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.6fr); gap:32px 65px; align-items:center; }
+#mewepak-homepage.sustainability-page .su-advice-panel h2 { font-size:clamp(34px,4.2vw,56px); }
+#mewepak-homepage.sustainability-page .su-advice-panel .su-actions { display:grid; }
+#mewepak-homepage.sustainability-page .su-advice-panel .su-btn { min-height:49px; justify-content:space-between; }
+#mewepak-homepage.sustainability-page .su-advice-checklist { margin:0 0 24px; padding:0; list-style:none; color:#deebe2; font-size:13px; display:grid; gap:8px; }
+#mewepak-homepage.sustainability-page .su-advice-checklist li { display:flex; align-items:center; gap:10px; }
+#mewepak-homepage.sustainability-page .su-advice-checklist li::before { content:'✓'; color:var(--su-lime); }
+@media(max-width:1000px) {
+  #mewepak-homepage.sustainability-page .su-benefit-track { --su-benefit-columns:2; }
+  #mewepak-homepage.sustainability-page .su-route-grid { gap:13px; }
+  #mewepak-homepage.sustainability-page .su-route > summary { padding:23px 19px; }
+  #mewepak-homepage.sustainability-page .su-route-content { padding:0 19px 24px; }
+  #mewepak-homepage.sustainability-page .su-route h3 { font-size:22px; }
+  #mewepak-homepage.sustainability-page .su-overview-grid { gap:30px; }
+  #mewepak-homepage.sustainability-page .su-performance-grid { gap:40px; }
+}
+@media(max-width:760px) {
+  #mewepak-homepage.sustainability-page .su-hero-picture { position:absolute; inset:0; height:auto; }
+  #mewepak-homepage.sustainability-page .su-hero-picture img { object-position:60% center; }
+  #mewepak-homepage.sustainability-page .su-hero::after { display:block; background:linear-gradient(90deg,rgba(9,43,34,.94),rgba(9,43,34,.66)); }
+  #mewepak-homepage.sustainability-page .su-hero-inner { padding:62px 0 67px; }
+  #mewepak-homepage.sustainability-page .su-hero-copy { width:100%; max-width:560px; }
+  #mewepak-homepage.sustainability-page #su-title { font-size:clamp(40px,9vw,57px); }
+  #mewepak-homepage.sustainability-page .su-overview-grid,
+  #mewepak-homepage.sustainability-page .su-circular-panel,
+  #mewepak-homepage.sustainability-page .su-performance-grid,
+  #mewepak-homepage.sustainability-page .su-strategy,
+  #mewepak-homepage.sustainability-page .su-advice-panel { grid-template-columns:minmax(0,1fr); }
+  #mewepak-homepage.sustainability-page .su-balance { max-width:360px; }
+  #mewepak-homepage.sustainability-page .su-circular-panel { margin-top:35px; gap:25px; }
+  #mewepak-homepage.sustainability-page .su-route-grid { grid-template-columns:minmax(0,1fr); gap:17px; }
+  #mewepak-homepage.sustainability-page .su-route-intro { min-height:0; }
+  #mewepak-homepage.sustainability-page .su-route > summary { padding:26px; }
+  #mewepak-homepage.sustainability-page .su-route-content { padding:0 26px 28px; }
+  #mewepak-homepage.sustainability-page .su-strategy figure { min-height:0; aspect-ratio:3/2; }
+}
+@media(max-width:480px) {
+  #mewepak-homepage.sustainability-page .su-benefit-track { --su-benefit-columns:1; }
+  #mewepak-homepage.sustainability-page .su-benefit-card { padding:27px; }
+  #mewepak-homepage.sustainability-page .su-cycle-grid { gap:20px 16px; }
+  #mewepak-homepage.sustainability-page .su-cycle-grid p { font-size:12px; }
+  #mewepak-homepage.sustainability-page .su-hero .su-actions { display:grid; }
+}
+

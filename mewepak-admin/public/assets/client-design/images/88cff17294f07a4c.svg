@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="360" viewBox="0 0 1600 360" preserveAspectRatio="none">
+  <title>Soft sage curves for the contact banner</title>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#f7fbf8"/>
+      <stop offset="1" stop-color="#eaf4ed"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" x2="1" y1=".25" y2="1">
+      <stop stop-color="#cedfc8"/>
+      <stop offset=".52" stop-color="#dcead8"/>
+      <stop offset="1" stop-color="#bbd4bd"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="360" fill="url(#sky)"/>
+  <path d="M0 231c248-2 356 101 579 110 222 9 414-85 601-96 161-10 271 9 420 39v76H0z" fill="#dceadc"/>
+  <path d="M0 280c194-22 310 57 490 60 268 5 455-32 663-56 177-20 317-4 447 27v49H0z" fill="url(#ribbon)"/>
+  <path d="M0 314c186-25 322 28 519 34 245 7 425-30 641-38 190-8 324 13 440 31v19H0z" fill="#acc9b2" opacity=".8"/>
+  <path d="M0 315c186-25 322 28 519 34 245 7 425-30 641-38 190-8 324 13 440 31" fill="none" stroke="#f3f9ed" stroke-width="1.5" opacity=".8"/>
+</svg>

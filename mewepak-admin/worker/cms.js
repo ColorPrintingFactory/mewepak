@@ -173,11 +173,22 @@ export async function serveCms(request, asset, database, getAsset) {
       const matches = words.length ? entries.filter(({ row }) => words.every((word) => [row.name, row.title, row.short_description, row.excerpt, row.summary].join(' ').toLowerCase().includes(word))) : [];
       replace('title', 'Search | Mewepak');
       replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16"><h1>Search results for ${escape(keyword)}</h1><div class="grid md:grid-cols-3 gap-5 mt-8">${renderCards(matches) || '<p>No matching pages or products.</p>'}</div></section>`);
-    } else if (path === '/products/' || path === '/blog/' || entry?.table === 'product_categories') {
+    } else if (path === '/blog/') {
+      const articles = entries.filter(({ table }) => table === 'articles');
+      edit('#in-grid[data-featured-articles]', (el) => {
+        const featured = new Set(el.getAttribute('data-featured-articles').split(' '));
+        for (const { row, path: href } of articles) {
+          if (featured.has(href)) continue;
+          const image = safeUrl(row.featured_image_url);
+          const media = image ? `<a class="in-card-media" href="${escape(href)}" aria-label="Read ${escape(row.title)}"><img src="${escape(image)}" alt="" loading="lazy" decoding="async"></a>` : '';
+          el.append(`<article class="in-card" data-article="${escape(row.slug)}">${media}<h3><a href="${escape(href)}">${escape(row.title)}</a></h3><p>${escape(row.excerpt || '')}</p><a class="in-read" href="${escape(href)}">Read guide <span aria-hidden="true">↗</span></a></article>`, { html: true });
+        }
+      });
+    } else if (path === '/products/' || entry?.table === 'product_categories') {
       const existing = new Set(Object.keys(baseline));
       const newEntries = entries.filter((item) => !existing.has(item.path) && (
         path === '/products/' ? ['product_categories', 'products'].includes(item.table)
-          : path === '/blog/' ? item.table === 'articles' : item.table === 'products' && item.row.category?.slug === row.slug
+          : item.table === 'products' && item.row.category?.slug === row.slug
       ));
       if (newEntries.length) edit('main', (el) => el.append(`<div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-5">${renderCards(newEntries)}</div>`, { html: true }));
     }
