@@ -88,6 +88,21 @@ function renderConnectSection() {
   </section>`;
 }
 
+function renderProductNextStep(context) {
+  const target = '/inquiry/' + (context ? '?product=' + encodeURIComponent(context) : '') + '#quote-request';
+  return `<section id="product-next-step" class="mw-product-next" aria-labelledby="product-next-title">
+    <div class="mw-product-next__panel">
+      <p class="mw-product-next__eyebrow">Let’s bring your packaging idea to life</p>
+      <h2 id="product-next-title">Your next standout pack starts with a conversation.</h2>
+      <p class="mw-product-next__description">Share your product and packaging requirements with our team, or explore more formats before requesting a quote.</p>
+      <div class="mw-product-next__actions">
+        <a class="mw-product-next__action" href="${encode(target)}">Request a Quote <span aria-hidden="true">↗</span></a>
+        <a class="mw-product-next__action mw-product-next__action--outline" href="/products/">Browse All Products</a>
+      </div>
+    </div>
+  </section>`;
+}
+
 function storefrontPageType(url, path) {
   if (path.startsWith('/search') || (path === '/' && url.searchParams.has('s'))) return 'search';
   if (path === '/booking') return 'booking';
@@ -164,6 +179,17 @@ export async function connectStorefront(request, response, database, projectUrl)
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-newsletter.css">', { html: true }));
   const pageType = storefrontPageType(url, path);
+  if (pageType === 'category' || pageType === 'product') {
+    let heading = '';
+    rewrite.on('main h1', {
+      text(chunk) { heading += chunk.text; },
+    });
+    on('main section[class~="bg-[#0f4c5c]"]', (el) => {
+      const context = heading.replace(/^\s*Packaging solutions for\s+/i, '').replace(/\s+/g, ' ').trim();
+      el.replace(renderProductNextStep(context), { html: true });
+    });
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/product-next-step.css">', { html: true }));
+  }
   let themedMain = false;
   let bodyClass = '';
   on('body', (el) => { bodyClass = el.getAttribute('class') || ''; });
