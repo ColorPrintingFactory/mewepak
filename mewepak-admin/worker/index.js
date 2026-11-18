@@ -250,7 +250,7 @@ async function createBookingResponse(request, env) {
     const bookingApiSecret = String(env.BOOKING_API_SECRET || '');
     if (!bookingApiSecret) return json({ error: 'Booking protection is not configured.' }, 503);
     const modernPayload = {
-      p_booking_date: date, p_slot_start: `${slotMatch[1]}:00`, p_contact_name: contactName,
+      p_booking_date: date, p_slot_start: `${slot.slice(0, 5)}:00`, p_contact_name: contactName,
       p_company: company, p_email: email, p_phone: phone, p_topic: topic,
       p_meeting_type: meetingType, p_meeting_duration_minutes: duration, p_customer_timezone: timezone,
       p_api_secret: bookingApiSecret,

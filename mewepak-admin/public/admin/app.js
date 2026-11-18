@@ -677,7 +677,8 @@ function renderPageOptions(item) {
   }
   if (item.slug?.startsWith('markets/') && cachedCategories.length) {
     const chosen = sections.find((section) => section.type === 'recommended_formats')?.slugs || [];
-    return `<details class="advanced-fields" open><summary>推荐包装</summary><p class="field-help">从已发布的分类里挑选，按以下顺序展示。四项都留空时恢复原版推荐。</p><div class="field-grid">
+    return `<details class="advanced-fields" open><summary>推荐包装</summary><p class="field-help">从已发布的分类里挑选，按以下顺序展示。四项都留空时恢复原版推荐。</p>
+      <label class="checkbox-field"><input type="checkbox" name="market-format-reset">恢复原版推荐</label><div class="field-grid">
       ${Array.from({ length: 4 }, (_, index) => `<label class="field">第 ${index + 1} 项<select class="control" name="market-format-${index}"><option value="">留空</option>
         ${cachedCategories.filter((category) => category.status === 'published').map(({slug, name}) => `<option value="${esc(slug)}" ${slug === chosen[index] ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select></label>`).join('')}
       </div></details>`;
@@ -698,9 +699,10 @@ function applyPageOptions(form, sections) {
     }
     return write('home_banners', { slides });
   }
+  if (data.has('market-format-reset')) return sections.filter((section) => section.type !== 'recommended_formats');
   if (data.has('market-format-0')) {
     const slugs = [...new Set(Array.from({ length: 4 }, (_, i) => data.get(`market-format-${i}`)).filter(Boolean))];
-    return write('recommended_formats', { slugs });
+    return slugs.length ? write('recommended_formats', { slugs }) : sections.filter((section) => section.type !== 'recommended_formats');
   }
   return sections;
 }
