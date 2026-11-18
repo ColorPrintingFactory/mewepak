@@ -15,114 +15,116 @@
   color: #e1efee;
 }
 
-[data-mewepak-header] > div:first-child p {
-  color: #e1efee;
-}
+@layer utilities {
+  [data-mewepak-header] > div:first-child p {
+    color: #e1efee;
+  }
 
-[data-mewepak-header] > div:first-child a,
-.site-header > .utility a {
-  color: #c2d4d8 !important;
-}
+  [data-mewepak-header] > div:first-child a,
+  .site-header > .utility a {
+    color: #c2d4d8 !important;
+  }
 
-[data-mewepak-header] > div:first-child a:hover,
-.site-header > .utility a:hover {
-  color: #fff !important;
-}
+  [data-mewepak-header] > div:first-child a:hover,
+  .site-header > .utility a:hover {
+    color: #fff !important;
+  }
 
-[data-mewepak-header] [data-nav-link],
-.site-header .nav-item > a {
-  color: var(--chrome-nav) !important;
-}
+  [data-mewepak-header] [data-nav-link],
+  .site-header .nav-item > a {
+    color: var(--chrome-nav) !important;
+  }
 
-[data-mewepak-header] [data-nav-link]:is(:hover, :focus-visible, [aria-expanded="true"]),
-.site-header .nav-item > a:is(:hover, :focus-visible),
-.site-header .nav-item.active > a,
-[data-mobile-menu] nav :is(a, button):is(:hover, :focus-visible) {
-  color: var(--chrome-accent) !important;
-}
+  [data-mewepak-header] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]),
+  .site-header .nav-item > a:is(:hover, :focus-visible),
+  .site-header .nav-item.active > a,
+  [data-mobile-menu] nav :is(a, button):is(:hover, :focus-visible) {
+    color: var(--chrome-accent) !important;
+  }
 
-[data-mewepak-header] [role="search"] input {
-  border-color: var(--chrome-line);
-}
+  [data-mewepak-header] [role="search"] input {
+    border-color: var(--chrome-line);
+  }
 
-[data-mewepak-header] [role="search"] input:focus,
-.site-header [role="search"] input:focus {
-  border-color: var(--chrome-accent);
-  box-shadow: 0 0 0 3px #007b791a;
-}
+  [data-mewepak-header] [role="search"] input:focus,
+  .site-header [role="search"] input:focus {
+    border-color: var(--chrome-accent);
+    box-shadow: 0 0 0 3px #007b791a;
+  }
 
-[data-mewepak-header] a.shadow-lg,
-[data-mobile-menu] a.w-full.h-12,
-.site-header .header-actions .button-primary,
-.mobile-panel .button-primary,
-[data-scroll-top] {
-  background: var(--chrome-deep) !important;
-  color: #fff !important;
-  box-shadow: none;
-}
+  [data-mewepak-header] a.shadow-lg,
+  [data-mobile-menu] a.w-full.h-12,
+  .site-header .header-actions .button-primary,
+  .mobile-panel .button-primary,
+  [data-scroll-top] {
+    background: var(--chrome-deep) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+  }
 
-[data-mewepak-header] a.shadow-lg:hover,
-[data-mobile-menu] a.w-full.h-12:hover,
-.site-header .header-actions .button-primary:hover,
-.mobile-panel .button-primary:hover,
-[data-scroll-top]:hover {
-  background: var(--chrome-deep-hover) !important;
-}
+  [data-mewepak-header] a.shadow-lg:hover,
+  [data-mobile-menu] a.w-full.h-12:hover,
+  .site-header .header-actions .button-primary:hover,
+  .mobile-panel .button-primary:hover,
+  [data-scroll-top]:hover {
+    background: var(--chrome-deep-hover) !important;
+  }
 
-:is(footer[data-storefront-footer], footer.site-footer) {
-  background: var(--chrome-soft) !important;
-  color: var(--chrome-muted);
-}
+  :is(footer[data-storefront-footer], footer.site-footer) {
+    background: var(--chrome-soft) !important;
+    color: var(--chrome-muted);
+  }
 
-:is(footer[data-storefront-footer], footer.site-footer) :is(h4, .mewepak-category-menu-title) {
-  color: var(--chrome-deep) !important;
-}
+  :is(footer[data-storefront-footer], footer.site-footer) :is(h4, .mewepak-category-menu-title) {
+    color: var(--chrome-deep) !important;
+  }
 
-:is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span, svg) {
-  color: var(--chrome-muted) !important;
-}
+  :is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span, svg) {
+    color: var(--chrome-muted) !important;
+  }
 
-:is(footer[data-storefront-footer], footer.site-footer) a:is(:hover, :focus-visible),
-:is(footer[data-storefront-footer], footer.site-footer) a[href^="mailto:"] {
-  color: var(--chrome-accent) !important;
-}
+  :is(footer[data-storefront-footer], footer.site-footer) a:is(:hover, :focus-visible),
+  :is(footer[data-storefront-footer], footer.site-footer) a[href^="mailto:"] {
+    color: var(--chrome-accent) !important;
+  }
 
-:is(footer[data-storefront-footer], footer.site-footer) :is(.mewepak-footer-logo, .footer-logo) {
-  filter: none;
-}
+  :is(footer[data-storefront-footer], footer.site-footer) :is(.mewepak-footer-logo, .footer-logo) {
+    filter: none !important;
+  }
 
-:is(footer[data-storefront-footer], footer.site-footer) :is(.border-t, .footer-bottom) {
-  border-color: var(--chrome-line) !important;
-  color: var(--chrome-muted);
-}
+  :is(footer[data-storefront-footer], footer.site-footer) :is(.border-t, .footer-bottom) {
+    border-color: var(--chrome-line) !important;
+    color: var(--chrome-muted);
+  }
 
-footer[data-storefront-footer] :is(a.rounded-full, a[class~="!rounded-full"]) {
-  background: #fff !important;
-  color: var(--chrome-accent) !important;
-}
+  footer[data-storefront-footer] :is(a.rounded-full, a[class~="!rounded-full"]) {
+    background: #fff !important;
+    color: var(--chrome-accent) !important;
+  }
 
-footer[data-storefront-footer] [data-mewepak-subscribe] input {
-  background: #fff !important;
-  border-color: var(--chrome-line) !important;
-  color: var(--chrome-deep) !important;
-}
+  footer[data-storefront-footer] [data-mewepak-subscribe] input {
+    background: #fff !important;
+    border-color: var(--chrome-line) !important;
+    color: var(--chrome-deep) !important;
+  }
 
-footer[data-storefront-footer] [data-mewepak-subscribe] input::placeholder {
-  color: var(--chrome-muted) !important;
-}
+  footer[data-storefront-footer] [data-mewepak-subscribe] input::placeholder {
+    color: var(--chrome-muted) !important;
+  }
 
-footer[data-storefront-footer] [data-mewepak-subscribe] button {
-  background: var(--chrome-deep) !important;
-}
+  footer[data-storefront-footer] [data-mewepak-subscribe] button {
+    background: var(--chrome-deep) !important;
+  }
 
-footer[data-storefront-footer] [data-mewepak-subscribe] button span {
-  color: #fff !important;
-}
+  footer[data-storefront-footer] [data-mewepak-subscribe] button span {
+    color: #fff !important;
+  }
 
-footer[data-storefront-footer] [data-mewepak-subscribe] button:hover {
-  background: var(--chrome-deep-hover) !important;
-}
+  footer[data-storefront-footer] [data-mewepak-subscribe] button:hover {
+    background: var(--chrome-deep-hover) !important;
+  }
 
-footer[data-storefront-footer] ul:has(> li > a[href="/products/stand-up-pouch"]) a:is(:hover, :focus-visible) {
-  background: #e2edeb;
+  footer[data-storefront-footer] ul:has(> li > a[href="/products/stand-up-pouch"]) a:is(:hover, :focus-visible) {
+    background: #e2edeb;
+  }
 }

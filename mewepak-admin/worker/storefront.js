@@ -109,7 +109,7 @@ export async function connectStorefront(request, response, database, projectUrl)
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-viewer.js?storefront=1');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=2');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/site-chrome.css"><script src="/assets/storefront-forms.js?v=2" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/site-chrome.css?v=2"><script src="/assets/storefront-forms.js?v=2" defer></script>', { html: true }));
   if (settings.languages?.length) {
     const links = settings.languages.map(({ label, url: href }) => '<a class="block px-4 py-2 !text-gray-700 hover:!text-[#007f7c]" href="' + encode(href) + '">' + encode(label) + '</a>').join('');
     on('button[aria-label="Language selector"]', (el) => el.replace('<details class="relative hidden lg:block"><summary class="cursor-pointer text-sm text-gray-600">◎ Language</summary><nav aria-label="Available languages" class="absolute right-0 z-50 mt-2 rounded-lg bg-white shadow-lg min-w-36">' + links + '</nav></details>', { html: true }));
