@@ -158,10 +158,10 @@ export async function connectStorefront(request, response, database, projectUrl)
   if (path === '/markets/coffee-tea' || path === '/10-design-tips-for-maximum-shelf-impact') {
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/related-content.css">', { html: true }));
   }
-  on('main section#contact.from-gray-100', (el) => {
+  on('section#contact.from-gray-100', (el) => {
     el.replace(renderConnectSection(), { html: true });
   });
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-connect.css">', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-newsletter.css">', { html: true }));
   const pageType = storefrontPageType(url, path);
   let themedMain = false;
   let bodyClass = '';

@@ -44,7 +44,7 @@
 }
 
 @layer utilities {
-  main .storefront-connect .storefront-connect__copy h2 {
+  .storefront-connect .storefront-connect__copy h2 {
     margin: 0;
     color: #fff !important;
     font-size: clamp(34px, 4vw, 52px) !important;
@@ -53,11 +53,11 @@
     letter-spacing: -.035em;
   }
 
-  main .storefront-connect .storefront-connect__copy p {
+  .storefront-connect .storefront-connect__copy p {
     color: #c1d6d2 !important;
   }
 
-  main .storefront-connect .storefront-connect__copy .storefront-connect__eyebrow {
+  .storefront-connect .storefront-connect__copy .storefront-connect__eyebrow {
     margin: 0 0 14px;
     color: #8fe0cc !important;
     font-size: 11px;
@@ -66,25 +66,25 @@
     text-transform: uppercase;
   }
 
-  main .storefront-connect .storefront-connect__email button[type="submit"] {
+  .storefront-connect .storefront-connect__email button[type="submit"] {
     background: #00867e !important;
     color: #fff !important;
     border-radius: 999px !important;
   }
 
-  main .storefront-connect .storefront-connect__email button[type="submit"]:hover {
+  .storefront-connect .storefront-connect__email button[type="submit"]:hover {
     background: #006e68 !important;
   }
 
-  main .storefront-connect .storefront-connect__link {
+  .storefront-connect .storefront-connect__link {
     color: #102f35 !important;
   }
 
-  main .storefront-connect .storefront-connect__status[role="alert"] {
+  .storefront-connect .storefront-connect__status[role="alert"] {
     color: #ffd4cd !important;
   }
 
-  main .storefront-connect :is(a, input, button):focus-visible {
+  .storefront-connect :is(a, input, button):focus-visible {
     outline: 2px solid #8fe0cc;
     outline-offset: 3px;
   }
