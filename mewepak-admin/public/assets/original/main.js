@@ -259,6 +259,44 @@
   var mobileDrawer = document.querySelector('[data-mobile-drawer]');
   var mobileCloseBtns = document.querySelectorAll('[data-mobile-close]');
 
+  if (mobileDrawer) {
+    ['Products', 'Markets', 'Solutions', 'Added Value', 'Sustainability', 'About Us'].forEach(function (label) {
+      var desktop = Array.from(navItems).find(function (item) { return item.dataset.navItem === label; });
+      var panel = Array.from(panels).find(function (item) { return item.dataset.megaPanel === label; });
+      var parentLink = desktop && desktop.querySelector('a');
+      if (!parentLink || !panel) return;
+      var href = parentLink.getAttribute('href');
+      var group = mobileDrawer.querySelector('[data-mobile-group="' + label + '"]');
+      var groupPanel = group && group.querySelector('[data-mobile-group-panel]');
+      if (!groupPanel) {
+        var original = mobileDrawer.querySelector('a[href="' + href + '"]');
+        if (!original) return;
+        group = document.createElement('div');
+        group.dataset.mobileGroup = label;
+        var trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = original.className;
+        trigger.dataset.mobileGroupTrigger = '';
+        trigger.textContent = label + ' ▾';
+        groupPanel = document.createElement('div');
+        groupPanel.dataset.mobileGroupPanel = '';
+        groupPanel.className = 'hidden pl-4 py-2 space-y-1';
+        panel.querySelectorAll('ul a').forEach(function (link) {
+          var child = link.cloneNode(true);
+          child.classList.add('block', 'px-4', 'py-2');
+          groupPanel.appendChild(child);
+        });
+        group.append(trigger, groupPanel);
+        original.replaceWith(group);
+      }
+      var overview = parentLink.cloneNode(false);
+      overview.removeAttribute('data-nav-link');
+      overview.className = 'block px-4 py-2 text-sm font-semibold !text-[#007f7c]';
+      overview.textContent = 'View all ' + label;
+      groupPanel.prepend(overview);
+    });
+  }
+
   function openMobile() {
     if (!mobileMenu || !mobileDrawer) return;
     mobileMenu.classList.remove('hidden');
@@ -286,6 +324,7 @@
       if (!panel) return;
       var willOpen = panel.classList.contains('hidden');
       panel.classList.toggle('hidden', !willOpen);
+      trigger.setAttribute('aria-expanded', String(willOpen));
       if (chevron) chevron.classList.toggle('rotate-180', willOpen);
     });
   });

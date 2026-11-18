@@ -107,7 +107,7 @@ const definitions = {
       { name: 'slug', label: 'URL slug', required: true },
       { name: 'template_key', label: 'Page template', value: 'page-default' },
       { name: 'summary', label: 'Short summary', type: 'textarea', full: true },
-      { name: 'sections', label: 'Page sections (JSON)', type: 'json', full: true, help: 'Structured section data for the matching frontend template.' },
+      { name: 'page_html', label: 'Page content (HTML)', type: 'textarea', full: true, help: 'Edit the page body using the existing layout. The header and footer are shared.' },
       { name: 'sort_order', label: 'Menu order', type: 'number', value: 0 },
       { name: 'status', label: 'Status', type: 'select', options: [['draft', 'Draft'], ['published', 'Published'], ['archived', 'Archived']] },
       { name: 'seo_title', label: 'SEO title', full: true },
@@ -536,9 +536,25 @@ async function openEditor(module, id = '') {
       try { cachedProducts = await queryTable('products','*','name'); } catch { cachedProducts = []; }
     }
   }
+  if (module === 'pages') {
+    const rendered = item.sections?.find((section) => section.type === 'rendered_page');
+    if (rendered) item = { ...item, page_html: rendered.html };
+    else if (id && !['booking', '3d-preview'].includes(item.slug)) {
+      try {
+        const route = item.slug === 'home' ? '/' : '/' + item.slug.split('/').map(encodeURIComponent).join('/') + '/';
+        const response = await fetch(route, { cache: 'no-store' });
+        if (response.ok) {
+          const markup = new DOMParser().parseFromString(await response.text(), 'text/html');
+          item = { ...item, page_html: markup.querySelector('main')?.innerHTML.trim() || '' };
+        }
+      } catch { /* The editor can still save metadata. */ }
+    }
+  }
   const dialogTitle = id ? `Edit ${definition.singular}` : definition.add;
   dialog.innerHTML = `<form id="editor-form" data-module="${esc(module)}" data-id="${esc(id)}"><div class="dialog-head"><div><h2>${esc(dialogTitle)}</h2><p>Changes are saved to the protected content database.</p></div><button type="button" class="icon-btn" data-close aria-label="Close">×</button></div><div class="dialog-body"><div class="field-grid">${definition.fields.map((field)=>renderEditorField(field,item)).join('')}</div><div id="form-error" class="error-box" style="display:none;margin-top:14px"></div></div><div class="dialog-foot"><button type="button" class="btn btn-plain" data-close>Cancel</button><button type="submit" class="btn btn-primary">Save changes</button></div></form>`;
   dialog.querySelectorAll('[data-close]').forEach((button)=>button.addEventListener('click',()=>dialog.close()));
+  const pageBody = dialog.querySelector('[name="page_html"]');
+  if (pageBody && ['booking','3d-preview'].includes(item.slug)) pageBody.closest('.field').hidden = true;
   dialog.querySelector('#editor-form').addEventListener('submit', saveEditor);
   dialog.querySelectorAll('input[type="file"]').forEach((input) => input.addEventListener('change', () => {
     const file = input.files?.[0];
@@ -577,6 +593,13 @@ async function saveEditor(event) {
   try {
     for (const field of definition.fields) {
       const element = form.elements.namedItem(field.name);
+      if (field.name === 'page_html') {
+        if (element.value !== element.defaultValue && !element.closest('.field').hidden) {
+          const current = moduleState.get(module)?.find((row) => String(row.id) === id)?.sections || [];
+          payload.sections = [...current.filter((section) => section.type !== 'rendered_page'), { type: 'rendered_page', html: element.value }];
+        }
+        continue;
+      }
       if (field.type === 'file') {
         const file = element?.files?.[0];
         if (file) payload[field.target] = await uploadFile(file, field.folder);

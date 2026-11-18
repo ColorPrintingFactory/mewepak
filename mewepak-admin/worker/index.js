@@ -1,3 +1,5 @@
+import { serveCms, frontendNavigation } from './cms.js';
+
 const MAX_BODY_BYTES = 12_000;
 
 function json(data, status = 200) {
@@ -245,7 +247,9 @@ async function fetchStaticAsset(request, env, context) {
   const commit = cleanText(env.ASSET_COMMIT_SHA, 64);
   if (!/^[a-f0-9]{40}$/.test(commit)) return new Response('Static asset source is not configured.', { status: 503 });
   const url = new URL(request.url);
-  const requestedPath = url.pathname === '/' ? '/index.html' : (url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname);
+  const pathname = url.pathname;
+  const requestedPath = pathname.endsWith('/') ? `${pathname}index.html`
+    : /\.[a-z0-9]+$/i.test(pathname) || pathname.startsWith('/assets/') ? pathname : `${pathname}/index.html`;
   const upstream = `https://raw.githubusercontent.com/ColorPrintingFactory/mewepak/${commit}/mewepak-admin/public${requestedPath}`;
   const cacheUrl = new URL(request.url);
   cacheUrl.pathname = requestedPath;
@@ -282,10 +286,14 @@ export default {
       const supabasePublishableKey = String(env.SUPABASE_PUBLISHABLE_KEY || '').trim();
       return json({ configured: Boolean(supabaseUrl && supabasePublishableKey), supabaseUrl, supabasePublishableKey, turnstileSiteKey: String(env.TURNSTILE_SITE_KEY || '').trim() }, supabaseUrl && supabasePublishableKey ? 200 : 503);
     }
+    const database = (path) => databaseRequest(env, path);
+    if (url.pathname === '/api/frontend-navigation' && request.method === 'GET') return frontendNavigation(database);
     if (url.pathname === '/api/content' && request.method === 'GET') return contentResponse(request, env);
     if (url.pathname === '/api/booking-slots' && request.method === 'GET') return bookingSlotsResponse(request, env);
     if (url.pathname === '/api/bookings' && request.method === 'POST') return createBookingResponse(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
-    return withSecurityHeaders(await fetchStaticAsset(request, env, context), url.pathname);
+    const asset = await fetchStaticAsset(request, env, context);
+    const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
+    return withSecurityHeaders(await serveCms(request, asset, database, getAsset), url.pathname);
   },
 };
