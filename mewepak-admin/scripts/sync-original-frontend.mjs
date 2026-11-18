@@ -206,6 +206,26 @@ async function syncRoute(route) {
   return route;
 }
 
+async function externalizeRuntimeData(routes) {
+  let runtimeData = '';
+  for (const route of routes) {
+    const output = outputFileForRoute(route);
+    let html;
+    try {
+      html = await readFile(output, 'utf8');
+    } catch {
+      continue;
+    }
+    html = html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (tag, attributes, body) => {
+      if (!/mewepak(?:ProductsMenuData|MenuCategoryImages|Forms)/.test(body)) return tag;
+      runtimeData ||= body;
+      return '<script src="/assets/original/runtime-data.js"></script>';
+    });
+    await writeFile(output, html);
+  }
+  if (runtimeData) await writeFile(path.join(originalAssets, 'runtime-data.js'), runtimeData);
+}
+
 await prepareAssets();
 const requestedRoutes = process.argv.slice(2).map((value) => normalizeRoute(value)).filter(Boolean);
 const routes = requestedRoutes.length ? [...new Set(requestedRoutes)] : await collectRoutes();
@@ -218,5 +238,6 @@ for (let index = 0; index < routes.length; index += 6) {
     else console.warn(`Skipping route ${batch[resultIndex]}: ${result.reason.message}`);
   });
 }
+await externalizeRuntimeData(completed);
 
 console.log(JSON.stringify({ source: sourceOrigin, discovered: routes.length, completed: completed.length, routes: completed }, null, 2));
