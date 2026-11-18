@@ -361,6 +361,24 @@
 		}
 	}
 
+	function showViewerFallback( container, poster ) {
+		var fallback = document.createElement( 'div' );
+		fallback.style.cssText = 'display:grid;justify-items:center;align-content:center;gap:16px;min-height:480px;padding:24px;text-align:center;color:var(--chrome-deep,#102b35);';
+		var image = poster || document.createElement( 'img' );
+		if ( !poster ) image.src = '/assets/client-design/images/30e138afb1ec62c7.webp';
+		image.alt = 'Mewepak printed stand-up pouch';
+		image.style.cssText = 'width:min(100%,240px);height:240px;object-fit:contain;border-radius:10px;';
+		var message = document.createElement( 'p' );
+		message.setAttribute( 'role', 'status' );
+		message.textContent = 'Interactive 3D needs WebGL. You can still use our artwork preview.';
+		var link = document.createElement( 'a' );
+		link.className = 'button button-primary';
+		link.href = '/inquiry/#artwork-preview';
+		link.textContent = 'Open artwork preview';
+		fallback.append( image, message, link );
+		container.replaceChildren( fallback );
+	}
+
 	function initViewers() {
 		var containers = document.querySelectorAll( '.mewepak-3d-container' );
 		containers.forEach( function( container ) {
@@ -370,8 +388,14 @@
 			var observer = new IntersectionObserver( function( entries ) {
 				entries.forEach( function( entry ) {
 					if ( entry.isIntersecting ) {
-						new PouchViewer( container );
 						observer.unobserve( container );
+						var poster = container.querySelector( '[data-model-poster]' );
+						try {
+							new PouchViewer( container );
+						} catch ( error ) {
+							console.warn( 'Interactive pouch preview unavailable:', error );
+							showViewerFallback( container, poster );
+						}
 					}
 				} );
 			}, { threshold: 0.1 } );
