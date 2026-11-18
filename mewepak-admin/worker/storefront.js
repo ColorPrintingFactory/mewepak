@@ -113,6 +113,31 @@ function storefrontPageType(url, path) {
   return 'detail';
 }
 
+const publicMailbox = '(?:sales|support|info)@mewepak\\.com';
+const publicMailto = new RegExp('^mailto:' + publicMailbox + '(?=\\?|$)', 'i');
+const publicEmailText = new RegExp('(?<![\\w.+-])' + publicMailbox + '(?![\\w.-])', 'gi');
+
+export function rewriteContactEmail(rewriter, email) {
+  if (!email) return;
+  let label = '';
+  rewriter.on('body', { element: (el) => el.setAttribute('data-mewepak-contact-email', email) });
+  rewriter.on('a[href^="mailto:"]', {
+    element(el) {
+      const href = el.getAttribute('href');
+      if (publicMailto.test(href)) el.setAttribute('href', href.replace(publicMailto, () => 'mailto:' + email));
+    },
+    text(chunk) {
+      label += chunk.text;
+      if (!chunk.lastInTextNode) {
+        chunk.remove();
+        return;
+      }
+      chunk.replace(label.replace(publicEmailText, () => encode(email)), { html: true });
+      label = '';
+    },
+  });
+}
+
 export async function connectStorefront(request, response, database, projectUrl, captureSettings) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
@@ -130,8 +155,8 @@ export async function connectStorefront(request, response, database, projectUrl,
   const on = (selector, element) => rewrite.on(selector, { element });
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
+  rewriteContactEmail(rewrite, settings.email);
   const oldContact = [
-    ['mailto:sales@mewepak.com', settings.email, 'mailto:' + settings.email, settings.email],
     ['tel:+8613423118038', settings.phone, 'tel:' + (settings.phone || '').replace(/[^+\d]/g, ''), 'Call Us: ' + settings.phone],
     ['https://wa.me/8613537663353', settings.whatsapp, 'https://wa.me/' + (settings.whatsapp || '').replace(/\D/g, ''), 'WhatsApp: ' + settings.whatsapp],
   ];
@@ -141,7 +166,6 @@ export async function connectStorefront(request, response, database, projectUrl,
     set(link, 'href', href);
     text('[data-mewepak-header] ' + link + ' > span', label);
   }
-  if (settings.email) set('#call a[href="mailto:info@mewepak.com"]', 'href', 'mailto:' + settings.email);
   if (settings.phone) set('#call a[href="tel:+86123456789"]', 'href', 'tel:' + settings.phone.replace(/[^+\d]/g, ''));
   if (settings.whatsapp) set('#call a[href="https://wa.me/86123456789"]', 'href', 'https://wa.me/' + settings.whatsapp.replace(/\D/g, ''));
   if (settings.phone) {
@@ -167,7 +191,9 @@ export async function connectStorefront(request, response, database, projectUrl,
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
   set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
-  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=1');
+  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=contact-2');
+  set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=contact');
+  set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=contact');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=mobile-2');
   set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=banner-editor');

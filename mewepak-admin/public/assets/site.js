@@ -16,6 +16,8 @@ const productCategories = [
 const esc = (value='') => String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const arrow = '<span aria-hidden="true">→</span>';
 
+const contactEmail = document.body.dataset.mewepakContactEmail;
+
 function categoryLink(item) {
   return `<li><a href="/products/?category=${encodeURIComponent(item.slug)}">${esc(item.name)}</a></li>`;
 }
@@ -27,7 +29,7 @@ function renderHeader() {
   const specialty = productCategories.filter(x => x.group === 'specialty-packaging');
   host.innerHTML = `
     <header class="site-header">
-      <div class="utility"><div class="container"><strong>Customized Packaging Factory Since 2007.</strong><div class="utility-links"><a href="https://wa.me/8613537663353">WhatsApp: +86 13537663353</a><a href="tel:+8613423118038">Call Us: +86-13423118038</a><a href="mailto:sales@mewepak.com">sales@mewepak.com</a></div></div></div>
+      <div class="utility"><div class="container"><strong>Customized Packaging Factory Since 2007.</strong><div class="utility-links"><a href="https://wa.me/8613537663353">WhatsApp: +86 13537663353</a><a href="tel:+8613423118038">Call Us: +86-13423118038</a><a href="mailto:${esc(contactEmail || 'sales@mewepak.com')}">${esc(contactEmail || 'sales@mewepak.com')}</a></div></div></div>
       <div class="container header-main">
         <a class="brand" href="/"><img src="/assets/images/logo.png" alt="Mewepak — Packaging Solutions Provider"></a>
         <form class="search-form" action="/products/" role="search"><input name="q" type="search" placeholder="Search for products |" aria-label="Search for products"><button aria-label="Search">⌕</button></form>
@@ -52,7 +54,7 @@ function renderHeader() {
 function renderFooter() {
   const host = document.querySelector('[data-site-footer]');
   if (!host) return;
-  host.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid"><div><img class="footer-logo" src="/assets/images/logo.png" alt="Mewepak"><p class="footer-note">The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.</p></div><div class="footer-column"><h4>Products</h4><ul>${productCategories.slice(0,7).map(categoryLink).join('')}</ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/">Home</a></li><li><a href="/#about">About Us</a></li><li><a href="/products/">Products</a></li><li><a href="/3d-preview/">3D Preview</a></li><li><a href="/booking/">Contact</a></li><li><a href="/booking/">Book a Consultation</a></li></ul></div><div class="footer-column"><h4>Contact</h4><ul><li><a href="tel:+18003961840">Toll-Free: 1-800-396-1840</a></li><li><a href="tel:+16303643944">Front Desk: 630-364-3944</a></li><li><a href="mailto:support@mewepak.com">support@mewepak.com</a></li><li><a href="https://wa.me/8613537663353">WhatsApp</a></li></ul></div></div><div class="footer-bottom"><span>© 2007–2026 Mewepak. All rights reserved.</span><span>Customized Packaging Factory Since 2007.</span></div></div></footer>`;
+  host.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid"><div><img class="footer-logo" src="/assets/images/logo.png" alt="Mewepak"><p class="footer-note">The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.</p></div><div class="footer-column"><h4>Products</h4><ul>${productCategories.slice(0,7).map(categoryLink).join('')}</ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/">Home</a></li><li><a href="/#about">About Us</a></li><li><a href="/products/">Products</a></li><li><a href="/3d-preview/">3D Preview</a></li><li><a href="/booking/">Contact</a></li><li><a href="/booking/">Book a Consultation</a></li></ul></div><div class="footer-column"><h4>Contact</h4><ul><li><a href="tel:+18003961840">Toll-Free: 1-800-396-1840</a></li><li><a href="tel:+16303643944">Front Desk: 630-364-3944</a></li><li><a href="mailto:${esc(contactEmail || 'support@mewepak.com')}">${esc(contactEmail || 'support@mewepak.com')}</a></li><li><a href="https://wa.me/8613537663353">WhatsApp</a></li></ul></div></div><div class="footer-bottom"><span>© 2007–2026 Mewepak. All rights reserved.</span><span>Customized Packaging Factory Since 2007.</span></div></div></footer>`;
 }
 
 async function loadCategories() {

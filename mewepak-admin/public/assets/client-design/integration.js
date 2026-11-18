@@ -117,14 +117,6 @@
   }
 
   function syncBrand(settings) {
-    if (settings.email) {
-      for (const link of document.querySelectorAll('a[href="mailto:sales@mewepak.com"]')) {
-        link.href = 'mailto:' + settings.email;
-        for (const node of link.childNodes) {
-          if (node.nodeType === Node.TEXT_NODE) node.textContent = node.textContent.replace('sales@mewepak.com', settings.email);
-        }
-      }
-    }
     if (settings.logo) for (const image of document.querySelectorAll('img.mw-logo,img.mw-footer-logo')) image.src = settings.logo;
   }
 
