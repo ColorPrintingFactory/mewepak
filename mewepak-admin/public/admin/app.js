@@ -391,10 +391,16 @@ async function renderListModule(module) {
       const result = await supabase.from('model_assets').select('*, product:products(name)').order('sort_order').order('name');
       if (result.error) throw result.error;
       rows = result.data || [];
+    } else if (module === 'settings') {
+      const result = await supabase.from('site_settings')
+        .select('key,value,is_public,updated_at')
+        .neq('key', 'booking_api_secret')
+        .order('key', { ascending: true });
+      if (result.error) throw result.error;
+      rows = result.data || [];
     } else {
       rows = await queryTable(definition.table, '*', module === 'categories' ? 'menu_order' : 'created_at', module === 'categories');
     }
-    if (module === 'settings') rows = rows.filter((row) => row.key !== 'booking_api_secret');
     moduleState.set(module, rows);
     if (module === 'categories') cachedCategories = rows;
     const title = definition.title;
