@@ -1,24 +1,31 @@
-"""Regenerate the representative packaging GLBs and thumbnails with Blender."""
+"""Regenerate the packaging models in Blender using the example prints.
+
+Run build-packaging-artwork.py first, then pass its output directory after --.
+"""
 from math import cos, exp, pi, sin
 from pathlib import Path
+import sys
 
 import bpy
 from mathutils import Vector
 
 OUTPUT = Path(__file__).resolve().parents[1] / 'public/assets/3d/formats'
 OUTPUT.mkdir(exist_ok=True)
+if '--' not in sys.argv or not sys.argv[sys.argv.index('--') + 1:]:
+    raise SystemExit('Pass the generated example artwork directory after --')
+ARTWORK = Path(sys.argv[sys.argv.index('--') + 1]).resolve()
 
 # Width, height, depth, profile and laminate color. Blender front faces -Y.
 POUCHES = {
-    'flat-bottom-pouch': (1.02, 1.43, .46, 'box', (.62, .46, .25)),
-    'flat-pouch': (.84, 1.18, .12, 'flat', (.30, .54, .49)),
-    'pinch-bottom-pouches': (.98, 1.65, .41, 'pinch', (.68, .44, .26)),
-    'polybag': (.95, 1.24, .30, 'tied', (.60, .76, .72)),
-    'quad-seal-bag': (.88, 1.51, .52, 'quad', (.23, .40, .56)),
-    'retort-pouch': (1.22, 1.00, .16, 'retort', (.55, .58, .59)),
-    'shaped-pouch': (.94, 1.29, .26, 'shaped', (.66, .32, .24)),
-    'spout-pouch': (.93, 1.35, .31, 'spout', (.44, .70, .54)),
-    'stand-up-pouch-tap': (1.00, 1.35, .38, 'tap', (.37, .58, .67)),
+    'flat-bottom-pouch': (1.02, 1.43, .46, 'box', (.13, .24, .19)),
+    'flat-pouch': (.84, 1.18, .12, 'flat', (.12, .26, .30)),
+    'pinch-bottom-pouches': (.98, 1.65, .41, 'pinch', (.27, .14, .10)),
+    'polybag': (.95, 1.24, .30, 'tied', (.20, .36, .28)),
+    'quad-seal-bag': (.88, 1.51, .52, 'quad', (.16, .22, .36)),
+    'retort-pouch': (1.22, 1.00, .16, 'retort', (.34, .24, .20)),
+    'shaped-pouch': (.94, 1.29, .26, 'shaped', (.32, .18, .20)),
+    'spout-pouch': (.93, 1.35, .31, 'spout', (.15, .34, .24)),
+    'stand-up-pouch-tap': (1.00, 1.35, .38, 'tap', (.14, .31, .38)),
 }
 
 
@@ -46,8 +53,18 @@ def material(name, color, roughness=.48, metal=0):
     return mat
 
 
-def surface(name, columns, rows, point, mat, reverse=False, mirror=False):
-    verts = [point(x / columns, y / rows) for y in range(rows + 1) for x in range(columns + 1)]
+def printed_material(slug, side, roughness=.44, metallic=0):
+    mat = material(f'{side.capitalize()} print', (1, 1, 1), roughness, metallic)
+    shader = mat.node_tree.nodes.get('Principled BSDF')
+    texture = mat.node_tree.nodes.new('ShaderNodeTexImage')
+    texture.image = bpy.data.images.load(str(ARTWORK / f'{slug}-{side}.jpg'))
+    mat.node_tree.links.new(texture.outputs['Color'], shader.inputs['Base Color'])
+    return mat
+
+
+def surface(name, columns, rows, point, mat, reverse=False, mirror=False, levels=None, u_span=1):
+    levels = levels or [y / rows for y in range(rows + 1)]
+    verts = [point(x / columns, level) for level in levels for x in range(columns + 1)]
     stride = columns + 1
     faces = [
         (i, i + 1, i + stride + 1, i + stride)
@@ -67,7 +84,7 @@ def surface(name, columns, rows, point, mat, reverse=False, mirror=False):
     for loop in mesh.loops:
         index = loop.vertex_index
         u = (index % stride) / columns
-        uvs.data[loop.index].uv = (1 - u if mirror else u, (index // stride) / rows)
+        uvs.data[loop.index].uv = ((1 - u if mirror else u) * u_span, levels[index // stride])
     return obj
 
 
@@ -87,128 +104,215 @@ def cylinder(name, radius, depth, loc, mat, axis='Z'):
     return obj
 
 
-def make_tap(x, y, z, dark):
-    cylinder('Tap mounting flange', .098, .068, (x, y, z), dark, 'Y')
-    cylinder('Tap stem', .062, .156, (x, y - .082, z), dark, 'Y')
-    cylinder('Flow outlet', .037, .105, (x, y - .139, z - .038), dark)
-    handle = cylinder('Tap lever', .076, .033, (x, y - .115, z + .064), dark)
-    handle.scale.y = .66
+def gauss(position, center, spread):
+    return exp(-((position - center) / spread) ** 2)
 
 
-def make_pouch(w, h, d, kind, color):
-    finish = material('Printable laminate', color, .46, .18 if kind == 'retort' else .03)
-    folds = material('Laminate edge', tuple(c * .72 for c in color), .54)
-    dark = material('Closure', (.055, .105, .11), .38)
-    hardware = material('Soft ivory cap', (.82, .77, .58), .37)
-    expanded = kind in ('box', 'pinch', 'quad')
-    ns, nt = 24, 46
+def ramp(value):
+    value = min(1, max(0, value))
+    return value * value * (3 - 2 * value)
 
-    def point(u, v, side):
+
+def torus(name, radius, tube, loc, mat, axis='Z'):
+    bpy.ops.mesh.primitive_torus_add(
+        major_segments=40, minor_segments=8, major_radius=radius, minor_radius=tube,
+        location=loc, rotation=(pi / 2 if axis == 'Y' else 0, 0, 0),
+    )
+    obj = bpy.context.object
+    obj.name = name
+    obj.data.materials.append(mat)
+    for polygon in obj.data.polygons:
+        polygon.use_smooth = True
+    return obj
+
+
+def make_tap(x, y, z, valve):
+    gasket = material('Rubber mounting gasket', (.035, .055, .054), .58)
+    inset = material('Outlet interior', (.012, .024, .023), .73)
+    cylinder('Tap mounting flange', .098, .061, (x, y - .008, z), valve, 'Y')
+    torus('Tap flange gasket', .086, .012, (x, y - .027, z), gasket, 'Y')
+    cylinder('Tap stem', .059, .146, (x, y - .087, z), valve, 'Y')
+    cylinder('Flow outlet', .039, .095, (x, y - .141, z - .039), valve)
+    cylinder('Recessed outlet', .027, .004, (x, y - .141, z - .087), inset)
+    torus('Outlet lip', .033, .005, (x, y - .141, z - .086), valve)
+    handle = cylinder('Tap paddle', .071, .025, (x, y - .142, z + .062), valve)
+    handle.scale = (1.35, .70, 1)
+
+
+def make_pouch(slug, w, h, d, kind, edge_color):
+    matte = {'tied': .40, 'retort': .38, 'flat': .48, 'pinch': .49}.get(kind, .45)
+    metal = .12 if kind == 'retort' else 0
+    front_print = printed_material(slug, 'front', matte, metal)
+    back_print = printed_material(slug, 'back', matte, metal)
+    folds = material('Folded laminate', edge_color, .50, metal)
+    top_edge = material('Welded top film', (.77, .74, .64), .47, metal)
+    dark = material('Molded closure', (.06, .14, .15), .32)
+    hardware = material('Ivory polypropylene', (.80, .73, .58), .31)
+    gusseted = kind in ('box', 'pinch', 'quad')
+    flat = kind in ('flat', 'retort')
+    top = .945
+    levels = sorted(set([i / 50 for i in range(51)] +
+        [.012, .024, .043, .083, .839, .857, .873, .885,
+         .91, .922, .931, .942, .951, .958, .965, .974, .981, .988, .995]))
+    ns, nt = 26, len(levels) - 1
+
+    def face(u, v, side):
         p = 2 * u - 1
-        height = h * v
-        width = profile(v, [(0, .91), (.07, 1), (.27, 1), (.83, .96), (1, .91)])
-        depth = profile(v, [(0, .45), (.12, .86), (.36, 1), (.68, .83), (.89, .22), (.99, .025), (1, .025)])
+        z = h * v
+        width = profile(v, [(0, .89), (.045, .96), (.14, 1), (.38, .987), (.80, .965), (.94, .94), (1, .92)])
+        depth = profile(v, [(0, .43), (.10, .89), (.30, 1), (.58, .87), (.75, .55), (.89, .12), (1, .018)])
         outline = sin(pi * u) ** .73
         edge = min(u, 1 - u)
-        soft = .007 * sin(19 * u + 13 * v + side) * sin(pi * v) ** 2 * sin(pi * u)
-        if expanded:
-            width = profile(v, [(0, .94), (.08, 1), (.76, .98), (.92, .91), (1, .89)])
-            depth = profile(v, [(0, .93 if kind != 'pinch' else .10), (.15, 1), (.75, .95), (1, .025)])
-            outline = .78 + .20 * sin(pi * u)
+        flex = .008 * sin(19 * u + 13 * v + side) * sin(pi * v) ** 2 * sin(pi * u)
+        flex += .012 * sin(30 * u + 18 * v + side) * gauss(v, .105, .064) * sin(pi * u)
+
+        if gusseted:
+            width = profile(v, [(0, .96), (.08, 1), (.65, .995), (.82, .974), (.93, .907), (1, .90)])
+            depth = profile(v, [(0, .88 if kind != 'pinch' else .075), (.14, 1), (.54, .98), (.74, .86), (.88, .37), (.96, .035), (1, .024)])
+            outline = .77 + .23 * sin(pi * u) ** .55
+            flex += .009 * sin(46 * u - 19 * v + side) * gauss(v, .77, .115) * sin(pi * u)
             if kind == 'pinch':
-                height += .048 * p + .028 * p * p * (1 - v) ** 4
-        elif kind in ('flat', 'retort'):
-            width = profile(v, [(0, .94), (.08, 1), (.91, 1), (1, .94)])
-            depth = sin(pi * v) ** .8
-            soft *= .42
-            if kind == 'retort':
-                height += .022 * p * p * (1 - 2 * v)
-        elif kind == 'shaped':
-            width = profile(v, [(0, .72), (.09, .90), (.29, 1), (.55, .94), (.76, .63), (.92, .52), (1, .59)])
-        elif kind == 'spout':
-            height -= .195 * (1 - u) * v ** 5
-        elif kind == 'tied':
-            width = profile(v, [(0, .85), (.09, .97), (.45, 1), (.68, .88), (.82, .18), (.88, .17), (1, .45)])
-            depth = profile(v, [(0, .28), (.12, .85), (.41, 1), (.65, .78), (.83, .19), (1, .21)])
-            soft *= 2.2
-        ridge = 0
-        if kind != 'tied':
-            ridge = (.007 * exp(-((v - .932) / .012) ** 2) + .004 * exp(-((v - .968) / .010) ** 2))
-            if not expanded:
-                ridge += .006 * exp(-((edge - .035) / .024) ** 2) * sin(pi * v)
+                width *= 1 + .038 * gauss(v, .1, .13)
+                z += (.020 * p + .033 * p * p) * gauss(v, .028, .127)
             if kind == 'quad':
-                ridge += .013 * exp(-((edge - .025) / .022) ** 2) * sin(pi * v) ** .4
-        return (w * p * width / 2, side * (.003 + d * depth * outline / 2 + soft + ridge), height)
+                width *= 1 - .040 * gauss(v, .78, .09)
+        elif flat:
+            width = profile(v, [(0, .928), (.038, .981), (.085, 1), (.92, 1), (.965, .982), (1, .937)])
+            depth = ramp((v - .051) / .19) * ramp((.948 - v) / .19) * (1 - .12 * gauss(v, .76, .15))
+            flex *= .30
+            z += (.026 if kind == 'retort' else .014) * p ** 6 * (gauss(v, 0, .067) - gauss(v, 1, .067))
+        elif kind == 'spout':
+            width *= profile(v, [(0, 1), (.62, 1), (.87, .91), (1, .84)])
+            z -= .27 * (1 - u) * v ** 5
+        elif kind == 'shaped':
+            width = profile(v, [(0, .68), (.075, .87), (.33, 1), (.49, .91), (.61, .68), (.77, .54), (.92, .60), (1, .57)])
+        elif kind == 'tied':
+            width = profile(v, [(0, .84), (.09, .96), (.43, 1), (.65, .91), (.82, .14), (.875, .145), (1, .48)])
+            depth = profile(v, [(0, .30), (.15, .84), (.40, 1), (.63, .83), (.82, .19), (1, .23)])
+            flex += .024 * sin(35 * u + side + 5 * v) * gauss(v, .77, .19) * sin(pi * u)
+            z += .015 * sin(17 * u + side) * gauss(v, 1, .12)
 
-    panels = [
-        surface('Front', ns, nt, lambda u, v: point(u, v, -1), finish),
-        surface('Back', ns, nt, lambda u, v: point(u, v, 1), finish, reverse=True, mirror=True),
-    ]
+        crimp = 0
+        if kind != 'tied':
+            top_heat = ramp((v - .898) / .034)
+            crimp = .0048 * gauss(v, top, .008) + .0046 * gauss(v, .973, .009)
+            crimp += .00125 * (1 + sin(464 * v)) * top_heat
+            if not gusseted:
+                # Tight welded margins stay flat as the center of the laminate expands.
+                outline *= .17 + .83 * ramp(edge / .095)
+                crimp += .0052 * gauss(edge, .041, .016) * sin(pi * v) ** .5
+            if flat:
+                crimp += .0048 * gauss(v, .050, .012) + .0011 * gauss(v, .030, .034) * (1 + sin(410 * v))
+            if kind in ('box', 'quad'):
+                crimp += .012 * gauss(edge, .024, .012) * ramp((v - .02) / .080) * ramp((.97 - v) / .09)
+            if kind in ('box', 'shaped', 'tap'):
+                crimp += .0069 * gauss(v, .874, .010) * ramp(edge / .075)
+        return (w * p * width / 2, side * (.004 + d * depth * outline / 2 + flex + crimp), z)
 
-    def join(u, v, s):
-        return tuple(mix(a, b, s) for a, b in zip(point(u, v, -1), point(u, v, 1)))
+    surface('Front', ns, nt, lambda u, v: face(u, v, -1), front_print, levels=levels)
+    surface('Back', ns, nt, lambda u, v: face(u, v, 1), back_print, reverse=True, mirror=True, levels=levels)
+
+    def bridge(u, v, t):
+        return tuple(mix(a, b, t) for a, b in zip(face(u, v, -1), face(u, v, 1)))
 
     for u, name in [(0, 'Left gusset'), (1, 'Right gusset')]:
-        def gusset(s, v, u=u):
-            x, y, z = join(u, v, s)
-            fold = (.068 if kind in ('pinch', 'quad') else .018) * sin(pi * s) * sin(pi * v) ** .5
-            return x + (1 - 2 * u) * fold, y, z
-        surface(name, 10, nt, gusset, folds, reverse=(u == 0))
-    surface('Top seal', ns, 6, lambda u, s: join(u, 1, s), folds)
-    surface('Bottom seam', ns, 10, lambda u, s: join(u, 0, s), folds, reverse=True)
+        def gusset(t, v, u=u):
+            x, y, z = bridge(u, v, t)
+            if gusseted:
+                fold = (.073 if kind in ('pinch', 'quad') else .038) * sin(pi * t) ** .7
+                x += (1 - 2 * u) * fold * sin(pi * v) ** .52
+            return x, y, z
+        surface(name, 12, nt, gusset, folds, reverse=(u == 0), levels=levels)
+    surface('Top heat-sealed edge', ns, 6, lambda u, t: bridge(u, 1, t), top_edge)
+
+    def bottom(u, t):
+        x, y, z = bridge(u, 0, t)
+        inner_fold = .058 if kind in ('box', 'tap', 'spout', 'shaped') else .021
+        return x, y, z + inner_fold * sin(pi * t) ** 1.4 * sin(pi * u) ** .8
+
+    surface('Bottom fold', ns, 12, bottom, folds, reverse=True)
 
     if kind == 'spout':
-        x = w * .32
-        cylinder('Spout collar', .083, .095, (x, 0, h - .022), hardware)
-        cylinder('Spout cap', .072, .107, (x, 0, h + .063), hardware)
-        for i in range(18):
-            a = 2 * pi * i / 18
-            cylinder('Grip rib', .0055, .071, (x + .071 * cos(a), .071 * sin(a), h + .062), hardware)
+        u = .88
+        x, _, z = face(u, 1, -1)
+        cylinder('Spout mounting collar', .079, .071, (x, 0, z + .020), top_edge)
+        torus('Cap security band', .064, .009, (x, 0, z + .056), hardware)
+        cap_radius, cap_z = .070, z + .063
+        def cap(u, v):
+            angle = 2 * pi * u
+            grip = .0033 * (1 + cos(27 * angle)) * ramp(v / .15) * ramp((1 - v) / .16)
+            radius = cap_radius - .005 * gauss(v, 1, .13) + grip
+            return radius * cos(angle) + x, radius * sin(angle), cap_z + v * .085
+        surface('Fluted screw cap', 108, 8, cap, hardware)
+        cylinder('Sealed cap top', .065, .012, (x, 0, cap_z + .080), hardware)
     if kind == 'tap':
-        make_tap(w * .25, point(.75, .15, -1)[1], h * .19, dark)
+        x, y, z = face(.71, .18, -1)
+        make_tap(x, y, z, dark)
     if kind == 'tied':
-        cylinder('Closure band', .075, .038, (0, 0, h * .85), dark)
+        tie = cylinder('Gathered neck tie', w * .083, .026, (0, 0, h * .847), dark)
+        tie.scale.y = .68
 
-    return panels
 
-
-def make_box():
-    board = material('White carton board', (.78, .71, .57), .65)
-    panel = material('Printed carton board', (.65, .74, .63), .61)
-    plastic = material('Tap hardware', (.068, .11, .115), .44)
+def make_box(slug):
+    board = material('Carton board', (.76, .70, .55), .55)
+    edge = material('Paper score lines', (.44, .44, .36), .64)
+    valve = material('Tap hardware', (.070, .14, .14), .35)
     w, h, d = 1.05, 1.32, .73
-    front = surface('Front', 1, 1, lambda u, v: ((u - .5) * w, -d / 2, v * h), panel)
-    back = surface('Back', 1, 1, lambda u, v: ((u - .5) * w, d / 2, v * h), panel, reverse=True, mirror=True)
-    for side in [-1, 1]:
-        surface('Carton side', 1, 1, lambda u, v, side=side: (side * w / 2, (u - .5) * d, v * h), board, reverse=(side < 0))
-    for height in [0, h]:
-        surface('Carton flap', 1, 1, lambda u, v, height=height: ((u - .5) * w, (v - .5) * d, height), board, reverse=(height == 0))
-    make_tap(.03, -d / 2, .21, plastic)
-    return [front, back]
+    bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 0, h / 2))
+    box = bpy.context.object
+    box.name = 'Carton structure'
+    box.dimensions = (w, d, h)
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    box.data.materials.append(board)
+    bevel = box.modifiers.new('Soft paper folds', 'BEVEL')
+    bevel.width, bevel.segments = .011, 3
+    box.modifiers.new('Weighted normals', 'WEIGHTED_NORMAL')
+    x_edge, z_edge = w * .5 - .011, h - .011
+
+    for side, label in [(-1, 'front'), (1, 'back')]:
+        surface(label.capitalize(), 1, 1, lambda u, v, side=side:
+            ((2 * u - 1) * x_edge, side * (d / 2 + .0008), mix(.011, z_edge, v)),
+            printed_material(slug, label, .57), reverse=(side > 0), mirror=(side > 0))
+    for side, label in [(-1, 'left'), (1, 'right')]:
+        surface('Printed carton ' + label, 1, 1, lambda u, v, side=side:
+            (side * (w / 2 + .0008), (u - .5) * (d - .020), mix(.011, z_edge, v)),
+            printed_material(slug, label, .57), reverse=(side < 0), mirror=(side < 0))
+    surface('Top carton flap seam', 1, 1, lambda u, v:
+        ((2 * u - 1) * x_edge, mix(-.003, .003, v), h + .001), edge)
+    make_tap(.03, -d / 2, .206, valve)
 
 
-def make_roll():
-    film = material('Printable roll film', (.32, .49, .55), .37)
-    rim = material('Layered film edge', (.67, .70, .67), .62)
-    card = material('Kraft core', (.41, .27, .13), .7)
-    dark = material('Inside core', (.22, .14, .095), .72)
-    radius, inner, half = .46, .18, .61
+def make_roll(slug):
+    film = printed_material(slug, 'front', .34)
+    rim = material('Wound film layers', (.69, .73, .68), .56)
+    core = material('Kraft paper tube', (.39, .25, .11), .66)
+    dark = material('Inside paper core', (.30, .19, .10), .76)
+    radius, inner, height = .46, .178, 1.19
 
     def point(u, v, r=radius):
         angle = u * 2 * pi
-        return (r * cos(angle), r * sin(angle), v * 2 * half)
+        return r * cos(angle), r * sin(angle), v * height
 
-    printed = surface('Front Film', 80, 4, point, film)
+    surface('Front roll film', 96, 8, point, film)
     for side in [0, 1]:
-        def annulus(u, s, side=side):
-            return point(u, side, mix(inner, radius, s))
-        surface('Wound laminate', 80, 5, annulus, rim, reverse=(side == 1))
-        def core_end(u, s, side=side):
-            x, y, z = point(u, side, mix(inner - .024, inner + .016, s))
-            return x, y, z + (.014 if side else -.014)
-        surface('Carton core rim', 80, 3, core_end, card, reverse=(side == 1))
-    surface('Hollow inner core', 80, 3, lambda u, v: point(u, v, inner - .024), dark, reverse=True)
-    return [printed]
+        def layers(u, t, side=side):
+            x, y, z = point(u, side, mix(inner, radius, t))
+            return x, y, z + (1 if side else -1) * .0026 * (1 + cos(t * pi * 46))
+        surface('Wound laminate layers', 72, 49, layers, rim, reverse=(side == 1))
+        def tube_end(u, t, side=side):
+            x, y, z = point(u, side, mix(inner - .025, inner, t))
+            return x, y, z + (.013 if side else -.013)
+        surface('Kraft core end', 72, 4, tube_end, core, reverse=(side == 1))
+        surface('Kraft core outer rim', 72, 1, lambda u, v, side=side:
+            point(u, side + (v - 1 + side) * .013 / height, inner), core)
+    surface('Hollow paper core', 72, 4, lambda u, v: point(u, mix(-.013, 1.013, v), inner - .025),
+            dark, reverse=True)
+
+    # The printable loose edge leaves the roll tangentially and curls gently outward.
+    def film_end(u, v):
+        t = u * .58
+        return t, -radius + .16 * sin(pi * u * .86) * u, height * v + .006 * sin(pi * u)
+    surface('Front film leader', 24, 8, film_end, film, u_span=1 / 3)
 
 
 def aim(obj, target):
@@ -224,10 +328,10 @@ def poster(slug, models):
     dim = high - low
 
     scene.render.engine = 'CYCLES'
-    scene.cycles.samples = 30
+    scene.cycles.samples = 40
     scene.cycles.use_denoising = False
-    scene.render.resolution_x = 320
-    scene.render.resolution_y = 270
+    scene.render.resolution_x = 480
+    scene.render.resolution_y = 400
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = 'WEBP'
     scene.render.image_settings.quality = 87
@@ -252,24 +356,38 @@ def poster(slug, models):
     data = bpy.data.cameras.new('Product camera')
     cam = bpy.data.objects.new('Product camera', data)
     bpy.context.collection.objects.link(cam)
-    cam.location = center + Vector((2.25, -4.4, 2 if slug in ('roll-stock-films', 'bag-in-box') else 1.06))
+    portrait = Vector((1.72, -4.5, 1.65 if slug in ('roll-stock-films', 'bag-in-box') else .89))
+    if '--back' in sys.argv:
+        portrait.x *= -1
+        portrait.y *= -1
+    cam.location = center + portrait
     aim(cam, center)
     data.type = 'ORTHO'
     data.ortho_scale = max(dim.x, dim.y, dim.z * 1.15) * 1.27
     scene.camera = cam
-    scene.render.filepath = str(OUTPUT / (slug + '.webp'))
+    # Optional back renders are for offline inspection only.
+    if '--back' in sys.argv:
+        scene.render.filepath = str(ARTWORK / (slug + '-back.webp'))
+    else:
+        scene.render.filepath = str(OUTPUT / (slug + '.webp'))
     bpy.ops.render.render(write_still=True)
 
 
-for slug in (*POUCHES, 'bag-in-box', 'roll-stock-films'):
+formats = (*POUCHES, 'bag-in-box', 'roll-stock-films')
+selected = [slug for slug in sys.argv[sys.argv.index('--') + 2:] if slug in formats]
+for slug in selected or formats:
     bpy.ops.wm.read_factory_settings(use_empty=True)
     if slug == 'bag-in-box':
-        make_box()
+        make_box(slug)
     elif slug == 'roll-stock-films':
-        make_roll()
+        make_roll(slug)
     else:
-        make_pouch(*POUCHES[slug])
+        make_pouch(slug, *POUCHES[slug])
     bpy.context.view_layer.update()
     models = list(bpy.context.scene.objects)
-    bpy.ops.export_scene.gltf(filepath=str(OUTPUT / (slug + '.glb')), export_format='GLB', export_yup=True)
+    if '--back' not in sys.argv:
+        bpy.ops.export_scene.gltf(
+            filepath=str(OUTPUT / (slug + '.glb')), export_format='GLB',
+            export_image_format='JPEG', export_jpeg_quality=87, export_yup=True,
+        )
     poster(slug, models)

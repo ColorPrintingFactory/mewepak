@@ -19,7 +19,7 @@ export const previewFormats = new Map(formats.map(([id, name, width, height], in
   const roll = id === 'roll-stock-films';
   const base = '/assets/3d/formats/' + id;
   const [url, poster] = index
-    ? [base + '.glb?v=1', base + '.webp?v=1']
+    ? [base + '.glb?v=studio-2', base + '.webp?v=studio-2']
     : [studioModelUrl, '/assets/3d/doypack-studio.webp'];
   return [id, {
     id, format: id, name, url, poster, ratio: [width, height],
