@@ -316,7 +316,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     const type = article || (pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass)) ? 'article' : pageType;
     el.setAttribute('data-storefront-page', type);
   });
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=site-typography"><script src="/assets/original/storefront-layout.js" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=site-typography"><script src="/assets/original/storefront-layout.js?v=article-contents" defer></script>', { html: true }));
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=verification-3" defer></script>', { html: true }));
   const languageSelector = 'button[aria-label="Language selector"]';
   if (languages.length) {

@@ -95,10 +95,16 @@ export function renderArticleLayout({ entry, entries, baseline, escape, safeUrl 
       if (!resource) return [];
       return `<li><a href="${escape(target)}"><span>${escape(resourceLabels[target] || resource.row.name || resource.row.title)}</span>${arrow}</a></li>`;
     });
-  const sidebar = resources.length ? `<aside class="mw-article-resources" aria-labelledby="mw-article-resources-title">
-    <h2 id="mw-article-resources-title">Packaging resources</h2>
-    <ul>${resources.join('')}</ul>
-  </aside>` : '';
+  const sidebar = `<aside class="mw-article-sidebar" aria-label="Article navigation and resources">
+    <nav class="mw-article-contents" aria-labelledby="mw-article-contents-title" hidden>
+      <h2 id="mw-article-contents-title">In this guide</h2>
+      <ul></ul>
+    </nav>
+    ${resources.length ? `<section class="mw-article-resources" aria-labelledby="mw-article-resources-title">
+      <h2 id="mw-article-resources-title">Packaging resources</h2>
+      <ul>${resources.join('')}</ul>
+    </section>` : ''}
+  </aside>`;
 
   // Choose a guide from each relevant topic before filling any remaining card slots.
   const candidates = entries.filter((item) => item.table === 'articles' && item.path !== path)
