@@ -47,12 +47,27 @@ def design(slug, side, width, height, logo):
     # The contour bands suggest the fold and flow of laminate while preserving the logo and wording.
     base = .68 if side == 'front' else .78
     proto = list(SPECS).index(slug)
-    wave = lambda u: .075 * sin((u + .09) * pi * 1.48) + .025 * cos(pi * (u + proto * .085))
+
+    def face_wave(u):
+        return .075 * sin((u + .09) * pi * 1.48) + .025 * cos(pi * (u + proto * .085))
+
+    def band_height(u):
+        if slug == 'roll-stock-films':
+            # The two ends of each repeat must have the same color at the join.
+            return base + .056 * sin(2 * pi * (u + .17)) + .018 * cos(4 * pi * u)
+        if side == 'back' and slug in ('flat-bottom-pouch', 'pinch-bottom-pouches', 'quad-seal-bag'):
+            # Back and front edges meet at the same height across the printed gusset.
+            return .68 + face_wave(1 - u) + .056 * max(0, sin(pi * u)) ** 1.4
+        if side == 'right':
+            return (.68 + face_wave(1)) * (1 - u) + (.78 + face_wave(0)) * u
+        if side == 'left':
+            return (.78 + face_wave(1)) * (1 - u) + (.68 + face_wave(0)) * u
+        return base + face_wave(u)
     for offset, color in [(0, '#e1e8dc'), (.064, tint), (.12, dark)]:
-        points = [(n, (base + offset + wave(n / width)) * height) for n in range(0, width + 8, 7)]
+        points = [(n, (offset + band_height(n / width)) * height) for n in range(0, width + 8, 7)]
         draw.polygon([*points, (width + 8, height), (0, height)], fill=color)
     for offset, color, line in [(.124, '#eff0db', 1.1), (.165, tint, 1.4), (.192, tint, 1)]:
-        points = [(n, (base + offset + wave(n / width)) * height) for n in range(0, width + 8, 7)]
+        points = [(n, (offset + band_height(n / width)) * height) for n in range(0, width + 8, 7)]
         draw.line(points, fill=color, width=max(1, round(line * scale)))
 
     if side in ('left', 'right'):

@@ -132,9 +132,20 @@ def make_tap(x, y, z, valve):
     cylinder('Tap mounting flange', .098, .061, (x, y - .008, z), valve, 'Y')
     torus('Tap flange gasket', .086, .012, (x, y - .027, z), gasket, 'Y')
     cylinder('Tap stem', .059, .146, (x, y - .087, z), valve, 'Y')
-    cylinder('Flow outlet', .039, .095, (x, y - .141, z - .039), valve)
-    cylinder('Recessed outlet', .027, .004, (x, y - .141, z - .087), inset)
-    torus('Outlet lip', .033, .005, (x, y - .141, z - .086), valve)
+    outlet_y = y - .141
+    outlet_end = z - .087
+    def outlet_point(u, r, level):
+        angle = u * 2 * pi
+        return x + r * cos(angle), outlet_y + r * sin(angle), level
+
+    surface('Flow outlet shell', 48, 4, lambda u, v:
+            outlet_point(u, .039, outlet_end + .095 * v), valve)
+    surface('Bored outlet interior', 48, 3, lambda u, v:
+            outlet_point(u, .025, outlet_end + .044 * v), inset, reverse=True)
+    surface('Outlet rim', 48, 2, lambda u, v:
+            outlet_point(u, mix(.025, .039, v), outlet_end), valve)
+    cylinder('Recessed interior stop', .025, .006, (x, outlet_y, outlet_end + .039), inset)
+    torus('Soft outlet lip', .033, .003, (x, outlet_y, outlet_end), valve)
     handle = cylinder('Tap paddle', .071, .025, (x, y - .142, z + .062), valve)
     handle.scale = (1.35, .70, 1)
 
@@ -225,27 +236,39 @@ def make_pouch(slug, w, h, d, kind, edge_color):
         return tuple(mix(a, b, t) for a, b in zip(face(u, v, -1), face(u, v, 1)))
 
     for u, edge_name in [(0, 'left'), (1, 'right')]:
-        if welded:
-            # Each half of the seal takes the adjacent face's edge color, including uploaded artwork.
+        def gusset(t, v):
+            x, y, z = bridge(u, v, t)
+            if gusseted:
+                fold = .068 if kind in ('pinch', 'quad') else .035
+                # A crease down the middle and small rolled corners define the side fold.
+                inset = fold * sin(pi * t) ** 1.55
+                lip = .006 * ramp(min(t, 1 - t) / .065) * (gauss(t, .10, .046) + gauss(t, .90, .046))
+                x += (1 - 2 * u) * (inset - lip) * sin(pi * v) ** .52
+            return x, y, z
+
+        if welded or gusseted:
+            # Both halves sample the adjacent panel edge so a print wraps through the fold.
+            # The matte center strip keeps a natural crease between separately printed faces.
+            strip = .008 if gusseted else 0
             for side, offset, print_material, print_u in [
                 ('Front', 0, front_print, u), ('Back', .5, back_print, 1 - u),
             ]:
-                surface(f'{side} {edge_name} seal', 2, nt,
-                        lambda t, v: bridge(u, v, offset + t / 2), print_material,
+                start = offset + (strip if offset else 0)
+                stop = offset + .5 - (strip if not offset else 0)
+                surface(f'{side} {edge_name} seal', 10 if gusseted else 2, nt,
+                        lambda t, v: gusset(mix(start, stop, t), v), print_material,
                         reverse=(u == 0), levels=levels, u_range=(print_u, print_u))
-            continue
-        def gusset(t, v, u=u):
-            x, y, z = bridge(u, v, t)
             if gusseted:
-                fold = (.073 if kind in ('pinch', 'quad') else .038) * sin(pi * t) ** .7
-                x += (1 - 2 * u) * fold * sin(pi * v) ** .52
-            return x, y, z
-        surface(f'{edge_name.capitalize()} gusset', 12, nt, gusset, folds, reverse=(u == 0), levels=levels)
+                surface(f'{edge_name.capitalize()} fold crease', 2, nt,
+                        lambda t, v: gusset(mix(.5 - strip, .5 + strip, t), v), folds,
+                        reverse=(u == 0), levels=levels)
+        else:
+            surface(f'{edge_name.capitalize()} gusset', 12, nt, gusset, folds, reverse=(u == 0), levels=levels)
     surface('Top heat-sealed edge', ns, 6, lambda u, t: bridge(u, 1, t), top_edge)
 
     def bottom(u, t):
         x, y, z = bridge(u, 0, t)
-        inner_fold = .058 if kind in ('box', 'tap', 'spout', 'shaped') else .021
+        inner_fold = {'box': .009, 'tap': .058, 'spout': .058, 'shaped': .058}.get(kind, .021)
         return x, y, z + inner_fold * sin(pi * t) ** 1.4 * sin(pi * u) ** .8
 
     surface('Bottom fold', ns, 12, bottom, folds, reverse=True)
@@ -318,9 +341,11 @@ def make_roll(slug):
     core = material('Kraft paper tube', (.39, .25, .11), .66)
     dark = material('Inside paper core', (.30, .19, .10), .76)
     radius, inner, height = .46, .178, 1.19
+    core_extension = .013 / height
 
     def point(u, v, r=radius):
-        angle = u * 2 * pi
+        # Start the print repeat at the tangent where the loose film joins the roll.
+        angle = (u - .25) * 2 * pi
         return r * cos(angle), r * sin(angle), v * height
 
     surface('Front roll film', 96, 8, point, film)
@@ -334,14 +359,14 @@ def make_roll(slug):
             return x, y, z + (.013 if side else -.013)
         surface('Kraft core end', 72, 4, tube_end, core, reverse=(side == 1))
         surface('Kraft core outer rim', 72, 1, lambda u, v, side=side:
-            point(u, side + (v - 1 + side) * .013 / height, inner), core)
-    surface('Hollow paper core', 72, 4, lambda u, v: point(u, mix(-.013, 1.013, v), inner - .025),
+            point(u, side + (v - 1 + side) * core_extension, inner), core)
+    surface('Hollow paper core', 72, 4, lambda u, v: point(u, mix(-core_extension, 1 + core_extension, v), inner - .025),
             dark, reverse=True)
 
     # The printable loose edge leaves the roll tangentially and curls gently outward.
     def film_end(u, v):
-        t = u * .58
-        return t, -radius + .16 * sin(pi * u * .86) * u, height * v + .006 * sin(pi * u)
+        t = u * .93
+        return t, -radius - .12 * sin(pi * u / 2) ** 2, height * v
     surface('Front film leader', 24, 8, film_end, film, u_range=(0, 1 / 3))
 
 
