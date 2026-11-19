@@ -274,7 +274,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   if (pageType === 'product') set('link[href="/assets/original/custom.css"]', 'href', '/assets/original/custom.css?v=gallery');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=direct-links');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=studio-1');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=artwork-fit');
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=direct-links');
   set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=direct-links');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');

@@ -3,6 +3,87 @@
 
 	var MODEL_URL = '/assets/3d/doypack.glb?v=studio-1';
 
+	function preparePouchArtwork( image ) {
+		var sample = document.createElement( 'canvas' );
+		var scale = Math.min( 1, 1600 / Math.max( image.naturalWidth, image.naturalHeight ) );
+		var width = sample.width = Math.max( 1, Math.round( image.naturalWidth * scale ) );
+		var height = sample.height = Math.max( 1, Math.round( image.naturalHeight * scale ) );
+		var source = sample.getContext( '2d', { willReadFrequently: true } );
+		source.drawImage( image, 0, 0, width, height );
+		var pixels = source.getImageData( 0, 0, width, height ).data;
+		var left = width, right = -1, top = height, bottom = -1, solid = 0;
+		var hasTransparency = false;
+		var rowEdges = [];
+		for ( var y = 0; y < height; y++ ) {
+			var first = width, last = -1;
+			for ( var x = 0; x < width; x++ ) {
+				var alpha = pixels[( y * width + x ) * 4 + 3];
+				if ( alpha < 255 ) hasTransparency = true;
+				if ( alpha < 224 ) continue;
+				first = Math.min( first, x );
+				last = x;
+				solid++;
+			}
+			rowEdges[y] = [first, last];
+			if ( last >= first ) {
+				left = Math.min( left, first );
+				right = Math.max( right, last );
+				top = Math.min( top, y );
+				bottom = y;
+			}
+		}
+		if ( !hasTransparency ) return image;
+
+		var artwork = document.createElement( 'canvas' );
+		var target = artwork.getContext( '2d' );
+		var cropWidth = right - left + 1, cropHeight = bottom - top + 1;
+		var isCutout = cropWidth >= width * 0.45 && cropHeight >= height * 0.45
+			&& solid >= cropWidth * cropHeight * 0.60;
+		if ( !isCutout ) {
+			// Preserve the placement of graphics with intentionally transparent backgrounds.
+			artwork.width = width;
+			artwork.height = height;
+			target.fillStyle = '#ffffff';
+			target.fillRect( 0, 0, width, height );
+			target.drawImage( sample, 0, 0 );
+			return artwork;
+		}
+
+		artwork.width = 900;
+		artwork.height = 1200;
+		var fit = Math.min( artwork.width / cropWidth, artwork.height / cropHeight );
+		var fitWidth = cropWidth * fit, fitHeight = cropHeight * fit;
+		var offsetX = ( artwork.width - fitWidth ) / 2, offsetY = ( artwork.height - fitHeight ) / 2;
+		var fill = target.createImageData( artwork.width, artwork.height );
+		for ( var row = 0; row < artwork.height; row++ ) {
+			var inputRow = Math.max( top, Math.min( bottom, top + Math.round( ( row - offsetY ) / fit ) ) );
+			var edges = rowEdges[inputRow];
+			if ( edges[1] - edges[0] < cropWidth * 0.35 ) {
+				// Very narrow rows at rounded ends do not give useful edge colors.
+				inputRow = inputRow < ( top + bottom ) / 2
+					? Math.min( bottom, top + Math.floor( cropHeight * 0.03 ) )
+					: Math.max( top, bottom - Math.floor( cropHeight * 0.03 ) );
+				edges = rowEdges[inputRow];
+			}
+			var inset = Math.max( 0, Math.round( ( edges[1] - edges[0] ) * 0.035 ) );
+			var start = ( inputRow * width + Math.min( right, edges[0] + inset ) ) * 4;
+			var end = ( inputRow * width + Math.max( left, edges[1] - inset ) ) * 4;
+			for ( var col = 0; col < artwork.width; col++ ) {
+				var ratio = Math.max( 0, Math.min( 1, ( col - offsetX ) / fitWidth ) );
+				var destination = ( row * artwork.width + col ) * 4;
+				for ( var channel = 0; channel < 3; channel++ ) {
+					var a = pixels[start + 3] >= 224 ? pixels[start + channel] : 255;
+					var b = pixels[end + 3] >= 224 ? pixels[end + channel] : 255;
+					fill.data[destination + channel] = a + ( b - a ) * ratio;
+				}
+				fill.data[destination + 3] = 255;
+			}
+		}
+		target.putImageData( fill, 0, 0 );
+		target.drawImage( sample, left, top, cropWidth, cropHeight, offsetX, offsetY, fitWidth, fitHeight );
+		return artwork;
+	}
+
 	class PouchViewer {
 		constructor( container ) {
 			this.container = container;
@@ -73,7 +154,7 @@
 			var panel = document.createElement( 'div' );
 			panel.className = 'mewepak-3d-panel';
 			var artworkGuide = this.modelUrl === MODEL_URL
-				? 'Recommended ratio <b>3:4</b> (e.g. 1500×2000px). Keep text and logos away from the sealed edges.'
+				? 'For the best print preview, use flat artwork that fills a <b>3:4</b> image (e.g. 1500×2000px). Transparent pouch cutouts are fitted automatically.'
 				: 'Recommended ratio <b>3:4</b> (e.g. 1500×2000px). Place your main design in the center 40% of the image — that area maps to the front face.';
 			panel.innerHTML =
 				'<h4>Packaging Preview</h4>' +
@@ -186,10 +267,11 @@
 			reader.onload = function( e ) {
 				var img = new Image();
 				img.onload = function() {
+					var artwork = self.modelUrl === MODEL_URL ? preparePouchArtwork( img ) : img;
 					if ( side === 'front' ) {
-						self.frontImage = img;
+						self.frontImage = artwork;
 					} else {
-						self.backImage = img;
+						self.backImage = artwork;
 					}
 					self.applyTextures();
 				};
