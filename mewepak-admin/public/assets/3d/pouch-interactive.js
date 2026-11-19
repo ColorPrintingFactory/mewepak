@@ -1,7 +1,7 @@
 ( function() {
 	'use strict';
 
-	var MODEL_URL = '/assets/3d/doypack.glb';
+	var MODEL_URL = '/assets/3d/doypack.glb?v=studio-1';
 
 	class PouchViewer {
 		constructor( container ) {
@@ -72,11 +72,14 @@
 		createUI() {
 			var panel = document.createElement( 'div' );
 			panel.className = 'mewepak-3d-panel';
+			var artworkGuide = this.modelUrl === MODEL_URL
+				? 'Recommended ratio <b>3:4</b> (e.g. 1500×2000px). Keep text and logos away from the sealed edges.'
+				: 'Recommended ratio <b>3:4</b> (e.g. 1500×2000px). Place your main design in the center 40% of the image — that area maps to the front face.';
 			panel.innerHTML =
 				'<h4>Packaging Preview</h4>' +
 				'<div class="mewepak-3d-tip">' +
 					'<strong>Image Guide</strong>' +
-					'<p>Recommended ratio <b>3:4</b> (e.g. 1500×2000px). Place your main design in the center 40% of the image — that area maps to the front face.</p>' +
+					'<p>' + artworkGuide + '</p>' +
 				'</div>' +
 				'<div class="mewepak-3d-field">' +
 					'<label>Front Design</label>' +
@@ -239,8 +242,11 @@
 					}
 				} );
 
-				// Adjust camera based on model size
-				self.camera.position.set( 0, 0, 2.5 );
+				if ( self.frontImage || self.backImage ) self.applyTextures();
+
+				// Show the studio pouch's depth and bottom fold on first load.
+				if ( self.modelUrl === MODEL_URL ) self.camera.position.set( 0.82, 0.14, 2.5 );
+				else self.camera.position.set( 0, 0, 2.5 );
 				self.controls.target.set( 0, 0, 0 );
 				self.controls.update();
 
@@ -365,7 +371,7 @@
 		var fallback = document.createElement( 'div' );
 		fallback.style.cssText = 'display:grid;justify-items:center;align-content:center;gap:16px;min-height:480px;padding:24px;text-align:center;color:var(--chrome-deep,#102b35);';
 		var image = poster || document.createElement( 'img' );
-		if ( !poster ) image.src = '/assets/client-design/images/30e138afb1ec62c7.webp';
+		if ( !poster ) image.src = '/assets/3d/doypack-studio.webp';
 		image.alt = 'Mewepak printed stand-up pouch';
 		image.style.cssText = 'width:min(100%,240px);height:240px;object-fit:contain;border-radius:10px;';
 		var message = document.createElement( 'p' );
