@@ -248,6 +248,14 @@ main[data-storefront-page="article"] .entry-content :is(p, li) {
   line-height: 1.75;
 }
 
+main[data-storefront-page="article"] [data-article-body] :is(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+
+main[data-storefront-page="article"] [data-article-body] ul { list-style-type: disc; }
+main[data-storefront-page="article"] [data-article-body] ol { list-style-type: decimal; }
+main[data-storefront-page="article"] [data-article-body] li + li { margin-top: .48em; }
+
 main[data-storefront-page="archive"] .wp-block-query-title {
   width: min(1240px, 100%);
   margin: 0 auto clamp(28px, 5vw, 64px);

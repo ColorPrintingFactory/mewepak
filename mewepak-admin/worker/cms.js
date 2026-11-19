@@ -179,7 +179,9 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       const pageBody = row.sections?.find((section) => section.type === 'rendered_page')?.html;
       if (typeof pageBody === 'string') replaceHtml('main', await sanitize(pageBody));
       if (entry.table === 'articles' && asset.ok && await digest(row.body) !== previous.body_hash) {
-        replaceHtml('.entry-content', await sanitize(row.body));
+        const body = await sanitize(row.body);
+        edit('main .entry-content > *:not(.mewepak-article-related):not(.mw-article-related):not(.mewepak-article-cta):not(.mewepak-author)', (el) => el.remove());
+        edit('main .entry-content', (el) => el.prepend(`<div class="mewepak-prose" data-article-body>${body}</div>`, { html: true }));
       }
       if (entry.table === 'products' && asset.ok) {
         if (row.short_description !== previous.short_description) replace('main h1 ~ p', row.short_description);
