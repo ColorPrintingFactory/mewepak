@@ -34,7 +34,7 @@ main[data-storefront-page] {
     font-family: inherit !important;
   }
 
-  main[data-storefront-page] h1 {
+  main[data-storefront-page]:where(:not(.booking-page)) h1 {
     font-size: var(--page-title) !important;
     font-weight: 600 !important;
     line-height: 1.05 !important;
@@ -43,7 +43,7 @@ main[data-storefront-page] {
     overflow-wrap: anywhere;
   }
 
-  main[data-storefront-page] h2 {
+  main[data-storefront-page]:where(:not(.booking-page)) h2 {
     font-size: var(--page-subtitle) !important;
     font-weight: 600 !important;
     line-height: 1.14 !important;
@@ -57,11 +57,11 @@ main[data-storefront-page] {
     line-height: 1.3;
   }
 
-  main[data-storefront-page] :is(h1, h2, h3):not([class*="text-white"], .has-base-color) {
+  main[data-storefront-page]:where(:not(.booking-page)) :is(h1, h2, h3):not([class*="text-white"], .has-base-color) {
     color: var(--chrome-deep) !important;
   }
 
-  main[data-storefront-page] :is(section, .entry-content) p:not([class*="text-white"], [class*="text-gray-300"], [class*="text-gray-200"]) {
+  main[data-storefront-page]:where(:not(.booking-page)) :is(section, .entry-content) p:not([class*="text-white"], [class*="text-gray-300"], [class*="text-gray-200"]) {
     color: var(--page-copy);
   }
 
@@ -71,7 +71,7 @@ main[data-storefront-page] {
   }
 
   main[data-storefront-page] a:is([class*="!bg-[#00cfca]"], [class~="bg-[#00cfca]"], [class~="bg-[#0f4c5c]"], .button-primary, .button-dark),
-  main[data-storefront-page] :is(.button-primary, button[type="submit"]) {
+  main[data-storefront-page]:where(:not(.booking-page)) :is(.button-primary, button[type="submit"]) {
     background: var(--chrome-deep) !important;
     color: #fff !important;
     border-radius: 6px !important;
@@ -88,7 +88,6 @@ main[data-storefront-page] {
     color: var(--chrome-deep) !important;
   }
 
-  main[data-storefront-page="booking"] .booking-info h1,
   main[data-storefront-page="viewer"] .cta-card h2 {
     color: #fff !important;
   }
@@ -97,9 +96,6 @@ main[data-storefront-page] {
     font-size: clamp(20px, 2.3vw, 29px) !important;
   }
 
-  main[data-storefront-page="booking"] .booking-info h1 {
-    font-size: clamp(30px, 3.2vw, 46px) !important;
-  }
 }
 
 /* Existing detail pages share the same breadcrumb, introduction and section structure. */
@@ -254,54 +250,6 @@ main[data-storefront-page="archive"] .wp-block-post-template > li {
   background: white;
 }
 
-main[data-storefront-page="booking"] {
-  background: var(--page-surface);
-  padding: var(--page-section) var(--page-gutter);
-}
-
-main[data-storefront-page="booking"] .booking-shell {
-  max-width: 1120px;
-  border: 1px solid var(--chrome-line);
-  border-radius: var(--page-radius);
-  box-shadow: none;
-  grid-template-columns: minmax(240px, .8fr) minmax(0, 1.6fr);
-}
-
-main[data-storefront-page="booking"] :is(.booking-info, .booking-form) {
-  padding: clamp(22px, 3.7vw, 48px);
-}
-
-main[data-storefront-page="booking"] .booking-info {
-  background: var(--chrome-deep);
-}
-
-main[data-storefront-page="booking"] .booking-info h1 {
-  text-wrap: initial;
-}
-
-main[data-storefront-page="booking"] .booking-info p {
-  color: #d8e7e5 !important;
-}
-
-main[data-storefront-page="booking"] .booking-info img {
-  margin-bottom: clamp(28px, 4vw, 48px);
-}
-
-main[data-storefront-page="booking"] :is(.field input, .field select, .field textarea, .slot, .choice span) {
-  border-color: var(--chrome-line);
-  border-radius: 6px;
-}
-
-main[data-storefront-page="booking"] .slot.selected {
-  background: var(--chrome-deep);
-  border-color: var(--chrome-deep);
-}
-
-main[data-storefront-page="booking"] .choice input:checked + span {
-  background: var(--page-tint);
-  border-color: var(--chrome-accent);
-}
-
 main[data-storefront-page="viewer"] :is(.preview-hero, .preview-tool-section, .preview-steps-section, .cta) {
   padding-block: var(--page-section);
 }
@@ -338,9 +286,6 @@ main[data-storefront-page="viewer"] .preview-step-grid b {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  main[data-storefront-page="booking"] .booking-shell {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (max-width: 520px) {
