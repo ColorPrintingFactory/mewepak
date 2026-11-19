@@ -356,3 +356,231 @@ main[data-market-layout] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+[data-market-layout] > :is(.mw-coffee-nav, .mw-coffee-section, .mw-coffee-spec) {
+  margin-block: 0 !important;
+}
+
+[data-market-layout] > :is(.mw-coffee-nav, .mw-coffee-spec) {
+  max-width: none !important;
+}
+
+[data-market-layout] :is(.mw-coffee-section, .mw-coffee-spec, #project-brief) {
+  scroll-margin-block-start: 16px;
+}
+
+[data-market-layout] .mw-coffee-nav {
+  border-bottom: 1px solid var(--market-line);
+}
+
+[data-market-layout] .mw-coffee-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(12px, 3vw, 34px);
+  margin-block: 0;
+  padding-block: 3px;
+  padding-inline: 0;
+  list-style: none;
+}
+
+[data-market-layout] .mw-coffee-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--market-green);
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+[data-market-layout] .mw-coffee-section {
+  padding-block: var(--market-section);
+}
+
+[data-market-layout] .mw-coffee-section + .mw-market-formats,
+[data-market-layout] .mw-coffee-section + .mw-market-resources {
+  border-top: 1px solid var(--market-line);
+}
+
+[data-market-layout] :is(.mw-coffee-section, .mw-coffee-spec) :is(h2, h3) {
+  margin: 0;
+}
+
+[data-market-layout] :is(.mw-coffee-applications, .mw-coffee-review) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(13px, 2vw, 23px);
+}
+
+[data-market-layout] .mw-coffee-applications {
+  margin-top: 21px;
+}
+
+[data-market-layout] :is(.mw-coffee-applications article, .mw-coffee-review li) {
+  padding: clamp(15px, 2vw, 23px);
+  border: 1px solid var(--market-line);
+  border-radius: 10px;
+}
+
+[data-market-layout] .mw-coffee-applications article {
+  background: var(--market-cream);
+}
+
+[data-market-layout] :is(.mw-coffee-applications, .mw-coffee-review) p {
+  margin: 8px 0 0;
+  font-size: .9375rem;
+  line-height: 1.6;
+}
+
+[data-market-layout] .mw-market-format:has(.mw-coffee-format-quote) {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--market-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+[data-market-layout] .mw-market-format:has(.mw-coffee-format-quote):focus-within {
+  border-color: var(--market-green);
+}
+
+[data-market-layout] .mw-market-format:has(.mw-coffee-format-quote) .mw-market-format-link {
+  flex: 1;
+  height: auto;
+  border: 0;
+  border-radius: 11px 11px 0 0;
+}
+
+[data-market-layout] .mw-market-format:has(.mw-coffee-format-quote) .mw-market-format-link:focus-visible {
+  outline-offset: -3px;
+}
+
+[data-market-layout] .mw-coffee-format-check {
+  padding-top: 10px;
+  border-top: 1px solid var(--market-line);
+}
+
+[data-market-layout] .mw-coffee-format-quote {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 9px clamp(13px, 1.5vw, 19px);
+  border-top: 1px solid var(--market-line);
+  border-radius: 0 0 11px 11px;
+  background: var(--market-sage);
+  color: var(--market-green);
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+[data-market-layout] :is(.mw-coffee-format-quote, .mw-coffee-nav a):hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+[data-market-layout] .mw-coffee-spec {
+  background: var(--market-sage);
+  border-block: 1px solid var(--market-line);
+}
+
+[data-market-layout] .mw-coffee-spec-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1fr);
+  gap: clamp(20px, 5vw, 76px);
+  align-items: center;
+  padding-block: var(--market-section);
+}
+
+[data-market-layout] .mw-coffee-spec-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 18px;
+  border-radius: 11px;
+}
+
+[data-market-layout] .mw-coffee-spec-list {
+  margin: 0;
+  border-top: 1px solid #bfd1c6;
+}
+
+[data-market-layout] .mw-coffee-spec-list > div {
+  padding-block: clamp(12px, 1.4vw, 20px);
+  border-bottom: 1px solid #bfd1c6;
+}
+
+[data-market-layout] .mw-coffee-spec-list dt {
+  color: var(--market-deep);
+  font-weight: 700;
+}
+
+[data-market-layout] .mw-coffee-spec-list dd {
+  margin: 5px 0 0;
+  color: var(--market-ink-muted);
+  line-height: 1.6;
+}
+
+[data-market-layout] .mw-coffee-review {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: sample-step;
+}
+
+[data-market-layout] .mw-coffee-review li {
+  counter-increment: sample-step;
+}
+
+[data-market-layout] .mw-coffee-review li::before {
+  content: counter(sample-step);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  background: var(--market-sage);
+  color: var(--market-green);
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+[data-market-layout] .mw-coffee-review-links {
+  margin-top: 18px;
+}
+
+[data-market-layout] .mw-coffee-faq {
+  margin-top: 20px;
+  border-top: 1px solid var(--market-line);
+}
+
+[data-market-layout] .mw-coffee-faq details {
+  border-bottom: 1px solid var(--market-line);
+}
+
+[data-market-layout] .mw-coffee-faq summary {
+  min-height: 46px;
+  padding-block: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+[data-market-layout] .mw-coffee-faq summary::marker {
+  color: var(--market-green);
+}
+
+[data-market-layout] .mw-coffee-faq p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+@media (max-width: 650px) {
+  [data-market-layout] :is(.mw-coffee-applications, .mw-coffee-review, .mw-coffee-spec-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-market-layout] .mw-coffee-nav a {
+    min-height: 40px;
+  }
+}

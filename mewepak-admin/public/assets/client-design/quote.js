@@ -153,6 +153,6 @@
     }
     match.checked = true;
     guideSelection.hidden = false;
-    guideSelection.textContent = format + ' selected from your 3D preview.';
+    guideSelection.textContent = format + ' selected for this quote.';
   }
 })();

@@ -59,6 +59,9 @@
     clearReview();
   }
 
+  const topic = new URLSearchParams(window.location.search).get('topic');
+  if (Object.hasOwn(modes, topic)) selectMode(topic);
+
   for (const button of buttons) {
     button.addEventListener('click', () => selectMode(button.dataset.mode));
   }

@@ -1,5 +1,6 @@
 import marketDetails from './market-detail-content.json' with { type: 'json' };
 import { marketFormats } from './recommendations.js';
+import { coffeeFormatDetails, renderCoffeeMarket } from './coffee-market.js';
 
 const arrow = '<span class="mw-market-arrow" aria-hidden="true">↗</span>';
 const formatAnchors = {
@@ -21,16 +22,22 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
   const useSummary = intro && intro !== baseline[path]?.summary;
   const lead = escape(useSummary ? intro : detail.intro);
   const quoteUrl = publishedPaths.has('/inquiry/') ? '/inquiry/#quote-request' : '/contact/';
+  const coffee = slug === 'coffee-tea'
+    ? renderCoffeeMarket({ publishedPaths, formatId, hasFormats: featured.length || more.length, escape, arrow })
+    : null;
   const cards = featured.map(({ key, href, title, description, image }) => {
     const desc = detail.formatDescriptions?.[key] || description;
+    const buyer = coffee ? coffeeFormatDetails(key, quoteUrl) : null;
     return `<li class="mw-market-format">
       <a href="${href}" class="mw-market-format-link">
         ${image ? `<span class="mw-market-format-image"><img src="${escape(image)}" width="560" height="360" alt="" loading="lazy" decoding="async"></span>` : ''}
         <div class="mw-market-format-copy"><h3>${escape(title)}</h3>
           ${desc ? `<p>${escape(desc)}</p>` : ''}
+          ${buyer?.check ? `<p class="mw-coffee-format-check">${escape(buyer.check)}</p>` : ''}
           <span class="mw-market-format-action">Explore format ${arrow}</span>
         </div>
       </a>
+      ${buyer?.quote ? `<a class="mw-coffee-format-quote" href="${buyer.quote}" aria-label="Get a quote for ${escape(title)}">Quote this format ${arrow}</a>` : ''}
     </li>`;
   });
   const formatList = more.map(({ slug, name }) => `<li><a href="/products/${slug}/">${escape(name)} ${arrow}</a></li>`).join('');
@@ -65,25 +72,31 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
         <p>${lead}</p>
         <div class="mw-market-actions">
           <a class="mw-market-button" href="${quoteUrl}">Request a quote ${arrow}</a>
-          ${formatSection ? `<a class="mw-market-text-link" href="#${formatId}">Explore formats <span aria-hidden="true">↓</span></a>` : ''}
+          ${coffee?.sampleLink ? `<a class="mw-market-text-link" href="${coffee.sampleLink}">Ask about samples ${arrow}</a>`
+            : formatSection ? `<a class="mw-market-text-link" href="#${formatId}">Explore formats <span aria-hidden="true">↓</span></a>` : ''}
         </div>
       </div>
       <img class="mw-market-cover${isRender ? ' mw-market-cover--render' : ''}" src="${detail.photo}" alt="${escape(detail.alt)}" width="850" height="850"
         fetchpriority="high" decoding="async">
     </div>
   </header>
+  ${coffee?.opening || ''}
   ${formatSection}
+  ${coffee?.technical || ''}
   <section class="mw-market-brief" id="project-brief" aria-labelledby="mw-market-brief-title">
     <div class="mw-market-brief-grid mw-market-inner">
       <div class="mw-market-brief-copy">
         <h2 id="mw-market-brief-title">What to share for a quote</h2>
-        <p>Bring the details you already know so we can compare bag styles, materials and print options for your product.</p>
+        <p>${coffee
+          ? 'List each size or design separately so we can review quantities, specifications and timing for each SKU.'
+          : 'Bring the details you already know so we can compare bag styles, materials and print options for your product.'}</p>
       </div>
       <ul class="mw-market-questions">
         ${detail.questions.map((question) => `<li>${escape(question)}</li>`).join('')}
       </ul>
     </div>
   </section>
+  ${coffee?.faq || ''}
   ${resources}
   <section class="mw-market-next" aria-labelledby="mw-market-next-title">
     <div class="mw-market-next-inner mw-market-inner">

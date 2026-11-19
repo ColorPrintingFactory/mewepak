@@ -1,10 +1,11 @@
 {
   "coffee-tea": {
-    "intro": "From whole beans to loose-leaf tea, start with the product and the experience you want to create. Consider how the pack is displayed, opened, closed and used between servings.",
+    "intro": "Custom printed pouches and roll stock for whole bean coffee, ground coffee and loose-leaf tea. Compare formats for your filling process and confirm the barrier, valve and closure before approving a sample.",
     "questions": [
-      "Whole bean, ground coffee or loose-leaf tea?",
-      "Fill weight, pack dimensions and intended shelf life",
-      "Filling method, opening preferences and product-protection requirements"
+      "Product and fill weight, pack dimensions and preferred format",
+      "Filling method, target shelf life, storage conditions and required closure",
+      "Artwork status, finish, number of SKUs and quantity per design",
+      "Delivery destination, requested date and any sampling or documentation needs"
     ],
     "photo": "/assets/client-design/images/873549651fc1a911.webp",
     "alt": "Illustrative coffee & tea packaging scene",
