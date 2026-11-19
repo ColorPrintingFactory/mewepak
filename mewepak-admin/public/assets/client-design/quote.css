@@ -305,6 +305,7 @@
 .quote-page .qt-hero .qt-eyebrow { color: #c5e9c8; }
 .quote-page .qt-hero h1 {
   margin: 0 0 15px;
+  color: #fff;
   font-size: clamp(43px, 4.65vw, 70px);
   font-weight: 650;
   letter-spacing: -.048em;
