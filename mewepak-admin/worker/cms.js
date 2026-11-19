@@ -213,13 +213,22 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       if (entry.table === 'product_categories' && asset.ok) {
         if (row.short_description !== previous.short_description) replace('main h1 ~ p', row.short_description);
         const image = safeUrl(row.image_url);
-        if (image && image !== previous.image_url) edit('[data-category-gallery-main]', (el) => el.setAttribute('src', image));
+        if (image && image !== previous.image_url) {
+          edit('[data-category-gallery-main], [data-category-gallery-thumb].is-active img', (el) => {
+            el.setAttribute('src', image);
+            el.removeAttribute('srcset');
+          });
+          edit('[data-category-gallery-thumb].is-active', (el) => el.setAttribute('data-full-src', image));
+        }
       }
       const featured = safeUrl(row.featured_image_url);
-      if (featured && featured !== previous.featured_image_url) edit('.wp-block-post-featured-image img,.entry-content ~ img', (el) => {
-        el.setAttribute('src', featured);
-        el.removeAttribute('srcset');
-      });
+      if (entry.table === 'articles' && asset.ok && featured && featured !== previous.featured_image_url) {
+        edit('main > .wp-block-cover > img.wp-block-cover__image-background', (el) => el.remove());
+        edit('main > .wp-block-cover', (el) => {
+          el.setAttribute('data-article-cover', '');
+          el.prepend(`<img class="wp-block-cover__image-background" src="${escape(featured)}" alt="" fetchpriority="high" decoding="async">`, { html: true });
+        });
+      }
       if (!asset.ok && typeof pageBody !== 'string' && !isSearch) {
         const body = await sanitize(row.body || row.description || '');
         const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
@@ -227,6 +236,19 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         const specifications = specificationFields.filter(([key]) => row[key]?.length).map(([key, label]) => `<h2>${label}</h2>${bullets(row[key])}`).join('');
         const inquiry = entry.table === 'products' ? `<a href="/inquiry/?product=${encodeURIComponent(title)}#quote-request">Request a Quote</a>` : '';
         replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16 mewepak-prose"><h1>${escape(title)}</h1><p>${escape(row.short_description || row.excerpt || row.summary)}</p><div class="grid md:grid-cols-3 gap-5">${gallery}</div>${body}${specifications}${inquiry}</section>`);
+      }
+    }
+    if (path === '/' || path === '/blog/') {
+      for (const { table, row, path: href } of entries) {
+        if (table !== 'articles' || !/^\/[a-z0-9_-]+\/$/i.test(href)) continue;
+        const image = safeUrl(row.featured_image_url);
+        if (!image || image === baseline[href]?.featured_image_url) continue;
+        edit(`main a[href="${href}"] > img[data-asset]`, (el) => {
+          el.setAttribute('src', image);
+          el.setAttribute('alt', '');
+          el.removeAttribute('srcset');
+          el.removeAttribute('data-asset');
+        });
       }
     }
     if (isSearch) {

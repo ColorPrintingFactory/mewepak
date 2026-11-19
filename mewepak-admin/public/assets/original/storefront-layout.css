@@ -207,6 +207,17 @@ main[data-storefront-page="article"] > .wp-block-cover .wp-block-cover__backgrou
   opacity: .82;
 }
 
+main[data-storefront-page="article"] > .wp-block-cover[data-article-cover] > .wp-block-cover__background {
+  background: linear-gradient(90deg, #10252fed 10%, #10252fb8 55%, #10252f3d 100%);
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  main[data-storefront-page="article"] > .wp-block-cover[data-article-cover] > .wp-block-cover__background {
+    background: linear-gradient(90deg, #10252fe0, #10252fb3);
+  }
+}
+
 main[data-storefront-page="article"] .wp-block-post-title {
   max-width: 22ch;
   color: #fff !important;
