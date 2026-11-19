@@ -1,5 +1,6 @@
 import { applyRecommendations } from './recommendations.js';
 import { renderArticleLayout } from './article-layout.js';
+import { renderMarketLayout } from './market-layout.js';
 import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
 
 const storefrontHeader = storefrontChrome.header.join('\n');
@@ -127,7 +128,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     const sections = Array.isArray(row?.sections) ? row.sections : [];
     const choices = sections.find((section) => section.type === 'recommended_formats')?.slugs;
     const categories = entries.filter((item) => item.table === 'product_categories').map((item) => item.row);
-    applyRecommendations(path, edit, publishedPaths, baseline, choices, categories);
+    applyRecommendations(path, edit, publishedPaths, baseline);
 
     if (path === '/') {
       const slides = sections.find((section) => section.type === 'home_banners')?.slides;
@@ -177,8 +178,20 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           el.setInnerContent(title);
         });
       }
-      const pageBody = row.sections?.find((section) => section.type === 'rendered_page')?.html;
-      if (typeof pageBody === 'string') replaceHtml('main', await sanitize(pageBody));
+      const pageBody = sections.find((section) => section.type === 'rendered_page')?.html;
+      const market = entry.table === 'pages' && /^\/markets\/[a-z-]+\/$/.test(path)
+        && typeof pageBody !== 'string'
+        ? renderMarketLayout({ entry, categories, choices, baseline, publishedPaths, escape })
+        : null;
+      if (market) {
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-detail">', { html: true }));
+        edit('main', (el) => {
+          el.setAttribute('data-market-layout', '');
+          el.setInnerContent(market, { html: true });
+        });
+      } else if (typeof pageBody === 'string') {
+        replaceHtml('main', await sanitize(pageBody));
+      }
       if (entry.table === 'articles' && asset.ok && await digest(row.body) !== previous.body_hash) {
         const body = await sanitize(row.body);
         edit('main .entry-content > *:not(.mewepak-article-related):not(.mw-article-related):not(.mewepak-article-cta):not(.mewepak-author)', (el) => el.remove());
@@ -241,7 +254,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           replaceHtml('main', article.breadcrumbs + article.hero + `<div class="mw-article-body"><div class="mewepak-prose entry-content">${body}</div>${article.sidebar}</div>` + article.footer);
         }
       }
-      if (!asset.ok && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
+      if (!asset.ok && !market && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
         const body = await sanitize(row.body || row.description || '');
         const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
         const gallery = images.map((src) => `<img class="w-full h-64 object-contain" src="${escape(src)}" alt="${escape(title)}">`).join('');

@@ -48,6 +48,7 @@ const formatChoices = {
   cannabis: ['stand-up-pouch', 'flat-pouch', 'roll-stock-films'],
   cbd: ['stand-up-pouch', 'flat-pouch', 'shaped-pouch'],
   'cbd-thc': ['stand-up-pouch', 'flat-pouch', 'roll-stock-films'],
+  'coffee-tea': ['stand-up-pouch', 'flat-bottom-pouch', 'pinch-bottom-pouches', 'roll-stock-films'],
   cosmetics: ['spout-pouch', 'flat-pouch', 'shaped-pouch', 'roll-stock-films'],
   fashion: ['polybag', 'flat-pouch', 'stand-up-pouch'],
   'frozen-food': ['stand-up-pouch', 'flat-pouch', 'roll-stock-films'],
@@ -58,6 +59,7 @@ const formatChoices = {
   'powder-spices': ['flat-pouch', 'stand-up-pouch', 'flat-bottom-pouch', 'roll-stock-films'],
   'sauce-soup': ['spout-pouch', 'retort-pouch', 'flat-pouch', 'bag-in-box'],
   'sea-food': ['flat-pouch', 'retort-pouch', 'roll-stock-films'],
+  'snacks-sweets': ['stand-up-pouch', 'flat-pouch', 'shaped-pouch', 'flat-bottom-pouch'],
   supplement: ['stand-up-pouch', 'flat-pouch', 'flat-bottom-pouch', 'roll-stock-films'],
   'tobacco-filters': ['flat-pouch', 'stand-up-pouch', 'roll-stock-films'],
 };
@@ -75,12 +77,6 @@ const marketChoices = {
   'spout-pouch': ['sauce-soup', 'baby-food', 'beverage', 'home-care'],
   'stand-up-pouch-tap': ['beverage', 'home-care', 'sauce-soup'],
 };
-
-const resources = [
-  ['/solutions/prepress/', 'Prepare artwork'],
-  ['/solutions/printing/', 'Explore print options'],
-  ['/added-value/faq/', 'Read the packaging FAQ'],
-];
 
 const arrow = '<span aria-hidden="true">↗</span>';
 const keyPath = (family, slug) => '/' + family + '/' + slug + '/';
@@ -106,65 +102,48 @@ function card(href, title, description, image, action) {
   </a></li>`;
 }
 
-export function applyRecommendations(path, edit, publishedPaths, baseline, choices, categories = []) {
-  const [, family, slug] = path.split('/');
-  if (path !== keyPath(family, slug)) return;
-  const available = href => publishedPaths.has(href) || !Object.hasOwn(baseline, href);
-  const otherFormats = (excluded) => Object.entries(formats).flatMap(([key, [title]]) => {
+export function marketFormats(slug, categories, choices, baseline) {
+  const bySlug = new Map(categories.map((row) => [row.slug, row]));
+  const preferred = Array.isArray(choices)
+    ? [...new Set(choices)].filter((key) => bySlug.has(key)) : [];
+  const selected = preferred.length ? preferred : (formatChoices[slug] || []);
+  const featured = selected.slice(0, 4).flatMap((key) => {
+    const row = bySlug.get(key);
+    if (!row || !/^[a-z0-9-]+$/.test(key)) return [];
     const href = keyPath('products', key);
-    return excluded.includes(key) || !available(href) ? [] : [[href, title]];
+    const image = row.image_url;
+    const custom = /^https:\/\/|^\/(?![\/\\])/i.test(image || '')
+      && image !== baseline[href]?.image_url && !image.includes('placeholder');
+    const photo = key === 'stand-up-pouch'
+      ? designPhotos + 'icon-stand-up-pouch.webp'
+      : '/assets/3d/formats/' + key + '.webp';
+    return [{ key, href, title: row.name, description: formats[key]?.[1] || row.short_description,
+      image: custom ? image : (formats[key] ? photo : '') }];
+  });
+  return {
+    featured,
+    more: categories.filter((row) => /^[a-z0-9-]+$/.test(row.slug) && !featured.some(({ key }) => key === row.slug)),
+  };
+}
+
+export function applyRecommendations(path, edit, publishedPaths, baseline) {
+  const [, family, slug] = path.split('/');
+  if (family !== 'products' || path !== keyPath(family, slug) || !Object.hasOwn(marketChoices, slug)) return;
+  const available = href => publishedPaths.has(href) || !Object.hasOwn(baseline, href);
+  const otherFormats = Object.entries(formats).flatMap(([key, [title]]) => {
+    const href = keyPath('products', key);
+    return slug === key || !available(href) ? [] : [[href, title]];
   });
 
-  if (family === 'markets' && Object.hasOwn(markets, slug)) {
-    const dedicatedSection = { 'coffee-tea': 'coffee-packaging-formats', 'snacks-sweets': 'snacks-packaging-formats' }[slug];
-    const categoryBySlug = new Map(categories.map((row) => [row.slug, row]));
-    const selected = Array.isArray(choices) && choices.length
-      ? [...new Set(choices)].filter((key) => categoryBySlug.has(key)).slice(0, 4)
-      : formatChoices[slug];
-    if (selected) {
-      const cards = selected.flatMap(key => {
-        const row = categoryBySlug.get(key);
-        const [title, description, photo] = formats[key] || [row.name, row.short_description, 'icon-stand-up-pouch.webp'];
-        const href = keyPath('products', key);
-        const customImage = /^https:\/\/|^\/(?![\/\\])/i.test(row?.image_url || '') ? row.image_url : '';
-        const escape = (value) => String(value || '').replace(/[&<>"]/g, (char) =>
-          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]);
-        return available(href) && /^\/products\/[a-z0-9-]+\/$/.test(href)
-          ? [card(href, escape(title), escape(description), escape(customImage || formatImage(photo)), 'Explore format')]
-          : [];
-      });
-      if (cards.length) {
-        let first = true;
-        const selector = dedicatedSection
-          ? 'main #' + dedicatedSection
-          : 'main .mewepak-market-detail > section.mewepak-market-section.bg-white';
-        edit(selector, (el) => {
-          if (!first) return;
-          first = false;
-          el.replace(formatSection(dedicatedSection || slug + '-packaging-formats', `Packaging formats for <span>${markets[slug][0].replaceAll('&', '&amp;')}.</span>`,
-            'Compare suitable formats, then explore the wider packaging range.', cards, otherFormats(selected), 'See more packaging formats'), { html: true });
-        });
-      }
-    }
-    const links = resources.filter(([href]) => available(href));
-    if (links.length) edit('main .mewepak-market-detail > section.mewepak-internal-links', (el) => {
-      el.replace(`<section class="mw-format-section"><div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <h2>Plan your packaging project.</h2><div class="mw-format-more"><ul>${listLinks(links)}</ul></div>
-      </div></section>`, { html: true });
-    });
-  }
-
-  if (family === 'products' && Object.hasOwn(marketChoices, slug)) {
-    const [formatName, , formatPhoto] = formats[slug];
-    const cards = marketChoices[slug].flatMap(key => {
-      const [title, description, photo] = markets[key];
-      const href = keyPath('markets', key);
-      const image = photo ? designPhotos + photo + '.webp' : formatImage(formatPhoto);
-      return available(href) ? [card(href, title.replaceAll('&', '&amp;'), description, image, 'Explore market')] : [];
-    });
-    if (cards.length) edit('main .mewepak-product-category > section.mewepak-internal-links', (el) => {
-      el.replace(formatSection(slug + '-markets', `Where <span>${formatName.toLowerCase()}</span> fits.`,
-        'Explore markets and project examples to see where this packaging format may fit.', cards, otherFormats([slug]), 'Explore other packaging formats'), { html: true });
-    });
-  }
+  const [formatName, , formatPhoto] = formats[slug];
+  const cards = marketChoices[slug].flatMap(key => {
+    const [title, description, photo] = markets[key];
+    const href = keyPath('markets', key);
+    const image = photo ? designPhotos + photo + '.webp' : formatImage(formatPhoto);
+    return available(href) ? [card(href, title.replaceAll('&', '&amp;'), description, image, 'Explore market')] : [];
+  });
+  if (cards.length) edit('main .mewepak-product-category > section.mewepak-internal-links', (el) => {
+    el.replace(formatSection(slug + '-markets', `Where <span>${formatName.toLowerCase()}</span> fits.`,
+      'Explore markets and project examples to see where this packaging format may fit.', cards, otherFormats, 'Explore other packaging formats'), { html: true });
+  });
 }
