@@ -578,7 +578,7 @@ html { scroll-behavior:smooth; }
 #mewepak-homepage.packaging-page .pk-card-action { margin-top:auto; padding:12px 0; font-size:12px; min-height:43px; }
 #mewepak-homepage.packaging-page .pk-help-card { grid-column:span 2; border-radius:10px; padding:36px 35px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; background:#123d40; color:#ecf5eb; min-height:340px; }
 #mewepak-homepage.packaging-page .pk-help-card .pk-eyebrow { font-size:10px; color:#91cfb7; position:relative; z-index:1; }
-#mewepak-homepage.packaging-page .pk-help-card h3 { font-size:36px; line-height:1.12; letter-spacing:-1px; margin:0 0 17px; font-weight:500; position:relative; z-index:1; }
+#mewepak-homepage.packaging-page .pk-help-card h3 { color:#fff; font-size:36px; line-height:1.12; letter-spacing:-1px; margin:0 0 17px; font-weight:500; position:relative; z-index:1; }
 #mewepak-homepage.packaging-page .pk-help-card > p:not(.pk-eyebrow) { color:#b4cfc2; font-size:14px; line-height:1.7; margin:0 0 23px; position:relative; z-index:1; }
 #mewepak-homepage.packaging-page .pk-help-card .pk-btn { background:#d2ead8; border-color:#d2ead8; color:#174b42; border-radius:5px; font-size:12px; position:relative; z-index:1; }
 #mewepak-homepage.packaging-page .pk-help-card .pk-btn:hover { background:#e5f4e8; }
