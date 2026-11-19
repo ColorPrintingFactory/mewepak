@@ -39,6 +39,15 @@ const resourceLinks = {
   formats: ['/products/stand-up-pouch/', '/products/flat-bottom-pouch/', '/products/flat-pouch/'],
 };
 
+const resourceLabels = {
+  '/markets/frozen-food/': 'Frozen food packaging',
+  '/markets/coffee-tea/': 'Coffee and tea packaging',
+  '/markets/pet-food/': 'Pet food packaging',
+  '/solutions/technical/': 'Technical support',
+};
+
+const arrow = '<span class="mw-article-arrow" aria-hidden="true"></span>';
+
 const adjacentTopics = {
   frozen: ['materials', 'formats'],
   coffee: ['materials', 'formats'],
@@ -84,7 +93,7 @@ export function renderArticleLayout({ entry, entries, baseline, escape, safeUrl 
     .flatMap((target) => {
       const resource = entries.find((item) => item.path === target);
       if (!resource) return [];
-      return `<li><a href="${escape(target)}"><span>${escape(resource.row.name || resource.row.title)}</span><span aria-hidden="true">↗</span></a></li>`;
+      return `<li><a href="${escape(target)}"><span>${escape(resourceLabels[target] || resource.row.name || resource.row.title)}</span>${arrow}</a></li>`;
     });
   const sidebar = resources.length ? `<aside class="mw-article-resources" aria-labelledby="mw-article-resources-title">
     <h2 id="mw-article-resources-title">Packaging resources</h2>
@@ -111,14 +120,14 @@ export function renderArticleLayout({ entry, entries, baseline, escape, safeUrl 
   });
   const related = cards.length ? `<section class="mw-article-related" aria-labelledby="mw-article-related-title">
     <div class="mw-article-inner">
-      <div class="mw-article-section-heading"><h2 id="mw-article-related-title">Related guides</h2><a href="/blog/">View all guides <span aria-hidden="true">↗</span></a></div>
+      <div class="mw-article-section-heading"><h2 id="mw-article-related-title">Related guides</h2><a href="/blog/">View all guides ${arrow}</a></div>
       <div class="mw-article-cards">${cards.join('')}</div>
     </div>
   </section>` : '';
   const quote = entries.some((item) => item.path === '/inquiry/') ? `<section class="mw-article-quote" aria-labelledby="mw-article-quote-title">
     <div class="mw-article-inner mw-article-quote-inner">
       <div><h2 id="mw-article-quote-title">Planning your packaging?</h2><p>Tell us about your product, pouch format and order quantities.</p></div>
-      <a class="mw-article-button" href="/inquiry/#quote-request">Request a quote <span aria-hidden="true">↗</span></a>
+      <a class="mw-article-button" href="/inquiry/#quote-request">Request a quote ${arrow}</a>
     </div>
   </section>` : '';
   return { breadcrumbs, hero, sidebar, footer: quote + related };
