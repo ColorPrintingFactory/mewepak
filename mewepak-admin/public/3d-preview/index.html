@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Interactive 3D Pouch Preview — Mewepak</title>
-  <meta name="description" content="Upload front and back artwork, rotate a stand-up pouch in 3D, and review your packaging design before production.">
+  <title>3D Packaging Preview — Mewepak</title>
+  <meta name="description" content="Choose a packaging format, add your artwork and rotate your design in Mewepak’s interactive 3D preview.">
   <link rel="stylesheet" href="/assets/original/tailwind.css">
   <link rel="stylesheet" href="/assets/original/custom.css">
   <link rel="stylesheet" href="/assets/site.css">
-  <link rel="stylesheet" href="/assets/3d/pouch-viewer.css">
+  <link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1">
 </head>
 <body>
   <a class="sr-only focus:not-sr-only" href="#tool-main">Skip to content</a>
@@ -19,24 +19,25 @@
       <div class="container preview-hero-inner">
         <span class="eyebrow">Interactive 3D Mockup Tool</span>
         <h1>See Your Design<br><span>Come to Life.</span></h1>
-        <p>Upload your artwork and preview it wrapped on a real stand-up pouch. Rotate, zoom, and check every angle before you order — no mockup fees and no waiting.</p>
+        <p>Pick a packaging format, add your design and see how it looks from every angle.</p>
       </div>
     </section>
-    <section class="preview-tool-section">
+    <section class="preview-tool-section" id="packaging-preview">
       <div class="container">
         <div class="preview-tool-head">
-          <div><span class="eyebrow">Live Packaging Preview</span><h2>Upload front &amp; back artwork</h2></div>
-          <p>Your artwork stays in this browser session and is not uploaded to our server.</p>
+          <h2 id="packaging-formats-title">Choose a packaging format</h2>
+          <p>Your artwork stays in this browser tab.</p>
         </div>
-        <div class="mewepak-3d-container" data-bg-color="#f0f0f0" aria-label="Interactive 3D stand-up pouch preview"></div>
+        <ul class="mewepak-3d-formats" data-packaging-options aria-labelledby="packaging-formats-title"></ul>
+        <div class="mewepak-3d-container" data-bg-color="#eff3f0" aria-label="Interactive 3D packaging preview"></div>
       </div>
     </section>
     <section class="preview-steps-section">
       <div class="container">
         <div class="preview-section-title"><span class="eyebrow">Three Simple Steps</span><h2>How it works</h2></div>
         <div class="preview-step-grid">
-          <article><b>01</b><h3>Prepare your artwork</h3><p>Export a 3:4 print-ready image, ideally 1500 × 2000px. Fill the whole canvas edge to edge.</p></article>
-          <article><b>02</b><h3>Upload front &amp; back</h3><p>Drop both designs into the panel. The preview wraps them onto the matching faces immediately.</p></article>
+          <article><b>01</b><h3>Pick a format</h3><p>Choose the pouch, box or film you want to preview. Check the recommended artwork ratio for that format.</p></article>
+          <article><b>02</b><h3>Add your design</h3><p>Upload a flat, edge-to-edge PNG or JPEG. Add a separate back design where the format supports it.</p></article>
           <article><b>03</b><h3>Rotate &amp; review</h3><p>Drag to spin, scroll to zoom, and switch backgrounds. When ready, send us the project for a quote.</p></article>
         </div>
       </div>
@@ -49,7 +50,7 @@
         <div><strong>Order with confidence</strong><span>Discuss the approved direction with our team.</span></div>
       </div>
     </section>
-    <section class="cta"><div class="container"><div class="cta-card"><div><h2>Ready to produce it?</h2><p>Send your files and requirements, and our packaging team will prepare a quote.</p></div><a class="button button-primary" href="/inquiry/#quote-request">Request a Quote</a></div></div></section>
+    <section class="cta"><div class="container"><div class="cta-card"><div><h2>Ready to produce it?</h2><p>Send your files and requirements, and our packaging team will prepare a quote.</p></div><a class="button button-primary" data-preview-quote href="/inquiry/#quote-request">Request a Quote</a></div></div></section>
   </main>
   <footer class="wp-block-template-part"></footer>
   </div>

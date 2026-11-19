@@ -140,4 +140,19 @@
   });
 
   showStep(0, false);
+  const format = form.dataset.previewFormat;
+  if (format) {
+    const options = [...form.querySelectorAll('input[name="format"]')];
+    let match = options.find((option) => option.value.toLowerCase() === format.toLowerCase());
+    if (!match) {
+      const label = options.find((option) => option.value === 'Other format').closest('label').cloneNode(true);
+      match = label.querySelector('input');
+      match.value = format;
+      label.querySelector('.qt-format-body > span').textContent = format;
+      form.querySelector('.qt-formats').prepend(label);
+    }
+    match.checked = true;
+    guideSelection.hidden = false;
+    guideSelection.textContent = format + ' selected from your 3D preview.';
+  }
 })();

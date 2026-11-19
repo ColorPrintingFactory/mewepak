@@ -1,4 +1,5 @@
 import { processPath } from './cms.js';
+import { previewFormats, studioModelUrl } from './preview-formats.js';
 
 const encode = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
@@ -56,7 +57,7 @@ function storageAsset(url, projectUrl, model = false) {
 }
 
 async function publishedModels(database, projectUrl) {
-  const response = await database('model_assets?select=id,name,model_url,poster_url,preview_settings,product_id,product:products(slug)&status=eq.published&order=sort_order.asc,name.asc');
+  const response = await database('model_assets?select=id,name,model_url,poster_url,preview_settings,product_id,product:products(slug,category:product_categories(slug))&status=eq.published&order=sort_order.asc,name.asc');
   if (!response.ok) return [];
   return (await response.json()).flatMap((row) => {
     const url = storageAsset(row.model_url, projectUrl, true);
@@ -64,9 +65,9 @@ async function publishedModels(database, projectUrl) {
     const builtInPouch = url === '/assets/3d/doypack.glb';
     return [{
       id: row.id, name: row.name,
-      url: builtInPouch ? url + '?v=studio-1' : url,
+      url: builtInPouch ? studioModelUrl : url,
       poster: builtInPouch ? '/assets/3d/doypack-studio.webp' : storageAsset(row.poster_url, projectUrl),
-      product: row.product?.slug, settings: row.preview_settings || {},
+      product: row.product?.slug, category: row.product?.category?.slug, settings: row.preview_settings || {},
     }];
   });
 }
@@ -177,7 +178,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
   if (!response.ok || request.method !== 'GET' || /^\/admin(?:\/|$)/.test(path) || !response.headers.get('content-type')?.includes('text/html')) return response;
-  const productSlug = path.match(/^\/products\/[^/]+\/([^/]+)$/)?.[1];
+  const [, categorySlug, productSlug] = /^\/products\/([^/]+)(?:\/([^/]+))?$/.exec(path) || [];
   const useModels = path === '/' || path === '/3d-preview' || !!productSlug;
   const hasQuote = path === '/contact' || path === '/inquiry';
   const [settings, models, categories] = await Promise.all([
@@ -274,7 +275,12 @@ export async function connectStorefront(request, response, database, projectUrl,
   if (pageType === 'product') set('link[href="/assets/original/custom.css"]', 'href', '/assets/original/custom.css?v=gallery');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=direct-links');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=artwork-fit');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=packaging-1');
+  if (path === '/inquiry') {
+    const format = previewFormats.get(url.searchParams.get('format'));
+    if (format) set('#qt-form', 'data-preview-format', format.name);
+    set('script[src="/assets/client-design/quote.js"]', 'src', '/assets/client-design/quote.js?v=packaging-1');
+  }
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=direct-links');
   set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=direct-links');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
@@ -338,28 +344,58 @@ export async function connectStorefront(request, response, database, projectUrl,
   }
   const defaultModel = models.find((model) => !model.product) || models[0];
   if (path === '/' && defaultModel) set('[data-mewepak-home-3d]', 'data-model-url', defaultModel.url);
-  if (productSlug && models.some((model) => model.product === productSlug)) {
-    let linked = false;
-    on('.mewepak-product-primary-cta', (el) => {
-      if (linked) return;
-      linked = true;
-      el.after('<a class="inline-flex px-4 py-3 !font-semibold !text-[#007f7c]" href="/3d-preview/?product=' + encodeURIComponent(productSlug) + '">Preview in 3D</a>', { html: true });
-    });
+  if (categorySlug) {
+    const productModel = productSlug && models.find((model) => model.product === productSlug);
+    const format = previewFormats.get(categorySlug);
+    if (productModel || format) {
+      const params = new URLSearchParams(productModel ? { product: productSlug } : { format: format.id });
+      const href = '/3d-preview/?' + params + '#packaging-preview';
+      const previewLink = '<a class="inline-flex items-center px-4 py-3 !font-semibold !text-[#007f7c]" href="' +
+        encode(href) + '">Preview in 3D <span class="ml-2" aria-hidden="true">↗</span></a>';
+      let linked = false;
+      const selector = productSlug
+        ? 'main .mewepak-product-primary-cta'
+        : 'main .mewepak-product-category a[href="/contact/"][class~="px-8"]';
+      on(selector, (el) => {
+        if (linked) return;
+        linked = true;
+        el.after(previewLink, { html: true });
+      });
+    }
   }
   if (path === '/3d-preview') {
-    const active = models.find((model) => model.id === url.searchParams.get('model'))
-      || models.find((model) => model.product && model.product === url.searchParams.get('product')) || defaultModel;
-    if (active) {
-      set('.mewepak-3d-container', 'data-model-url', active.url);
-      set('.mewepak-3d-container', 'aria-label', active.name);
-      if (active.settings.supports_front_texture === false) set('.mewepak-3d-container', 'data-front-artwork', 'false');
-      if (active.settings.supports_back_texture === false) set('.mewepak-3d-container', 'data-back-artwork', 'false');
-      if (active.poster) on('.mewepak-3d-container', (el) => el.prepend('<img data-model-poster src="' + encode(active.poster) + '" alt="" style="width:100%;height:100%;object-fit:contain">', { html: true }));
-      if (models.length > 1) {
-        const links = models.map((model) => '<a class="button" href="/3d-preview/?model=' + encodeURIComponent(model.id) + '"' + (model.id === active.id ? ' aria-current="true"' : '') + '>' + encode(model.name) + '</a>').join(' ');
-        on('.mewepak-3d-container', (el) => el.before('<nav aria-label="Available packaging models">' + links + '</nav>', { html: true }));
-      }
-    }
+    const builtIns = [...previewFormats.values()];
+    const bespoke = models.filter((model) => model.url !== studioModelUrl).map((model) => ({
+      id: model.id, name: model.name, url: model.url, poster: model.poster,
+      format: previewFormats.has(model.category) ? model.category
+        : previewFormats.has(model.product) ? model.product : '',
+      front: model.settings.supports_front_texture !== false,
+      back: model.settings.supports_back_texture !== false,
+      mirror: true,
+    }));
+    const catalogue = [...builtIns, ...bespoke];
+    const selectedModel = url.searchParams.get('model');
+    const selectedProduct = url.searchParams.get('product');
+    const productModel = selectedProduct && models.find((model) => model.product === selectedProduct);
+    const active = catalogue.find((item) => item.id === selectedModel || item.id === productModel?.id)
+      || previewFormats.get(url.searchParams.get('format')) || previewFormats.get(productModel?.category)
+      || previewFormats.get(selectedProduct) || builtIns[0];
+    const hrefFor = (model) => '/3d-preview/?' +
+      new URLSearchParams(previewFormats.has(model.id) ? { format: model.id } : { model: model.id });
+    const quoteHref = '/inquiry/' + (active.format ? '?format=' + encodeURIComponent(active.format) : '') + '#quote-request';
+    const catalogueWithLinks = catalogue.map((model) => ({ ...model, href: hrefFor(model) }));
+    const selector = '.mewepak-3d-container';
+    set(selector, 'data-packaging-models', JSON.stringify(catalogueWithLinks));
+    set(selector, 'data-active-model', active.id);
+    set(selector, 'aria-label', 'Interactive 3D preview — ' + active.name);
+    set('[data-preview-quote]', 'href', quoteHref);
+    const cards = catalogueWithLinks.map((model) => '<li><a data-packaging-option="' + encode(model.id) + '"' +
+      ' href="' + encode(model.href + '#packaging-preview') + '"' + (model.id === active.id ? ' aria-current="true"' : '') +
+      '>' + (model.poster ? '<img src="' + encode(model.poster) + '" alt="" width="160" height="110" loading="lazy" decoding="async">' : '') +
+      '<span>' + encode(model.name) + '</span></a></li>').join('');
+    on('[data-packaging-options]', (el) => el.setInnerContent(cards, { html: true }));
+    if (active.poster) on(selector, (el) => el.prepend(
+      '<img class="mewepak-3d-poster" data-model-poster src="' + encode(active.poster) + '" alt="' + encode(active.name) + '">', { html: true }));
   }
   const result = rewrite.transform(new Response(response.body, { status: response.status, headers: response.headers }));
   result.headers.set('cache-control', 'no-store');
