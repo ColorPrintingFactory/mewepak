@@ -4,6 +4,11 @@
   const form = document.querySelector('[data-booking-form]');
   if (!form) return;
 
+  const topic = new URLSearchParams(window.location.search).get('topic');
+  if (topic === 'coffee-tea' && !form.elements.topic.value) {
+    form.elements.topic.value = 'Coffee and tea packaging consultation';
+  }
+
   const dateInput = form.elements.date;
   const timezone = form.elements.timezone;
   const timeInput = form.elements.time;

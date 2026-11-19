@@ -72,7 +72,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
         <p>${lead}</p>
         <div class="mw-market-actions">
           <a class="mw-market-button" href="${quoteUrl}">Request a quote ${arrow}</a>
-          ${coffee?.sampleLink ? `<a class="mw-market-text-link" href="${coffee.sampleLink}">Ask about samples ${arrow}</a>`
+          ${coffee ? `<a class="mw-market-text-link" href="${coffee.consultationAnchor}">Book a consultation <span aria-hidden="true">↓</span></a>`
             : formatSection ? `<a class="mw-market-text-link" href="#${formatId}">Explore formats <span aria-hidden="true">↓</span></a>` : ''}
         </div>
       </div>
@@ -90,12 +90,14 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
         <p>${coffee
           ? 'List each size or design separately so we can review quantities, specifications and timing for each SKU.'
           : 'Bring the details you already know so we can compare bag styles, materials and print options for your product.'}</p>
+        ${coffee ? `<a class="mw-market-text-link mw-coffee-brief-download" href="/assets/coffee-tea-quote-worksheet.txt" download>Download the quote worksheet <span aria-hidden="true">↓</span></a>` : ''}
       </div>
       <ul class="mw-market-questions">
         ${detail.questions.map((question) => `<li>${escape(question)}</li>`).join('')}
       </ul>
     </div>
   </section>
+  ${coffee?.consultation || ''}
   ${coffee?.faq || ''}
   ${resources}
   <section class="mw-market-next" aria-labelledby="mw-market-next-title">

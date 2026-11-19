@@ -584,3 +584,130 @@ main[data-market-layout] {
     min-height: 40px;
   }
 }
+
+[data-market-layout] :is(#coffee-quote-example, #coffee-consultation) {
+  scroll-margin-block-start: 16px;
+}
+
+[data-market-layout] .mw-coffee-example-lead {
+  max-width: 68ch;
+  margin: 10px 0 0;
+}
+
+[data-market-layout] .mw-coffee-example-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+  margin-top: 20px;
+}
+
+[data-market-layout] .mw-coffee-example {
+  padding: clamp(17px, 2.4vw, 29px);
+  border: 1px solid var(--market-line);
+  border-radius: 12px;
+  background: var(--market-cream);
+}
+
+[data-market-layout] .mw-coffee-example .mw-coffee-example-format {
+  margin: 5px 0 12px;
+  color: var(--market-green);
+  font-size: .9375rem;
+  font-weight: 600;
+}
+
+[data-market-layout] :is(.mw-coffee-example, .mw-coffee-consultation-agenda) dl {
+  margin: 0;
+}
+
+[data-market-layout] :is(.mw-coffee-example, .mw-coffee-consultation-agenda) dl > div {
+  padding: 10px 0;
+  border-top: 1px solid var(--market-line);
+}
+
+[data-market-layout] :is(.mw-coffee-example, .mw-coffee-consultation-agenda) dl > div:last-child {
+  padding-bottom: 0;
+}
+
+[data-market-layout] :is(.mw-coffee-example, .mw-coffee-consultation-agenda) dt {
+  color: var(--market-deep);
+  font-size: .9375rem;
+  font-weight: 700;
+}
+
+[data-market-layout] :is(.mw-coffee-example, .mw-coffee-consultation-agenda) dd {
+  margin: 3px 0 0;
+  color: var(--market-ink-muted);
+  font-size: .9375rem;
+  line-height: 1.55;
+}
+
+[data-market-layout] #coffee-quote-example + #coffee-sample-review {
+  border-top: 1px solid var(--market-line);
+}
+
+[data-market-layout] .mw-coffee-brief-download {
+  margin-top: 9px;
+}
+
+[data-market-layout] > .mw-coffee-consultation {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(20px, 4.3vw, 62px);
+  margin-block: var(--market-section) 0 !important;
+  padding: clamp(21px, 4vw, 58px);
+  border-radius: 16px;
+  background: var(--market-deep);
+  color: #fff;
+}
+
+[data-market-layout] .mw-coffee-consultation h2 {
+  margin: 0;
+  color: #fff;
+}
+
+[data-market-layout] .mw-coffee-consultation-copy > p {
+  max-width: 45ch;
+  margin: 12px 0 0;
+  line-height: 1.6;
+}
+
+[data-market-layout] .mw-coffee-book-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 17px;
+  padding: 10px 18px;
+  border-radius: 24px;
+  background: var(--market-sage);
+  color: var(--market-deep);
+  font-size: .9375rem;
+  font-weight: 700;
+}
+
+[data-market-layout] .mw-coffee-book-button:hover {
+  background: #fff;
+}
+
+[data-market-layout] .mw-coffee-consultation-copy .mw-coffee-book-prep {
+  font-size: .875rem;
+  color: #d7e9e1;
+}
+
+[data-market-layout] .mw-coffee-consultation-agenda {
+  padding: clamp(15px, 2vw, 24px);
+  border-radius: 10px;
+  background: var(--market-cream);
+}
+
+[data-market-layout] .mw-coffee-consultation-agenda h3 {
+  margin: 0 0 10px;
+}
+
+@media (max-width: 670px) {
+  [data-market-layout] .mw-coffee-example-grid,
+  [data-market-layout] > .mw-coffee-consultation {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
