@@ -7,6 +7,7 @@ import argparse
 import base64
 import hashlib
 import io
+import json
 import re
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -134,7 +135,11 @@ def newsletter(doc, element_id):
 
 
 def apply_site_shell(design):
-    shell = html.parse(str(SCRIPTS / "templates" / "mewepak-site-shell.html")).getroot()
+    template = (SCRIPTS / "templates" / "mewepak-site-shell.html").read_text()
+    chrome = json.loads((SCRIPTS.parent / "worker" / "storefront-chrome.json").read_text())
+    for part in ("header", "footer"):
+        template = template.replace(f"<!-- storefront-{part} -->", "\n".join(chrome[part]))
+    shell = html.document_fromstring(template)
     head = exactly(shell, "//head")
     for element in design.xpath('//head/title|//head/meta[@name="description" or @name="robots"]|//head/link'):
         head.append(element)

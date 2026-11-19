@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Interactive 3D Pouch Preview — Mewepak</title>
   <meta name="description" content="Upload front and back artwork, rotate a stand-up pouch in 3D, and review your packaging design before production.">
+  <link rel="stylesheet" href="/assets/original/tailwind.css">
+  <link rel="stylesheet" href="/assets/original/custom.css">
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="stylesheet" href="/assets/3d/pouch-viewer.css">
 </head>
 <body>
-  <div data-site-header></div>
-  <main class="preview-page">
+  <a class="sr-only focus:not-sr-only" href="#tool-main">Skip to content</a>
+  <div class="wp-site-blocks">
+  <header class="wp-block-template-part"></header>
+  <main id="tool-main" class="preview-page">
     <section class="preview-hero">
       <div class="container preview-hero-inner">
         <span class="eyebrow">Interactive 3D Mockup Tool</span>
@@ -47,8 +51,11 @@
     </section>
     <section class="cta"><div class="container"><div class="cta-card"><div><h2>Ready to produce it?</h2><p>Send your files and requirements, and our packaging team will prepare a quote.</p></div><a class="button button-primary" href="/inquiry/#quote-request">Request a Quote</a></div></div></section>
   </main>
-  <div data-site-footer></div>
-  <script src="/assets/site.js"></script>
+  <footer class="wp-block-template-part"></footer>
+  </div>
+  <script src="/assets/original/runtime-data.js" defer></script>
+  <script src="/api/frontend-navigation" defer></script>
+  <script src="/assets/original/main.js" defer></script>
   <script src="/assets/3d/three.min.js"></script>
   <script src="/assets/3d/OrbitControls.js"></script>
   <script src="/assets/3d/GLTFLoader.js"></script>

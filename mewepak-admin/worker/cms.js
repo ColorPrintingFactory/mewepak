@@ -1,4 +1,22 @@
 import { applyRecommendations } from './recommendations.js';
+import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
+
+const storefrontHeader = storefrontChrome.header.join('\n');
+const storefrontFooter = storefrontChrome.footer.join('\n');
+
+function withStorefrontChrome(asset) {
+  if (!asset.ok || !asset.headers.get('content-type')?.includes('text/html')) return asset;
+  const result = new HTMLRewriter()
+    .on('.wp-site-blocks > header.wp-block-template-part', {
+      element: (el) => el.setInnerContent(storefrontHeader, { html: true }),
+    })
+    .on('.wp-site-blocks > footer.wp-block-template-part, body > footer.wp-block-template-part', {
+      element: (el) => el.setInnerContent(storefrontFooter, { html: true }),
+    })
+    .transform(asset);
+  for (const header of ['etag', 'content-length']) result.headers.delete(header);
+  return result;
+}
 
 const tables = {
   pages: 'slug,title,summary,sections,seo_title,seo_description',
@@ -79,7 +97,9 @@ export async function catalogPaths(database) {
 export async function serveCms(request, asset, database, getAsset, capturePage) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') + '/';
-  if (request.method !== 'GET' || /^\/(admin|booking|3d-preview|assets)(\/|$)/.test(path) || /\.[a-z0-9]+\/$/i.test(path)) return asset;
+  if (request.method !== 'GET' || /^\/(admin|assets)(\/|$)/.test(path) || /\.[a-z0-9]+\/$/i.test(path)) return asset;
+  asset = withStorefrontChrome(asset);
+  if (/^\/(booking|3d-preview)\/$/.test(path)) return asset;
   if (asset.ok && !asset.headers.get('content-type')?.includes('text/html')) return asset;
   try {
     const [lists, base] = await Promise.all([Promise.all(Object.entries(tables).map(async ([table, select]) => {
@@ -94,7 +114,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     if (!entry && baseline[path]) return new Response('Page not found.', { status: 404 });
     const isSearch = path.startsWith('/search/') || (path === '/' && url.searchParams.has('s'));
     if (!asset.ok && !entry && !isSearch) return asset;
-    const source = asset.ok ? asset : await getAsset('/');
+    const source = asset.ok ? asset : withStorefrontChrome(await getAsset('/'));
     if (!source.ok) return asset;
     const rewriter = new HTMLRewriter();
     const edit = (selector, handler) => rewriter.on(selector, { element: handler });
