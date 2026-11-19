@@ -132,7 +132,7 @@
 			this.renderer.setPixelRatio( Math.min( window.devicePixelRatio, 2 ) );
 			this.renderer.outputEncoding = THREE.sRGBEncoding;
 			this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-			this.renderer.toneMappingExposure = 1.2;
+			this.renderer.toneMappingExposure = 1.08;
 			this.renderer.domElement.setAttribute( 'aria-label', 'Drag to rotate. Scroll or pinch to zoom.' );
 			this.viewport.append( this.renderer.domElement );
 
@@ -330,7 +330,7 @@
 		}
 
 		fitDistance( aspect ) {
-			return Math.max( 2.55, 2.12 / aspect );
+			return Math.max( 2.76, 2.34 / aspect );
 		}
 
 		disposeModel( model ) {
@@ -466,8 +466,8 @@
 		}
 
 		addLights() {
-			this.scene.add( new THREE.AmbientLight( 0xffffff, .82 ) );
-			for ( const [intensity, x, y, z] of [ [.76, 3, 4, 5], [.36, -3, 2, -2], [.22, 0, 1, -4], [.15, 0, -3, 2] ] ) {
+			this.scene.add( new THREE.AmbientLight( 0xffffff, .65 ) );
+			for ( const [intensity, x, y, z] of [ [.88, 3, 4, 5], [.29, -3, 2, -2], [.28, 0, 1, -4], [.13, 0, -3, 2] ] ) {
 				const light = new THREE.DirectionalLight( 0xffffff, intensity );
 				light.position.set( x, y, z );
 				this.scene.add( light );
@@ -482,7 +482,7 @@
 			this.controls.minDistance = 1.5;
 			this.controls.maxDistance = 10;
 			this.controls.autoRotate = !this.reducedMotion;
-			this.controls.autoRotateSpeed = .6;
+			this.controls.autoRotateSpeed = .46;
 			this.pointCamera();
 		}
 

@@ -14,12 +14,15 @@ const formats = [
   ['roll-stock-films', 'Printed roll stock', 4, 5],
 ];
 
+const refinedSeals = new Set(['flat-pouch', 'retort-pouch', 'shaped-pouch', 'spout-pouch', 'stand-up-pouch-tap']);
+
 export const studioModelUrl = '/assets/3d/doypack.glb?v=studio-1';
 export const previewFormats = new Map(formats.map(([id, name, width, height], index) => {
   const roll = id === 'roll-stock-films';
   const base = '/assets/3d/formats/' + id;
+  const version = refinedSeals.has(id) ? 'studio-3' : 'studio-2';
   const [url, poster] = index
-    ? [base + '.glb?v=studio-2', base + '.webp?v=studio-2']
+    ? [base + '.glb?v=' + version, base + '.webp?v=' + version]
     : [studioModelUrl, '/assets/3d/doypack-studio.webp'];
   return [id, {
     id, format: id, name, url, poster, ratio: [width, height],

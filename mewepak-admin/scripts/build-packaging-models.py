@@ -62,7 +62,7 @@ def printed_material(slug, side, roughness=.44, metallic=0):
     return mat
 
 
-def surface(name, columns, rows, point, mat, reverse=False, mirror=False, levels=None, u_span=1):
+def surface(name, columns, rows, point, mat, reverse=False, mirror=False, levels=None, u_range=(0, 1)):
     levels = levels or [y / rows for y in range(rows + 1)]
     verts = [point(x / columns, level) for level in levels for x in range(columns + 1)]
     stride = columns + 1
@@ -84,7 +84,7 @@ def surface(name, columns, rows, point, mat, reverse=False, mirror=False, levels
     for loop in mesh.loops:
         index = loop.vertex_index
         u = (index % stride) / columns
-        uvs.data[loop.index].uv = ((1 - u if mirror else u) * u_span, levels[index // stride])
+        uvs.data[loop.index].uv = (mix(*u_range, 1 - u if mirror else u), levels[index // stride])
     return obj
 
 
@@ -147,7 +147,8 @@ def make_pouch(slug, w, h, d, kind, edge_color):
     folds = material('Folded laminate', edge_color, .50, metal)
     top_edge = material('Welded top film', (.77, .74, .64), .47, metal)
     dark = material('Molded closure', (.06, .14, .15), .32)
-    hardware = material('Ivory polypropylene', (.80, .73, .58), .31)
+    welded = kind in ('flat', 'retort', 'shaped', 'spout', 'tap')
+    spout_u = .82
     gusseted = kind in ('box', 'pinch', 'quad')
     flat = kind in ('flat', 'retort')
     top = .945
@@ -183,7 +184,10 @@ def make_pouch(slug, w, h, d, kind, edge_color):
             z += (.026 if kind == 'retort' else .014) * p ** 6 * (gauss(v, 0, .067) - gauss(v, 1, .067))
         elif kind == 'spout':
             width *= profile(v, [(0, 1), (.62, 1), (.87, .91), (1, .84)])
-            z -= .27 * (1 - u) * v ** 5
+            # A level seat at the neck blends into the sloped shoulders at both sides.
+            drop = .23 * (1 - u) + .092 * ramp((u - .89) / .11)
+            seat = 1 - ramp(abs(u - spout_u) / .105)
+            z -= mix(drop, .042, seat) * v ** 5
         elif kind == 'shaped':
             width = profile(v, [(0, .68), (.075, .87), (.33, 1), (.49, .91), (.61, .68), (.77, .54), (.92, .60), (1, .57)])
         elif kind == 'tied':
@@ -197,12 +201,17 @@ def make_pouch(slug, w, h, d, kind, edge_color):
             top_heat = ramp((v - .898) / .034)
             crimp = .0048 * gauss(v, top, .008) + .0046 * gauss(v, .973, .009)
             crimp += .00125 * (1 + sin(464 * v)) * top_heat
+            if welded:
+                # Embossing diminishes before the outer cut edge of the laminate.
+                crimp *= ramp(edge / .09)
             if not gusseted:
                 # Tight welded margins stay flat as the center of the laminate expands.
                 outline *= .17 + .83 * ramp(edge / .095)
                 crimp += .0052 * gauss(edge, .041, .016) * sin(pi * v) ** .5
             if flat:
-                crimp += .0048 * gauss(v, .050, .012) + .0011 * gauss(v, .030, .034) * (1 + sin(410 * v))
+                crimp += ramp(edge / .09) * (
+                    .0048 * gauss(v, .050, .012) + .0011 * gauss(v, .030, .034) * (1 + sin(410 * v))
+                )
             if kind in ('box', 'quad'):
                 crimp += .012 * gauss(edge, .024, .012) * ramp((v - .02) / .080) * ramp((.97 - v) / .09)
             if kind in ('box', 'shaped', 'tap'):
@@ -215,14 +224,23 @@ def make_pouch(slug, w, h, d, kind, edge_color):
     def bridge(u, v, t):
         return tuple(mix(a, b, t) for a, b in zip(face(u, v, -1), face(u, v, 1)))
 
-    for u, name in [(0, 'Left gusset'), (1, 'Right gusset')]:
+    for u, edge_name in [(0, 'left'), (1, 'right')]:
+        if welded:
+            # Each half of the seal takes the adjacent face's edge color, including uploaded artwork.
+            for side, offset, print_material, print_u in [
+                ('Front', 0, front_print, u), ('Back', .5, back_print, 1 - u),
+            ]:
+                surface(f'{side} {edge_name} seal', 2, nt,
+                        lambda t, v: bridge(u, v, offset + t / 2), print_material,
+                        reverse=(u == 0), levels=levels, u_range=(print_u, print_u))
+            continue
         def gusset(t, v, u=u):
             x, y, z = bridge(u, v, t)
             if gusseted:
                 fold = (.073 if kind in ('pinch', 'quad') else .038) * sin(pi * t) ** .7
                 x += (1 - 2 * u) * fold * sin(pi * v) ** .52
             return x, y, z
-        surface(name, 12, nt, gusset, folds, reverse=(u == 0), levels=levels)
+        surface(f'{edge_name.capitalize()} gusset', 12, nt, gusset, folds, reverse=(u == 0), levels=levels)
     surface('Top heat-sealed edge', ns, 6, lambda u, t: bridge(u, 1, t), top_edge)
 
     def bottom(u, t):
@@ -233,18 +251,30 @@ def make_pouch(slug, w, h, d, kind, edge_color):
     surface('Bottom fold', ns, 12, bottom, folds, reverse=True)
 
     if kind == 'spout':
-        u = .88
-        x, _, z = face(u, 1, -1)
-        cylinder('Spout mounting collar', .079, .071, (x, 0, z + .020), top_edge)
-        torus('Cap security band', .064, .009, (x, 0, z + .056), hardware)
-        cap_radius, cap_z = .070, z + .063
+        x, _, z = face(spout_u, 1, -1)
+        fitment = material('Molded spout fitment', (.35, .46, .38), .43)
+        cap_material = material('Warm ivory cap', (.68, .66, .56), .39)
+
+        def weld_neck(u, v):
+            angle = 2 * pi * u
+            rx = profile(v, [(0, .069), (.30, .088), (.55, .076), (.80, .052), (1, .040)])
+            ry = profile(v, [(0, .013), (.35, .015), (.61, .027), (.84, .040), (1, .040)])
+            return x + rx * cos(angle), ry * sin(angle), z - .062 + .083 * v
+
+        surface('Welded spout seat', 64, 16, weld_neck, fitment)
+        cylinder('Molded neck collar', .050, .023, (x, 0, z + .023), fitment)
+        cylinder('Spout neck', .038, .031, (x, 0, z + .043), fitment)
+        torus('Tamper-evident cap band', .048, .006, (x, 0, z + .047), cap_material)
+        cap_z = z + .053
+
         def cap(u, v):
             angle = 2 * pi * u
-            grip = .0033 * (1 + cos(27 * angle)) * ramp(v / .15) * ramp((1 - v) / .16)
-            radius = cap_radius - .005 * gauss(v, 1, .13) + grip
-            return radius * cos(angle) + x, radius * sin(angle), cap_z + v * .085
-        surface('Fluted screw cap', 108, 8, cap, hardware)
-        cylinder('Sealed cap top', .065, .012, (x, 0, cap_z + .080), hardware)
+            grip = .0025 * (1 + cos(27 * angle)) * ramp(v / .17) * ramp((1 - v) / .18)
+            radius = .053 - .004 * gauss(v, 1, .18) + grip
+            return x + radius * cos(angle), radius * sin(angle), cap_z + v * .078
+
+        surface('Fluted screw cap', 108, 12, cap, cap_material)
+        cylinder('Sealed cap top', .0495, .010, (x, 0, cap_z + .076), cap_material)
     if kind == 'tap':
         x, y, z = face(.71, .18, -1)
         make_tap(x, y, z, dark)
@@ -312,7 +342,7 @@ def make_roll(slug):
     def film_end(u, v):
         t = u * .58
         return t, -radius + .16 * sin(pi * u * .86) * u, height * v + .006 * sin(pi * u)
-    surface('Front film leader', 24, 8, film_end, film, u_span=1 / 3)
+    surface('Front film leader', 24, 8, film_end, film, u_range=(0, 1 / 3))
 
 
 def aim(obj, target):

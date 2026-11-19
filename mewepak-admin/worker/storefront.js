@@ -275,7 +275,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   if (pageType === 'product') set('link[href="/assets/original/custom.css"]', 'href', '/assets/original/custom.css?v=gallery');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=direct-links');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=packaging-1');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=packaging-2');
   if (path === '/inquiry') {
     const format = previewFormats.get(url.searchParams.get('format'));
     if (format) set('#qt-form', 'data-preview-format', format.name);
