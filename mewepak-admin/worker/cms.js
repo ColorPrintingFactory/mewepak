@@ -184,7 +184,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         ? renderMarketLayout({ entry, categories, choices, baseline, publishedPaths, escape })
         : null;
       if (market) {
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-detail-3">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-detail-4">', { html: true }));
         edit('main', (el) => {
           el.setAttribute('data-market-layout', '');
           el.setInnerContent(market, { html: true });

@@ -11,6 +11,12 @@
     "alt": "Illustrative coffee & tea packaging scene",
     "guide": "/how-to-choose-the-right-barrier-film-for-coffee-packaging/",
     "guideLabel": "Choosing a barrier film for coffee",
+    "formatImages": {
+      "stand-up-pouch": "/assets/media/coffee-tea-formats/stand-up-pouch.webp",
+      "flat-bottom-pouch": "/assets/media/coffee-tea-formats/flat-bottom-pouch.webp",
+      "pinch-bottom-pouches": "/assets/media/coffee-tea-formats/pinch-bottom-pouches.webp",
+      "roll-stock-films": "/assets/media/coffee-tea-formats/roll-stock-films.webp"
+    },
     "formatDescriptions": {
       "stand-up-pouch": "An upright pouch with reseal options for beans, ground coffee or loose-leaf tea.",
       "flat-bottom-pouch": "A stable base and broad print panels for retail coffee and tea bags.",

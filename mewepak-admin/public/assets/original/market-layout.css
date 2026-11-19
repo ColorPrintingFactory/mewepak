@@ -193,6 +193,10 @@ main[data-market-layout] {
   object-fit: contain;
 }
 
+[data-market-layout] .mw-market-format-image--photo img {
+  object-fit: cover;
+}
+
 [data-market-layout] .mw-market-format-copy {
   display: flex;
   flex: 1;

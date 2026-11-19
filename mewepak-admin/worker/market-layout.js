@@ -26,11 +26,13 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
     ? renderCoffeeMarket({ publishedPaths, formatId, hasFormats: featured.length || more.length, escape, arrow })
     : null;
   const cards = featured.map(({ key, href, title, description, image }) => {
+    const marketPhoto = detail.formatImages?.[key];
+    const cardImage = marketPhoto || image;
     const desc = detail.formatDescriptions?.[key] || description;
     const buyer = coffee ? coffeeFormatDetails(key, quoteUrl) : null;
     return `<li class="mw-market-format">
       <a href="${href}" class="mw-market-format-link">
-        ${image ? `<span class="mw-market-format-image"><img src="${escape(image)}" width="560" height="360" alt="" loading="lazy" decoding="async"></span>` : ''}
+        ${cardImage ? `<span class="mw-market-format-image${marketPhoto ? ' mw-market-format-image--photo' : ''}"><img src="${escape(cardImage)}" width="${marketPhoto ? 760 : 560}" height="${marketPhoto ? 490 : 360}" alt="" loading="lazy" decoding="async"></span>` : ''}
         <div class="mw-market-format-copy"><h3>${escape(title)}</h3>
           ${desc ? `<p>${escape(desc)}</p>` : ''}
           ${buyer?.check ? `<p class="mw-coffee-format-check">${escape(buyer.check)}</p>` : ''}
