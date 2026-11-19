@@ -310,9 +310,10 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('body', (el) => { bodyClass = el.getAttribute('class') || ''; });
   on('main', (el) => {
     const design = el.getAttribute('data-client-page');
-    if (themedMain || (design && pageType !== 'search' && (design !== 'home' || path === '/'))) return;
+    const article = el.hasAttribute('data-article-layout');
+    if (themedMain || (design && !article && pageType !== 'search' && (design !== 'home' || path === '/'))) return;
     themedMain = true;
-    const type = pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass) ? 'article' : pageType;
+    const type = article || (pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass)) ? 'article' : pageType;
     el.setAttribute('data-storefront-page', type);
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=site-typography"><script src="/assets/original/storefront-layout.js" defer></script>', { html: true }));

@@ -1,4 +1,5 @@
 import { applyRecommendations } from './recommendations.js';
+import { renderArticleLayout } from './article-layout.js';
 import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
 
 const storefrontHeader = storefrontChrome.header.join('\n');
@@ -168,7 +169,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       } else if (!asset.ok) {
         edit('meta[name="description"],meta[property="og:description"]', (el) => el.remove());
       }
-      if (title !== previous.title && asset.ok && path !== '/') {
+      if (title !== previous.title && asset.ok && path !== '/' && entry.table !== 'articles') {
         let headingUpdated = false;
         edit('main h1', (el) => {
           if (headingUpdated) return;
@@ -180,8 +181,6 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       if (typeof pageBody === 'string') replaceHtml('main', await sanitize(pageBody));
       if (entry.table === 'articles' && asset.ok && await digest(row.body) !== previous.body_hash) {
         const body = await sanitize(row.body);
-        const excerpt = row.excerpt?.trim();
-        if (excerpt) replace('main .mewepak-lede .wp-block-post-excerpt__excerpt', excerpt);
         edit('main .entry-content > *:not(.mewepak-article-related):not(.mw-article-related):not(.mewepak-article-cta):not(.mewepak-author)', (el) => el.remove());
         edit('main .entry-content', (el) => el.prepend(`<div class="mewepak-prose" data-article-body>${body}</div>`, { html: true }));
       }
@@ -225,15 +224,24 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           edit('[data-category-gallery-thumb].is-active', (el) => el.setAttribute('data-full-src', image));
         }
       }
-      const featured = safeUrl(row.featured_image_url);
-      if (entry.table === 'articles' && asset.ok && featured && featured !== previous.featured_image_url) {
-        edit('main > .wp-block-cover > img.wp-block-cover__image-background', (el) => el.remove());
-        edit('main > .wp-block-cover', (el) => {
-          el.setAttribute('data-article-cover', '');
-          el.prepend(`<img class="wp-block-cover__image-background" src="${escape(featured)}" alt="" fetchpriority="high" decoding="async">`, { html: true });
-        });
+      if (entry.table === 'articles') {
+        const article = renderArticleLayout({ entry, entries, baseline, escape, safeUrl });
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/article-layout.css">', { html: true }));
+        edit('main', (el) => el.setAttribute('data-article-layout', ''));
+        if (asset.ok) {
+          edit('main > div.bg-gray-50:first-child', (el) => el.replace(article.breadcrumbs, { html: true }));
+          edit('main > .wp-block-cover', (el) => el.replace(article.hero, { html: true }));
+          edit('main > .wp-block-columns > .wp-block-column:nth-child(2)', (el) => el.replace(article.sidebar, { html: true }));
+          edit('main .mewepak-lede, main > .wp-block-columns > .wp-block-column:first-child > .wp-block-separator', (el) => el.remove());
+          edit('main .mewepak-article-related, main .mw-article-related, main .mewepak-article-cta', (el) => el.remove());
+          edit('body > .wp-block-group.alignfull.has-surface-background-color', (el) => el.remove());
+          edit('main', (el) => el.append(article.footer, { html: true }));
+        } else {
+          const body = await sanitize(row.body || '');
+          replaceHtml('main', article.breadcrumbs + article.hero + `<div class="mw-article-body"><div class="mewepak-prose entry-content">${body}</div>${article.sidebar}</div>` + article.footer);
+        }
       }
-      if (!asset.ok && typeof pageBody !== 'string' && !isSearch) {
+      if (!asset.ok && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
         const body = await sanitize(row.body || row.description || '');
         const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
         const gallery = images.map((src) => `<img class="w-full h-64 object-contain" src="${escape(src)}" alt="${escape(title)}">`).join('');
