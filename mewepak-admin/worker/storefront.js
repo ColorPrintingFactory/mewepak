@@ -186,8 +186,9 @@ export async function connectStorefront(request, response, database, projectUrl,
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
   on('a[href^="/solutions"]', (el) => {
     const href = el.getAttribute('href');
-    const match = /^\/solutions\/?([?#].*)?$/.exec(href);
-    if (match) el.setAttribute('href', processPath + (match[1] || '#packaging-services'));
+    const legacySection = /^\/solutions\/?(#(?:process-stages|project-enquiry|why-mewepak|packaging-help|get-in-touch))$/.exec(href);
+    if (legacySection) el.setAttribute('href', processPath + legacySection[1]);
+    else if (href === '/solutions') el.setAttribute('href', '/solutions/');
   });
   on('[data-mega-panel="Sustainability"] ul.space-y-2', (el) => el.prepend(
     `<li><a href="${processPath}" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Our Process</a></li>`, { html: true }));
@@ -256,7 +257,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
   set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
   set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
-  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=process-nav');
+  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=solutions-overview');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=home-performance-1');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');

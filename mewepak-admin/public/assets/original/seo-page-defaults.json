@@ -385,5 +385,9 @@
     "name": "Understanding Barrier Materials in Flexible Packaging",
     "description": "A deep dive into different barrier materials and their …",
     "kind": "articles"
+  },
+  "/solutions/": {
+    "name": "Solutions",
+    "description": "Explore Mewepak’s flexible packaging services, including prepress, printing, technical development, recycling guidance and retort packaging."
   }
 }

@@ -1,6 +1,6 @@
 import { dispatchLeadNotifications } from './notifications.js';
 import { optimizePageSeo, seoEndpoint } from './seo.js';
-import { serveCms, frontendNavigation, processPath } from './cms.js';
+import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
 
 const MAX_BODY_BYTES = 12_000;
@@ -372,7 +372,7 @@ export default {
       '/assets/original/storefront-navigation.js': '/assets/original/main.js',
       '/assets/client-design/market-browser.js': '/assets/client-design/markets.js',
     };
-    const assetPath = url.pathname.replace(/\/+$/, '') + '/' === processPath ? '/solutions/' : aliases[url.pathname];
+    const assetPath = aliases[url.pathname];
     const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : request;
     const cacheKey = storefrontCacheKey(request, url, env, context);
     const pageCache = cacheKey ? caches.default : null;
