@@ -115,7 +115,7 @@ export function marketFormats(slug, categories, choices, baseline) {
     const custom = /^https:\/\/|^\/(?![\/\\])/i.test(image || '')
       && image !== baseline[href]?.image_url && !image.includes('placeholder');
     const photo = key === 'stand-up-pouch'
-      ? designPhotos + 'icon-stand-up-pouch.webp'
+      ? '/assets/media/blog-covers/the-ultimate-guide-to-stand-up-pouches-in-2024.webp'
       : '/assets/3d/formats/' + key + '.webp';
     return [{ key, href, title: row.name, description: formats[key]?.[1] || row.short_description,
       image: custom ? image : (formats[key] ? photo : '') }];

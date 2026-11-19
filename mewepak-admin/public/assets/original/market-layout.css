@@ -47,7 +47,7 @@ main[data-market-layout] {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(25px, 4.4vw, 70px);
-  padding-block: clamp(29px, 4vw, 58px);
+  padding-block: clamp(26px, 3.5vw, 49px);
 }
 
 [data-market-layout] .mw-market-intro {
@@ -68,13 +68,18 @@ main[data-market-layout] {
 
 [data-market-layout] .mw-market-cover {
   display: block;
-  width: 100%;
+  justify-self: end;
+  width: min(100%, 440px);
   height: auto;
-  aspect-ratio: 1.45;
+  aspect-ratio: 1;
   object-fit: cover;
-  object-position: 50% 53%;
   border-radius: 17px;
   background: var(--market-cream);
+}
+
+[data-market-layout] .mw-market-cover--render {
+  width: 100%;
+  aspect-ratio: 1.45;
 }
 
 [data-market-layout] .mw-market-actions {
@@ -330,6 +335,10 @@ main[data-market-layout] {
   [data-market-layout] .mw-market-brief-grid,
   [data-market-layout] .mw-market-resources ul {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-market-layout] .mw-market-cover {
+    justify-self: center;
   }
 
   [data-market-layout] .mw-market-actions {

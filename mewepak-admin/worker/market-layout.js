@@ -12,6 +12,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
   const slug = path.split('/')[2];
   if (!Object.hasOwn(marketDetails, slug)) return null;
   const detail = marketDetails[slug];
+  const isRender = detail.photo.startsWith('/assets/3d/');
   const title = escape(row.title);
   const heading = row.title === baseline[path]?.title ? title + ' Packaging' : title;
   const formatId = formatAnchors[slug] || slug + '-packaging-formats';
@@ -67,7 +68,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
           ${formatSection ? `<a class="mw-market-text-link" href="#${formatId}">Explore formats <span aria-hidden="true">↓</span></a>` : ''}
         </div>
       </div>
-      <img class="mw-market-cover" src="${detail.photo}" alt="${escape(detail.alt)}" width="850" height="850"
+      <img class="mw-market-cover${isRender ? ' mw-market-cover--render' : ''}" src="${detail.photo}" alt="${escape(detail.alt)}" width="850" height="850"
         fetchpriority="high" decoding="async">
     </div>
   </header>
