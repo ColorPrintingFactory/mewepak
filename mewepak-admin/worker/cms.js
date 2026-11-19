@@ -180,6 +180,8 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       if (typeof pageBody === 'string') replaceHtml('main', await sanitize(pageBody));
       if (entry.table === 'articles' && asset.ok && await digest(row.body) !== previous.body_hash) {
         const body = await sanitize(row.body);
+        const excerpt = row.excerpt?.trim();
+        if (excerpt) replace('main .mewepak-lede .wp-block-post-excerpt__excerpt', excerpt);
         edit('main .entry-content > *:not(.mewepak-article-related):not(.mw-article-related):not(.mewepak-article-cta):not(.mewepak-author)', (el) => el.remove());
         edit('main .entry-content', (el) => el.prepend(`<div class="mewepak-prose" data-article-body>${body}</div>`, { html: true }));
       }
