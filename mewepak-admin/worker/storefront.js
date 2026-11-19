@@ -191,6 +191,11 @@ export async function connectStorefront(request, response, database, projectUrl,
   const on = (selector, element) => rewrite.on(selector, { element });
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
+  on('head', (el) => el.append(
+    '<link rel="icon" href="/favicon.ico?v=mewepak-1" type="image/x-icon" sizes="16x16 32x32 48x48">' +
+    '<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=mewepak-1" sizes="180x180">',
+    { html: true },
+  ));
   on('a[href^="/solutions"]', (el) => {
     const href = el.getAttribute('href');
     const legacySection = /^\/solutions\/?(#(?:process-stages|project-enquiry|why-mewepak|packaging-help|get-in-touch))$/.exec(href);
