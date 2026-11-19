@@ -10,7 +10,6 @@
   --storefront-card-heading: clamp(1.125rem, 1.02rem + .48vw, 1.375rem);
   --storefront-body: 1rem;
   --storefront-card-copy: .9375rem;
-  --storefront-label: .875rem;
 }
 
 #mewepak-homepage main[data-client-page] {
@@ -32,26 +31,26 @@
 }
 
 #mewepak-homepage main[data-client-page] h1 {
-  font-size: var(--storefront-display);
-  line-height: 1.05;
-  letter-spacing: -.043em;
+  font-size: var(--storefront-display) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -.043em !important;
 }
 
 #mewepak-homepage main[data-client-page] h2 {
-  font-size: var(--storefront-heading);
-  line-height: 1.14;
-  letter-spacing: -.028em;
+  font-size: var(--storefront-heading) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.028em !important;
 }
 
 #mewepak-homepage main[data-client-page] :is(h3, .fq-quick h2, .in-empty h2, .ct-resource h2, .qt-support-grid h2) {
-  font-size: var(--storefront-card-heading);
-  line-height: 1.25;
-  letter-spacing: -.014em;
+  font-size: var(--storefront-card-heading) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -.014em !important;
 }
 
 #mewepak-homepage main[data-client-page] :is(.ct-form-panel, .qt-panel-header, .qt-guide, .fq-group-heading, .in-feature-copy) h2 {
-  font-size: clamp(1.375rem, 1.2rem + .64vw, 1.875rem);
-  line-height: 1.22;
+  font-size: clamp(1.375rem, 1.2rem + .64vw, 1.875rem) !important;
+  line-height: 1.22 !important;
 }
 
 #mewepak-homepage main[data-client-page="solutions"] .pr-section a > h2 {
@@ -296,6 +295,24 @@ main[data-storefront-page="category"] .mewepak-category-grid__title {
   letter-spacing: -.01em;
 }
 
+main[data-storefront-page="category"] .mewepak-eco-samples__panel {
+  padding: clamp(20px, 4vw, 50px);
+  border-radius: var(--page-radius);
+}
+
+main[data-storefront-page="category"] .mewepak-eco-samples__sample-art {
+  min-width: 0;
+  gap: clamp(6px, 1.5vw, 16px);
+}
+
+main[data-storefront-page="category"] .mewepak-eco-samples__sample-art > div { min-width: 0; }
+
+@media (max-width: 1023px) {
+  main[data-storefront-page="category"] .mewepak-eco-samples__sample-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 main[data-storefront-page="product"] .mewepak-tab-button[aria-selected="true"] {
   color: var(--chrome-accent);
   border-color: var(--chrome-accent);
@@ -359,6 +376,7 @@ main[data-storefront-page="article"] .entry-content :is(p, li) {
 }
 
 main[data-storefront-page="article"] .entry-content > [data-article-body] {
+  --page-subtitle: clamp(1.375rem, 1.18rem + 1vw, 2rem);
   max-width: 72ch;
 }
 
