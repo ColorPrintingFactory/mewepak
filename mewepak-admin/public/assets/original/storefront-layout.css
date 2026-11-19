@@ -157,6 +157,13 @@ main[data-storefront-page="category"] .mewepak-category-hero-media {
   background-color: var(--page-surface);
 }
 
+main[data-storefront-page="category"] :is(.mewepak-category-hero-media, .mewepak-category-gallery__thumb > img)[src^="/assets/media/category-renders/"] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) {
   gap: clamp(20px, 3vw, 44px);
 }
@@ -209,6 +216,7 @@ main[data-storefront-page="article"] > .wp-block-cover .wp-block-cover__backgrou
 
 main[data-storefront-page="article"] > .wp-block-cover[data-article-cover] > .wp-block-cover__background {
   background: linear-gradient(90deg, #10252fed 10%, #10252fb8 55%, #10252f3d 100%);
+  background-color: transparent !important;
   opacity: 1;
 }
 
