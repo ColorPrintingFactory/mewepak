@@ -7,14 +7,6 @@
     retort: 'retort-pouch', spout: 'spout-pouch', 'tap-pouch': 'stand-up-pouch-tap',
     'bag-in-box': 'bag-in-box', rollstock: 'roll-stock-films',
   };
-  const marketSlugs = {
-    coffee: 'coffee-tea', snacks: 'snacks-sweets', supplement: 'supplement',
-    pet: 'pet-food', sauce: 'sauce-soup', baby: 'baby-food', beverage: 'beverage',
-    frozen: 'frozen-food', home: 'home-care', produce: 'fruits-veggies',
-    meat: 'meat-poultry', beauty: 'beauty-care', seafood: 'sea-food',
-    cbd: 'cbd', cosmetics: 'cosmetics', spices: 'powder-spices', fashion: 'fashion',
-    tobacco: 'tobacco-filters', 'cbd-thc': 'cbd-thc', cannabis: 'cannabis', accessories: 'accessories',
-  };
   const featured = {
     'product-grapes': 'frozen-candied-grapes-atomic-sourberry-hanging-pouch',
     'product-candy': 'cotton-candy-pastel-pink-hanging-pouch',
@@ -82,16 +74,6 @@
     return image;
   }
 
-  function detailLink(button, href) {
-    const link = document.createElement('a');
-    link.href = href;
-    link.className = button.className;
-    while (button.firstChild) link.append(button.firstChild);
-    const label = button.getAttribute('aria-label');
-    if (label) link.setAttribute('aria-label', label);
-    button.replaceWith(link);
-  }
-
   const homepageThumbnails = {
     '/assets/media/2026/06/Frozen-Candied-Grapes-Atomic-Sourberry-Hanging-Pouch-1-scaled.jpeg': 'frozen-grapes',
     '/assets/media/2026/06/Premium-Almonds-Window-Stand-Up-Pouch-1-scaled.jpeg': 'almond-pouch',
@@ -99,21 +81,13 @@
   };
 
   async function home() {
-    for (const button of document.querySelectorAll('button.mw-market')) {
-      const id = (button.dataset.marketPhoto || button.dataset.preview || '').replace(/^market-/, '').replace(/-photo$/, '');
-      if (!marketSlugs[id]) continue;
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        location.assign('/markets/' + marketSlugs[id] + '/');
-      });
-    }
     try {
       const products = await read('/api/content?type=products');
       for (const [key, slug] of Object.entries(featured)) {
         const product = products.find((row) => row.slug === slug);
         if (!product?.category?.slug) continue;
         const href = '/products/' + encodeURIComponent(product.category.slug) + '/' + encodeURIComponent(slug) + '/';
-        for (const button of document.querySelectorAll('button[data-preview="' + key + '"]')) detailLink(button, href);
+        for (const link of document.querySelectorAll('a[data-featured-product="' + key + '"]')) link.href = href;
         const src = product.primary_image_url || '';
         if (!/^(?:\/(?![\\/])|https:\/\/)/i.test(src)) continue;
         const thumbnail = homepageThumbnails[src];

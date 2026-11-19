@@ -35,7 +35,7 @@ const languages = settings.languages?.length ? `<details class="mewepak-language
   `<a href="${esc(url)}">${esc(label)}</a>`).join('')}</nav></details>` : '';
 
 function categoryLink(item) {
-  return `<li><a href="/products/?category=${encodeURIComponent(item.slug)}">${esc(item.name)}</a></li>`;
+  return `<li><a href="/products/${encodeURIComponent(item.slug)}/">${esc(item.name)}</a></li>`;
 }
 
 function renderHeader() {
@@ -48,29 +48,29 @@ function renderHeader() {
       <div class="utility"><div class="container">${settings.tagline ? `<strong>${esc(settings.tagline)}</strong>` : ''}<div class="utility-links">${whatsappUrl ? `<a href="${whatsappUrl}">WhatsApp: ${esc(settings.whatsapp)}</a>` : ''}${contactPhone}${contactEmail}</div></div></div>
       <div class="container header-main">
         <a class="brand" href="/">${branding}</a>
-        <form class="search-form" action="/products/" role="search"><input name="q" type="search" placeholder="Search for products |" aria-label="Search for products"><button aria-label="Search">⌕</button></form>
-        <div class="header-actions">${languages ? `<div class="language">${languages}</div>` : ''}<a class="button button-primary" href="/booking/">Request a Quote</a><button class="mobile-toggle" type="button" data-mobile-open aria-label="Open menu">☰</button></div>
+        <form class="search-form" action="/" role="search"><input name="s" type="search" placeholder="Search for products |" aria-label="Search for products"><button aria-label="Search">⌕</button></form>
+        <div class="header-actions">${languages ? `<div class="language">${languages}</div>` : ''}<a class="button button-primary" href="/inquiry/#quote-request">Request a Quote</a><button class="mobile-toggle" type="button" data-mobile-open aria-label="Open menu">☰</button></div>
       </div>
       <nav class="container nav" aria-label="Main navigation">
         <div class="nav-item"><a href="/">Home</a></div>
         <div class="nav-item"><a href="/products/">Products <span class="nav-caret">⌄</span></a><div class="mega"><div class="container mega-inner"><div class="mega-columns"><div><h3>Pouch Formats</h3><ul>${pouch.slice(0,5).map(categoryLink).join('')}</ul></div><div><h3>&nbsp;</h3><ul>${pouch.slice(5).map(categoryLink).join('')}</ul></div><div><h3>Specialty Packaging</h3><ul>${specialty.map(categoryLink).join('')}</ul></div></div><aside class="mega-feature"><span class="eyebrow">Featured</span><h4>Explore Our Premium Products</h4><p>Discover high-quality, customized packaging solutions tailored for your business needs.</p><a class="button button-dark" href="/products/">View All Products</a></aside></div></div></div>
-        <div class="nav-item"><a href="/#markets">Markets <span class="nav-caret">⌄</span></a></div>
+        <div class="nav-item"><a href="/markets/">Markets <span class="nav-caret">⌄</span></a></div>
         <div class="nav-item"><a href="/solutions/">Solutions <span class="nav-caret">⌄</span></a></div>
         <div class="nav-item"><a href="/3d-preview/">3D Preview</a></div>
-        <div class="nav-item"><a href="/#viewer">Added Value <span class="nav-caret">⌄</span></a></div>
+        <div class="nav-item"><a href="/added-value/">Added Value <span class="nav-caret">⌄</span></a></div>
         <div class="nav-item"><a href="/sustainability/">Sustainability <span class="nav-caret">⌄</span></a><div class="mega"><div class="container mega-inner"><a href="/sustainability/our-process/">Our Process</a></div></div></div>
-        <div class="nav-item"><a href="/#blog">Blog</a></div>
-        <div class="nav-item"><a href="/booking/">Contact</a></div>
-        <div class="nav-item"><a href="/#about">About Us <span class="nav-caret">⌄</span></a></div>
+        <div class="nav-item"><a href="/blog/">Blog</a></div>
+        <div class="nav-item"><a href="/contact/">Contact</a></div>
+        <div class="nav-item"><a href="/about-us/">About Us <span class="nav-caret">⌄</span></a></div>
       </nav>
     </header>
-    <div class="mobile-panel" data-mobile-panel><div class="mobile-top">${branding}<button class="mobile-close" data-mobile-close aria-label="Close menu">×</button></div><nav class="mobile-nav"><a href="/">Home</a><a href="/products/">Products</a><a href="/#markets">Markets</a><a href="/solutions/">Solutions</a><a href="/3d-preview/">3D Preview</a><a href="/sustainability/">Sustainability</a><a href="/sustainability/our-process/" style="padding-inline-start:20px">Our Process</a><a href="/booking/">Request a Quote</a></nav>${languages}</div>`;
+    <div class="mobile-panel" data-mobile-panel><div class="mobile-top">${branding}<button class="mobile-close" data-mobile-close aria-label="Close menu">×</button></div><nav class="mobile-nav"><a href="/">Home</a><a href="/products/">Products</a><a href="/markets/">Markets</a><a href="/solutions/">Solutions</a><a href="/3d-preview/">3D Preview</a><a href="/added-value/">Added Value</a><a href="/sustainability/">Sustainability</a><a href="/sustainability/our-process/" style="padding-inline-start:20px">Our Process</a><a href="/blog/">Blog</a><a href="/contact/">Contact</a><a href="/about-us/">About Us</a><a href="/inquiry/#quote-request">Request a Quote</a></nav>${languages}</div>`;
 }
 
 function renderFooter() {
   const host = document.querySelector('[data-site-footer]');
   if (!host) return;
-  host.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid"><div><div class="footer-logo">${branding}</div><p class="footer-note">The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.</p></div><div class="footer-column"><h4>Products</h4><ul>${productCategories.slice(0,7).map(categoryLink).join('')}</ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/">Home</a></li><li><a href="/#about">About Us</a></li><li><a href="/products/">Products</a></li><li><a href="/3d-preview/">3D Preview</a></li><li><a href="/booking/">Contact</a></li><li><a href="/booking/">Book a Consultation</a></li></ul></div><div class="footer-column"><h4>Contact</h4><ul>${(settings.usLocations?.addresses || []).map((address) => `<li>${esc(address)}</li>`).join('')}${locationPhone('Toll-Free', settings.usLocations?.tollFree)}${locationPhone('Front Desk', settings.usLocations?.frontDesk)}${contactEmail ? '<li>' + contactEmail + '</li>' : ''}${whatsappUrl ? `<li><a href="${whatsappUrl}">WhatsApp</a></li>` : ''}</ul></div></div><div class="footer-bottom"><span>© 2007–2026 Mewepak. All rights reserved.</span><span>Customized Packaging Factory Since 2007.</span></div></div></footer>`;
+  host.innerHTML = `<footer class="site-footer"><div class="container"><div class="footer-grid"><div><div class="footer-logo">${branding}</div><p class="footer-note">The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.</p></div><div class="footer-column"><h4>Products</h4><ul>${productCategories.slice(0,7).map(categoryLink).join('')}</ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/">Home</a></li><li><a href="/about-us/">About Us</a></li><li><a href="/products/">Products</a></li><li><a href="/3d-preview/">3D Preview</a></li><li><a href="/contact/">Contact</a></li><li><a href="/booking/">Book a Consultation</a></li></ul></div><div class="footer-column"><h4>Contact</h4><ul>${(settings.usLocations?.addresses || []).map((address) => `<li>${esc(address)}</li>`).join('')}${locationPhone('Toll-Free', settings.usLocations?.tollFree)}${locationPhone('Front Desk', settings.usLocations?.frontDesk)}${contactEmail ? '<li>' + contactEmail + '</li>' : ''}${whatsappUrl ? `<li><a href="${whatsappUrl}">WhatsApp</a></li>` : ''}</ul></div></div><div class="footer-bottom"><span>© 2007–2026 Mewepak. All rights reserved.</span><span>Customized Packaging Factory Since 2007.</span></div></div></footer>`;
 }
 
 async function loadCategories() {
@@ -86,7 +86,7 @@ async function renderCatalog() {
   const host = document.querySelector('[data-category-grid]');
   if (!host) return;
   const categories = await loadCategories();
-  host.innerHTML = categories.map(item => `<a class="category-card" href="/products/?category=${encodeURIComponent(item.slug)}"><h3>${esc(item.name)}</h3><p>${esc(item.short_description || item.description || 'Custom flexible packaging engineered for your product and production requirements.')}</p><span>Explore format ${arrow}</span></a>`).join('');
+  host.innerHTML = categories.map(item => `<a class="category-card" href="/products/${encodeURIComponent(item.slug)}/"><h3>${esc(item.name)}</h3><p>${esc(item.short_description || item.description || 'Custom flexible packaging engineered for your product and production requirements.')}</p><span>Explore format ${arrow}</span></a>`).join('');
 }
 
 async function renderProducts() {

@@ -180,10 +180,9 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
               }
               el.remove();
             });
-            edit('[data-product-zoom-preview]', (el) => el.setAttribute('src', gallery[0]));
           }
         } else if (image && image !== previous.primary_image_url) {
-          edit('[data-single-gallery-track] > div:first-child img,[data-product-zoom-preview],[data-single-gallery-thumb="0"] img', (el) => el.setAttribute('src', image));
+          edit('[data-single-gallery-track] > div:first-child img,[data-single-gallery-thumb="0"] img', (el) => el.setAttribute('src', image));
         }
         for (const [field, label, panel] of specificationFields) {
           if (!row[field]?.length) continue;
@@ -206,7 +205,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
         const gallery = images.map((src) => `<img class="w-full h-64 object-contain" src="${escape(src)}" alt="${escape(title)}">`).join('');
         const specifications = specificationFields.filter(([key]) => row[key]?.length).map(([key, label]) => `<h2>${label}</h2>${bullets(row[key])}`).join('');
-        const inquiry = entry.table === 'products' ? `<a href="/inquiry/?product=${encodeURIComponent(title)}">Request a Quote</a>` : '';
+        const inquiry = entry.table === 'products' ? `<a href="/inquiry/?product=${encodeURIComponent(title)}#quote-request">Request a Quote</a>` : '';
         replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16 mewepak-prose"><h1>${escape(title)}</h1><p>${escape(row.short_description || row.excerpt || row.summary)}</p><div class="grid md:grid-cols-3 gap-5">${gallery}</div>${body}${specifications}${inquiry}</section>`);
       }
     }

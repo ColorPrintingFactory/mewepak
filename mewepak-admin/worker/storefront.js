@@ -99,7 +99,7 @@ function renderConnectSection() {
         <p class="storefront-connect__eyebrow">Bring your next idea to the table</p>
         <h2>Let’s Talk<br>Packaging</h2>
         <p>Share your product, your brand and the packaging you have in mind. Let’s explore the next step together.</p>
-        <a href="/inquiry/#quote-request" class="storefront-connect__link">Contact Us <span aria-hidden="true">↗</span></a>
+        <a href="/contact/#project-enquiry" class="storefront-connect__link">Contact Us <span aria-hidden="true">↗</span></a>
       </div>
       <div class="storefront-connect__photos storefront-connect__photos--right" aria-hidden="true">${right}</div>
     </div>
@@ -190,6 +190,13 @@ export async function connectStorefront(request, response, database, projectUrl,
     if (legacySection) el.setAttribute('href', processPath + legacySection[1]);
     else if (href === '/solutions') el.setAttribute('href', '/solutions/');
   });
+  const quoteTarget = '/inquiry/#quote-request';
+  set('[data-mewepak-header] a[href="/contact"][class~="h-11"],[data-mobile-menu] a[href="/contact"][class~="h-12"]', 'href', quoteTarget);
+  if (path.startsWith('/markets/')) {
+    set('main a[href="/contact/"][class~="px-8"][class~="py-3"]', 'href', quoteTarget);
+  }
+  set('.mewepak-article-cta a[href="/contact/"],body.single-post main a[href="/contact/"][class~="px-5"][class~="py-2.5"]', 'href', quoteTarget);
+  on('footer a[href="#"]', (el) => el.remove());
   on('[data-mega-panel="Sustainability"] ul.space-y-2', (el) => el.prepend(
     `<li><a href="${processPath}" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Our Process</a></li>`, { html: true }));
   on('[data-mobile-menu] a[href="/sustainability"],[data-mobile-menu] a[href="/sustainability/"]', (el) => el.after(
@@ -255,14 +262,16 @@ export async function connectStorefront(request, response, database, projectUrl,
   else on('.mewepak-header-logo,.mewepak-footer-logo', (el) => el.replace(
     `<span>${encode(settings.name || 'Mewepak')}</span>`, { html: true }));
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
-  set('script[src="/assets/original/main.js?cms=1"]', 'src', '/assets/original/storefront-navigation.js');
-  set('script[src="/assets/original/main.js"]', 'src', '/assets/original/storefront-navigation.js');
-  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=solutions-overview');
+  const pageType = storefrontPageType(url, path);
+  const navigationScript = '/assets/original/storefront-navigation.js' + (pageType === 'product' ? '?v=gallery' : '');
+  set('script[src="/assets/original/main.js?cms=1"],script[src="/assets/original/main.js"]', 'src', navigationScript);
+  if (pageType === 'product') set('link[href="/assets/original/custom.css"]', 'href', '/assets/original/custom.css?v=gallery');
+  set('script[src="/assets/site.js"]', 'src', '/assets/site.js?storefront=button-links');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
-  set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=home-performance-1');
+  set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=direct-links');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=touch');
-  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=mobile-2');
-  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=settings-3');
+  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=direct-links');
+  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=direct-links');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
@@ -274,7 +283,6 @@ export async function connectStorefront(request, response, database, projectUrl,
     el.replace(renderConnectSection(), { html: true });
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-newsletter.css">', { html: true }));
-  const pageType = storefrontPageType(url, path);
   if (pageType === 'category' || pageType === 'product') {
     let heading = '';
     rewrite.on('main h1', {
@@ -312,12 +320,11 @@ export async function connectStorefront(request, response, database, projectUrl,
     } else {
       const { video_url: video, poster_url: poster } = settings.factory_tour;
       if (video) {
-        on('button.hy-video-cover', (el) => el.replace(
+        on('.hy-video-cover', (el) => el.replace(
           `<video class="hy-video-cover mewepak-factory-video" controls playsinline preload="none" aria-label="Mewepak factory tour" poster="${encode(poster || '/assets/client-design/images/7a70e9c1e5090a83.webp')}" src="${encode(video)}"></video>`, { html: true }));
         text('.hy-video-caption', 'Mewepak factory tour');
       } else if (poster) {
-        set('button.hy-video-cover', 'data-factory-poster', poster);
-        on('button.hy-video-cover .v2-cover-background', (el) => {
+        on('.hy-video-cover .v2-cover-background', (el) => {
           el.removeAttribute('data-asset');
           el.setAttribute('src', poster);
         });
@@ -348,7 +355,6 @@ export async function connectStorefront(request, response, database, projectUrl,
         on('.mewepak-3d-container', (el) => el.before('<nav aria-label="Available packaging models">' + links + '</nav>', { html: true }));
       }
     }
-    set('main a[href="/booking/"]', 'href', '/inquiry/');
   }
   const result = rewrite.transform(new Response(response.body, { status: response.status, headers: response.headers }));
   result.headers.set('cache-control', 'no-store');

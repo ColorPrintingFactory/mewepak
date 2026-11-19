@@ -1688,71 +1688,8 @@ html {
   transform: translate(0, 0.25rem);
 }
 
-.mewepak-single-product__image-shell {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  cursor: crosshair;
-}
-
 .mewepak-single-product__image {
   display: block;
-}
-
-.mewepak-single-product__zoom-mask {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 34%;
-  aspect-ratio: 1 / 1;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 10px 24px rgba(10, 22, 40, 0.12);
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.16s ease;
-}
-
-.mewepak-single-product__zoom-preview {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: min(28rem, 46vw);
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: 1.5rem;
-  background: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.95);
-  box-shadow: 0 26px 60px rgba(10, 22, 40, 0.16);
-  opacity: 0;
-  pointer-events: none;
-  transform: translate3d(0, 0, 0);
-  transition: opacity 0.16s ease;
-  z-index: 999;
-}
-
-.mewepak-single-product__zoom-preview-image {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transform-origin: top left;
-  will-change: transform;
-}
-
-.mewepak-single-product__image-shell.is-zooming .mewepak-single-product__zoom-mask,
-.mewepak-single-product__image-shell.is-zooming .mewepak-single-product__zoom-preview {
-  opacity: 1;
-}
-
-@media (max-width: 1400px) {
-  .mewepak-single-product__zoom-preview {
-    width: min(24rem, 40vw);
-  }
 }
 
 @media (max-width: 1024px) {
@@ -1766,23 +1703,6 @@ html {
   .mewepak-single-product__gallery {
     width: min(100%, 15rem);
     transform: translate(0, 0.15rem);
-  }
-}
-
-@media (max-width: 1200px) {
-  .mewepak-single-product__zoom-preview {
-    display: none;
-  }
-}
-
-@media (hover: none), (pointer: coarse) {
-  .mewepak-single-product__image-shell {
-    cursor: default;
-  }
-
-  .mewepak-single-product__zoom-mask,
-  .mewepak-single-product__zoom-preview {
-    display: none;
   }
 }
 
