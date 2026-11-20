@@ -5,16 +5,6 @@
   var prefix = language.phrases ? '/' + document.documentElement.lang : '';
   var translated = function (value) { return language.phrases?.[value] || value; };
 
-  // Sticky header scrolled state
-  var header = document.querySelector('[data-mewepak-header]');
-  if (header) {
-    var onScroll = function () {
-      header.dataset.scrolled = window.scrollY > 20 ? 'true' : 'false';
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
   function buildProductMenuLink(entry, extraClassName) {
     if (!entry || !entry.path) return null;
 

@@ -208,7 +208,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           el.setInnerContent(solution, { html: true });
         });
       } else if (market) {
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-trial">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=flow-header">', { html: true }));
         edit('main', (el) => {
           el.setAttribute('data-market-layout', '');
           el.setInnerContent(market, { html: true });
@@ -275,7 +275,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       }
       if (entry.table === 'articles') {
         const article = renderArticleLayout({ entry, entries, baseline, escape, safeUrl });
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/article-layout.css?v=article-contents">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/article-layout.css?v=flow-header">', { html: true }));
         edit('main', (el) => el.setAttribute('data-article-layout', ''));
         if (asset.ok) {
           edit('main > div.bg-gray-50:first-child', (el) => el.replace(article.breadcrumbs, { html: true }));

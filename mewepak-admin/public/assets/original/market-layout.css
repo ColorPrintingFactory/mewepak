@@ -726,7 +726,7 @@ main[data-market-layout] {
   border: 1px solid var(--market-line);
   border-radius: 16px;
   background: var(--market-sage);
-  scroll-margin-block-start: var(--storefront-header-height, 145px);
+  scroll-margin-block-start: 1rem;
 }
 [data-market-layout] .mw-market-trial h2 {
   margin: 0 0 20px;

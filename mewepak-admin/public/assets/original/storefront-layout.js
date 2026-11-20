@@ -5,20 +5,6 @@
   if (!main) return;
 
   const article = main.hasAttribute('data-article-layout');
-  const header = document.querySelector('[data-mewepak-header]');
-  const shell = header?.closest('.wp-block-template-part');
-  if (header && shell?.nextElementSibling === main) {
-    const positionContent = () => {
-      const height = header.getBoundingClientRect().height;
-      const reserved = shell.getBoundingClientRect().height;
-      main.style.setProperty('--page-header-offset', Math.max(0, height - reserved) + 'px');
-      document.documentElement.style.scrollPaddingTop = height + 'px';
-      if (article) main.style.setProperty('--article-header-height', height + 'px');
-    };
-    positionContent();
-    new ResizeObserver(positionContent).observe(header);
-  }
-
   if (article) {
     const contents = main.querySelector('.mw-article-contents');
     const headings = [...main.querySelectorAll('.entry-content h2')]
@@ -48,8 +34,7 @@
       const markSection = () => {
         frame = 0;
         if (!contents.offsetWidth) return;
-        const top = (header?.getBoundingClientRect().bottom || 0) + 32;
-        const next = headings.findLastIndex(heading => heading.getBoundingClientRect().top <= top);
+        const next = headings.findLastIndex(heading => heading.getBoundingClientRect().top <= 32);
         if (next === current) return;
         links[current]?.removeAttribute('aria-current');
         links[next]?.setAttribute('aria-current', 'location');

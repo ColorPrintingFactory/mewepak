@@ -111,20 +111,6 @@
     if (settings.logo) for (const image of document.querySelectorAll('img.mw-logo,img.mw-footer-logo')) image.src = settings.logo;
   }
 
-  const fixedHeader = document.querySelector('[data-mewepak-header]');
-  const content = document.querySelector('.wp-site-blocks > #mewepak-homepage');
-  if (fixedHeader && content) {
-    const headerShell = fixedHeader.closest('.wp-block-template-part');
-    const reserveHeaderSpace = () => {
-      const headerHeight = fixedHeader.getBoundingClientRect().height;
-      const reservedHeight = headerShell.getBoundingClientRect().height;
-      content.style.paddingBlockStart = Math.max(0, headerHeight - reservedHeight) + 'px';
-      document.documentElement.style.scrollPaddingTop = headerHeight + 'px';
-    };
-    reserveHeaderSpace();
-    new ResizeObserver(reserveHeaderSpace).observe(fixedHeader);
-  }
-
   const quote = document.querySelector('#qt-form');
   if (quote) {
     const context = new URLSearchParams(location.search).get('product');

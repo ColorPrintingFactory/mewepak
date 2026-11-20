@@ -1,6 +1,6 @@
 {
   "header": [
-    "<header data-mewepak-header class=\"fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-500 data-[scrolled=true]:bg-white/95 data-[scrolled=true]:backdrop-blur-md data-[scrolled=true]:shadow-sm\">",
+    "<header data-mewepak-header class=\"relative z-50 bg-white\">",
     "  <!-- Utility bar -->",
     "  <div class=\"hidden md:block bg-[#0a1628] text-white\">",
     "    <div class=\"max-w-7xl mx-auto px-6 lg:px-8\">",

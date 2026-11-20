@@ -107,22 +107,6 @@ main[data-storefront-page] {
   color: var(--chrome-deep);
 }
 
-.wp-site-blocks > header:has([data-mewepak-header]) + main[data-storefront-page] {
-  padding-block-start: var(--page-header-offset, 28px);
-}
-
-@media (min-width: 768px) {
-  .wp-site-blocks > header:has([data-mewepak-header]) + main[data-storefront-page] {
-    padding-block-start: var(--page-header-offset, 64px);
-  }
-}
-
-@media (min-width: 1024px) {
-  .wp-site-blocks > header:has([data-mewepak-header]) + main[data-storefront-page] {
-    padding-block-start: var(--page-header-offset, 136px);
-  }
-}
-
 @layer utilities {
   main[data-storefront-page] :is(h1, h2, h3, h4, input, select, textarea, button) {
     font-family: inherit !important;
@@ -488,7 +472,7 @@ main[data-storefront-page="booking"] .bk-section h2 {
 main[data-storefront-page] .mewepak-service-process {
   background: var(--page-surface);
   border-block: 1px solid var(--chrome-line);
-  scroll-margin-top: var(--page-header-offset, 144px);
+  scroll-margin-top: 1rem;
 }
 
 .mewepak-service-process__intro {

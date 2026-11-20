@@ -5,7 +5,7 @@ main[data-article-layout] {
   --article-line: #d6e3dc;
   --article-ink: #102b35;
   --article-body-gap: clamp(24px, 3.4vw, 54px);
-  --article-sticky-top: calc(var(--article-header-height, 172px) + 18px);
+  --article-sticky-top: 18px;
 }
 
 [data-article-layout] > :is(.mw-article-crumb, .mw-article-body, .mw-article-hero, .mw-article-quote, .mw-article-related) {
