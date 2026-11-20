@@ -1,6 +1,7 @@
 import { applyRecommendations } from './recommendations.js';
 import { renderArticleLayout } from './article-layout.js';
 import { renderMarketLayout } from './market-layout.js';
+import { renderSolutionsLayout } from './solutions-layout.js';
 import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
 
 const storefrontHeader = storefrontChrome.header.join('\n');
@@ -183,7 +184,22 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         && typeof pageBody !== 'string'
         ? renderMarketLayout({ entry, categories, choices, baseline, publishedPaths, escape })
         : null;
-      if (market) {
+      const solution = entry.table === 'pages' && typeof pageBody !== 'string' && path.startsWith('/solutions/')
+        ? renderSolutionsLayout({ entry, previous, publishedPaths, escape, processPath })
+        : null;
+      if (solution) {
+        if (row.seo_title) replace('title', row.seo_title);
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/solutions-layout.css?v=solutions-1">', { html: true }));
+        if (path === '/solutions/') {
+          edit('#mewepak-homepage.process-page', (el) => el.removeAndKeepContent());
+          edit('link[href="/assets/client-design/process.css"]', (el) => el.remove());
+        }
+        edit('main', (el) => {
+          el.removeAttribute('data-client-page');
+          el.setAttribute('data-solutions-layout', '');
+          el.setInnerContent(solution, { html: true });
+        });
+      } else if (market) {
         edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-detail-4">', { html: true }));
         edit('main', (el) => {
           el.setAttribute('data-market-layout', '');
@@ -254,7 +270,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           replaceHtml('main', article.breadcrumbs + article.hero + `<div class="mw-article-body"><div class="mewepak-prose entry-content">${body}</div>${article.sidebar}</div>` + article.footer);
         }
       }
-      if (!asset.ok && !market && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
+      if (!asset.ok && !market && !solution && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
         const body = await sanitize(row.body || row.description || '');
         const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
         const gallery = images.map((src) => `<img class="w-full h-64 object-contain" src="${escape(src)}" alt="${escape(title)}">`).join('');

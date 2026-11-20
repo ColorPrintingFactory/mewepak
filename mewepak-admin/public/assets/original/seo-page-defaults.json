@@ -333,22 +333,27 @@
   },
   "/solutions/prepress/": {
     "name": "Prepress",
+    "image": "/assets/media/solutions/prepress.webp",
     "description": "Prepress support helps prepare your artwork, layout, and production details before packaging moves into sampling or production discussion."
   },
   "/solutions/printing/": {
     "name": "Printing",
+    "image": "/assets/media/solutions/printing.webp",
     "description": "Review Mewepak’s printing process, from artwork setup and finish selection to sample review and production planning."
   },
   "/solutions/recycling/": {
     "name": "Recycling",
+    "image": "/assets/media/solutions/recycling.webp",
     "description": "Recycling and sustainability guidance helps brands compare lower-impact packaging directions based on product needs and market expectations."
   },
   "/solutions/retort/": {
     "name": "Retort",
+    "image": "/assets/media/solutions/retort.webp",
     "description": "Retort packaging support helps food and ready-meal brands discuss heat-processing, structure, seal, and sample requirements before confirming specifications."
   },
   "/solutions/technical/": {
     "name": "Technical",
+    "image": "/assets/media/solutions/technical.webp",
     "description": "Technical packaging support helps match format, structure, seal, and converting direction to your product and filling requirements."
   },
   "/sustainability/impact-report/": {
@@ -388,6 +393,7 @@
   },
   "/solutions/": {
     "name": "Solutions",
+    "image": "/assets/media/solutions/overview.webp",
     "description": "Explore Mewepak’s flexible packaging services, including prepress, printing, technical development, recycling guidance and retort packaging."
   }
 }
