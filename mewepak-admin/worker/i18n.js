@@ -1,5 +1,6 @@
 import ui from './i18n/ui.json' with { type: 'json' };
 import { compactHeaderAssets } from './compact-header.js';
+import { siteIcons } from './site-icons.js';
 import bookingUi from './i18n/booking.json' with { type: 'json' };
 import pages from './i18n/pages.json' with { type: 'json' };
 import formatsCopy from './i18n/formats.json' with { type: 'json' };
@@ -233,7 +234,7 @@ function pageMarkup({ path, lang, available, origin, url, settings, production }
 <title>${escape(metaTitle)}</title><meta name="description" content="${escape(lead)}">
 <link rel="canonical" href="${escape(canonical)}">${query ? '' : alternateTags(path,origin)}
 <meta name="robots" content="${showIndex ? 'index,follow,max-image-preview:large' : 'noindex,follow'}">
-<link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=1">
+${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=1">
 ${compactHeaderAssets}
 ${openGraph}<script type="application/ld+json">${schema}</script>
 ${customerRequest || appointment ? '<script src="/assets/storefront-forms.js?v=locale-1" defer></script>' : ''}
