@@ -61,6 +61,15 @@
 
   const topic = new URLSearchParams(window.location.search).get('topic');
   if (Object.hasOwn(modes, topic)) selectMode(topic);
+  const topicLabels = {
+    events: 'Trade show or event enquiry',
+    careers: 'Careers enquiry',
+    'impact-report': 'Supplier documentation request',
+  };
+  if (Object.hasOwn(topicLabels, topic)) {
+    selectMode('general');
+    form.elements.notes.value ||= topicLabels[topic] + '\n';
+  }
 
   for (const button of buttons) {
     button.addEventListener('click', () => selectMode(button.dataset.mode));

@@ -1,11 +1,3 @@
-import { previewFormats } from './preview-formats.js';
-
-const applications = [
-  ['Whole bean coffee', 'Share the roast-to-pack interval, fill weight and pack height. Ask whether a one-way valve fits your filling and storage plan.'],
-  ['Ground coffee', 'Specify grind, target shelf life and filling method. Review aroma protection, headspace and the seal area on a filled sample.'],
-  ['Loose-leaf tea', 'Provide fill weight and the approximate volume of the leaves. Review moisture and light protection and how the customer will reclose the pack.'],
-];
-
 const formatChecks = {
   'stand-up-pouch': 'Check the opening width, zipper and how the filled pouch stands.',
   'flat-bottom-pouch': 'Check the filled footprint, print panels and case fit.',
@@ -55,12 +47,8 @@ const questions = [
   ['How do I confirm MOQ and lead time?', 'Provide quantities per size and print design, the required features, artwork status and delivery destination. Ask for the applicable minimum, production estimate and shipping estimate for that specification.'],
 ];
 
-export function coffeeFormatDetails(format, quoteUrl) {
-  const check = formatChecks[format];
-  const quote = quoteUrl.startsWith('/inquiry/') && previewFormats.has(format)
-    ? `/inquiry/?format=${encodeURIComponent(format)}#quote-request`
-    : '';
-  return { check, quote };
+export function coffeeFormatCheck(format) {
+  return formatChecks[format];
 }
 
 export function renderCoffeeMarket({ publishedPaths, formatId, hasFormats, escape, arrow }) {
@@ -68,7 +56,7 @@ export function renderCoffeeMarket({ publishedPaths, formatId, hasFormats, escap
   const sampleLink = publishedPaths.has('/contact/') ? '/contact/?topic=samples#project-enquiry' : '';
   const processLink = publishedPaths.has('/sustainability/our-process/') ? '/sustainability/our-process/#process-stages' : '';
   const navLinks = [
-    ['coffee-applications', 'Applications'],
+    ['market-selection', 'Applications'],
     ...(hasFormats ? [[formatId, 'Pack formats']] : []),
     ['coffee-specifications', 'Materials & features'],
     ['coffee-quote-example', 'Spec example'],
@@ -80,13 +68,7 @@ export function renderCoffeeMarket({ publishedPaths, formatId, hasFormats, escap
     consultationAnchor: '#coffee-consultation',
     opening: `<nav class="mw-coffee-nav" aria-label="Coffee and tea packaging sections">
       <ul class="mw-market-inner">${navLinks.map(([id, label]) => `<li><a href="#${id}">${escape(label)}</a></li>`).join('')}</ul>
-    </nav>
-    <section class="mw-coffee-section mw-market-inner" id="coffee-applications" aria-labelledby="coffee-applications-title">
-      <h2 id="coffee-applications-title">Specify the pack for what you sell</h2>
-      <div class="mw-coffee-applications">
-        ${applications.map(([title, body]) => `<article><h3>${escape(title)}</h3><p>${escape(body)}</p></article>`).join('')}
-      </div>
-    </section>`,
+    </nav>`,
     technical: `<section class="mw-coffee-spec" id="coffee-specifications" aria-labelledby="coffee-specifications-title">
       <div class="mw-market-inner mw-coffee-spec-grid">
         <div class="mw-coffee-spec-visual">

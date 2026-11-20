@@ -16,7 +16,7 @@ const formats = {
   'stand-up-pouch-tap': ['Stand Up Pouch with Tap', 'A dispensing format to consider for larger liquid packs.', 'icon-stand-up-pouch-tap.webp'],
 };
 
-const markets = {
+export const markets = {
   accessories: ['Accessories', 'Small items and retail accessories that benefit from organised packaging.'],
   'baby-food': ['Baby Food', 'Purées, portions and other baby food packaging projects.', 'e81d60808ae47bc9'],
   'beauty-care': ['Beauty & Care', 'Samples, refill packs and beauty products.'],

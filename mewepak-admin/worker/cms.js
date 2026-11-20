@@ -1,6 +1,7 @@
 import { applyRecommendations } from './recommendations.js';
 import { renderArticleLayout } from './article-layout.js';
 import { renderMarketLayout } from './market-layout.js';
+import { renderResourceLayout } from './resource-layout.js';
 import { renderSolutionsLayout } from './solutions-layout.js';
 import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
 
@@ -187,9 +188,15 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       const solution = entry.table === 'pages' && typeof pageBody !== 'string' && path.startsWith('/solutions/')
         ? renderSolutionsLayout({ entry, previous, publishedPaths, escape, processPath })
         : null;
+      const resource = !solution && !market && entry.table === 'pages' && typeof pageBody !== 'string'
+        ? await renderResourceLayout({ entry, previous, escape, getAsset })
+        : null;
+      if (solution || market || resource) {
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/packaging-pages.css?v=buyers-1">', { html: true }));
+      }
       if (solution) {
         if (row.seo_title) replace('title', row.seo_title);
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/solutions-layout.css?v=solutions-2">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/solutions-layout.css?v=solution-buyers">', { html: true }));
         if (path === '/solutions/') {
           edit('#mewepak-homepage.process-page', (el) => el.removeAndKeepContent());
           edit('link[href="/assets/client-design/process.css"]', (el) => el.remove());
@@ -200,10 +207,18 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           el.setInnerContent(solution, { html: true });
         });
       } else if (market) {
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-detail-4">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-buyers">', { html: true }));
         edit('main', (el) => {
           el.setAttribute('data-market-layout', '');
           el.setInnerContent(market, { html: true });
+        });
+      } else if (resource) {
+        if (resource.isLca) {
+          edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/sustainability.css"><script src="/assets/client-design/sustainability.js?v=standalone" defer></script>', { html: true }));
+        }
+        edit('main', (el) => {
+          el.setAttribute('data-resource-layout', '');
+          el.setInnerContent(resource.html, { html: true });
         });
       } else if (typeof pageBody === 'string') {
         replaceHtml('main', await sanitize(pageBody));

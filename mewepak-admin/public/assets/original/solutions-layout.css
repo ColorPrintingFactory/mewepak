@@ -88,7 +88,7 @@ main[data-solutions-layout] {
   min-width: 0;
 }
 
-[data-solutions-layout] .sl-hero__visual img {
+[data-solutions-layout] .sl-hero__visual .mwp-visual__image {
   display: block;
   width: 100%;
   height: auto;
@@ -98,7 +98,7 @@ main[data-solutions-layout] {
   border-radius: var(--sl-radius);
 }
 
-[data-solutions-layout] .sl-hero__visual figcaption {
+[data-solutions-layout] .sl-hero__visual:not(.mwp-visual) figcaption {
   margin-top: 6px;
   color: #c3d5d6;
   font-size: .75rem;

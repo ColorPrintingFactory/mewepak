@@ -313,7 +313,7 @@ async function fetchStaticAsset(request, env, context) {
   const mimeTypes = {
     html: 'text/html; charset=utf-8', css: 'text/css; charset=utf-8', js: 'text/javascript; charset=utf-8',
     json: 'application/json; charset=utf-8', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg',
-    webp: 'image/webp', svg: 'image/svg+xml', glb: 'model/gltf-binary', ico: 'image/x-icon',
+    webp: 'image/webp', svg: 'image/svg+xml', glb: 'model/gltf-binary', ico: 'image/x-icon', pdf: 'application/pdf',
   };
   if (mimeTypes[extension]) headers.set('content-type', mimeTypes[extension]);
   headers.set('cache-control', requestedPath.endsWith('.html') ? 'public, max-age=60' : 'public, max-age=31536000, immutable');

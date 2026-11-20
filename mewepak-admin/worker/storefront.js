@@ -1,5 +1,6 @@
 import { processPath } from './cms.js';
 import { previewFormats, studioModelUrl } from './preview-formats.js';
+import { markets } from './recommendations.js';
 import { solutions } from './solutions-content.js';
 
 const encode = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
@@ -282,13 +283,14 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=direct-links');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=packaging-2');
-  if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=topic');
+  if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=resource-topics');
   if (path === '/booking' || path === '/inquiry') {
     const serviceKey = url.searchParams.get('service');
-    if (Object.hasOwn(solutions, serviceKey)) {
-      const service = solutions[serviceKey].heading;
-      text(path === '/booking' ? '#booking-topic' : '#qt-form textarea[name="notes"]', 'Packaging service: ' + service);
-    }
+    const marketKey = url.searchParams.get('market');
+    const context = [];
+    if (Object.hasOwn(solutions, serviceKey)) context.push('Packaging service: ' + solutions[serviceKey].heading);
+    if (Object.hasOwn(markets, marketKey)) context.push('Packaging market: ' + markets[marketKey][0]);
+    if (context.length) text(path === '/booking' ? '#booking-topic' : '#qt-form textarea[name="notes"]', context.join('\n'));
   }
   if (path === '/inquiry') {
     const format = previewFormats.get(url.searchParams.get('format'));

@@ -4,6 +4,7 @@
   if (!root) return;
 
   const form = root.querySelector('#su-lca-form');
+  if (!form) return;
   const error = root.querySelector('#su-lca-error');
   const stages = ['materials', 'converting', 'freight', 'end'];
   const stageNames = ['Materials', 'Converting', 'Freight', 'End of life'];
@@ -19,7 +20,8 @@
   }
 
   function setText(selector, value) {
-    root.querySelector(selector).textContent = value;
+    const element = root.querySelector(selector);
+    if (element) element.textContent = value;
   }
 
   function scenario(prefix, count) {
@@ -31,6 +33,7 @@
 
   function drawBar(selector, values, max) {
     const bar = root.querySelector(selector);
+    if (!bar) return;
     bar.replaceChildren();
     values.forEach((value, index) => {
       const segment = document.createElement('span');
