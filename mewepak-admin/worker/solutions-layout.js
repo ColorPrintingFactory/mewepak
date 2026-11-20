@@ -2,7 +2,7 @@ import { solutions } from './solutions-content.js';
 
 const base = '/solutions/';
 const imageBase = '/assets/media/solutions/';
-const arrow = '<span aria-hidden="true">↗</span>';
+const arrow = '<span aria-hidden="true">→</span>';
 const procurement = [
   ['What you’re packing', 'Product, fill weight, how it’s used and the conditions it must withstand.'],
   ['What the pack must fit', 'Pack dimensions, filling line and any material or closure requirements.'],
@@ -76,10 +76,10 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
         <div class="sl-cards">
           ${cards.map(([slug, item]) => `<a class="sl-card" href="${base}${slug}/">
             ${image(slug, '', true)}
-            <div class="sl-card__copy"><h3>${escape(item.name)}</h3><p>${escape(item.card)}</p><span aria-hidden="true">↗</span></div>
+            <div class="sl-card__copy"><h3>${escape(item.name)}</h3><p>${escape(item.card)}</p>${arrow}</div>
           </a>`).join('')}
           ${publishedPaths.has(processPath) ? `<a class="sl-card sl-card--process" href="${processPath}#process-stages">
-            <div class="sl-card__copy"><h3>Our production process</h3><p>Follow the manufacturing stages from artwork and film production through printing, lamination, slitting and pouch making.</p><span aria-hidden="true">↗</span></div>
+            <div class="sl-card__copy"><h3>Our production process</h3><p>Follow the manufacturing stages from artwork and film production through printing, lamination, slitting and pouch making.</p>${arrow}</div>
           </a>` : ''}
         </div>
       </section>
