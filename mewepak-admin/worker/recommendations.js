@@ -65,6 +65,7 @@ const formatChoices = {
 };
 
 const marketChoices = {
+  'stand-up-pouch': ['coffee-tea', 'pet-food', 'snacks-sweets', 'supplement'],
   'bag-in-box': ['beverage', 'sauce-soup', 'home-care'],
   'flat-bottom-pouch': ['coffee-tea', 'pet-food', 'snacks-sweets', 'supplement'],
   'flat-pouch': ['snacks-sweets', 'supplement', 'frozen-food', 'cosmetics'],
@@ -120,20 +121,14 @@ export function marketFormats(slug, categories, choices, baseline) {
     return [{ key, href, title: row.name, description: formats[key]?.[1] || row.short_description,
       image: custom ? image : (formats[key] ? photo : '') }];
   });
-  return {
-    featured,
-    more: categories.filter((row) => /^[a-z0-9-]+$/.test(row.slug) && !featured.some(({ key }) => key === row.slug)),
-  };
+  return { featured };
 }
 
 export function applyRecommendations(path, edit, publishedPaths, baseline) {
   const [, family, slug] = path.split('/');
   if (family !== 'products' || path !== keyPath(family, slug) || !Object.hasOwn(marketChoices, slug)) return;
   const available = href => publishedPaths.has(href) || !Object.hasOwn(baseline, href);
-  const otherFormats = Object.entries(formats).flatMap(([key, [title]]) => {
-    const href = keyPath('products', key);
-    return slug === key || !available(href) ? [] : [[href, title]];
-  });
+  const otherFormats = available('/products/') ? [['/products/', 'Browse all packaging formats']] : [];
 
   const [formatName, , formatPhoto] = formats[slug];
   const cards = marketChoices[slug].flatMap(key => {
@@ -142,7 +137,7 @@ export function applyRecommendations(path, edit, publishedPaths, baseline) {
     const image = photo ? designPhotos + photo + '.webp' : formatImage(formatPhoto);
     return available(href) ? [card(href, title.replaceAll('&', '&amp;'), description, image, 'Explore market')] : [];
   });
-  if (cards.length) edit('main .mewepak-product-category > section.mewepak-internal-links', (el) => {
+  if (cards.length) edit('main .mewepak-product-category > section.mewepak-internal-links, main .mewepak-product-category > section.mw-format-section--markets', (el) => {
     el.replace(formatSection(slug + '-markets', `Where <span>${formatName.toLowerCase()}</span> fits.`,
       'Explore markets and project examples to see where this packaging format may fit.', cards, otherFormats, 'Explore other packaging formats'), { html: true });
   });

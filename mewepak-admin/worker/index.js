@@ -388,14 +388,16 @@ export default {
     const asset = await fetchStaticAsset(assetRequest, env, context);
     let page;
     let catalog;
+    let previous;
     let settings;
-    const cms = await serveCms(request, asset, database, getAsset, (entry, entries) => {
+    const cms = await serveCms(request, asset, database, getAsset, (entry, entries, baseline) => {
       page = entry;
       catalog = entries;
+      previous = baseline;
     });
     const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings);
     const seoAsset = (path) => defaults && path === '/assets/original/seo-page-defaults.json' ? defaults : getAsset(path);
-    const rendered = await optimizePageSeo(request, storefront, env, seoAsset, { page, catalog, settings });
+    const rendered = await optimizePageSeo(request, storefront, env, seoAsset, { page, catalog, previous, settings });
     const result = withSecurityHeaders(rendered, url.pathname, env, settings);
     if (!pageCache || !result.ok || !catalog || !settings?.usLocations ||
         !result.headers.get('content-type')?.includes('text/html') || result.headers.has('set-cookie')) return result;

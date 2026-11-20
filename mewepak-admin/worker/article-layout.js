@@ -30,8 +30,8 @@ const studioCovers = {
 };
 
 const resourceLinks = {
-  frozen: ['/markets/frozen-food/', '/products/flat-pouch/', '/solutions/technical/'],
-  coffee: ['/markets/coffee-tea/', '/products/flat-bottom-pouch/', '/solutions/technical/'],
+  frozen: ['/markets/frozen-food/', '/products/flat-pouch/', '/products/roll-stock-films/', '/solutions/technical/'],
+  coffee: ['/markets/coffee-tea/', '/products/flat-bottom-pouch/', '/solutions/prepress/', '/solutions/technical/'],
   pet: ['/markets/pet-food/', '/products/stand-up-pouch/', '/solutions/technical/'],
   sustainability: ['/solutions/recycling/', '/sustainability/', '/sustainability/our-process/'],
   materials: ['/solutions/technical/', '/solutions/recycling/', '/products/'],

@@ -2,6 +2,7 @@ import { solutions } from './solutions-content.js';
 import { buyingGuides } from './solutions-buying-guides.js';
 import { solutionDeliverables } from './solution-deliverables.js';
 import { brandedVisual } from './packaging-visual.js';
+import { qualityPath, samplePath, trialChecklist } from './procurement.js';
 
 const base = '/solutions/';
 const imageBase = '/assets/media/solutions/';
@@ -172,7 +173,20 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
       ${enquiry(quote)}`;
   }
 
-  const links = service.related.filter(([href]) => publishedPaths.has(href));
+  const nextSteps = {
+    prepress: [
+      ['/markets/coffee-tea/', 'See coffee packaging specifications'],
+      [qualityPath, 'Review artwork and quality approval records'],
+    ],
+    technical: [
+      ['/markets/frozen-food/', 'See frozen-food trial requirements'],
+      ['/products/roll-stock-films/', 'Prepare your rollstock specification'],
+      [qualityPath, 'Review supplier quality documentation'],
+    ],
+    recycling: [['/sustainability/impact-report/', 'Find sustainability supporting documents']],
+    retort: [[qualityPath, 'Review supplier quality documentation']],
+  };
+  const links = [...(nextSteps[key] || []), ...service.related].filter(([href]) => publishedPaths.has(href));
   if (publishedPaths.has(processPath)) links.push([processPath + '#process-stages', 'Our production process']);
   if (publishedPaths.has(base)) links.push([base, 'All packaging solutions']);
   return `${crumbs}${hero}
@@ -204,6 +218,11 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
       <h2 id="service-faq-title">Common questions</h2>
       <div class="sl-answers">${[...service.faq, ...guide.faq].map(([question, answer]) => `<details><summary>${escape(question)}</summary><p>${escape(answer)}</p></details>`).join('')}</div>
     </section>
+    ${key === 'technical' ? `<section class="sl-wrap sl-references" aria-labelledby="technical-trial-next">
+      <h2 id="technical-trial-next">Prepare a sample and trial plan</h2>
+      <ul><li><a href="${trialChecklist}" download>Download the filled-pack trial checklist ${arrow}</a></li>
+      ${publishedPaths.has('/contact/') ? `<li><a href="${samplePath}">Ask about samples for your trial ${arrow}</a></li>` : ''}</ul>
+    </section>` : ''}
     ${guide.resources?.length ? `<section class="sl-wrap sl-references" aria-label="Technical references"><h3>Technical references</h3>
       <ul>${guide.resources.map(([url, label]) => `<li><a href="${escape(url)}">${escape(label)} ${arrow}</a></li>`).join('')}</ul>
     </section>` : ''}

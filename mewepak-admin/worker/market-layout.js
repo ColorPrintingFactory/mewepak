@@ -4,6 +4,7 @@ import { marketProcurement } from './market-procurement.js';
 import { brandedVisual } from './packaging-visual.js';
 import { previewFormats } from './preview-formats.js';
 import { coffeeFormatCheck, renderCoffeeMarket } from './coffee-market.js';
+import { qualityPath, samplePath, trialChecklist } from './procurement.js';
 
 const arrow = '<span class="mw-market-arrow" aria-hidden="true">↗</span>';
 const formatAnchors = {
@@ -54,7 +55,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
   const title = escape(row.title);
   const heading = row.title === baseline[path]?.title ? title + ' Packaging' : title;
   const formatId = formatAnchors[slug] || slug + '-packaging-formats';
-  const { featured, more } = marketFormats(slug, categories, choices, baseline);
+  const { featured } = marketFormats(slug, categories, choices, baseline);
   const intro = row.summary?.trim();
   const useSummary = intro && intro !== baseline[path]?.summary;
   const lead = escape(useSummary ? intro : detail.intro);
@@ -63,7 +64,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
   const quoteUrl = quoteFor();
   const bookingUrl = `/booking/?market=${slug}`;
   const coffee = slug === 'coffee-tea'
-    ? renderCoffeeMarket({ publishedPaths, formatId, hasFormats: featured.length || more.length, escape, arrow })
+    ? renderCoffeeMarket({ publishedPaths, formatId, hasFormats: featured.length, escape, arrow })
     : null;
   const cards = featured.map(({ key, href, title, description, image }) => {
     const marketPhoto = detail.formatImages?.[key];
@@ -83,20 +84,19 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
       ${categoryQuote ? `<a class="mw-coffee-format-quote" href="${categoryQuote}" aria-label="Get a quote for ${escape(title)}">Quote this format ${arrow}</a>` : ''}
     </li>`;
   });
-  const formatList = more.map(({ slug, name }) => `<li><a href="/products/${slug}/">${escape(name)} ${arrow}</a></li>`).join('');
   const links = [
     ...(detail.guide ? [[detail.guide, detail.guideLabel]] : []),
     topicLink,
+    ...(['coffee-tea', 'frozen-food'].includes(slug) ? [[qualityPath, 'Review supplier quality documents']] : []),
     ['/solutions/printing/', 'Compare printing and finish options'],
     ['/added-value/faq/', 'Read the packaging FAQ'],
   ].filter(([href]) => publishedPaths.has(href));
-  const formatSection = cards.length || formatList ? `<section class="mw-market-formats mw-market-inner" id="${formatId}" aria-labelledby="${formatId}-title">
+  const formatSection = cards.length ? `<section class="mw-market-formats mw-market-inner" id="${formatId}" aria-labelledby="${formatId}-title">
     <div class="mw-market-section-heading">
       <h2 id="${formatId}-title">Recommended packaging formats</h2>
       <a class="mw-market-text-link" href="/products/">View all products ${arrow}</a>
     </div>
-    ${cards.length ? `<ul class="mw-market-format-grid" style="--market-format-columns:${cards.length}">${cards.join('')}</ul>` : ''}
-    ${formatList ? `<details class="mw-market-other-formats"><summary>See more packaging formats</summary><ul>${formatList}</ul></details>` : ''}
+    <ul class="mw-market-format-grid" style="--market-format-columns:${cards.length}">${cards.join('')}</ul>
   </section>` : '';
   const resources = links.length ? `<section class="mw-market-resources mw-market-inner" aria-labelledby="mw-market-resources-heading">
     <h2 id="mw-market-resources-heading">Project resources</h2>
@@ -146,6 +146,15 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
       </ul>
     </div>
   </section>
+  ${slug === 'frozen-food' ? `<section class="mw-market-inner mw-market-resources" id="frozen-food-trial" aria-labelledby="frozen-food-trial-title">
+    <h2 id="frozen-food-trial-title">Prepare a frozen-food packaging trial</h2>
+    <p>Record the product shape, fill conditions, freezer cycle, expected storage and case handling. Compare candidate packs after the same cycle and agree with your quality team how to check seals, flex damage, puncture and case fit.</p>
+    <ul>
+      <li><a href="${trialChecklist}" download>Download the filled-pack trial checklist ${arrow}</a></li>
+      ${publishedPaths.has('/contact/') ? `<li><a href="${samplePath}">Ask about samples for a frozen-food trial ${arrow}</a></li>` : ''}
+      ${publishedPaths.has('/solutions/technical/') ? `<li><a href="/solutions/technical/">Discuss trial conditions and approval checks ${arrow}</a></li>` : ''}
+    </ul>
+  </section>` : ''}
   ${coffee?.consultation || ''}
   ${coffee?.faq || ''}
   ${resources}

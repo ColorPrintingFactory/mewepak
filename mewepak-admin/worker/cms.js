@@ -1,4 +1,5 @@
 import { applyRecommendations } from './recommendations.js';
+import { applyProcurement } from './procurement.js';
 import { renderArticleLayout } from './article-layout.js';
 import { renderMarketLayout } from './market-layout.js';
 import { renderResourceLayout } from './resource-layout.js';
@@ -298,6 +299,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16 mewepak-prose"><h1>${escape(title)}</h1><p>${escape(row.short_description || row.excerpt || row.summary)}</p><div class="grid md:grid-cols-3 gap-5">${gallery}</div>${body}${specifications}${inquiry}</section>`);
       }
     }
+    applyProcurement(path, edit, replace, entry, entries, publishedPaths, baseline, escape);
     if (path === '/' || path === '/blog/') {
       for (const { table, row, path: href } of entries) {
         if (table !== 'articles' || !/^\/[a-z0-9_-]+\/$/i.test(href)) continue;
@@ -344,7 +346,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       el.setAttribute('src', '/assets/original/main.js?cms=1');
       if (path === '/') el.setAttribute('defer', '');
     });
-    capturePage?.(entry, entries);
+    capturePage?.(entry, entries, previous);
     const result = rewriter.transform(new Response(source.body, { status: 200, headers: source.headers }));
     result.headers.set('cache-control', 'no-store');
     result.headers.delete('etag');

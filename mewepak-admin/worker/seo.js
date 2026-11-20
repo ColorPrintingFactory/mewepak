@@ -38,6 +38,17 @@ export async function seoEndpoint(request, env, database, getAsset) {
       }
     }
   }
+  if (policy.production) {
+    const document = /^\/(?:[a-z0-9_-]+\/)*[a-z0-9_-]*(?:\/index\.html|\/)?$/i.test(url.pathname)
+      || url.pathname === '/index.html';
+    const canonicalPath = document && !privatePaths.test(policy.path) ? policy.path : url.pathname;
+    if (url.origin !== policy.origin || canonicalPath !== url.pathname) {
+      const target = new URL(policy.origin);
+      target.pathname = canonicalPath;
+      target.search = url.search;
+      return Response.redirect(target, 301);
+    }
+  }
   if (url.pathname === '/robots.txt') {
     const exclusions = 'Disallow: /admin/\nDisallow: /api/\n';
     const body = 'User-agent: *\n' + exclusions + (policy.production
@@ -81,6 +92,17 @@ const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
 const text = (value) => String(value || '').replace(/\s+/g, ' ').trim();
 const scriptJson = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
 
+const titleEntities = { amp: '&', apos: "'", quot: '"', lt: '<', gt: '>', nbsp: ' ', ndash: '–', mdash: '—' };
+function fromTitleMarkup(value) {
+  return value.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (whole, entity) => {
+    const key = entity.toLowerCase();
+    if (entity[0] !== '#') return Object.hasOwn(titleEntities, key) ? titleEntities[key] : whole;
+    const code = entity[1].toLowerCase() === 'x' ? parseInt(entity.slice(2), 16) : Number(entity.slice(1));
+    return code > 0 && code <= 0x10ffff && !(code >= 0xd800 && code <= 0xdfff)
+      ? String.fromCodePoint(code) : whole;
+  });
+}
+
 function assetUrl(value, origin) {
   if (typeof value !== 'string' || !/^https:\/\/|^\/(?![\/\\])/i.test(value)) return '';
   try { return new URL(value, origin).href; } catch { return ''; }
@@ -93,7 +115,7 @@ function excerpt(value) {
   return plain.slice(0, end > 95 ? end : 162).replace(/[,:;]+$/, '') + '…';
 }
 
-export function pageMetadata(policy, defaults, { page, catalog, settings } = {}, head = {}) {
+export function pageMetadata(policy, defaults, { page, catalog, previous, settings } = {}, head = {}) {
   const { path, origin } = policy;
   const home = origin + '/';
   const url = new URL(path, origin).href;
@@ -103,12 +125,14 @@ export function pageMetadata(policy, defaults, { page, catalog, settings } = {},
   const row = page?.row || {};
   const local = defaults[path] || {};
   const kind = page?.table || local.kind;
-  const name = text(row.title || row.name || local.name || head.title || brand);
-  const title = text(head.title || row.seo_title || name);
+  const name = text(row.title || row.name || local.name || fromTitleMarkup(head.title || '') || brand);
+  const editedTitle = previous && row.seo_title !== previous.seo_title ? row.seo_title : '';
+  const editedDescription = previous && row.seo_description !== previous.seo_description ? row.seo_description : '';
+  const title = text(editedTitle || local.title || fromTitleMarkup(head.title || '') || row.seo_title || name);
   const originalDescription = [row.seo_description, head.description].find((value) =>
-    text(value) && !/^Explore custom .+ options for brand presentation, product protection, and flexible project requirements\./i.test(text(value)));
-  const description = excerpt(originalDescription || local.description || row.short_description ||
-    row.excerpt || row.summary || (path === '/' ? summary : ''));
+    text(value) && !/brand presentation, product protection, and flexible project requirements/i.test(text(value)));
+  const description = excerpt(editedDescription || (local.title && local.description) || originalDescription ||
+    local.description || row.short_description || row.excerpt || row.summary || (path === '/' ? summary : ''));
   const image = assetUrl(row.primary_image_url || row.featured_image_url || row.image_url || local.image, origin);
   const logo = assetUrl(settings?.logo || '/assets/media/2026/06/logo.png', origin);
   const siteImage = assetUrl(defaults['/']?.image || logo, origin);
@@ -121,7 +145,7 @@ export function pageMetadata(policy, defaults, { page, catalog, settings } = {},
   const current = {
     '@type': path === '/contact/' ? 'ContactPage' :
       path === '/about-us/' ? 'AboutPage' :
-      kind === 'product_categories' || ['/products/', '/markets/', '/blog/'].includes(path) ? 'CollectionPage' : 'WebPage',
+      kind === 'product_categories' || path.startsWith('/category/') || ['/products/', '/markets/', '/blog/'].includes(path) ? 'CollectionPage' : 'WebPage',
     '@id': url + '#webpage', url, name, isPartOf: { '@id': siteId }, inLanguage: 'en',
     ...(description && { description }),
   };
@@ -171,8 +195,13 @@ export async function optimizePageSeo(request, response, env, getAsset, data) {
   const rewriter = new HTMLRewriter()
     .on('link[rel="canonical"],meta[name="robots"]', { element: (el) => el.remove() });
   if (searchable) {
+    const preferredTitle = defaults[policy.path]?.title
+      ? pageMetadata(policy, defaults, data).title : '';
     rewriter
-      .on('title', { text: (chunk) => { head.title += chunk.text; } })
+      .on('title', {
+        element: (el) => { if (preferredTitle) el.setInnerContent(preferredTitle); },
+        text: (chunk) => { head.title += chunk.text; },
+      })
       .on('meta[name="description"]', { element: (el) => {
         head.description ||= el.getAttribute('content') || '';
         el.remove();
