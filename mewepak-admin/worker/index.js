@@ -420,7 +420,10 @@ export default {
       catalog = entries;
       previous = baseline;
     });
-    const storefront = await connectStorefront(homeRequest, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings);
+    const storefront = await connectStorefront(
+      homeRequest, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings,
+      env.ENVIRONMENT === 'preview',
+    );
     const seoAsset = (path) => defaults && path === '/assets/original/seo-page-defaults.json' ? defaults : getAsset(path);
     const localized = sharedHome ? localizeSharedHome(storefront, locale.lang) : storefront;
     const rendered = await optimizePageSeo(request, localized, env, seoAsset, { page, catalog, previous, settings, locale: sharedHome ? locale : null });

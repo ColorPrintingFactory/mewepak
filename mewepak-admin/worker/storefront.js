@@ -1,6 +1,7 @@
 import { languageSwitcher } from './i18n.js';
 import { compactHeaderAssets } from './compact-header.js';
 import { siteIcons } from './site-icons.js';
+import { homeFormatSection, homeReviewsPreview } from './homepage-sections.js';
 import { processPath } from './cms.js';
 import { previewFormats, studioModelUrl } from './preview-formats.js';
 import { markets } from './recommendations.js';
@@ -174,7 +175,7 @@ function usTel(number) {
   return /^\d{10}$/.test(value) ? '+1' + value : value.startsWith('+') ? value : '+' + value;
 }
 
-export async function connectStorefront(request, response, database, projectUrl, captureSettings, preparedSettings) {
+export async function connectStorefront(request, response, database, projectUrl, captureSettings, preparedSettings, showReviewPreview = false) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
   if (!response.ok || request.method !== 'GET' || /^\/admin(?:\/|$)/.test(path) || !response.headers.get('content-type')?.includes('text/html')) return response;
@@ -343,6 +344,9 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/home-sections.css?v=1">', { html: true }));
+    on('#mw-markets', (el) => el.after(homeFormatSection, { html: true }));
+    if (showReviewPreview) on('#mw-contact', (el) => el.before(homeReviewsPreview, { html: true }));
     const appointment = '<a class="mw-home-header-appointment" href="/booking/">Book a Consultation</a>';
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/home-header-actions.css">', { html: true }));
     on(headerQuote, (el) => {
