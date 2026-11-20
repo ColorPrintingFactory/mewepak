@@ -54,33 +54,44 @@ html.mw-has-compact-header {
   flex-wrap: nowrap;
   align-items: center;
   gap: clamp(9px, 1.05vw, 16px);
+  height: 100%;
   white-space: nowrap;
 }
 
-.mw-compact-header__desktop > a,
-.mw-compact-header__group > a { color: #465b63; padding-block: 10px; }
+.mw-compact-header__desktop > a { color: #465b63; padding-block: 10px; }
 .mw-compact-header__desktop a:is(:hover, [aria-current]) { color: #007b79; }
-.mw-compact-header__group { display: flex; align-items: center; }
-.mw-compact-header__chevron {
-  display: grid;
-  place-items: center;
-  width: 20px;
-  min-height: 34px;
-  border-radius: 4px;
+
+.mw-compact-header__desktop > [data-nav],
+.mw-compact-header__desktop > [data-nav] > div {
+  height: 100%;
 }
 
-.mw-compact-header__chevron::after {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border: solid #465b63;
-  border-width: 0 1.5px 1.5px 0;
-  transform: translateY(-2px) rotate(45deg);
+.mw-compact-header__desktop [data-nav-link] {
+  height: 100%;
+  padding-inline: clamp(5px, .6vw, 9px);
 }
 
-.mw-compact-header__chevron:hover,
-.mw-compact-header__group details[open] > summary { background: #edf6f3; }
-.mw-compact-header__group details[open] > summary::after { transform: translateY(1px) rotate(225deg); }
+@layer utilities {
+  .mw-compact-header [data-nav] [data-nav-link] {
+    color: #465b63 !important;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .mw-compact-header [data-nav] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]) {
+    color: #007b79 !important;
+  }
+}
+
+.mw-compact-header [data-nav-link][aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.mw-compact-header > [data-mega-panel] {
+  max-height: calc(100dvh - var(--mw-compact-header-height) - 12px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
 
 .mw-compact-header__panel {
   position: fixed;
@@ -94,15 +105,6 @@ html.mw-has-compact-header {
   border: 1px solid #d9e4e2;
   border-radius: 0 0 10px 10px;
   box-shadow: 0 12px 28px #102b3521;
-}
-
-.mw-compact-header__panel--desktop {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px 8px;
-  width: min(520px, calc(100vw - 32px));
-  padding: 12px;
-  white-space: normal;
 }
 
 .mw-compact-header__panel a {

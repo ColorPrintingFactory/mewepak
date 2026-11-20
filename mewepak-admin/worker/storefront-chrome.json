@@ -432,9 +432,7 @@
     "      </button>",
     "    </form>",
     "  </div>",
-    "</div>",
-    "",
-    "<div style=\"height: 36px;\"></div>"
+    "</div>"
   ],
   "footer": [
     "<footer class=\"!bg-[#00cfca] pt-20 pb-8\">",

@@ -172,10 +172,11 @@
   // Desktop mega menu — hover/focus on each nav item with megaMenu
   var navItems = document.querySelectorAll('[data-nav-item]');
   var panels = document.querySelectorAll('[data-mega-panel]');
+  var navigation = document.querySelector('[data-nav]');
   var hideTimer = null;
 
   function markCurrentNav() {
-    var path = window.location.pathname.replace(/\/+$/, '') || '/';
+    var path = window.location.pathname.slice(prefix.length).replace(/\/+$/, '') || '/';
     var links = document.querySelectorAll('[data-nav-link]');
     var sections = [
       { key: 'products', prefix: '/products' },
@@ -217,17 +218,25 @@
     navItems.forEach(function (item) {
       var match = item.dataset.navItem === label;
       var link = item.querySelector('a');
-      if (link) link.dataset.active = match ? 'true' : 'false';
+      if (link) {
+        link.dataset.active = String(match);
+        if (link.hasAttribute('aria-controls')) link.setAttribute('aria-expanded', String(match));
+      }
       var chevron = link && link.querySelector('svg');
       if (chevron) chevron.dataset.active = match ? 'true' : 'false';
     });
   }
 
   function hidePanels() {
+    clearTimeout(hideTimer);
+    hideTimer = null;
     panels.forEach(function (p) { p.classList.add('hidden'); });
     navItems.forEach(function (item) {
       var link = item.querySelector('a');
-      if (link) link.dataset.active = 'false';
+      if (link) {
+        link.dataset.active = 'false';
+        if (link.hasAttribute('aria-controls')) link.setAttribute('aria-expanded', 'false');
+      }
       var chevron = link && link.querySelector('svg');
       if (chevron) chevron.dataset.active = 'false';
     });
@@ -240,17 +249,57 @@
 
   navItems.forEach(function (item) {
     var label = item.dataset.navItem;
-    item.addEventListener('mouseenter', function () { showPanel(label); });
-    item.addEventListener('mouseleave', scheduleHide);
+    var panel = Array.from(panels).find(function (node) { return node.dataset.megaPanel === label; });
+    var link = item.querySelector('a');
+    if (!panel || !link) return;
+    panel.id = 'mw-mega-' + link.dataset.navLink;
+    link.setAttribute('aria-controls', panel.id);
+    link.setAttribute('aria-expanded', 'false');
+    item.addEventListener('pointerenter', function (event) {
+      if (event.pointerType !== 'touch') showPanel(label);
+    });
+    item.addEventListener('pointerleave', scheduleHide);
     item.addEventListener('focusin', function () { showPanel(label); });
+    link.addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowDown') return;
+      showPanel(label);
+      panel.querySelector('a[href]')?.focus();
+      event.preventDefault();
+    });
   });
 
+  navigation?.addEventListener('mewepak-navigation-dismiss', hidePanels);
+  navigation?.addEventListener('pointerover', function (event) {
+    if (event.target.closest('[data-nav-link]') && !event.target.closest('[data-nav-item]')) hidePanels();
+  });
   panels.forEach(function (panel) {
-    panel.addEventListener('mouseenter', function () {
+    panel.addEventListener('pointerenter', function () {
       if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
     });
-    panel.addEventListener('mouseleave', scheduleHide);
+    panel.addEventListener('pointerleave', scheduleHide);
   });
+
+  if (navigation && panels.length) {
+    var containsMenu = function (target) {
+      return !!target && (navigation.contains(target) || Array.from(panels).some(function (panel) {
+        return panel.contains(target);
+      }));
+    };
+    document.addEventListener('pointerdown', function (event) {
+      if (!containsMenu(event.target)) hidePanels();
+    });
+    document.addEventListener('focusout', function (event) {
+      if (containsMenu(event.target) && !containsMenu(event.relatedTarget)) hidePanels();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      var link = navigation.querySelector('[aria-expanded="true"]');
+      if (!link) return;
+      if (containsMenu(event.target)) link.focus();
+      hidePanels();
+      event.preventDefault();
+    });
+  }
 
   // Mobile drawer
   var mobileOpenBtn = document.querySelector('[data-mobile-open]');

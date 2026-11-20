@@ -4,13 +4,13 @@
 
   const language = document.documentElement.lang.split('-')[0];
   const labels = {
-    en: ['Menu', 'Book a Consultation', 'Quick navigation', ' submenu', 'Book now'],
-    de: ['Menü', 'Termin buchen', 'Schnellnavigation', ': Untermenü', 'Termin buchen'],
-    es: ['Menú', 'Reservar consulta', 'Navegación rápida', ': submenú', 'Reservar'],
-    fr: ['Menu', 'Prendre rendez-vous', 'Navigation rapide', ' : sous-menu', 'Rendez-vous'],
-    ar: ['القائمة', 'احجز استشارة', 'التنقّل السريع', ' — القائمة الفرعية', 'احجز موعداً'],
+    en: ['Menu', 'Book a Consultation', 'Quick navigation', 'Book now'],
+    de: ['Menü', 'Termin buchen', 'Schnellnavigation', 'Termin buchen'],
+    es: ['Menú', 'Reservar consulta', 'Navegación rápida', 'Reservar'],
+    fr: ['Menu', 'Prendre rendez-vous', 'Navigation rapide', 'Rendez-vous'],
+    ar: ['القائمة', 'احجز استشارة', 'التنقّل السريع', 'احجز موعداً'],
   };
-  const [menuLabel, bookingLabel, navLabel, submenuSuffix, shortBookingLabel] = labels[language] || labels.en;
+  const [menuLabel, bookingLabel, navLabel, shortBookingLabel] = labels[language] || labels.en;
   const localized = ['de', 'es', 'fr', 'ar'].includes(language);
   const parentPath = localized ? '/' + language : '';
   const originalNav = original.querySelector('[data-nav], .mwl-primary-nav, .site-nav');
@@ -43,8 +43,22 @@
   const brand = rootLink.cloneNode(true);
   brand.className = 'mw-compact-header__brand';
 
-  const desktop = element('nav', 'mw-compact-header__desktop');
-  desktop.setAttribute('aria-label', navLabel);
+  const panels = [...original.querySelectorAll('[data-mega-panel]')];
+  const desktop = element(panels.length ? 'div' : 'nav', 'mw-compact-header__desktop');
+  const desktopViewport = matchMedia('(min-width: 1161px)');
+  let navSlot;
+  let panelSlot;
+  if (panels.length) {
+    // Preserve the full header's height while the original navigation is in the fixed bar.
+    navSlot = element('div', 'mw-compact-header__nav-slot');
+    navSlot.hidden = true;
+    originalNav.before(navSlot);
+    panelSlot = document.createComment('Storefront dropdowns');
+    panels[0].before(panelSlot);
+    originalNav.setAttribute('aria-label', navLabel);
+  } else {
+    desktop.setAttribute('aria-label', navLabel);
+  }
   const mobile = element('details', 'mw-compact-header__mobile');
   mobile.name = 'mw-compact-navigation';
   const mobileSummary = element('summary');
@@ -57,34 +71,7 @@
     const link = linkFrom(source);
     if (!link.textContent) continue;
     mobileNav.append(link.cloneNode(true));
-    const name = source.closest('[data-nav-item]')?.dataset.navItem;
-    const panel = name && [...original.querySelectorAll('[data-mega-panel]')]
-      .find(node => node.dataset.megaPanel === name);
-    if (!panel) {
-      desktop.append(link);
-      continue;
-    }
-
-    const group = element('div', 'mw-compact-header__group');
-    const submenu = element('details');
-    submenu.name = 'mw-compact-navigation';
-    const trigger = element('summary', 'mw-compact-header__chevron');
-    trigger.setAttribute('aria-label', link.textContent + submenuSuffix);
-    const entries = element('div', 'mw-compact-header__panel mw-compact-header__panel--desktop');
-    const seen = new Set();
-    for (const source of panel.querySelectorAll('ul a[href]')) {
-      const child = linkFrom(source);
-      if (!child.textContent || seen.has(child.href)) continue;
-      seen.add(child.href);
-      entries.append(child);
-    }
-    if (!seen.size) {
-      desktop.append(link);
-      continue;
-    }
-    submenu.append(trigger, entries);
-    group.append(link, submenu);
-    desktop.append(group);
+    if (!panels.length) desktop.append(link);
   }
 
   const appointment = element('a', 'mw-compact-header__appointment');
@@ -119,9 +106,30 @@
     if (event.target.closest('a')) closeMenus();
   });
 
+  function placeDesktopNavigation() {
+    if (!navSlot) return;
+    const inFixedBar = !bar.hidden && desktopViewport.matches;
+    if (inFixedBar === desktop.contains(originalNav)) return;
+    originalNav.dispatchEvent(new Event('mewepak-navigation-dismiss'));
+    if (inFixedBar) {
+      navSlot.style.height = originalNav.getBoundingClientRect().height + 'px';
+      navSlot.hidden = false;
+      desktop.append(originalNav);
+      bar.append(...panels);
+    } else {
+      navSlot.after(originalNav);
+      navSlot.hidden = true;
+      panelSlot.after(...panels);
+    }
+  }
+
+  desktopViewport.addEventListener('change', () => {
+    closeMenus();
+    placeDesktopNavigation();
+  });
   new IntersectionObserver(([entry]) => {
-    const hidden = entry.isIntersecting || entry.boundingClientRect.bottom > 0;
-    if (hidden) closeMenus();
-    bar.hidden = hidden;
+    bar.hidden = entry.isIntersecting || entry.boundingClientRect.bottom > 0;
+    if (bar.hidden) closeMenus();
+    placeDesktopNavigation();
   }).observe(original);
 })();
