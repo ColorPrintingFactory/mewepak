@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import worker from '../worker/index.js';
 
-test('booking passes the selected minutes to Supabase', async (context) => {
+test('booking passes the selected schedule time and customer time zone to Supabase', async (context) => {
   const database = 'https://supabase.example.test';
   const origin = 'https://storefront.example.test';
   const environment = {
@@ -17,7 +17,9 @@ test('booking passes the selected minutes to Supabase', async (context) => {
       return Response.json({ success: true });
     }
     assert.equal(url, database + '/rest/v1/rpc/create_booking_from_worker');
-    assert.equal(JSON.parse(options.body).p_slot_start, '09:30:00');
+    const booking = JSON.parse(options.body);
+    assert.equal(booking.p_slot_start, '09:30:00');
+    assert.equal(booking.p_customer_timezone, 'Australia/Sydney');
     return Response.json('preview-booking-id');
   });
 
@@ -32,7 +34,7 @@ test('booking passes the selected minutes to Supabase', async (context) => {
       time: '09:30-10:00',
       meeting_type: 'video_call',
       meeting_duration_minutes: 15,
-      timezone: 'Asia/Shanghai',
+      timezone: 'Australia/Sydney',
       turnstile_token: 'mock',
     }),
   }), environment);

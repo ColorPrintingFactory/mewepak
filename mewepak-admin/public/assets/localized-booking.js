@@ -1,3 +1,5 @@
+import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v=1';
+
 (() => {
   const form = document.querySelector('[data-mewepak-booking]');
   if (!form) return;
@@ -9,10 +11,6 @@
   const placeholder = () => new Option(t.choose, '');
   let availability;
   let scheduleZone;
-  function today(inZone) {
-    const dateTime = new Intl.DateTimeFormat('en-CA', { year:'numeric',month:'2-digit',day:'2-digit',timeZone:inZone });
-    return dateTime.format(new Date());
-  }
   function resetSlots() {
     time.replaceChildren(placeholder());
     duration.replaceChildren(placeholder());
@@ -33,14 +31,16 @@
       if (!response.ok) throw new Error();
       const data = await response.json();
       if (controller.signal.aborted || date.value !== requested) return;
+      const initialDate = !scheduleZone && requested === date.min;
       scheduleZone=data.timezone;
-      date.min=today(scheduleZone);
-      if (date.value < date.min) {
+      date.min=bookingDateNow(scheduleZone);
+      if (requested < date.min || (initialDate && requested !== date.min)) {
         date.value=date.min;
         return load();
       }
-      const zoneName=new Intl.DateTimeFormat(lang,{timeZone:scheduleZone,timeZoneName:'long'})
-        .formatToParts(new Date()).find(part=>part.type==='timeZoneName')?.value || scheduleZone;
+      renderBookingTimeZones(zone, data.timezones, requested, scheduleZone);
+      const zoneName=new Intl.DateTimeFormat(lang,{timeZone:scheduleZone,timeZoneName:'longGeneric'})
+        .formatToParts(new Date(requested + 'T12:00:00Z')).find(part=>part.type==='timeZoneName')?.value || scheduleZone;
       timezone.textContent=t.zone + ' ' + zoneName;
       const hm=new Intl.DateTimeFormat(lang,{timeZone:'UTC',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
       const display=value=>hm.format(new Date('2000-01-01T'+value+':00Z'));
@@ -59,13 +59,11 @@
       if (!controller.signal.aborted) status.textContent=t.unavailable;
     }
   }
-  zone.value=Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-  date.min=today('UTC');
+  date.min=bookingDateNow();
   date.value=date.min;
   date.addEventListener('change',load);
   form.addEventListener('mwl-booking-saved',()=> {
-    zone.value=Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-    date.value=today(scheduleZone||'UTC');
+    date.value=bookingDateNow(scheduleZone);
     load();
   });
   form.addEventListener('mwl-booking-conflict',load);

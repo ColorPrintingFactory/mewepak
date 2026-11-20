@@ -1,3 +1,5 @@
+import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v=1';
+
 (() => {
   'use strict';
 
@@ -26,25 +28,14 @@
   const verificationStatus = form.querySelector('[data-booking-verification-status]');
   const submit = form.querySelector('button[type="submit"]');
   const submitLabel = submit.querySelector('[data-booking-submit-label]');
-  const browserZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const utcDate = new Intl.DateTimeFormat('en-US', {
     timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
   });
   const weekday = new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', weekday: 'short' });
-  const fallbackZones = {
-    'Asia/Shanghai': 'China',
-    'America/New_York': 'New York',
-    'Europe/London': 'London',
-    'Asia/Dubai': 'Dubai',
-  };
   let availabilityRequest;
   let turnstileWidget = null;
   let zoneLabel = '';
-
-  function localDateKey() {
-    const now = new Date();
-    return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-  }
+  let scheduleTimezone;
 
   function asDate(value) {
     return new Date(value + 'T12:00:00Z');
@@ -122,17 +113,7 @@
     document.querySelector('[data-booking-title]').textContent = data.display_title || 'Meet with Mewepak';
     document.querySelector('[data-booking-location]').textContent = data.display_location || 'Zoom / Factory Visit';
 
-    const configuredZones = Object.entries(data.timezones || {});
-    const choices = configuredZones.length ? configuredZones : Object.entries(fallbackZones);
-    const currentOptions = [...timezone.options];
-    const sameChoices = choices.length === currentOptions.length
-      && choices.every(([zone, label], index) => currentOptions[index].value === zone && currentOptions[index].text === label);
-    if (!sameChoices) {
-      const previous = timezone.value;
-      const zones = choices.map(([zone]) => zone);
-      const selected = zones.includes(previous) ? previous : zones.includes(browserZone) ? browserZone : zones[0];
-      timezone.replaceChildren(...choices.map(([zone, label]) => new Option(label, zone, zone === selected, zone === selected)));
-    }
+    renderBookingTimeZones(timezone, data.timezones, date, data.timezone);
 
     const options = data.meeting_durations?.length ? data.meeting_durations : [15, 30];
     const previousDuration = form.elements.duration.value;
@@ -156,7 +137,7 @@
     }
 
     zoneLabel = describeScheduleZone(data.timezone, date);
-    scheduleZone.textContent = zoneLabel ? 'Time windows are shown in ' + zoneLabel + '.' : '';
+    scheduleZone.textContent = zoneLabel ? 'Dates and time windows are shown in ' + zoneLabel + '.' : '';
     scheduleZone.hidden = !zoneLabel;
   }
 
@@ -182,6 +163,15 @@
       const data = await response.json();
       if (request.signal.aborted) return;
       if (!response.ok) throw new Error(data.error || 'Could not load available times.');
+      const priorMinimum = dateInput.min;
+      const initialDate = !scheduleTimezone && date === priorMinimum;
+      scheduleTimezone = data.timezone;
+      dateInput.min = bookingDateNow(scheduleTimezone);
+      if (date < dateInput.min || (initialDate && date !== dateInput.min)) {
+        dateInput.value = dateInput.min;
+        return loadSlots();
+      }
+      if (dateInput.min !== priorMinimum) renderWeek();
       renderOptions(data, date);
       const windows = data.slots || [];
       const buttons = windows.map(window => {
@@ -283,7 +273,7 @@
         throw new Error(result.error || 'The booking could not be saved.');
       }
       form.reset();
-      dateInput.min = localDateKey();
+      dateInput.min = bookingDateNow(scheduleTimezone);
       dateInput.value = dateInput.min;
       showStatus('Your consultation request has been received.', 'success');
       loadSlots();
@@ -296,7 +286,7 @@
     }
   });
 
-  dateInput.min = localDateKey();
+  dateInput.min = bookingDateNow();
   dateInput.value = dateInput.min;
   loadSlots();
   configureTurnstile();

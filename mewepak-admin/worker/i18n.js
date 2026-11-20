@@ -174,9 +174,11 @@ function appointmentForm(lang, url) {
     data-locale="${lang}" data-form-success="${escape(t.success)}" data-form-failure="${escape(t.failure)}"
     data-form-checking="${escape(u.checking)}" data-form-verification="${escape(u.verification)}"
     ${['zone','choose','loading','none','unavailable'].map(key=>`data-${key}="${escape(t[key])}"`).join(' ')}>
-    <input type="hidden" name="customer_timezone">
     <div class="mwl-form__grid">
       ${field(t.date,'date','type="date" required')}
+      <label>${escape(t.customerZone)}<select name="customer_timezone" required aria-describedby="mwl-booking-zone-help"><option value="">${escape(t.choose)}</option></select>
+        <small class="mwl-form__notice" id="mwl-booking-zone-help">${escape(t.customerZoneHelp)}</small>
+      </label>
       <label>${escape(t.time)}<select name="time" required><option value="">${escape(t.choose)}</option></select></label>
       <p data-slot-zone class="mwl-form__details mwl-form__notice"></p><p data-slot-status class="mwl-form__details" role="status" aria-live="polite"></p>
       <label>${escape(t.type)}<select name="meeting_type" required><option value="video_call">${escape(t.video)}</option><option value="factory_visit">${escape(t.visit)}</option></select></label>
@@ -238,7 +240,7 @@ ${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link 
 ${compactHeaderAssets}
 ${openGraph}<script type="application/ld+json">${schema}</script>
 ${customerRequest || appointment ? '<script src="/assets/storefront-forms.js?v=locale-1" defer></script>' : ''}
-${appointment ? '<script src="/assets/localized-booking.js?v=1" defer></script>' : ''}
+${appointment ? '<script type="module" src="/assets/localized-booking.js?v=global-timezones"></script>' : ''}
 </head><body class="mwl-body">
 <a class="mwl-skip" href="#content">${escape(t.skip)}</a>
 <header class="mwl-header">
