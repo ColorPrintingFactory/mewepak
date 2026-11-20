@@ -15,7 +15,6 @@ const formatAnchors = {
 const topicLinks = {
   'baby-food': ['/solutions/retort/', 'Review a process-matched pouch'],
   beverage: ['/solutions/technical/', 'Review filling and dispensing'],
-  'frozen-food': ['/solutions/technical/', 'Plan a filled-pack trial'],
   'home-care': ['/solutions/technical/', 'Discuss a compatibility trial'],
   'meat-poultry': ['/solutions/technical/', 'Plan a filled-pack trial'],
   'pet-food': ['/solutions/retort/', 'Explore wet-product pouch trials'],
@@ -48,6 +47,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
   const { path, row } = entry;
   const slug = path.split('/')[2];
   if (!Object.hasOwn(marketDetails, slug)) return null;
+  const frozen = slug === 'frozen-food';
   const detail = marketDetails[slug];
   const procurement = marketProcurement[slug];
   const topicLink = topicLinks[slug] || ['/solutions/prepress/', 'Prepare your artwork'];
@@ -86,7 +86,7 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
   });
   const links = [
     ...(detail.guide ? [[detail.guide, detail.guideLabel]] : []),
-    topicLink,
+    ...(frozen ? [] : [topicLink]),
     ...(['coffee-tea', 'frozen-food'].includes(slug) ? [[qualityPath, 'Review supplier quality documents']] : []),
     ['/solutions/printing/', 'Compare printing and finish options'],
     ['/added-value/faq/', 'Read the packaging FAQ'],
@@ -129,7 +129,8 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
     ${focusImages[slug] ? brandedVisual(focusImages[slug], detail.alt, 'Application illustration', escape) : ''}
     <div class="mw-market-focus__copy"><h2 id="market-focus-title">${escape(procurement.focus[0])}</h2>
       <p>${escape(procurement.focus[1])}</p>
-      ${publishedPaths.has(topicLink[0]) ? `<a class="mw-market-text-link" href="${topicLink[0]}">${topicLink[1]} ${arrow}</a>` : ''}
+      ${frozen ? '<a class="mw-market-text-link" href="#frozen-food-trial">Prepare for a filled-pack trial <span aria-hidden="true">↓</span></a>'
+        : publishedPaths.has(topicLink[0]) ? `<a class="mw-market-text-link" href="${topicLink[0]}">${topicLink[1]} ${arrow}</a>` : ''}
     </div>
   </section>`}
   <section class="mw-market-brief" id="project-brief" aria-labelledby="mw-market-brief-title">
@@ -146,14 +147,19 @@ export function renderMarketLayout({ entry, categories, choices, baseline, publi
       </ul>
     </div>
   </section>
-  ${slug === 'frozen-food' ? `<section class="mw-market-inner mw-market-resources" id="frozen-food-trial" aria-labelledby="frozen-food-trial-title">
-    <h2 id="frozen-food-trial-title">Prepare a frozen-food packaging trial</h2>
-    <p>Record the product shape, fill conditions, freezer cycle, expected storage and case handling. Compare candidate packs after the same cycle and agree with your quality team how to check seals, flex damage, puncture and case fit.</p>
-    <ul>
-      <li><a href="${trialChecklist}" download>Download the filled-pack trial checklist ${arrow}</a></li>
-      ${publishedPaths.has('/contact/') ? `<li><a href="${samplePath}">Ask about samples for a frozen-food trial ${arrow}</a></li>` : ''}
-      ${publishedPaths.has('/solutions/technical/') ? `<li><a href="/solutions/technical/">Discuss trial conditions and approval checks ${arrow}</a></li>` : ''}
-    </ul>
+  ${frozen ? `<section class="mw-market-inner mw-market-trial" id="frozen-food-trial" aria-labelledby="frozen-food-trial-title">
+    <div class="mw-market-trial__copy">
+      <h2 id="frozen-food-trial-title">Plan a frozen-food packaging trial</h2>
+      <dl class="mw-market-trial__checks">
+        <div><dt>Before the trial</dt><dd>Record the product shape, fill conditions, freezer cycle and storage conditions.</dd></div>
+        <div><dt>After the freezer cycle</dt><dd>Compare seals, flex damage, punctures and how each filled pack fits in the case.</dd></div>
+      </dl>
+    </div>
+    <div class="mw-market-trial__actions">
+      ${publishedPaths.has('/contact/') ? `<a class="mw-market-button" href="${samplePath}">Ask about samples ${arrow}</a>` : ''}
+      <a class="mw-market-trial__link" href="${trialChecklist}" download><span>Download the trial checklist</span><span class="mw-market-trial__filetype">PDF</span></a>
+      ${publishedPaths.has('/solutions/technical/') ? `<a class="mw-market-trial__link" href="/solutions/technical/"><span>Discuss trial conditions</span>${arrow}</a>` : ''}
+    </div>
   </section>` : ''}
   ${coffee?.consultation || ''}
   ${coffee?.faq || ''}

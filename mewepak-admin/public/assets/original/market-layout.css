@@ -715,3 +715,83 @@ main[data-market-layout] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+[data-market-layout] .mw-market-trial {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  align-items: center;
+  gap: clamp(18px, 3vw, 50px);
+  margin-block: clamp(28px, 4vw, 56px) 0;
+  padding: clamp(20px, 3.6vw, 48px);
+  border: 1px solid var(--market-line);
+  border-radius: 16px;
+  background: var(--market-sage);
+  scroll-margin-block-start: var(--storefront-header-height, 145px);
+}
+[data-market-layout] .mw-market-trial h2 {
+  margin: 0 0 20px;
+  max-width: 22ch;
+}
+[data-market-layout] .mw-market-trial__checks {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+[data-market-layout] .mw-market-trial__checks dt {
+  margin: 0 0 2px;
+  color: var(--market-deep);
+  font-weight: 700;
+}
+[data-market-layout] .mw-market-trial__checks dd {
+  margin: 0;
+  max-width: 50ch;
+  color: var(--market-ink-muted);
+}
+[data-market-layout] .mw-market-trial__actions {
+  display: grid;
+  min-width: 0;
+  padding: clamp(15px, 2vw, 25px);
+  border: 1px solid var(--market-line);
+  border-radius: 11px;
+  background: #fff;
+}
+[data-market-layout] .mw-market-trial__actions > .mw-market-button {
+  justify-content: space-between;
+  margin-bottom: 7px;
+  border-radius: 7px;
+}
+[data-market-layout] .mw-market-trial__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 7px 2px;
+  color: var(--market-green);
+  font-size: .9375rem;
+  font-weight: 600;
+}
+[data-market-layout] .mw-market-trial__link + .mw-market-trial__link {
+  border-top: 1px solid var(--market-line);
+}
+[data-market-layout] .mw-market-trial__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+[data-market-layout] .mw-market-trial__filetype {
+  padding: 3px 6px;
+  border: 1px solid var(--market-line);
+  border-radius: 4px;
+  color: var(--market-ink-muted);
+  font-size: .6875rem;
+  line-height: 1.2;
+}
+[data-market-layout] .mw-market-trial + .mw-market-resources {
+  padding-block-start: clamp(26px, 3.8vw, 48px);
+}
+@media (max-width: 760px) {
+  [data-market-layout] .mw-market-trial {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  [data-market-layout] .mw-market-trial h2 { margin-bottom: 15px; }
+}

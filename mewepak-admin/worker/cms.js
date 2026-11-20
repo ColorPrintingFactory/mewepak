@@ -208,7 +208,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           el.setInnerContent(solution, { html: true });
         });
       } else if (market) {
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-buyers">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/market-layout.css?v=market-trial">', { html: true }));
         edit('main', (el) => {
           el.setAttribute('data-market-layout', '');
           el.setInnerContent(market, { html: true });

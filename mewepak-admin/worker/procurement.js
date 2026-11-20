@@ -160,11 +160,42 @@ export const guideCategories = {
 
 const link = ([href, label], escape) => `<a href="${escape(href)}">${escape(label)} <span aria-hidden="true">↗</span></a>`;
 
+const industryGroups = [
+  ['Food & beverages', ['coffee-tea', 'snacks-sweets', 'beverage', 'sauce-soup', 'baby-food', 'powder-spices', 'fruits-veggies']],
+  ['Cold chain & pet food', ['frozen-food', 'meat-poultry', 'sea-food', 'pet-food']],
+  ['Personal care & retail', ['beauty-care', 'cosmetics', 'home-care', 'supplement', 'accessories', 'fashion']],
+  ['Specialty markets', ['cannabis', 'cbd', 'cbd-thc', 'tobacco-filters']],
+];
+
+function renderIndustryDirectory(entries, escape) {
+  const markets = new Map(entries
+    .filter(({ path }) => /^\/markets\/[a-z0-9-]+\/$/.test(path))
+    .map((entry) => [entry.path.split('/')[2], entry]));
+  if (!markets.size) return '';
+  const groups = industryGroups.map(([name, slugs]) => [name, slugs.flatMap((slug) => {
+    const entry = markets.get(slug);
+    markets.delete(slug);
+    return entry ? [entry] : [];
+  })]);
+  groups.at(-1)[1].push(...markets.values());
+  return `
+    <nav class="mw-industry-directory" aria-labelledby="market-directory-title">
+      <h3 id="market-directory-title">Browse all industries</h3>
+      <div class="mw-industry-directory__grid">
+        ${groups.filter(([, items]) => items.length).map(([name, items]) => `
+          <div class="mw-industry-directory__group">
+            <h4>${escape(name)}</h4>
+            <ul>${items.map(({ path, row }) => `<li><a href="${escape(path)}">${escape(row.title)}</a></li>`).join('')}</ul>
+          </div>`).join('')}
+      </div>
+    </nav>`;
+}
+
 export function applyProcurement(path, edit, replace, entry, entries, publishedPaths, baseline, escape) {
   const [, family, slug, nested] = path.split('/');
   const available = href => publishedPaths.has(href) || !Object.hasOwn(baseline, href);
   const sectionLinks = (items) => items.filter(([href]) => available(href)).map(item => link(item, escape)).join('');
-  const addStyles = () => edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/procurement.css?v=1">', { html: true }));
+  const addStyles = () => edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/procurement.css?v=2">', { html: true }));
   const format = family === 'products' && !nested && entry?.table === 'product_categories' && Object.hasOwn(formats, slug) ? formats[slug] : null;
   if (format) {
     addStyles();
@@ -191,14 +222,11 @@ export function applyProcurement(path, edit, replace, entry, entries, publishedP
     });
   }
   if (path === '/markets/') {
-    const markets = entries.filter(item => /^\/markets\/[a-z0-9-]+\/$/.test(item.path));
-    if (!markets.length) return;
-    addStyles();
-    edit('main #mk-market-grid', (el) => el.after(`
-      <nav class="mw-directory" aria-labelledby="market-directory-title">
-        <h3 id="market-directory-title">All industry packaging guides</h3>
-        <ul>${markets.map(item => `<li>${link([item.path, item.row.title], escape)}</li>`).join('')}</ul>
-      </nav>`, { html: true }));
+    const directory = renderIndustryDirectory(entries, escape);
+    if (directory) {
+      addStyles();
+      edit('main #mk-market-grid', (el) => el.after(directory, { html: true }));
+    }
   }
   if (path === '/blog/') {
     addStyles();
