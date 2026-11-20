@@ -356,6 +356,10 @@ export default {
     const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
     const seo = await seoEndpoint(request, env, database, getAsset);
     if (seo) return seo;
+    if (url.pathname === '/admin' && ['GET', 'HEAD'].includes(request.method)) {
+      url.pathname = '/admin/';
+      return Response.redirect(url, 308);
+    }
     if (url.pathname === '/api/public-site' && request.method === 'GET') {
       try { return json(await publicSiteSettings(database)); }
       catch { return json({}, 503); }
