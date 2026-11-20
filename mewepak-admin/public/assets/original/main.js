@@ -1,6 +1,10 @@
 (function () {
   "use strict";
 
+  var language = JSON.parse(document.getElementById('mewepak-home-language')?.textContent || '{}');
+  var prefix = language.phrases ? '/' + document.documentElement.lang : '';
+  var translated = function (value) { return language.phrases?.[value] || value; };
+
   // Sticky header scrolled state
   var header = document.querySelector('[data-mewepak-header]');
   if (header) {
@@ -15,10 +19,12 @@
     if (!entry || !entry.path) return null;
 
     var link = document.createElement('a');
-    link.href = entry.path;
+    var normalized = entry.path.replace(/\/+$/, '') || '/';
+    var localized = language.entries?.[normalized];
+    link.href = localized ? prefix + normalized + '/' : entry.path;
+    if (prefix && !localized) link.hreflang = 'en';
     link.className = extraClassName || 'text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors';
 
-    var normalized = entry.path.replace(/\/+$/, '') || '/';
     var imageEntry = window.mewepakMenuCategoryImages && window.mewepakMenuCategoryImages[normalized] ? window.mewepakMenuCategoryImages[normalized] : entry;
 
     link.classList.add('mewepak-category-menu-link');
@@ -41,13 +47,13 @@
 
     var title = document.createElement('span');
     title.className = 'mewepak-category-menu-title';
-    title.textContent = entry.label || '';
+    title.textContent = localized?.[0] || translated(entry.label || '');
     body.appendChild(title);
 
-    if (entry.description) {
+    if (localized?.[1] || (!prefix && entry.description)) {
       var description = document.createElement('span');
       description.className = 'mewepak-category-menu-description';
-      description.textContent = entry.description;
+      description.textContent = localized?.[1] || entry.description;
       body.appendChild(description);
     }
 
@@ -87,7 +93,7 @@
       if (!config.items.length) {
         var emptyItem = document.createElement('li');
         emptyItem.className = 'text-sm text-slate-400';
-        emptyItem.textContent = 'No categories yet.';
+        emptyItem.textContent = translated('No categories yet.');
         config.target.appendChild(emptyItem);
         return;
       }
@@ -110,7 +116,7 @@
 
         var heading = document.createElement('div');
         heading.className = 'px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider';
-        heading.textContent = group.label || '';
+        heading.textContent = translated(group.label || '');
         mobilePanel.appendChild(heading);
 
         group.items.forEach(function (entry) {
@@ -125,14 +131,14 @@
     if (!root || !window.mewepakMenuCategoryImages) return;
 
     const navigationLinks = ['[data-mewepak-header]', '[data-mobile-menu]', 'footer']
-      .map(function (region) { return region + ' a[href^="/products/"]'; })
+      .map(function (region) { return region + ' a[href^="' + prefix + '/products/"]'; })
       .join(',');
     root.querySelectorAll(navigationLinks).forEach(function (link) {
       if (link.querySelector('[data-category-menu-thumb]')) return;
       var href = link.getAttribute('href');
       if (!href || /^\/products\/?(#|$)/.test(href)) return;
 
-      var normalized = href.replace(/https?:\/\/[^/]+/i, '').replace(/\/+$/, '') || '/';
+      var normalized = href.replace(/https?:\/\/[^/]+/i, '').slice(prefix.length).replace(/\/+$/, '') || '/';
       var entry = window.mewepakMenuCategoryImages[normalized];
       if (!entry) return;
 
@@ -280,7 +286,7 @@
         trigger.type = 'button';
         trigger.className = original.className;
         trigger.dataset.mobileGroupTrigger = '';
-        trigger.textContent = label + ' ▾';
+        trigger.textContent = translated(label) + ' ▾';
         groupPanel = document.createElement('div');
         groupPanel.dataset.mobileGroupPanel = '';
         groupPanel.className = 'hidden pl-4 py-2 space-y-1';
@@ -295,7 +301,7 @@
       var overview = parentLink.cloneNode(false);
       overview.removeAttribute('data-nav-link');
       overview.className = 'block px-4 py-2 text-sm font-semibold !text-[#007f7c]';
-      overview.textContent = 'View all ' + label;
+      overview.textContent = prefix ? language.labels.overview : 'View all ' + label;
       groupPanel.prepend(overview);
     });
   }
@@ -344,7 +350,7 @@
         return;
       }
       e.preventDefault();
-      window.location.href = '/search/' + encodeURIComponent(term).replace(/%20/g, '+') + '/';
+      window.location.href = prefix ? prefix + '/?s=' + encodeURIComponent(term) : '/search/' + encodeURIComponent(term).replace(/%20/g, '+') + '/';
     });
   });
 

@@ -65,8 +65,8 @@ const related = {
 };
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const validSlug = /^\/(?:[a-z0-9_-]+\/)*$/;
-const localPath = (path, lang) => lang === 'en' ? path : '/' + lang + path;
-const hasVersion = (path, lang) => !!copy[path]?.[lang];
+export const localizedPath = (path, lang) => lang === 'en' ? path : '/' + lang + path;
+export const hasLocalizedVersion = (path, lang) => !!copy[path]?.[lang];
 const sampleAsset = '/assets/media/packaging-guides/filled-pack-trial-checklist.pdf';
 const safeAsset = (value) => typeof value === 'string' && /^\/(?![\/\\])/.test(value) ? value : '';
 
@@ -75,18 +75,18 @@ export function detectLocale(pathname) {
   if (!match) return null;
   const lang = match[1];
   const path = (pathname.slice(lang.length + 1).replace(/\/+$/, '') || '') + '/';
-  return { lang, path, canonicalPath: localPath(path, lang) };
+  return { lang, path, canonicalPath: localizedPath(path, lang) };
 }
 
 export function localizedPaths(englishPaths) {
-  return englishPaths.flatMap(path => languages.filter(lang => hasVersion(path, lang)).map(lang => localPath(path, lang)));
+  return englishPaths.flatMap(path => languages.filter(lang => hasLocalizedVersion(path, lang)).map(lang => localizedPath(path, lang)));
 }
 
 export function alternateTags(path, origin) {
-  const variants = languages.filter(lang => hasVersion(path, lang));
+  const variants = languages.filter(lang => hasLocalizedVersion(path, lang));
   if (!variants.length) return '';
   return ['en', ...variants, 'x-default'].map((lang) =>
-    `<link rel="alternate" hreflang="${lang}" href="${escape(origin + localPath(path, lang === 'x-default' ? 'en' : lang))}">`
+    `<link rel="alternate" hreflang="${lang}" href="${escape(origin + localizedPath(path, lang === 'x-default' ? 'en' : lang))}">`
   ).join('');
 }
 
@@ -95,13 +95,13 @@ export function languageSwitcher(path, lang = 'en', query = '') {
   const resetText = lang === 'en'
     ? 'Translations of this page are in preparation. The language links open the respective home pages.'
     : ui[lang].switchNote;
-  const reset = !languages.some(key => hasVersion(path, key));
+  const reset = !languages.some(key => hasLocalizedVersion(path, key));
   return `<details class="mwl-switch" name="mwl-language"><summary aria-label="${escape(label)}"><bdi>${lang.toUpperCase()}</bdi></summary>
     <div class="mwl-switch__panel">
       ${Object.entries(labels).map(([key, name]) => {
-        const samePage = key === 'en' || hasVersion(path, key);
+        const samePage = key === 'en' || hasLocalizedVersion(path, key);
         const target = samePage ? path : '/';
-        return `<a href="${escape(localPath(target, key) + (samePage ? query : ''))}" lang="${key}" hreflang="${key}" dir="${key === 'ar' ? 'rtl' : 'ltr'}"${key === lang ? ' aria-current="true"' : ''}>${escape(name)}</a>`;
+        return `<a href="${escape(localizedPath(target, key) + (samePage ? query : ''))}" lang="${key}" hreflang="${key}" dir="${key === 'ar' ? 'rtl' : 'ltr'}"${key === lang ? ' aria-current="true"' : ''}>${escape(name)}</a>`;
       }).join('')}
       ${reset ? `<p>${escape(resetText)}</p>` : ''}
     </div></details>`;
@@ -114,10 +114,10 @@ function photo(path) {
 }
 const titleFor = (path, lang) => copy[path][lang][0];
 function cardGrid(paths, lang, available) {
-  return `<div class="mwl-card-grid">${paths.filter(path => available.has(path) && hasVersion(path, lang)).map((path) => {
+  return `<div class="mwl-card-grid">${paths.filter(path => available.has(path) && hasLocalizedVersion(path, lang)).map((path) => {
     const [title, lead] = copy[path][lang];
     const image = photo(path);
-    return `<a class="mwl-card" href="${localPath(path,lang)}">
+    return `<a class="mwl-card" href="${localizedPath(path,lang)}">
       ${image ? `<img src="${escape(image)}" alt="" loading="lazy" width="520" height="310" decoding="async">` : ''}
       <div><strong>${escape(title)}</strong><p>${escape(lead)}</p></div>
     </a>`;
@@ -132,7 +132,7 @@ function requestForm(path, lang, url, available) {
   const market = '/markets/' + url.searchParams.get('market') + '/';
   const solution = '/solutions/' + url.searchParams.get('service') + '/';
   const sample = url.searchParams.get('topic') === 'samples';
-  const selected = [market, solution].find(key => available.has(key) && hasVersion(key, lang));
+  const selected = [market, solution].find(key => available.has(key) && hasLocalizedVersion(key, lang));
   const inquiry = path === '/inquiry/' ? t.quote : (sample ? t.samples : t.contact);
   const context = `${contextLabels[lang]}: ${inquiry}${selected ? ' · ' + titleFor(selected,lang) : ''}`;
   const field = (label, name, attributes = '') => `<label>${escape(label)}<input name="${name}" ${attributes}></label>`;
@@ -193,7 +193,7 @@ function appointmentForm(lang, url) {
 
 function pageMarkup({ path, lang, available, origin, url, settings, production }) {
   const t = ui[lang];
-  const localized = key => localPath(key,lang);
+  const localized = key => localizedPath(key,lang);
   const query = url.searchParams.get('s')?.trim().slice(0,90) || '';
   const quoteParams = new URLSearchParams();
   if (path.startsWith('/markets/') && path !== '/markets/') quoteParams.set('market',path.split('/')[2]);
@@ -286,8 +286,8 @@ export async function localizedResponse(request, match, { policy, settings, path
   const { lang, path, canonicalPath } = match;
   const url = new URL(request.url);
   const available = new Set(paths);
-  if (!validSlug.test(path) || !hasVersion(path,lang) || !available.has(path)) {
-    const home = localPath('/',lang);
+  if (!validSlug.test(path) || !hasLocalizedVersion(path,lang) || !available.has(path)) {
+    const home = localizedPath('/',lang);
     const text = ui[lang];
     return new Response(request.method === 'HEAD' ? null : `<!doctype html><html lang="${lang}"><meta charset="utf-8"><title>404 | Mewepak</title><h1>404</h1><p>${escape(text.empty)}</p><a href="${home}">${escape(nav[lang][0])}</a></html>`,
       { status:404, headers:{'content-type':'text/html; charset=utf-8','x-robots-tag':'noindex'} });

@@ -280,7 +280,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     `<span>${encode(settings.name || 'Mewepak')}</span>`, { html: true }));
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
   const pageType = storefrontPageType(url, path);
-  const navigationScript = '/assets/original/storefront-navigation.js' + (pageType === 'product' ? '?v=gallery' : '');
+  const navigationScript = '/assets/original/storefront-navigation.js' + (path === '/' ? '?v=shared-home' : pageType === 'product' ? '?v=gallery' : '');
   set('script[src="/assets/original/main.js?cms=1"],script[src="/assets/original/main.js"]', 'src', navigationScript);
   set('link[href="/assets/original/custom.css"]', 'href', '/assets/original/custom.css?v=products-grid');
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
@@ -301,7 +301,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     set('script[src="/assets/client-design/quote.js"]', 'src', '/assets/client-design/quote.js?v=packaging-2');
   }
   set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=market-hover');
-  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=direct-links');
+  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=shared-home');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
@@ -336,7 +336,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     el.setAttribute('data-storefront-page', type);
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=site-typography"><script src="/assets/original/storefront-layout.js?v=article-contents" defer></script>', { html: true }));
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=verification-3" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
   const switchPath = path === '/' ? '/' : path + '/';
   const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));

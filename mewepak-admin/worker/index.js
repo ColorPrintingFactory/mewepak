@@ -1,6 +1,7 @@
 import { dispatchLeadNotifications } from './notifications.js';
 import { optimizePageSeo, publishedSeoPaths, seoEndpoint, seoPolicy } from './seo.js';
 import { detectLocale, localizedResponse } from './i18n.js';
+import { localizeSharedHome } from './localized-home.js';
 import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
 
@@ -358,7 +359,12 @@ export default {
     const seo = await seoEndpoint(request, env, database, getAsset);
     if (seo) return seo;
     const locale = detectLocale(url.pathname);
-    if (locale) {
+    const sharedHome = locale?.path === '/' && !url.searchParams.has('s') && request.method === 'GET';
+    if (sharedHome && url.pathname !== locale.canonicalPath) {
+      url.pathname = locale.canonicalPath;
+      return Response.redirect(url,301);
+    }
+    if (locale && !sharedHome) {
       const policy = seoPolicy(url,env);
       try {
         const [paths, settings] = await Promise.all([
@@ -391,7 +397,8 @@ export default {
       '/assets/client-design/market-browser.js': '/assets/client-design/markets.js',
     };
     const assetPath = aliases[url.pathname];
-    const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : request;
+    const homeRequest = sharedHome ? new Request(new URL('/',url),request) : request;
+    const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : homeRequest;
     const cacheKey = storefrontCacheKey(request, url, env, context);
     const pageCache = cacheKey ? caches.default : null;
     if (pageCache) {
@@ -408,14 +415,15 @@ export default {
     let catalog;
     let previous;
     let settings;
-    const cms = await serveCms(request, asset, database, getAsset, (entry, entries, baseline) => {
+    const cms = await serveCms(homeRequest, asset, database, getAsset, (entry, entries, baseline) => {
       page = entry;
       catalog = entries;
       previous = baseline;
     });
-    const storefront = await connectStorefront(request, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings);
+    const storefront = await connectStorefront(homeRequest, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings);
     const seoAsset = (path) => defaults && path === '/assets/original/seo-page-defaults.json' ? defaults : getAsset(path);
-    const rendered = await optimizePageSeo(request, storefront, env, seoAsset, { page, catalog, previous, settings });
+    const localized = sharedHome ? localizeSharedHome(storefront, locale.lang) : storefront;
+    const rendered = await optimizePageSeo(request, localized, env, seoAsset, { page, catalog, previous, settings, locale: sharedHome ? locale : null });
     const result = withSecurityHeaders(rendered, url.pathname, env, settings);
     if (!pageCache || !result.ok || !catalog || !settings?.usLocations ||
         !result.headers.get('content-type')?.includes('text/html') || result.headers.has('set-cookie')) return result;

@@ -1,3 +1,4 @@
+import localizedPages from './i18n/pages.json' with { type:'json' };
 import { catalogPaths } from './cms.js';
 import { alternateTags, localizedPaths } from './i18n.js';
 
@@ -120,23 +121,25 @@ function excerpt(value) {
   return plain.slice(0, end > 95 ? end : 162).replace(/[,:;]+$/, '') + '…';
 }
 
-export function pageMetadata(policy, defaults, { page, catalog, previous, settings } = {}, head = {}) {
+export function pageMetadata(policy, defaults, { page, catalog, previous, settings, locale } = {}, head = {}) {
   const { path, origin } = policy;
   const home = origin + '/';
   const url = new URL(path, origin).href;
   const orgId = home + '#organization';
-  const siteId = home + '#website';
+  const siteId = (locale ? url : home) + '#website';
+  const language = locale?.lang || 'en';
   const brand = settings?.name || 'Mewepak';
   const row = page?.row || {};
-  const local = defaults[path] || {};
+  const local = defaults[locale?.path || path] || {};
+  const translated = locale ? localizedPages[locale.path]?.[language] : null;
   const kind = page?.table || local.kind;
-  const name = text(row.title || row.name || local.name || fromTitleMarkup(head.title || '') || brand);
+  const name = text(translated?.[0] || row.title || row.name || local.name || fromTitleMarkup(head.title || '') || brand);
   const editedTitle = previous && row.seo_title !== previous.seo_title ? row.seo_title : '';
   const editedDescription = previous && row.seo_description !== previous.seo_description ? row.seo_description : '';
-  const title = text(editedTitle || local.title || fromTitleMarkup(head.title || '') || row.seo_title || name);
+  const title = text(translated ? translated[0] + ' | ' + brand : editedTitle || local.title || fromTitleMarkup(head.title || '') || row.seo_title || name);
   const originalDescription = [row.seo_description, head.description].find((value) =>
     text(value) && !/brand presentation, product protection, and flexible project requirements/i.test(text(value)));
-  const description = excerpt(editedDescription || (local.title && local.description) || originalDescription ||
+  const description = excerpt(translated?.[1] || editedDescription || (local.title && local.description) || originalDescription ||
     local.description || row.short_description || row.excerpt || row.summary || (path === '/' ? summary : ''));
   const image = assetUrl(row.primary_image_url || row.featured_image_url || row.image_url || local.image, origin);
   const logo = assetUrl(settings?.logo || '/assets/media/2026/06/logo.png', origin);
@@ -146,16 +149,16 @@ export function pageMetadata(policy, defaults, { page, catalog, previous, settin
     ...(settings?.email && { email: settings.email }),
     ...(settings?.phone && { telephone: settings.phone }),
   };
-  const site = { '@type': 'WebSite', '@id': siteId, name: brand, url: home, publisher: { '@id': orgId }, inLanguage: 'en' };
+  const site = { '@type': 'WebSite', '@id': siteId, name: brand, url: locale ? url : home, publisher: { '@id': orgId }, inLanguage: language };
   const current = {
     '@type': path === '/contact/' ? 'ContactPage' :
       path === '/about-us/' ? 'AboutPage' :
       kind === 'product_categories' || path.startsWith('/category/') || ['/products/', '/markets/', '/blog/'].includes(path) ? 'CollectionPage' : 'WebPage',
-    '@id': url + '#webpage', url, name, isPartOf: { '@id': siteId }, inLanguage: 'en',
+    '@id': url + '#webpage', url, name, isPartOf: { '@id': siteId }, inLanguage: language,
     ...(description && { description }),
   };
   const graph = [organization, site, current];
-  if (path !== '/') {
+  if ((locale?.path || path) !== '/') {
     const parts = path.split('/').filter(Boolean);
     const routeNames = new Map((catalog || []).map((entry) => [entry.path, entry.row.title || entry.row.name]));
     const route = kind === 'articles' ? [['/blog/', 'Blog']] : parts.slice(0, -1).map((key, i) => {
@@ -200,7 +203,7 @@ export async function optimizePageSeo(request, response, env, getAsset, data) {
   const rewriter = new HTMLRewriter()
     .on('link[rel="canonical"],meta[name="robots"]', { element: (el) => el.remove() });
   if (searchable) {
-    const preferredTitle = defaults[policy.path]?.title
+    const preferredTitle = data?.locale || defaults[policy.path]?.title
       ? pageMetadata(policy, defaults, data).title : '';
     rewriter
       .on('title', {
@@ -219,7 +222,7 @@ export async function optimizePageSeo(request, response, env, getAsset, data) {
           'og:url': meta.url, 'og:site_name': meta.brand, 'og:type': meta.isArticle ? 'article' : 'website',
         };
         const tags = [`<link rel="canonical" href="${escape(meta.url)}">`];
-        const alternates = alternateTags(policy.path, policy.origin);
+        const alternates = alternateTags(data?.locale?.path || policy.path, policy.origin);
         if (alternates) tags.push(alternates);
         if (meta.description) tags.push(`<meta name="description" content="${escape(meta.description)}">`);
         for (const [key, value] of Object.entries(social)) {
