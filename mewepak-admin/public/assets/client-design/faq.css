@@ -739,3 +739,36 @@ body { margin: 0; }
     margin: 9px 0 0;
   }
 }
+
+#mewepak-homepage.faq-page .fq-buyer-resources {
+  padding-block: clamp(22px, 4vw, 45px) 0;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources h2 {
+  margin: 0 0 12px;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+  gap: 12px;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid article {
+  padding: 16px 18px;
+  border: 1px solid #d7e5de;
+  border-radius: 10px;
+  background: #edf5f1;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid :is(h3, p) {
+  margin: 0 0 6px;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #176355;
+  font-weight: 650;
+}

@@ -916,3 +916,39 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
     grid-template-columns: 1fr;
   }
 }
+
+#mewepak-homepage.process-page .pr-release {
+  background: #edf5f1;
+}
+
+#mewepak-homepage.process-page .pr-release__body {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  align-items: start;
+  gap: clamp(18px, 4vw, 50px);
+}
+
+#mewepak-homepage.process-page .pr-release__body dl {
+  margin: 0;
+}
+
+#mewepak-homepage.process-page .pr-release__body dl div {
+  padding: 10px 0;
+  border-bottom: 1px solid #d4e2da;
+}
+
+#mewepak-homepage.process-page .pr-release__body dt {
+  color: #102b35;
+  font-weight: 700;
+}
+
+#mewepak-homepage.process-page .pr-release__body dd {
+  margin: 4px 0 0;
+  color: #436059;
+}
+
+@media (max-width: 710px) {
+  #mewepak-homepage.process-page .pr-release__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

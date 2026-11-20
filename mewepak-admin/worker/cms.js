@@ -213,8 +213,12 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           el.setInnerContent(market, { html: true });
         });
       } else if (resource) {
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/resource-centre.css?v=resource-depth">', { html: true }));
+        if (resource.isLibrary) {
+          edit('head', (el) => el.append('<script src="/assets/client-design/resource-library.js?v=resource-depth" defer></script>', { html: true }));
+        }
         if (resource.isLca) {
-          edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/sustainability.css"><script src="/assets/client-design/sustainability.js?v=standalone" defer></script>', { html: true }));
+          edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/sustainability.css"><script src="/assets/client-design/sustainability.js?v=resource-depth" defer></script>', { html: true }));
         }
         edit('main', (el) => {
           el.setAttribute('data-resource-layout', '');

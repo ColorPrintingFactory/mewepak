@@ -12,6 +12,26 @@
   let basis = 'order';
   let model = null;
   let edited = false;
+  let activeExample = 'mass';
+  const presetButtons = Array.from(root.querySelectorAll('[data-lca-preset]'));
+  const presets = {
+    mass: { label: 'Compare pack weight', fields: {} },
+    freight: {
+      label: 'Compare freight factors',
+      fields: { proposedMass: 12, basefreight: 0.3, proposedfreight: 0.15 },
+    },
+    materials: {
+      label: 'Compare material factors',
+      fields: { proposedMass: 12, basematerials: 3, proposedmaterials: 2.4 },
+    },
+  };
+
+  function selectExample(key) {
+    activeExample = key;
+    for (const button of presetButtons) {
+      button.setAttribute('aria-pressed', String(button.dataset.lcaPreset === key));
+    }
+  }
 
   function format(value) {
     return new Intl.NumberFormat('en', {
@@ -51,7 +71,8 @@
     const difference = base.total - proposed.total;
     const massDifference = base.mass - proposed.mass;
     const amount = basis === 'thousand' ? '1,000 packs' : format(model.count) + ' packs';
-    setText('#su-scenario-label', (edited ? 'Your scenario' : 'Example scenario') + ' · ' + amount);
+    const scenarioLabel = edited ? 'Your scenario' : presetButtons.length ? presets[activeExample].label + ' example' : 'Example scenario';
+    setText('#su-scenario-label', scenarioLabel + ' · ' + amount);
     setText('#su-metric-emissions', format(proposed.total * scale));
     setText('#su-metric-difference', format(Math.abs(difference * scale)) + (difference > 0 ? ' lower' : difference < 0 ? ' higher' : ' change'));
     setText('#su-metric-percentage', base.total > 0
@@ -147,12 +168,29 @@
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  form.addEventListener('input', () => { edited = true; update(); });
+  form.addEventListener('input', () => {
+    edited = true;
+    selectExample('');
+    update();
+  });
   form.addEventListener('submit', event => { event.preventDefault(); update(); });
   form.addEventListener('reset', () => {
     edited = false;
+    selectExample('mass');
     setTimeout(update, 0);
   });
+  for (const button of presetButtons) {
+    button.addEventListener('click', () => {
+      const key = button.dataset.lcaPreset;
+      const preset = presets[key];
+      if (!preset) return;
+      form.reset();
+      for (const [name, value] of Object.entries(preset.fields)) form.elements[name].value = value;
+      form.elements.source.value = 'Illustrative factors. ' + preset.label + '. Same product, fill and protection assumed.';
+      selectExample(key);
+      update();
+    });
+  }
   exportButtons.forEach(button => button.addEventListener('click', exportScenario));
   root.querySelectorAll('[data-basis]').forEach(button => {
     button.addEventListener('click', () => {

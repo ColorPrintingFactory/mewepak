@@ -65,6 +65,8 @@
     events: 'Trade show or event enquiry',
     careers: 'Careers enquiry',
     'impact-report': 'Supplier documentation request',
+    'operations-evidence': 'Environmental operations evidence request',
+    'social-evidence': 'Social and workforce evidence request',
   };
   if (Object.hasOwn(topicLabels, topic)) {
     selectMode('general');
