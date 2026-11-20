@@ -1,4 +1,5 @@
 import { solutions } from './solutions-content.js';
+import { buyingGuides } from './solutions-buying-guides.js';
 
 const base = '/solutions/';
 const imageBase = '/assets/media/solutions/';
@@ -18,17 +19,57 @@ function image(key, alt, lazy = false) {
   return `<img src="${imageBase}${key}.webp" alt="${alt}" ${dimensions} ${lazy ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async">`;
 }
 
-function enquiry(quote, service = false) {
+function enquiry(quote, serviceKey = '') {
+  const booking = '/booking/' + (serviceKey ? '?service=' + serviceKey : '');
   return `<section class="sl-wrap sl-next" aria-labelledby="solution-inquiry-title">
     <div class="sl-next__panel">
       <div>
-        <h2 id="solution-inquiry-title" class="text-white">${service ? 'Review this with our team' : 'Tell us about your packaging project'}</h2>
-        <p class="text-white">${service ? 'Share the details you have and what you need to confirm before making a decision.' : 'Share your brief for a quote, or book a consultation to talk through an open requirement.'}</p>
+        <h2 id="solution-inquiry-title" class="text-white">${serviceKey ? 'Review this with our team' : 'Tell us about your packaging project'}</h2>
+        <p class="text-white">${serviceKey ? 'Share the details you have and what you need to confirm before making a decision.' : 'Share your brief for a quote, or book a consultation to talk through an open requirement.'}</p>
       </div>
       <div class="sl-actions">
         ${action(quote, 'Request a quote')}
-        ${action('/booking/', 'Book a consultation', true)}
+        ${action(booking, 'Book a consultation', true)}
       </div>
+    </div>
+  </section>`;
+}
+
+function renderBuyingGuide(guide, escape) {
+  return `<section class="sl-band" id="service-stages" aria-labelledby="service-stages-title">
+    <div class="sl-wrap sl-section">
+      <div class="sl-section-heading">
+        <h2 id="service-stages-title">From brief to approval</h2>
+        <p>${escape(guide.decision)}</p>
+      </div>
+      <ol class="sl-stages">
+        ${guide.steps.map(([title, note, output], i) => `<li>
+          <span class="sl-stage-number" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+          <h3>${escape(title)}</h3>
+          <p>${escape(note)}</p>
+          <dl><dt>Output to agree</dt><dd>${escape(output)}</dd></dl>
+        </li>`).join('')}
+      </ol>
+    </div>
+  </section>
+  <section class="sl-wrap sl-section" id="service-controls" aria-labelledby="service-controls-title">
+    <h2 id="service-controls-title">What to verify before sign-off</h2>
+    <div class="sl-controls">
+      ${guide.checks.map(([title, check, record]) => `<article>
+        <h3>${escape(title)}</h3>
+        <dl><div><dt>Review</dt><dd>${escape(check)}</dd></div>
+          <div><dt>Keep on file</dt><dd>${escape(record)}</dd></div></dl>
+      </article>`).join('')}
+    </div>
+  </section>
+  <section class="sl-example sl-wrap" id="service-example" aria-labelledby="service-example-title">
+    <div class="sl-example__panel">
+      <div><p class="sl-example__label">Illustrative project</p><h2 id="service-example-title">${escape(guide.example.title)}</h2>
+        <p>${escape(guide.example.situation)}</p></div>
+      <dl class="sl-list">
+        <div><dt>What to review</dt><dd>${escape(guide.example.review)}</dd></div>
+        <div><dt>Handoff for approval</dt><dd>${escape(guide.example.handoff)}</dd></div>
+      </dl>
     </div>
   </section>`;
 }
@@ -41,11 +82,16 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
   if (!overview && (!Object.hasOwn(solutions, key) || path !== base + key + '/')) return null;
 
   const service = overview ? null : solutions[key];
+  const guide = overview ? null : buyingGuides[key];
   const name = service?.name || 'Solutions';
   const title = escape(row.title !== previous.title && row.title ? row.title : service?.heading || 'Flexible packaging solutions');
   const lead = escape(row.summary?.trim() || service?.lead
     || 'Find the right support for your packaging project, from preparing artwork to reviewing materials and validating a filled pack.');
-  const quote = publishedPaths.has('/inquiry/') ? '/inquiry/' + (key === 'retort' ? '?format=retort-pouch' : '') + '#quote-request' : '/contact/';
+  const quoteQuery = new URLSearchParams();
+  if (service) quoteQuery.set('service', key);
+  if (key === 'retort') quoteQuery.set('format', 'retort-pouch');
+  const query = quoteQuery.size ? '?' + escape(quoteQuery.toString()) : '';
+  const quote = publishedPaths.has('/inquiry/') ? '/inquiry/' + query + '#quote-request' : '/contact/';
   const crumbs = `<nav class="sl-wrap sl-crumb" aria-label="Breadcrumb">
     <a href="/">Home</a><span aria-hidden="true">/</span>
     ${service ? `<a href="${base}">Solutions</a><span aria-hidden="true">/</span>` : ''}
@@ -83,11 +129,19 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
           </a>` : ''}
         </div>
       </section>
-      <section class="sl-band" id="prepare-your-brief" aria-labelledby="solution-brief-title">
+      <section class="sl-band" id="choose-by-task" aria-labelledby="solution-tasks-title">
         <div class="sl-wrap sl-section sl-columns">
-          <h2 id="solution-brief-title">What to include in your brief</h2>
-          <dl class="sl-list">${procurement.map(([term, note]) => `<div><dt>${escape(term)}</dt><dd>${escape(note)}</dd></div>`).join('')}</dl>
+          <h2 id="solution-tasks-title">Find support by buying task</h2>
+          <div class="sl-task-links">
+            ${cards.map(([slug, item]) => `<a href="${base}${slug}/#service-stages">
+              <span><strong>${escape(buyingGuides[slug].task)}</strong><small>${escape(item.name)}</small></span>${arrow}
+            </a>`).join('')}
+          </div>
         </div>
+      </section>
+      <section class="sl-wrap sl-section sl-columns" id="prepare-your-brief" aria-labelledby="solution-brief-title">
+        <h2 id="solution-brief-title">What to include in your brief</h2>
+        <dl class="sl-list">${procurement.map(([term, note]) => `<div><dt>${escape(term)}</dt><dd>${escape(note)}</dd></div>`).join('')}</dl>
       </section>
       ${enquiry(quote)}`;
   }
@@ -97,16 +151,22 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
   if (publishedPaths.has(base)) links.push([base, 'All packaging solutions']);
   return `${crumbs}${hero}
     <nav class="sl-jump" aria-label="On this page"><div class="sl-wrap">
-      <a href="#service-process">Scope of review</a><a href="#service-brief">Project checklist</a>
-      <a href="#service-faq">Questions</a><a href="#solution-inquiry-title">Discuss your project</a>
+      <a href="#service-process">Scope of review</a><a href="#service-stages">Approval stages</a>
+      <a href="#service-controls">Sign-off checks</a><a href="#service-brief">Quote checklist</a>
+      <a href="#service-faq">Questions</a>
     </div></nav>
     <section class="sl-wrap sl-section sl-columns" id="service-process" aria-labelledby="service-process-title">
       <h2 id="service-process-title">What we review</h2>
       <dl class="sl-list">${service.scope.map(([term, note]) => `<div><dt>${escape(term)}</dt><dd>${escape(note)}</dd></div>`).join('')}</dl>
     </section>
+    ${renderBuyingGuide(guide, escape)}
     <section class="sl-band" id="service-brief" aria-labelledby="service-brief-title">
       <div class="sl-wrap sl-section">
-        <h2 id="service-brief-title">Project checklist</h2>
+        <div class="sl-section-heading sl-section-heading--split">
+          <div><h2 id="service-brief-title">Prepare your quote request</h2>
+          <p>Use the editable worksheet to collect the information that applies to your project.</p></div>
+          <a class="sl-download" href="${imageBase}checklists/${key}-rfq.txt" download>Download RFQ worksheet (.txt) ${arrow}</a>
+        </div>
         <div class="sl-checklist">
           <div><h3>What to send</h3><ul>${service.inputs.map(item => `<li>${escape(item)}</li>`).join('')}</ul></div>
           <div><h3>What we’ll confirm with you</h3><ul>${service.outputs.map(item => `<li>${escape(item)}</li>`).join('')}</ul></div>
@@ -115,10 +175,13 @@ export function renderSolutionsLayout({ entry, previous, publishedPaths, escape,
     </section>
     <section class="sl-wrap sl-section sl-columns" id="service-faq" aria-labelledby="service-faq-title">
       <h2 id="service-faq-title">Common questions</h2>
-      <div class="sl-answers">${service.faq.map(([question, answer]) => `<details><summary>${escape(question)}</summary><p>${escape(answer)}</p></details>`).join('')}</div>
+      <div class="sl-answers">${[...service.faq, ...guide.faq].map(([question, answer]) => `<details><summary>${escape(question)}</summary><p>${escape(answer)}</p></details>`).join('')}</div>
     </section>
+    ${guide.resources?.length ? `<section class="sl-wrap sl-references" aria-label="Technical references"><h3>Technical references</h3>
+      <ul>${guide.resources.map(([url, label]) => `<li><a href="${escape(url)}">${escape(label)} ${arrow}</a></li>`).join('')}</ul>
+    </section>` : ''}
     ${links.length ? `<nav class="sl-wrap sl-related" aria-label="Related packaging services">
       ${links.map(([url, label]) => `<a href="${url}">${escape(label)} ${arrow}</a>`).join('')}
     </nav>` : ''}
-    ${enquiry(quote, true)}`;
+    ${enquiry(quote, key)}`;
 }

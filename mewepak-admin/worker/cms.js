@@ -189,7 +189,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         : null;
       if (solution) {
         if (row.seo_title) replace('title', row.seo_title);
-        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/solutions-layout.css?v=solutions-1">', { html: true }));
+        edit('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/solutions-layout.css?v=solutions-2">', { html: true }));
         if (path === '/solutions/') {
           edit('#mewepak-homepage.process-page', (el) => el.removeAndKeepContent());
           edit('link[href="/assets/client-design/process.css"]', (el) => el.remove());
