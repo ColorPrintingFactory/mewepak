@@ -15,11 +15,13 @@
   },
   "/about-us/global-reach/": {
     "name": "Global Reach",
-    "description": "From our state-of-the-art manufacturing facility, we serve clients across 40+ countries, delivering premium flexible packaging solutions worldwide."
+    "description": "Prepare a flexible packaging delivery enquiry with destination, sample approvals, quantities and contact information.",
+    "image": "/assets/media/about-details/global-reach.webp"
   },
   "/about-us/impact-report/": {
     "name": "Our Impact Report",
-    "description": "Discover how we’re making a positive difference for our planet, people, and communities through sustainable practices and responsible business operations."
+    "description": "Explore company, site and packaging project reporting scopes, prepare an evidence request and access the supplier document register.",
+    "image": "/assets/media/about-details/impact-report.webp"
   },
   "/about-us/": {
     "name": "Your partner for custom flexible packaging.",
@@ -28,7 +30,8 @@
   },
   "/about-us/quality-certifications/": {
     "name": "Quality Certifications",
-    "description": "Our commitment to quality is validated by industry-leading certifications, ensuring every package meets the highest standards of safety and excellence."
+    "description": "Prepare a flexible packaging supplier review and request available site certificates, declarations, specifications or traceability records.",
+    "image": "/assets/media/about-details/quality-certifications.webp"
   },
   "/added-value/careers/": {
     "name": "Careers at Mewepak",

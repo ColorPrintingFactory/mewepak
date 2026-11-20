@@ -223,6 +223,13 @@ export async function connectStorefront(request, response, database, projectUrl,
   });
   const locations = 'footer ul.space-y-4';
   const { addresses = [], tollFree, frontDesk } = usLocations;
+  if (path === '/about-us/global-reach' && (addresses.length || tollFree || frontDesk)) {
+    const phones = [['Toll-free', tollFree], ['Front desk', frontDesk]].filter(([,number]) => number);
+    on('#company-us-locations', el => el.setInnerContent(
+      `${addresses.length ? `<ul>${addresses.map(address => `<li>${encode(address)}</li>`).join('')}</ul>` : ''}
+      <div class="company-actions">${phones.map(([label, number]) =>
+        `<a class="company-link" href="tel:${usTel(number)}">${label}: ${encode(number)}</a>`).join('')}</div>`, { html: true }));
+  }
   for (let i = 0; i < 3; i++) {
     const row = `${locations} > li:nth-child(${i + 1})`;
     if (addresses[i]) text(row + ' > span', addresses[i]);
@@ -283,7 +290,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=direct-links');
   set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=packaging-2');
-  if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=evidence-topics');
+  if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=company-enquiry');
   if (path === '/booking' || path === '/inquiry') {
     const serviceKey = url.searchParams.get('service');
     const marketKey = url.searchParams.get('market');

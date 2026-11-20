@@ -19,7 +19,7 @@ const pages = {
     title: 'Meet Mewepak and review a sample', short: 'On The Road',
     intro: 'Ask about upcoming trade shows, discuss sample packs online or enquire about visiting the factory.',
     action: ['/contact/?topic=events#project-enquiry', 'Ask about upcoming events'],
-    image: signedPhoto('event-sample-meeting.webp', 'Visitors discussing flexible pouch samples at an exhibition counter', 'Concept visual · packaging sample meeting'),
+    image: signedPhoto('event-sample-meeting-pouch-print.webp', 'Visitors discussing flexible pouch samples at an exhibition counter', 'Concept visual · packaging sample meeting'),
   },
   'keepin-it-green': {
     title: 'Plan a packaging material change', short: 'Keepin’ It Green',
@@ -31,7 +31,7 @@ const pages = {
     title: 'Careers at Mewepak', short: 'Careers',
     intro: 'Explore the work behind a finished pouch, from design and prepress to converting, quality and customer support.',
     action: ['/contact/?topic=careers#project-enquiry', 'Send a careers enquiry'],
-    image: signedPhoto('packaging-careers.webp', 'Packaging specialists examining roll stock and a finished pouch at a workbench', 'Concept visual · careers in packaging'),
+    image: signedPhoto('packaging-careers-pouch-print.webp', 'Packaging specialists examining roll stock and a finished pouch at a workbench', 'Concept visual · careers in packaging'),
   },
   'help-center': {
     title: 'Packaging help centre', short: 'Help Center',
@@ -54,19 +54,19 @@ const pages = {
     title: 'People and responsible operations', short: 'Social Sustainability',
     intro: 'Prepare a supplier review around the sites, training, workplace practices and follow-up records your team needs.',
     action: ['/contact/?topic=social-evidence#project-enquiry', 'Request supplier information'],
-    image: signedPhoto('workplace-training.webp', 'Packaging specialists reviewing pouch samples during a training session', 'Concept visual · workplace training'),
+    image: signedPhoto('workplace-training-pouch-print.webp', 'Packaging specialists reviewing pouch samples during a training session', 'Concept visual · workplace training'),
   },
   'impact-report': {
     title: 'Impact reporting and document access', short: 'Impact Report',
     intro: 'Identify the right record for your supplier assessment, including the year and sites it should cover.',
     action: [reportContact, 'Request a report or supporting data'],
-    image: signedPhoto('supplier-document-review.webp', 'Folders and packaging film samples ready for a supplier document review', 'Concept visual · supplier document review'),
+    image: signedPhoto('supplier-document-review-pouch-print.webp', 'Folders and packaging film samples ready for a supplier document review', 'Concept visual · supplier document review'),
   },
   'lca-tool': {
     title: 'Compare two packaging scenarios', short: 'Life Cycle Analysis Tool',
     intro: 'Use the calculator to compare packaging mass and modelled climate impact. Adjust the assumptions, view the results and export the scenario.',
     action: ['#lca-explorer', 'Open the comparison'],
-    image: signedPhoto('packaging-comparison.webp', 'Two flexible packaging samples beside a laboratory scale', 'Concept visual · comparing pack weight'),
+    image: signedPhoto('packaging-comparison-pouch-print.webp', 'Two flexible packaging samples beside a laboratory scale', 'Concept visual · comparing pack weight'),
   },
 };
 

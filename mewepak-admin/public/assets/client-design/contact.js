@@ -59,7 +59,8 @@
     clearReview();
   }
 
-  const topic = new URLSearchParams(window.location.search).get('topic');
+  const params = new URLSearchParams(window.location.search);
+  const topic = params.get('topic');
   if (Object.hasOwn(modes, topic)) selectMode(topic);
   const topicLabels = {
     events: 'Trade show or event enquiry',
@@ -67,10 +68,29 @@
     'impact-report': 'Supplier documentation request',
     'operations-evidence': 'Environmental operations evidence request',
     'social-evidence': 'Social and workforce evidence request',
+    'delivery-assessment': 'Packaging delivery enquiry',
+    'quality-documentation': 'Supplier quality documentation request',
   };
   if (Object.hasOwn(topicLabels, topic)) {
     selectMode('general');
-    form.elements.notes.value ||= topicLabels[topic] + '\n';
+    const lines = [topicLabels[topic]];
+    if (topic === 'delivery-assessment') {
+      const regions = {
+        'north-america': 'North America', europe: 'Europe', 'asia-pacific': 'Asia Pacific',
+        'middle-east-africa': 'Middle East or Africa', 'latin-america': 'Latin America', other: 'Other or multiple regions',
+      };
+      const region = params.get('region');
+      if (Object.hasOwn(regions, region)) lines.push('Destination region: ' + regions[region]);
+    }
+    if (topic === 'quality-documentation') {
+      const documents = {
+        certificate: 'Certificate or audit record', declaration: 'Material or compliance declaration',
+        specification: 'Specification or test record', traceability: 'Inspection or traceability record', other: 'Other or multiple documents',
+      };
+      const documentKey = params.get('document');
+      if (Object.hasOwn(documents, documentKey)) lines.push('Requested document: ' + documents[documentKey]);
+    }
+    form.elements.notes.value ||= lines.join('\n') + '\n';
   }
 
   for (const button of buttons) {
