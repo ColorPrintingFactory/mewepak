@@ -1,4 +1,5 @@
 import { languageSwitcher } from './i18n.js';
+import { compactHeaderAssets } from './compact-header.js';
 import { processPath } from './cms.js';
 import { previewFormats, studioModelUrl } from './preview-formats.js';
 import { markets } from './recommendations.js';
@@ -336,11 +337,12 @@ export async function connectStorefront(request, response, database, projectUrl,
     const type = article || (pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass)) ? 'article' : pageType;
     el.setAttribute('data-storefront-page', type);
   });
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=flow-header"><script src="/assets/original/storefront-layout.js?v=flow-header" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=flow-header"><script src="/assets/original/storefront-layout.js?v=compact-header" defer></script>', { html: true }));
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
   const switchPath = path === '/' ? '/' : path + '/';
   const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));
+  on('head', (el) => el.append(compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
     if (!settings.factoryEnabled) {

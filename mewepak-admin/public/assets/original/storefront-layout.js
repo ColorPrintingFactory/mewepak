@@ -34,7 +34,8 @@
       const markSection = () => {
         frame = 0;
         if (!contents.offsetWidth) return;
-        const next = headings.findLastIndex(heading => heading.getBoundingClientRect().top <= 32);
+        const inset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingBlockStart) || 0;
+        const next = headings.findLastIndex(heading => heading.getBoundingClientRect().top <= inset + 32);
         if (next === current) return;
         links[current]?.removeAttribute('aria-current');
         links[next]?.setAttribute('aria-current', 'location');
