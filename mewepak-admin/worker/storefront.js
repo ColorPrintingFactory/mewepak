@@ -1,3 +1,4 @@
+import { languageSwitcher } from './i18n.js';
 import { processPath } from './cms.js';
 import { previewFormats, studioModelUrl } from './preview-formats.js';
 import { markets } from './recommendations.js';
@@ -165,11 +166,6 @@ export function rewriteContactEmail(rewriter, email) {
   });
 }
 
-function languageMenu(links) {
-  return `<details class="mewepak-language-menu"><summary aria-label="Language selector">◎ Language</summary><nav aria-label="Available languages">${links.map(({ label, url }) =>
-    `<a href="${encode(url)}">${encode(label)}</a>`).join('')}</nav></details>`;
-}
-
 const dial = (number) => number.replace(/[^+\d]/g, '');
 function usTel(number) {
   const value = dial(number);
@@ -215,7 +211,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     `<li><a href="${processPath}" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Our Process</a></li>`, { html: true }));
   on('[data-mobile-menu] a[href="/sustainability"],[data-mobile-menu] a[href="/sustainability/"]', (el) => el.after(
     `<a class="block py-2 pl-8 pr-4 text-sm !text-gray-700 hover:!text-[#00cfca]" href="${processPath}">Our Process</a>`, { html: true }));
-  const { usLocations = {}, languages = [] } = settings;
+  const { usLocations = {} } = settings;
   set('body', 'data-mewepak-settings', JSON.stringify(settings));
   rewriteContactEmail(rewrite, settings.email);
   if (!settings.email) on('a[href^="mailto:"]', (el) => {
@@ -341,14 +337,10 @@ export async function connectStorefront(request, response, database, projectUrl,
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=site-typography"><script src="/assets/original/storefront-layout.js?v=article-contents" defer></script>', { html: true }));
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css"><script src="/assets/storefront-forms.js?v=verification-3" defer></script>', { html: true }));
-  const languageSelector = 'button[aria-label="Language selector"]';
-  if (languages.length) {
-    const menu = languageMenu(languages);
-    on(languageSelector, (el) => el.replace('<div class="hidden lg:block">' + menu + '</div>', { html: true }));
-    on('[data-mobile-menu] nav', (el) => el.after(menu, { html: true }));
-  } else {
-    on(languageSelector, (el) => el.remove());
-  }
+  const switchPath = path === '/' ? '/' : path + '/';
+  const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));
+  on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
     if (!settings.factoryEnabled) {
       on('.hy-factory', (el) => el.remove());

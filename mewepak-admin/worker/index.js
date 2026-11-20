@@ -1,5 +1,6 @@
 import { dispatchLeadNotifications } from './notifications.js';
-import { optimizePageSeo, seoEndpoint } from './seo.js';
+import { optimizePageSeo, publishedSeoPaths, seoEndpoint, seoPolicy } from './seo.js';
+import { detectLocale, localizedResponse } from './i18n.js';
 import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
 
@@ -356,6 +357,19 @@ export default {
     const getAsset = (path) => fetchStaticAsset(new Request(new URL(path, url)), env, context);
     const seo = await seoEndpoint(request, env, database, getAsset);
     if (seo) return seo;
+    const locale = detectLocale(url.pathname);
+    if (locale) {
+      const policy = seoPolicy(url,env);
+      try {
+        const [paths, settings] = await Promise.all([
+          publishedSeoPaths(database,getAsset), publicSiteSettings(database).catch(() => ({})),
+        ]);
+        const response = await localizedResponse(request, locale, { policy, settings, paths });
+        return withSecurityHeaders(response, url.pathname, env, settings);
+      } catch {
+        return new Response(null,{ status:503, headers:{ 'retry-after':'60', 'x-robots-tag':'noindex' } });
+      }
+    }
     if (url.pathname === '/admin' && ['GET', 'HEAD'].includes(request.method)) {
       url.pathname = '/admin/';
       return Response.redirect(url, 308);

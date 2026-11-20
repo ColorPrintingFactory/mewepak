@@ -1,5 +1,5 @@
 (() => {
-  const forms = document.querySelectorAll('form[data-mewepak-quote], form[data-mewepak-subscribe]');
+  const forms = document.querySelectorAll('form[data-mewepak-quote], form[data-mewepak-subscribe], form[data-mewepak-booking]');
   if (!forms.length) return;
   let protection;
   function loadProtection() {
@@ -34,8 +34,10 @@
 
   for (const form of forms) {
     const quote = form.hasAttribute('data-mewepak-quote');
-    const type = quote ? 'quote' : 'newsletter';
-    const message = form.querySelector(quote ? '[data-quote-message]' : '[data-subscribe-message]');
+    const booking = form.hasAttribute('data-mewepak-booking');
+    const type = booking ? 'booking' : quote ? 'quote' : 'newsletter';
+    const { locale, formSuccess, formFailure, formChecking, formVerification } = form.dataset;
+    const message = form.querySelector(booking ? '[data-booking-message]' : quote ? '[data-quote-message]' : '[data-subscribe-message]');
     const button = form.querySelector('button[type="submit"]');
     if (!message || !button) continue;
     const verification = document.createElement('div');
@@ -80,19 +82,30 @@
       button.disabled = true;
       const inputs = Object.fromEntries(new FormData(form));
       inputs.source_page = location.pathname;
+      if (locale && quote) {
+        inputs.details = [
+          ...['product', 'destination'].filter(name => inputs[name]).map(name => {
+            const label = form.elements[name].labels[0].textContent.trim();
+            return label + ' ' + inputs[name];
+          }),
+          inputs.details,
+        ].join('\n');
+      }
       if (quote && !inputs.product_context) inputs.product_context = new URLSearchParams(location.search).get('product') || '';
       try {
-        const response = await fetch('/api/submissions/' + type, {
+        const response = await fetch(booking ? '/api/bookings' : '/api/submissions/' + type, {
           method: 'POST',
           signal: AbortSignal.timeout(12000),
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ ...inputs, turnstile_token: token }),
         });
         const result = await response.json();
+        if (booking && response.status === 409) form.dispatchEvent(new Event('mwl-booking-conflict'));
         if (!response.ok || !result.ok) throw new Error(result.error || 'Unable to submit. Please try again.');
         form.reset();
+        if (booking) form.dispatchEvent(new Event('mwl-booking-saved'));
         verification.hidden = true;
-        show(quote ? 'Thank you. Your quote request has been received.' : 'Thanks for subscribing.');
+        show(formSuccess || (quote ? 'Thank you. Your quote request has been received.' : 'Thanks for subscribing.'));
       } catch (error) {
         if (error.name === 'TimeoutError') {
           throw new Error('The server is taking too long to respond. Please check your connection and try again.');
@@ -115,28 +128,28 @@
         if (token) return await submit();
         verification.hidden = false;
         if (widget === undefined) {
-          show('Loading verification…');
+          show(formChecking || 'Loading verification…');
           const sitekey = await loadProtection();
           widget = window.turnstile.render(verification, {
-            sitekey, action: type, size: 'flexible', execution: 'execute',
+            sitekey, action: type, size: 'flexible', execution: 'execute', ...(locale ? { language: locale } : {}),
             appearance: 'interaction-only', retry: 'never',
             callback: (value) => {
               if (!pending || sending) return;
               clearTimeout(verificationTimer);
               token = value;
-              show('Sending…');
-              submit().catch((error) => show(error.message || 'Unable to submit. Please try again.', true));
+              show(formChecking || 'Sending…');
+              submit().catch((error) => show(formFailure || error.message || 'Unable to submit. Please try again.', true));
             },
-            'expired-callback': () => failVerification('Verification expired. Please submit again.'),
-            'timeout-callback': () => failVerification('Verification timed out. Please try again.'),
-            'error-callback': () => failVerification('Verification failed. Please try again.'),
+            'expired-callback': () => failVerification(formVerification || 'Verification expired. Please submit again.'),
+            'timeout-callback': () => failVerification(formVerification || 'Verification timed out. Please try again.'),
+            'error-callback': () => failVerification(formVerification || 'Verification failed. Please try again.'),
           });
         }
-        show('Checking verification…');
-        verificationTimer = setTimeout(() => failVerification('Verification is taking too long. Please try again.'), 15000);
+        show(formChecking || 'Checking verification…');
+        verificationTimer = setTimeout(() => failVerification(formVerification || 'Verification is taking too long. Please try again.'), 15000);
         window.turnstile.execute(verification);
       } catch (error) {
-        failVerification(error.message || 'Unable to submit. Please try again.');
+        failVerification(formVerification || error.message || 'Unable to submit. Please try again.');
       } finally {
         if (!sending && !pending) button.disabled = false;
       }

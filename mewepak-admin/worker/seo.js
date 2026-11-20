@@ -1,4 +1,5 @@
 import { catalogPaths } from './cms.js';
+import { alternateTags, localizedPaths } from './i18n.js';
 
 const privatePaths = /^\/(?:admin|api|assets|search)(?:\/|$)/;
 const legacyAliases = new Map([
@@ -16,6 +17,16 @@ export function seoPolicy(url, env) {
     production,
     noindex: !production || privatePaths.test(path) || url.searchParams.has('s'),
   };
+}
+
+export async function publishedSeoPaths(database, getAsset) {
+  const [catalog, baselineResponse, staticRoutes] = await Promise.all([
+    catalogPaths(database), getAsset('/assets/original/cms-baseline.json'), getAsset('/assets/original/public-routes.json'),
+  ]);
+  if (!baselineResponse.ok || !staticRoutes.ok) throw new Error('Route assets unavailable');
+  const [baseline, routes] = await Promise.all([baselineResponse.json(), staticRoutes.json()]);
+  return [...new Set([...catalog, ...routes.filter((path) => !Object.hasOwn(baseline, path))])]
+    .filter((path) => !privatePaths.test(path));
 }
 
 export async function seoEndpoint(request, env, database, getAsset) {
@@ -60,14 +71,8 @@ export async function seoEndpoint(request, env, database, getAsset) {
   }
   if (url.pathname !== '/sitemap.xml') return null;
   try {
-    const [catalog, baselineResponse, staticRoutes] = await Promise.all([
-      catalogPaths(database), getAsset('/assets/original/cms-baseline.json'), getAsset('/assets/original/public-routes.json'),
-    ]);
-    if (!baselineResponse.ok || !staticRoutes.ok) throw new Error('Route assets unavailable');
-    const [baseline, routes] = await Promise.all([baselineResponse.json(), staticRoutes.json()]);
-    const sitemapPaths = [...new Set([...catalog, ...routes.filter((path) => !Object.hasOwn(baseline, path))])]
-      .filter((path) => !privatePaths.test(path))
-      .sort();
+    const paths = await publishedSeoPaths(database, getAsset);
+    const sitemapPaths = [...paths, ...localizedPaths(paths)].sort();
     const body = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
       sitemapPaths.map((path) => `  <url><loc>${new URL(path, policy.origin).href.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>\n';
     return new Response(request.method === 'HEAD' ? null : body, {
@@ -214,6 +219,8 @@ export async function optimizePageSeo(request, response, env, getAsset, data) {
           'og:url': meta.url, 'og:site_name': meta.brand, 'og:type': meta.isArticle ? 'article' : 'website',
         };
         const tags = [`<link rel="canonical" href="${escape(meta.url)}">`];
+        const alternates = alternateTags(policy.path, policy.origin);
+        if (alternates) tags.push(alternates);
         if (meta.description) tags.push(`<meta name="description" content="${escape(meta.description)}">`);
         for (const [key, value] of Object.entries(social)) {
           if (value) tags.push(`<meta property="${key}" content="${escape(value)}">`);
