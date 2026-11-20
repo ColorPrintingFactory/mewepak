@@ -1,0 +1,69 @@
+[data-mewepak-header] [data-home-header-quote] {
+  white-space: nowrap;
+}
+
+[data-mewepak-header] .mw-home-header-appointment,
+[data-mewepak-header] .mw-home-header-mobile-actions > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 6px 16px;
+  border: 1px solid var(--chrome-deep);
+  border-radius: 5px;
+  color: var(--chrome-deep);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+}
+
+[data-mewepak-header] .mw-home-header-appointment:hover {
+  background: var(--chrome-soft);
+}
+
+[data-mewepak-header] .mw-home-header-mobile-actions > a:first-child {
+  background: var(--chrome-deep);
+  color: #fff;
+}
+
+[data-mewepak-header] .mw-home-header-mobile-actions > a:first-child:hover {
+  background: var(--chrome-deep-hover);
+}
+
+[data-mewepak-header] .mw-home-header-appointment:focus-visible,
+[data-mewepak-header] .mw-home-header-mobile-actions > a:focus-visible {
+  outline: 2px solid var(--chrome-accent);
+  outline-offset: 2px;
+}
+
+[data-mewepak-header] .mw-home-header-mobile-actions {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  [data-mewepak-header] .mw-home-header-appointment {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 1023px) {
+  [data-mewepak-header] [data-home-header-quote] + .mw-home-header-appointment {
+    display: none;
+  }
+
+  [data-mewepak-header] .mw-home-header-mobile-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 400px;
+    margin-inline: auto;
+    padding-block: 8px;
+  }
+
+  [data-mewepak-header] .mw-home-header-mobile-actions > a {
+    padding-inline: 8px;
+  }
+}

@@ -202,7 +202,8 @@ export async function connectStorefront(request, response, database, projectUrl,
     else if (href === '/solutions') el.setAttribute('href', '/solutions/');
   });
   const quoteTarget = '/inquiry/#quote-request';
-  set('[data-mewepak-header] a[href="/contact"][class~="h-11"],[data-mobile-menu] a[href="/contact"][class~="h-12"]', 'href', quoteTarget);
+  const headerQuote = '[data-mewepak-header] a[class~="h-11"][href="/contact"],[data-mewepak-header] a[class~="h-11"][href="/inquiry/#quote-request"]';
+  set(headerQuote + ',[data-mobile-menu] a[href="/contact"][class~="h-12"]', 'href', quoteTarget);
   if (path.startsWith('/markets/')) {
     set('main a[href="/contact/"][class~="px-8"][class~="py-3"]', 'href', quoteTarget);
   }
@@ -345,6 +346,17 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
+    const appointment = '<a class="mw-home-header-appointment" href="/booking/">Book a Consultation</a>';
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/home-header-actions.css">', { html: true }));
+    on(headerQuote, (el) => {
+      el.setAttribute('data-home-header-quote', '');
+      el.after(appointment, { html: true });
+    });
+    on('[data-mewepak-header] > .max-w-7xl > .h-16', (el) => el.after(
+      `<div class="mw-home-header-mobile-actions lg:hidden">
+        <a href="${quoteTarget}">Request a Quote</a>
+        ${appointment}
+      </div>`, { html: true }));
     if (!settings.factoryEnabled) {
       on('.hy-factory', (el) => el.remove());
     } else {
