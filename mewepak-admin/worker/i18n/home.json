@@ -11,23 +11,107 @@
   "Films d’emballage en bobine",
   "لفائف أفلام التغليف"
  ],
- "Preview": [
-  "Vorschau",
-  "Vista previa",
-  "Aperçu",
-  "معاينة"
- ],
  "Customer reviews": [
   "Kundenstimmen",
   "Opiniones de clientes",
   "Avis clients",
   "آراء العملاء"
  ],
- "Customer feedback will appear here once it is approved for publication.": [
-  "Hier erscheinen Kundenstimmen, sobald sie zur Veröffentlichung freigegeben sind.",
-  "Aquí se mostrarán las opiniones de clientes cuando se autorice su publicación.",
-  "Les avis clients apparaîtront ici dès que leur publication aura été autorisée.",
-  "ستظهر هنا آراء العملاء بعد الموافقة على نشرها."
+ "Example testimonial": [
+  "Beispiel einer Kundenstimme",
+  "Testimonio de ejemplo",
+  "Exemple de témoignage",
+  "مثال على رأي عميل"
+ ],
+ "Sample buyer": [
+  "Beispielkunde",
+  "Comprador ficticio",
+  "Acheteur fictif",
+  "مشترٍ افتراضي"
+ ],
+ "Previous testimonial": [
+  "Vorherige Kundenstimme",
+  "Testimonio anterior",
+  "Témoignage précédent",
+  "الرأي السابق"
+ ],
+ "Next testimonial": [
+  "Nächste Kundenstimme",
+  "Testimonio siguiente",
+  "Témoignage suivant",
+  "الرأي التالي"
+ ],
+ "Choose a testimonial": [
+  "Kundenstimme auswählen",
+  "Elegir un testimonio",
+  "Choisir un témoignage",
+  "اختر رأيًا"
+ ],
+ "Testimonial": [
+  "Kundenstimme",
+  "Testimonio",
+  "Témoignage",
+  "رأي العميل"
+ ],
+ "Seeing the filled samples side by side made it easier to choose a pouch that sits well on the shelf and shows our artwork clearly.": [
+  "Der direkte Vergleich der gefüllten Muster hat uns geholfen, einen Beutel zu wählen, der sicher im Regal steht und unser Design gut zur Geltung bringt.",
+  "Al comparar las muestras llenas, pudimos elegir una bolsa que se mantiene en pie en el lineal y muestra bien nuestro diseño.",
+  "En comparant les échantillons remplis côte à côte, nous avons pu choisir un sachet qui tient bien en rayon et met notre visuel en valeur.",
+  "ساعدتنا مقارنة العينات المعبأة جنبًا إلى جنب على اختيار كيس يثبت على الرف ويُظهر تصميمنا بوضوح."
+ ],
+ "Coffee packaging project": [
+  "Kaffeeverpackungsprojekt",
+  "Proyecto de envasado de café",
+  "Projet d’emballage pour le café",
+  "مشروع تعبئة القهوة"
+ ],
+ "We compared matte and gloss samples under the same lighting before choosing a finish for our snack range.": [
+  "Vor der Entscheidung für unsere Snackverpackungen haben wir matte und glänzende Muster bei gleicher Beleuchtung verglichen.",
+  "Comparamos muestras mates y brillantes con la misma iluminación antes de elegir el acabado para nuestra gama de aperitivos.",
+  "Nous avons comparé les échantillons mats et brillants sous le même éclairage avant de choisir la finition de notre gamme de snacks.",
+  "قارنّا العينات المطفأة واللامعة تحت الإضاءة نفسها قبل اختيار تشطيب عبوات الوجبات الخفيفة."
+ ],
+ "Snack packaging project": [
+  "Projekt für Snackverpackungen",
+  "Proyecto de envases para aperitivos",
+  "Projet d’emballage pour des snacks",
+  "مشروع تغليف الوجبات الخفيفة"
+ ],
+ "The format comparison helped us narrow down the pouch styles to two options we could trial on our filling line.": [
+  "Mit dem Formatvergleich konnten wir zwei Beutelvarianten auswählen, die wir auf unserer Abfüllanlage testen konnten.",
+  "La comparación de formatos nos permitió seleccionar dos tipos de bolsa para probarlos en nuestra línea de llenado.",
+  "La comparaison des formats nous a permis de retenir deux types de sachets à tester sur notre ligne de remplissage.",
+  "ساعدتنا مقارنة الأشكال على اختيار نوعين من الأكياس لتجربتهما على خط التعبئة."
+ ],
+ "Pouch format project": [
+  "Projekt zur Beutelauswahl",
+  "Proyecto de selección de bolsas",
+  "Projet de sélection de sachets",
+  "مشروع اختيار شكل الكيس"
+ ],
+ "Having the prepress proof in front of us made it easier to catch a small artwork change before the print run.": [
+  "Anhand des Druckproofs haben wir vor dem Auflagendruck noch eine kleine Korrektur am Layout entdeckt.",
+  "Con la prueba de preimpresión delante, pudimos detectar un pequeño ajuste en el diseño antes de la tirada.",
+  "L’épreuve de prépresse nous a aidés à repérer une petite correction du visuel avant le tirage.",
+  "ساعدتنا معاينة الطباعة على ملاحظة تعديل بسيط في التصميم قبل بدء الطباعة."
+ ],
+ "Printed packaging project": [
+  "Projekt für bedruckte Verpackungen",
+  "Proyecto de envases impresos",
+  "Projet d’emballage imprimé",
+  "مشروع عبوات مطبوعة"
+ ],
+ "We used the samples to check how the pouch handled after chilling, including how it opened and sealed.": [
+  "Mit den Mustern haben wir nach dem Kühlen geprüft, wie sich der Beutel handhaben, öffnen und verschließen lässt.",
+  "Usamos las muestras para comprobar cómo se manejaba la bolsa tras la refrigeración, incluida su apertura y su cierre.",
+  "Nous avons utilisé les échantillons pour vérifier la prise en main du sachet après réfrigération, ainsi que son ouverture et sa fermeture.",
+  "استخدمنا العينات للتحقق من سهولة استخدام الكيس بعد التبريد، بما في ذلك طريقة فتحه وإغلاقه."
+ ],
+ "Chilled food packaging project": [
+  "Verpackungsprojekt für gekühlte Lebensmittel",
+  "Proyecto de envases para alimentos refrigerados",
+  "Projet d’emballage pour produits réfrigérés",
+  "مشروع تغليف الأغذية المبردة"
  ],
  "Customized Packaging Factory Since 2007.": [
   "Hersteller flexibler Verpackungen seit 2007.",

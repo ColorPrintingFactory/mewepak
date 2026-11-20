@@ -344,9 +344,12 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/home-sections.css?v=1">', { html: true }));
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/home-sections.css?v=2">', { html: true }));
     on('#mw-markets', (el) => el.after(homeFormatSection, { html: true }));
-    if (showReviewPreview) on('#mw-contact', (el) => el.before(homeReviewsPreview, { html: true }));
+    if (showReviewPreview) {
+      on('head', (el) => el.append('<script src="/assets/client-design/home-reviews.js?v=1" defer></script>', { html: true }));
+      on('#mw-contact', (el) => el.before(homeReviewsPreview, { html: true }));
+    }
     const appointment = '<a class="mw-home-header-appointment" href="/booking/">Book a Consultation</a>';
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/home-header-actions.css">', { html: true }));
     on(headerQuote, (el) => {

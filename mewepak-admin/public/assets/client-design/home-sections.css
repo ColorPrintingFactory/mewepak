@@ -81,31 +81,141 @@
 }
 
 #mewepak-homepage .mw-section.mw-reviews-preview {
-  padding-block: 0 clamp(42px, 5vw, 70px);
+  padding-block: clamp(24px, 3vw, 54px) clamp(52px, 6vw, 86px);
+  background: #fff;
 }
 
-#mewepak-homepage .mw-review-panel {
+#mewepak-homepage .mw-review-carousel {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  grid-template-areas: "prev slides next" ". dots .";
+  align-items: center;
+  column-gap: clamp(20px, 4vw, 64px);
+  row-gap: clamp(18px, 3vw, 42px);
+}
+
+#mewepak-homepage .mw-review-slides { grid-area: slides; }
+
+#mewepak-homepage .mw-review-slide {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
-  overflow: hidden;
-  border: 1px solid #dce8e3;
-  border-radius: 12px;
-  background: #f7faf8;
+  gap: clamp(28px, 5vw, 84px);
 }
 
-#mewepak-homepage .mw-review-copy {
-  padding: clamp(20px, 4vw, 58px);
+#mewepak-homepage .mw-review-controls { display: contents; }
+
+#mewepak-homepage .mw-review-slide[hidden],
+#mewepak-homepage .mw-review-controls[hidden] { display: none; }
+
+#mewepak-homepage .mw-review-copy { margin: 0; }
+
+#mewepak-homepage .mw-review-copy .mw-eyebrow { margin-block-end: 12px; }
+
+#mewepak-homepage .mw-review-copy blockquote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #102b35;
+  font-size: clamp(18px, 1.45vw, 24px);
+  font-style: normal;
+  line-height: 1.55;
 }
 
-#mewepak-homepage .mw-review-copy .mw-description {
-  margin-block-start: 16px;
+#mewepak-homepage .mw-review-copy blockquote p { margin: 0; }
+#mewepak-homepage .mw-review-copy blockquote p::before { content: open-quote; }
+#mewepak-homepage .mw-review-copy blockquote p::after { content: close-quote; }
+
+#mewepak-homepage .mw-review-copy figcaption {
+  display: grid;
+  gap: 4px;
+  margin-block-start: clamp(18px, 3vw, 34px);
+  color: #52656c;
+  font-size: 14px;
+  text-align: start;
 }
 
-#mewepak-homepage .mw-review-panel > img {
+#mewepak-homepage .mw-review-copy figcaption strong { color: #102b35; }
+
+#mewepak-homepage .mw-review-slide > img {
   display: block;
-  width: 100%;
+  justify-self: end;
+  width: min(100%, 444px);
   height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: clamp(14px, 2vw, 24px);
+  background: #f3f7f5;
+}
+
+#mewepak-homepage .mw-review-arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #e1e9e6;
+  border-radius: 12px;
+  background: #fff;
+  color: #52656c;
+  box-shadow: 0 2px 5px #102b3514;
+  cursor: pointer;
+}
+
+#mewepak-homepage .mw-review-prev { grid-area: prev; --mw-review-chevron: 225deg; }
+#mewepak-homepage .mw-review-next { grid-area: next; --mw-review-chevron: 45deg; }
+html[dir="rtl"] #mewepak-homepage .mw-review-prev { --mw-review-chevron: 45deg; }
+html[dir="rtl"] #mewepak-homepage .mw-review-next { --mw-review-chevron: 225deg; }
+
+#mewepak-homepage .mw-review-arrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  transform: rotate(var(--mw-review-chevron));
+}
+
+#mewepak-homepage .mw-review-arrow:is(:hover, :focus-visible),
+#mewepak-homepage .mw-review-next {
+  border-color: #d1e8e2;
+  background: #d1e8e2;
+  color: #1b6b61;
+  box-shadow: none;
+}
+
+#mewepak-homepage .mw-review-dots {
+  grid-area: dots;
+  display: flex;
+  justify-content: center;
+}
+
+#mewepak-homepage .mw-review-dots button {
+  display: grid;
+  place-items: center;
+  width: clamp(24px, 6vw, 36px);
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+#mewepak-homepage .mw-review-dots button::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c6e0da;
+}
+
+#mewepak-homepage .mw-review-dots button:is(:hover, [aria-current="true"])::after {
+  background: #397f72;
+}
+
+#mewepak-homepage .mw-review-controls button:focus-visible {
+  outline: 2px solid #007b79;
+  outline-offset: 2px;
 }
 
 @media (max-width: 780px) {
@@ -117,5 +227,14 @@
   }
   #mewepak-homepage .mw-format-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #mewepak-homepage .mw-format-art { width: 104px; }
-  #mewepak-homepage .mw-review-panel { grid-template-columns: minmax(0, 1fr); }
+  #mewepak-homepage .mw-review-carousel {
+    grid-template-areas: "slides slides slides" "prev dots next";
+    column-gap: 6px;
+    row-gap: 14px;
+  }
+  #mewepak-homepage .mw-review-slide {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  #mewepak-homepage .mw-review-slide > img { justify-self: center; }
 }
