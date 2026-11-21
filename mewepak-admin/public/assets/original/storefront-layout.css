@@ -1,0 +1,571 @@
+/* Typography and content margins shared by the customer designs and catalog templates. */
+:root {
+  --storefront-content: 77.5rem;
+  --storefront-gutter: clamp(1.125rem, 3vw, 2.5rem);
+  --storefront-width: min(var(--storefront-content), calc(100% - 2 * var(--storefront-gutter)));
+  --storefront-section: clamp(2.5rem, 5.3vw, 5rem);
+  --storefront-display: clamp(2.125rem, 1.64rem + 2.4vw, 3.875rem);
+  --storefront-detail: clamp(2rem, 1.55rem + 2vw, 3.5rem);
+  --storefront-heading: clamp(1.625rem, 1.3rem + 1.35vw, 2.5rem);
+  --storefront-card-heading: clamp(1.125rem, 1.02rem + .48vw, 1.375rem);
+  --storefront-body: 1rem;
+  --storefront-card-copy: .9375rem;
+}
+
+#mewepak-homepage main[data-client-page] {
+  color: var(--chrome-deep);
+  font-family: var(--chrome-font);
+  font-size: var(--storefront-body);
+  line-height: 1.6;
+}
+
+#mewepak-homepage main[data-client-page] .mw-inner {
+  width: var(--storefront-width);
+  max-width: var(--storefront-content);
+}
+
+#mewepak-homepage main[data-client-page] :is(h1, h2, h3, h4) {
+  font-family: var(--chrome-font);
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+#mewepak-homepage main[data-client-page] h1 {
+  font-size: var(--storefront-display) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -.043em !important;
+}
+
+#mewepak-homepage main[data-client-page] h2 {
+  font-size: var(--storefront-heading) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.028em !important;
+}
+
+#mewepak-homepage main[data-client-page] :is(h3, .fq-quick h2, .in-empty h2, .ct-resource h2, .qt-support-grid h2) {
+  font-size: var(--storefront-card-heading) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -.014em !important;
+}
+
+#mewepak-homepage main[data-client-page] :is(.ct-form-panel, .qt-panel-header, .qt-guide, .fq-group-heading, .in-feature-copy) h2 {
+  font-size: clamp(1.375rem, 1.2rem + .64vw, 1.875rem) !important;
+  line-height: 1.22 !important;
+}
+
+#mewepak-homepage main[data-client-page="solutions"] .pr-section a > h2 {
+  font-size: var(--storefront-card-heading) !important;
+}
+
+#mewepak-homepage main[data-client-page]
+  :is(.v2-hero-copy, .pk-sky-copy, .mk-hero-copy, .pr-hero-copy, .su-hero-copy, .ab-hero-copy, .ct-intro-copy, .qt-hero-copy, .fq-hero-grid, .in-intro-inner)
+  > p:not([class*="eyebrow"], [class*="kicker"]) {
+  max-width: 52ch;
+  font-size: clamp(1rem, .95rem + .3vw, 1.125rem);
+  line-height: 1.6;
+}
+
+#mewepak-homepage main[data-client-page] :is(.in-card, .mw-blog-content, .mw-product-content, .pr-stage-copy, .ct-help-grid) p {
+  font-size: var(--storefront-card-copy);
+  line-height: 1.6;
+}
+
+#mewepak-homepage main[data-client-page] :is(.in-card-media, .in-feature-media) > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+#mewepak-homepage main[data-client-page] :is(.qt-form, .ct-form, .mk-form-panel, .pk-enquiry-grid, .pr-form-panel)
+  :is(select, textarea, input:not([type="radio"], [type="checkbox"], [type="hidden"], [type="file"])) {
+  min-width: 0;
+  max-width: 100%;
+  font-family: var(--chrome-font);
+  font-size: var(--storefront-body);
+}
+
+[data-mewepak-header] > .max-w-7xl,
+[data-mewepak-header] > div:first-child > .max-w-7xl,
+footer[data-storefront-footer] > .max-w-7xl {
+  width: var(--storefront-width);
+  max-width: var(--storefront-content);
+  padding-inline: 0;
+}
+
+main[data-storefront-page] {
+  --page-gutter: var(--storefront-gutter);
+  --page-section: var(--storefront-section);
+  --page-title: var(--storefront-detail);
+  --page-subtitle: var(--storefront-heading);
+  --page-surface: #f7faf9;
+  --page-tint: #e6f2ee;
+  --page-copy: #526b71;
+  --page-accent: #008a82;
+  --page-radius: 12px;
+  font: var(--storefront-body)/1.65 var(--chrome-font);
+  color: var(--chrome-deep);
+}
+
+@layer utilities {
+  main[data-storefront-page] :is(h1, h2, h3, h4, input, select, textarea, button) {
+    font-family: inherit !important;
+  }
+
+  main[data-storefront-page]:where(:not(.booking-page)) h1 {
+    font-size: var(--page-title) !important;
+    font-weight: 600 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -.045em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  main[data-storefront-page]:where(:not(.booking-page)) h2 {
+    font-size: var(--page-subtitle) !important;
+    font-weight: 600 !important;
+    line-height: 1.14 !important;
+    letter-spacing: -.025em;
+    text-wrap: balance;
+  }
+
+  main[data-storefront-page] h3 {
+    font-size: var(--storefront-card-heading) !important;
+    font-weight: 600 !important;
+    line-height: 1.3;
+  }
+
+  main[data-storefront-page]:where(:not(.booking-page)) :is(h1, h2, h3):not([class*="text-white"], .has-base-color) {
+    color: var(--chrome-deep) !important;
+  }
+
+  main[data-storefront-page]:where(:not(.booking-page)) :is(section, .entry-content) p:not([class*="text-white"], [class*="text-gray-300"], [class*="text-gray-200"]) {
+    color: var(--page-copy);
+  }
+
+  main[data-storefront-page] :is(a, button, input, select, textarea, summary):focus-visible {
+    outline: 2px solid var(--chrome-accent);
+    outline-offset: 3px;
+  }
+
+  main[data-storefront-page] a:is([class*="!bg-[#00cfca]"], [class~="bg-[#00cfca]"], [class~="bg-[#0f4c5c]"], .button-primary, .button-dark),
+  main[data-storefront-page]:where(:not(.booking-page)) :is(.button-primary, button[type="submit"]) {
+    background: var(--chrome-deep) !important;
+    color: #fff !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+  }
+
+  main[data-storefront-page] :is(a, button):is(.button-primary, .button-dark, [class~="bg-[#00cfca]"], [class*="!bg-[#00cfca]"]):hover {
+    background: var(--chrome-deep-hover) !important;
+  }
+
+  main[data-storefront-page] section[class~="bg-[#0f4c5c]"] a[class*="bg-[#00cfca]"],
+  main[data-storefront-page] .mewepak-article-cta a[class*="bg-[#00cfca]"] {
+    background: #e1f3ed !important;
+    color: var(--chrome-deep) !important;
+  }
+
+  main[data-storefront-page="viewer"] .cta-card h2 {
+    color: #fff !important;
+  }
+
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :last-child h2 {
+    font-size: clamp(20px, 2.3vw, 29px) !important;
+  }
+
+}
+
+/* Existing detail pages share the same breadcrumb, introduction and section structure. */
+main[data-storefront-page] > div[class^="mewepak-"] > section,
+main[data-storefront-page="search"] > section {
+  padding-block: var(--page-section);
+}
+
+main[data-storefront-page] > div[class^="mewepak-"] > section > .max-w-7xl,
+main[data-storefront-page] > div[class^="mewepak-"] > div:first-child > .max-w-7xl,
+main[data-storefront-page="article"] > div:first-child > .max-w-7xl {
+  width: var(--storefront-width);
+  max-width: var(--storefront-content);
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+main[data-storefront-page] > div[class^="mewepak-"] > div:first-child.bg-gray-50,
+main[data-storefront-page="article"] > div:first-child.bg-gray-50 {
+  background: #fff;
+  border-color: var(--chrome-line);
+  font-size: 13px;
+}
+
+main[data-storefront-page] > div[class^="mewepak-"] > section:has(h1),
+main[data-storefront-page="viewer"] .preview-hero {
+  background: radial-gradient(ellipse at 88% 39%, var(--page-tint), transparent 70%), #f8fbfa;
+}
+
+main[data-storefront-page] > div[class^="mewepak-"] > section.bg-gray-50 {
+  background: var(--page-surface);
+}
+
+main[data-storefront-page] section[class~="bg-[#0f4c5c]"],
+main[data-storefront-page] .mewepak-article-cta,
+main[data-storefront-page="viewer"] :is(.preview-benefits-section, .cta-card) {
+  background: var(--chrome-deep);
+  color: #fff;
+}
+
+main[data-storefront-page] section[class~="bg-[#0f4c5c]"] p,
+main[data-storefront-page] .mewepak-article-cta p,
+main[data-storefront-page="viewer"] .cta-card p {
+  color: #d9e9e7 !important;
+}
+
+main[data-storefront-page] :is(.mewepak-market-card, .mewepak-market-hero__visual, .mewepak-category-grid__item, .mewepak-article-related, .mewepak-article-cta),
+main[data-storefront-page] > div[class^="mewepak-"] .grid > :is(a, article, div):is(.border, .bg-white):is([class*="rounded"], article) {
+  border-radius: var(--page-radius) !important;
+  border-color: var(--chrome-line);
+}
+
+main[data-storefront-page] > div[class^="mewepak-"] .grid > *,
+main[data-storefront-page] .wp-block-post-template > li {
+  min-width: 0;
+}
+
+main[data-storefront-page="product"] .mewepak-single-product__media-stage,
+main[data-storefront-page="category"] .mewepak-category-hero-media {
+  border-radius: var(--page-radius);
+  background-color: var(--page-surface);
+}
+
+main[data-storefront-page="category"] :is(.mewepak-category-hero-media, .mewepak-category-gallery__thumb > img)[src^="/assets/media/category-renders/"] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) {
+  gap: clamp(20px, 3vw, 44px);
+}
+
+main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :last-child {
+  text-align: start;
+}
+
+@media (min-width: 1024px) {
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) {
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: center;
+  }
+
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :nth-child(2) {
+    grid-area: 1 / 2 / span 2;
+  }
+
+  main[data-storefront-page="category"] .mewepak-product-category > section:has(h1) .grid:has(> .mewepak-reveal > h1) > :last-child {
+    grid-column: 1;
+  }
+}
+
+main[data-storefront-page="category"] .mewepak-category-grid {
+  gap: clamp(12px, 2.5vw, 28px);
+}
+
+main[data-storefront-page="category"] .mewepak-category-grid__media {
+  background: var(--page-surface);
+}
+
+main[data-storefront-page="category"] .mewepak-category-grid__title {
+  letter-spacing: -.01em;
+}
+
+main[data-storefront-page="category"] .mewepak-eco-samples__panel {
+  padding: clamp(20px, 4vw, 50px);
+  border-radius: var(--page-radius);
+}
+
+main[data-storefront-page="category"] .mewepak-eco-samples__sample-art {
+  min-width: 0;
+  gap: clamp(6px, 1.5vw, 16px);
+}
+
+main[data-storefront-page="category"] .mewepak-eco-samples__sample-art > div { min-width: 0; }
+
+@media (max-width: 1023px) {
+  main[data-storefront-page="category"] .mewepak-eco-samples__sample-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+main[data-storefront-page="product"] .mewepak-tab-button[aria-selected="true"] {
+  color: var(--chrome-accent);
+  border-color: var(--chrome-accent);
+}
+
+main[data-storefront-page="article"] > .wp-block-cover {
+  min-height: clamp(300px, 34vw, 490px) !important;
+  padding: var(--page-section) 0 !important;
+}
+
+main[data-storefront-page="article"] > .wp-block-cover > .wp-block-cover__inner-container {
+  width: var(--storefront-width);
+  max-width: var(--storefront-content);
+  padding-inline: 0;
+}
+
+main[data-storefront-page="article"] > .wp-block-cover .wp-block-cover__inner-container > .wp-block-group {
+  margin-inline-start: 0 !important;
+}
+
+main[data-storefront-page="article"] > .wp-block-cover .wp-block-cover__background {
+  background: linear-gradient(90deg, #102b35, #102b359c);
+  opacity: .82;
+}
+
+main[data-storefront-page="article"] > .wp-block-cover[data-article-cover] > .wp-block-cover__background {
+  background: linear-gradient(90deg, #10252fed 10%, #10252fb8 55%, #10252f3d 100%);
+  background-color: transparent !important;
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  main[data-storefront-page="article"] > .wp-block-cover[data-article-cover] > .wp-block-cover__background {
+    background: linear-gradient(90deg, #10252fe0, #10252fb3);
+  }
+}
+
+main[data-storefront-page="article"] .wp-block-post-title {
+  max-width: 22ch;
+  color: #fff !important;
+}
+
+main[data-storefront-page="article"] > .wp-block-columns {
+  display: grid !important;
+  grid-template-columns: minmax(0, 2.16fr) minmax(225px, 1fr);
+  width: var(--storefront-width);
+  margin: 0 auto !important;
+  padding: var(--page-section) 0 !important;
+  align-items: flex-start !important;
+  gap: clamp(26px, 4vw, 58px);
+}
+
+main[data-storefront-page="article"] .entry-content {
+  padding-inline: 0;
+  overflow-wrap: anywhere;
+}
+
+main[data-storefront-page="article"] .entry-content :is(p, li) {
+  font-size: clamp(1rem, .97rem + .18vw, 1.125rem);
+  line-height: 1.75;
+}
+
+main[data-storefront-page="article"] .entry-content > [data-article-body] {
+  --page-subtitle: clamp(1.375rem, 1.18rem + 1vw, 2rem);
+  max-width: 72ch;
+}
+
+main[data-storefront-page="article"] [data-article-body] :is(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+
+main[data-storefront-page="article"] [data-article-body] ul { list-style-type: disc; }
+main[data-storefront-page="article"] [data-article-body] ol { list-style-type: decimal; }
+main[data-storefront-page="article"] [data-article-body] li + li { margin-top: .48em; }
+
+main[data-storefront-page="archive"] .wp-block-query-title {
+  width: min(1240px, 100%);
+  margin: 0 auto clamp(28px, 5vw, 64px);
+}
+
+main[data-storefront-page="archive"] .wp-block-query {
+  width: min(1240px, 100%);
+  margin-inline: auto;
+}
+
+main:is([data-storefront-page="archive"], [data-storefront-page="article"]) .wp-block-post-template {
+  gap: clamp(14px, 2.5vw, 28px);
+}
+
+main[data-storefront-page="archive"] .wp-block-post-template > li {
+  border: 1px solid var(--chrome-line);
+  border-radius: var(--page-radius);
+  overflow: hidden;
+  background: white;
+}
+
+main[data-storefront-page="viewer"] :is(.preview-hero, .preview-tool-section, .preview-steps-section, .cta) {
+  padding-block: var(--page-section);
+}
+
+main[data-storefront-page="viewer"] > section > .container,
+main[data-storefront-page="search"] > section > .container {
+  width: var(--storefront-width);
+  max-width: var(--storefront-content);
+}
+
+main[data-storefront-page="viewer"] .preview-hero h1 span {
+  color: var(--page-accent);
+}
+
+main[data-storefront-page="viewer"] .preview-tool-section {
+  background: var(--page-surface);
+}
+
+main[data-storefront-page="viewer"] :is(.preview-tool-section .mewepak-3d-container, .preview-step-grid article, .cta-card) {
+  border-radius: var(--page-radius);
+  border-color: var(--chrome-line);
+  box-shadow: none;
+}
+
+main[data-storefront-page="viewer"] .preview-step-grid b {
+  color: var(--chrome-deep);
+  background: var(--page-tint);
+}
+
+@media (max-width: 767px) {
+  main[data-storefront-page="article"] > .wp-block-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  main[data-storefront-page="article"] > .wp-block-columns > .wp-block-column {
+    width: 100%;
+  }
+
+  main[data-storefront-page="archive"] .wp-block-post-template {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+}
+
+main[data-storefront-page="booking"] .bk-layout {
+  width: var(--storefront-width);
+  padding-block: var(--page-section);
+}
+
+main[data-storefront-page="booking"] .bk-intro h1 {
+  font-size: var(--storefront-detail);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.043em;
+}
+
+main[data-storefront-page="booking"] .bk-section h2 {
+  font-size: var(--storefront-heading);
+  font-weight: 600;
+  letter-spacing: -.028em;
+}
+
+@media (max-width: 840px) {
+  main[data-storefront-page="booking"] .bk-layout { max-width: 40rem; }
+}
+
+@media (max-width: 430px) {
+  main[data-storefront-page="booking"] .bk-date-group { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 520px) {
+  main[data-storefront-page="archive"] .wp-block-post-template {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+main[data-storefront-page] .mewepak-service-process {
+  background: var(--page-surface);
+  border-block: 1px solid var(--chrome-line);
+  scroll-margin-top: 1rem;
+}
+
+.mewepak-service-process__intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px 28px;
+  margin-bottom: clamp(22px, 3.25vw, 44px);
+}
+
+main[data-storefront-page] .mewepak-service-process__label {
+  margin: 0 0 8px;
+  color: var(--page-accent);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.mewepak-service-process__intro h2,
+.mewepak-service-process__steps h3 {
+  margin: 0;
+}
+
+.mewepak-service-process__intro a {
+  color: var(--chrome-deep);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .24em;
+}
+
+.mewepak-service-process__steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mewepak-service-process__steps li {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  margin: 0;
+  padding: clamp(16px, 2vw, 26px);
+  border: 1px solid var(--chrome-line);
+  border-radius: var(--page-radius);
+  background: #fff;
+}
+
+.mewepak-service-process__number {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--page-tint);
+  color: var(--chrome-deep);
+  font-size: .82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.mewepak-service-process__steps p {
+  margin: 0;
+  font-size: .95rem;
+}
+
+.mewepak-lca-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 22px;
+}
+
+.mewepak-lca-actions .mewepak-lca-actions__contact {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .24em;
+}
+
+@media (max-width: 959px) {
+  .mewepak-service-process__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .mewepak-service-process__steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

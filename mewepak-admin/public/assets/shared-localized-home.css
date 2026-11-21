@@ -1,0 +1,35 @@
+html[lang="de"] #mewepak-homepage .v2-hero-title,
+html[lang="es"] #mewepak-homepage .v2-hero-title,
+html[lang="fr"] #mewepak-homepage .v2-hero-title {
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+html[dir="rtl"] #mewepak-homepage,
+html[dir="rtl"] [data-mewepak-header],
+html[dir="rtl"] [data-mobile-menu],
+html[dir="rtl"] footer {
+  font-family: Tahoma, Arial, sans-serif;
+}
+html[dir="rtl"] #mewepak-homepage :is(h1,h2,h3,.mw-eyebrow) {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+html[dir="rtl"] #mewepak-homepage .hy-product-track {
+  direction: ltr;
+}
+html[dir="rtl"] #mewepak-homepage .hy-product-track > .mw-product {
+  direction: rtl;
+  text-align: start;
+}
+html[dir="rtl"] [data-mewepak-header] [role="search"] button {
+  right: auto;
+  left: 12px;
+}
+html[dir="rtl"] [data-mewepak-header] [role="search"] input {
+  padding-right: 1rem;
+  padding-left: 3rem;
+}
+html[dir="rtl"] #mewepak-homepage :is(#mw-slide-count,#hy-product-page) {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

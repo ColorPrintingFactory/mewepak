@@ -1,0 +1,810 @@
+html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;background:#fff}body{min-width:0}
+
+    #mewepak-homepage{--mw-ink:#21343c;--mw-teal:#00cfca;--mw-deep:#102b35;--mw-muted:#61747b;--mw-line:#e1e9e9;--mw-soft:#f3f7f6;background:#fff;color:var(--mw-ink);font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.55;color-scheme:light;width:100%;min-width:0}
+    #mewepak-homepage *{box-sizing:border-box}
+    #mewepak-homepage [hidden]{display:none!important}
+    #mewepak-homepage button,#mewepak-homepage input{font:inherit}
+    #mewepak-homepage a{color:inherit;text-decoration:none}
+    #mewepak-homepage img{display:block;max-width:100%}
+    #mewepak-homepage p,#mewepak-homepage h2,#mewepak-homepage h3{margin-top:0}
+    #mewepak-homepage .mw-inner{width:calc(100% - 80px);max-width:1240px;margin:0 auto}
+    #mewepak-homepage .mw-topbar{background:var(--mw-deep);color:#e1efee;font-size:11px;letter-spacing:.2px}
+    #mewepak-homepage .mw-topbar .mw-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:32px}
+    #mewepak-homepage .mw-topbar-mail{color:#c2d4d8}
+    #mewepak-homepage .mw-header-row{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:98px}
+    #mewepak-homepage .mw-logo{width:146px;height:auto;object-fit:contain;flex-shrink:0}
+    #mewepak-homepage .mw-nav{display:flex;align-items:center;gap:24px;margin-left:auto}
+    #mewepak-homepage .mw-nav a{font-size:12px;font-weight:600;padding:14px 0;color:#465b63}
+    #mewepak-homepage .mw-nav a:hover{color:#007b79}
+    #mewepak-homepage .mw-quote{display:inline-flex;align-items:center;justify-content:center;gap:17px;min-height:44px;padding:11px 20px;background:var(--mw-deep);color:#fff;border:1px solid var(--mw-deep);border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}
+    #mewepak-homepage .mw-quote:hover{background:#1b4450}
+    #mewepak-homepage .mw-mobile-menu{display:none;border-top:1px solid var(--mw-line);border-bottom:1px solid var(--mw-line)}
+    #mewepak-homepage .mw-mobile-menu summary{padding:12px 0;font-size:13px}
+    #mewepak-homepage .mw-mobile-links{display:flex;flex-wrap:wrap;gap:12px 24px;padding:4px 0 20px;font-size:13px}
+    #mewepak-homepage .mw-hero{padding:0 24px;max-width:1440px;margin:0 auto}
+    #mewepak-homepage .mw-hero-frame{overflow:hidden;border-radius:12px;background:#f5f5ef}
+    #mewepak-homepage .mw-hero-image{width:100%;height:auto;aspect-ratio:8/3;object-fit:contain}
+    #mewepak-homepage .mw-carousel-controls{display:flex;align-items:center;gap:13px;min-height:64px;padding:0 9px;border-bottom:1px solid var(--mw-line)}
+    #mewepak-homepage .mw-slide-count{font-size:11px;color:#5a7178;font-variant-numeric:tabular-nums;min-width:33px}
+    #mewepak-homepage .mw-slide-title{font-size:12px;color:var(--mw-ink);margin-right:auto}
+    #mewepak-homepage .mw-carousel-dots{display:flex;align-items:center;gap:0;margin-right:12px}
+    #mewepak-homepage .mw-carousel-dot{padding:0;border:0;background:transparent;display:grid;place-items:center;width:28px;height:40px}
+    #mewepak-homepage .mw-carousel-dot span{display:block;background:#c5d5d6;border-radius:3px;width:5px;height:5px;transition:width .2s}
+    #mewepak-homepage .mw-carousel-dot[aria-pressed="true"] span{width:20px;background:#008d88}
+    #mewepak-homepage .mw-carousel-arrow{display:grid;place-items:center;min-width:38px;min-height:38px;border:1px solid #d8e4e4;border-radius:50%;background:#fff;color:var(--mw-ink);font-size:19px}
+    #mewepak-homepage .mw-carousel-arrow:hover{background:var(--mw-soft)}
+    #mewepak-homepage .mw-capabilities{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:16px 32px;padding:21px 24px;color:#667c82;font-size:11px;letter-spacing:.2px}
+    #mewepak-homepage .mw-capabilities span{display:flex;align-items:center;gap:9px}
+    #mewepak-homepage .mw-capabilities b{color:#00877e;font-size:13px;font-weight:500}
+    #mewepak-homepage .mw-section{padding:74px 0}
+    #mewepak-homepage .mw-section-header{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:34px}
+    #mewepak-homepage .mw-eyebrow{margin:0 0 13px;color:#087d79;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase}
+    #mewepak-homepage .mw-heading{margin:0;color:var(--mw-ink);font-size:40px;font-weight:600;letter-spacing:-1.6px;line-height:1.12}
+    #mewepak-homepage .mw-heading span{color:#008a85}
+    #mewepak-homepage .mw-description{margin:16px 0 0;color:var(--mw-muted);font-size:14px;line-height:1.7;max-width:380px}
+    #mewepak-homepage .mw-section-aside{max-width:320px;padding-bottom:2px}
+    #mewepak-homepage .mw-section-aside .mw-description{margin:0 0 13px}
+    #mewepak-homepage .mw-text-action{display:inline-flex;align-items:center;gap:9px;background:transparent;border:0;padding:9px 0;color:#007f7a;font-size:12px;font-weight:600;white-space:nowrap}
+    #mewepak-homepage .mw-market-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+    #mewepak-homepage .mw-market{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;width:100%;padding:24px 9px 22px;min-height:136px;border:1px solid #e7eeee;border-radius:7px;background:#f8faf9;color:var(--mw-ink);font-size:12px;line-height:1.4;text-align:center;transition:background .18s,border-color .18s}
+    #mewepak-homepage .mw-market img{width:52px;height:52px;object-fit:contain}
+    #mewepak-homepage .mw-market:hover{border-color:#9ed9d5;background:#eaf7f5}
+    #mewepak-homepage .mw-products{background:#f3f6f4}
+    #mewepak-homepage .mw-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+    #mewepak-homepage .mw-product{min-width:0}
+    #mewepak-homepage .mw-artwork-button{display:block;padding:0;background:transparent;border:0;width:100%;color:inherit;text-align:inherit}
+    #mewepak-homepage .mw-product>.mw-artwork-button{border-radius:9px;overflow:hidden;background:#e8f1ee}
+    #mewepak-homepage .mw-product-image{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;transition:transform .3s}
+    #mewepak-homepage .mw-product>.mw-artwork-button:hover .mw-product-image{transform:scale(1.025)}
+    #mewepak-homepage .mw-product-content{padding:21px 0 0}
+    #mewepak-homepage .mw-product-type{margin:0 0 7px;color:#62777b;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+    #mewepak-homepage .mw-product h3{font-size:19px;line-height:1.35;margin:0 0 8px;font-weight:600;letter-spacing:-.4px;color:var(--mw-ink)}
+    #mewepak-homepage .mw-process{background:var(--mw-deep);padding:64px 0 54px;color:#fff}
+    #mewepak-homepage .mw-process .mw-eyebrow{color:#76d6ce}
+    #mewepak-homepage .mw-process .mw-heading{color:#fff;font-size:34px;max-width:500px}
+    #mewepak-homepage .mw-process .mw-description{color:#b4cbd0;max-width:300px;margin-top:0}
+    #mewepak-homepage .mw-process .mw-section-header{margin-bottom:30px;align-items:flex-end}
+    #mewepak-homepage .mw-process>.mw-inner>.mw-artwork-button{overflow:hidden;border-radius:9px;background:#f6fafa}
+    #mewepak-homepage .mw-process-image{width:100%;height:auto;aspect-ratio:8/5;object-fit:contain}
+    #mewepak-homepage .mw-process-steps{display:none;list-style:none;padding:0;margin:0}
+    #mewepak-homepage .mw-process-steps li{display:flex;gap:13px;padding:18px 0;border-top:1px solid #33505a}
+    #mewepak-homepage .mw-process-steps b{color:#77ddd3;font-size:12px;font-weight:500}
+    #mewepak-homepage .mw-process-steps h3{color:#fff;margin:0 0 5px;font-size:14px;font-weight:500}
+    #mewepak-homepage .mw-process-steps p{color:#b4cbd0;margin:0;font-size:11px}
+    #mewepak-homepage .mw-process-caption{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:19px;font-size:11px;color:#b9cdd1}
+    #mewepak-homepage .mw-process-caption button{border:0;background:transparent;padding:6px 0;color:#91e8df;font-size:12px;white-space:nowrap}
+    #mewepak-homepage .mw-blog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 28px}
+    #mewepak-homepage .mw-blog-card{display:flex;flex-direction:column;min-width:0;padding-bottom:24px;border-bottom:1px solid var(--mw-line)}
+    #mewepak-homepage .mw-blog-card>.mw-artwork-button{border-radius:8px;overflow:hidden}
+    #mewepak-homepage .mw-blog-image{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+    #mewepak-homepage .mw-blog-content{display:flex;flex:1;flex-direction:column;padding:22px 0 0;align-items:flex-start}
+    #mewepak-homepage .mw-blog-type{margin:0 0 11px;color:#00847e;font-size:11px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase}
+    #mewepak-homepage .mw-blog-card h3{font-size:22px;line-height:1.35;margin:0 0 18px;font-weight:500;letter-spacing:-.4px;color:var(--mw-ink);max-width:480px}
+    #mewepak-homepage .mw-read{display:inline-flex;padding:5px 0;margin-top:auto;font-size:12px;font-weight:600;color:#007f7a}
+    #mewepak-homepage .mw-contact{padding:0 0 64px}
+    #mewepak-homepage .mw-contact-panel{background:#dbf5ee;border-radius:10px;padding:43px 45px;display:flex;justify-content:space-between;gap:32px;align-items:center}
+    #mewepak-homepage .mw-contact .mw-heading{font-size:35px;max-width:540px}
+    #mewepak-homepage .mw-contact .mw-description{max-width:500px;margin-top:13px}
+    #mewepak-homepage .mw-footer{background:#f2f6f5;padding:48px 0 22px}
+    #mewepak-homepage .mw-footer-top{display:grid;grid-template-columns:1.2fr .7fr 1fr;gap:50px;padding-bottom:36px}
+    #mewepak-homepage .mw-footer-logo{width:151px;height:auto;object-fit:contain;object-position:left}
+    #mewepak-homepage .mw-footer p{font-size:12px;color:#667c82;margin:16px 0 0;line-height:1.7;max-width:240px}
+    #mewepak-homepage .mw-footer h3{font-size:12px;line-height:1.4;margin:0 0 14px;font-weight:600}
+    #mewepak-homepage .mw-footer-links{display:grid;gap:9px;align-content:start;font-size:12px;color:#5c7279}
+    #mewepak-homepage .mw-footer-contact a{font-size:14px;color:#007f7a}
+    #mewepak-homepage .mw-footer-contact p{margin-top:8px}
+    #mewepak-homepage .mw-footer-bottom{border-top:1px solid #d9e4e2;padding-top:19px;display:flex;justify-content:space-between;gap:20px;font-size:11px;color:#6e8287}
+    #mewepak-homepage .mw-search{display:flex;align-items:center;width:100%;max-width:290px;border:1px solid #ccdcd9;border-radius:5px;height:39px;background:#fff;margin-top:17px}
+    #mewepak-homepage .mw-search input{border:0;background:transparent;padding:8px 10px;min-width:0;width:100%;font-size:12px;color:var(--mw-ink)}
+    #mewepak-homepage .mw-search button{border:0;background:transparent;min-width:43px;min-height:37px;padding:8px;color:#007f7a;font-size:12px}
+    #mewepak-homepage .mw-highlight{outline:3px solid #00cfca85;outline-offset:5px}
+    #mewepak-homepage .mw-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    #mewepak-homepage .mw-dialog{border:1px solid #dfe9eb;border-radius:12px;background:#fff;color:var(--mw-ink);padding:18px;width:min(94vw,1400px);max-height:92vh;overflow:auto}
+    #mewepak-homepage .mw-dialog::backdrop{background:#102b35d9}
+    #mewepak-homepage .mw-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:15px;font-size:15px;font-weight:600}
+    #mewepak-homepage .mw-dialog-head button{border:1px solid #dce7e9;background:#f3f7f6;color:var(--mw-ink);padding:8px 13px;border-radius:5px;font-size:12px;min-height:38px}
+    #mewepak-homepage .mw-dialog-image{width:100%;height:auto;max-height:76vh;object-fit:contain;background:#fff}
+    @media(min-width:1200px){#mewepak-homepage .mw-nav{gap:30px}#mewepak-homepage .mw-nav a{font-size:13px}#mewepak-homepage .mw-header-row{gap:35px}}
+    @media(max-width:900px){#mewepak-homepage .mw-inner{width:calc(100% - 56px)}#mewepak-homepage .mw-header-row{gap:18px;min-height:87px}#mewepak-homepage .mw-nav{gap:17px}#mewepak-homepage .mw-nav a{font-size:11px}#mewepak-homepage .mw-logo{width:130px}#mewepak-homepage .mw-header-row .mw-quote{font-size:11px;padding:10px 13px;gap:9px}#mewepak-homepage .mw-heading{font-size:35px}#mewepak-homepage .mw-section-aside{max-width:270px}#mewepak-homepage .mw-product-grid{gap:18px}#mewepak-homepage .mw-product h3{font-size:17px}#mewepak-homepage .mw-blog-card h3{font-size:20px}}
+    @media(max-width:700px){#mewepak-homepage .mw-inner{width:calc(100% - 36px)}#mewepak-homepage .mw-topbar-mail{display:none}#mewepak-homepage .mw-header-row{min-height:80px}#mewepak-homepage .mw-logo{width:133px}#mewepak-homepage .mw-nav{display:none}#mewepak-homepage .mw-mobile-menu{display:block}#mewepak-homepage .mw-hero{padding:13px 12px 0}#mewepak-homepage .mw-hero-frame{border-radius:6px}#mewepak-homepage .mw-carousel-controls{min-height:58px;gap:7px;padding:0 2px}#mewepak-homepage .mw-slide-title{font-size:11px}#mewepak-homepage .mw-carousel-dots{margin-right:2px}#mewepak-homepage .mw-carousel-dot{width:23px}#mewepak-homepage .mw-carousel-arrow{min-width:34px;min-height:34px}#mewepak-homepage .mw-capabilities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 17px;padding:18px;font-size:11px}#mewepak-homepage .mw-section{padding:45px 0}#mewepak-homepage .mw-section-header{flex-direction:column;align-items:flex-start;gap:20px;margin-bottom:25px}#mewepak-homepage .mw-heading{font-size:31px;letter-spacing:-1px}#mewepak-homepage .mw-eyebrow{font-size:11px;letter-spacing:1.6px;margin-bottom:11px}#mewepak-homepage .mw-section-aside{max-width:100%}#mewepak-homepage .mw-description{font-size:13px}#mewepak-homepage .mw-section-aside .mw-description{max-width:450px;margin-bottom:5px}#mewepak-homepage .mw-market-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}#mewepak-homepage .mw-market{min-height:123px;padding:20px 5px 17px;gap:12px;font-size:11px}#mewepak-homepage .mw-market img{width:45px;height:45px}#mewepak-homepage .mw-product-grid{gap:13px}#mewepak-homepage .mw-product h3{font-size:15px}#mewepak-homepage .mw-product-type{font-size:11px;letter-spacing:0}#mewepak-homepage .mw-process{padding:43px 0 30px}#mewepak-homepage .mw-process .mw-heading{font-size:29px}#mewepak-homepage .mw-process .mw-description{max-width:440px}#mewepak-homepage .mw-process-caption{align-items:flex-start;font-size:11px}#mewepak-homepage .mw-blog-grid{gap:28px 19px}#mewepak-homepage .mw-blog-card h3{font-size:18px}#mewepak-homepage .mw-blog-content{padding-top:16px}#mewepak-homepage .mw-contact{padding-bottom:40px}#mewepak-homepage .mw-contact-panel{padding:28px 25px;align-items:flex-start;flex-direction:column;gap:24px}#mewepak-homepage .mw-contact .mw-heading{font-size:29px}#mewepak-homepage .mw-footer-top{grid-template-columns:1fr 1fr;gap:30px}#mewepak-homepage .mw-footer-contact{grid-column:1/-1}#mewepak-homepage .mw-search{max-width:100%}#mewepak-homepage .mw-search input{font-size:16px}}
+    @media(max-width:480px){#mewepak-homepage .mw-topbar .mw-inner{font-size:11px}#mewepak-homepage .mw-carousel-dots{display:none}#mewepak-homepage .mw-product-grid{grid-template-columns:1fr;gap:30px}#mewepak-homepage .mw-product-image{width:100%;aspect-ratio:4/5;object-fit:cover}#mewepak-homepage .mw-product-content{padding-top:17px}#mewepak-homepage .mw-product h3{font-size:21px}#mewepak-homepage .mw-product-type{font-size:11px;letter-spacing:.5px}#mewepak-homepage .mw-blog-grid{grid-template-columns:1fr;gap:29px}#mewepak-homepage .mw-blog-card h3{font-size:21px}#mewepak-homepage .mw-heading{font-size:29px}#mewepak-homepage .mw-process .mw-inner{width:calc(100% - 24px)}#mewepak-homepage .mw-process-caption{flex-direction:column;gap:7px}#mewepak-homepage .mw-footer-bottom{flex-direction:column;gap:8px}#mewepak-homepage .mw-footer-top{gap:25px}#mewepak-homepage .mw-contact-panel{padding:27px 22px}#mewepak-homepage .mw-contact .mw-heading{font-size:28px}}
+    @media(pointer:coarse){#mewepak-homepage .mw-carousel-arrow,#mewepak-homepage .mw-carousel-dot{min-width:44px;min-height:44px}#mewepak-homepage .mw-text-action,#mewepak-homepage .mw-read,#mewepak-homepage .mw-mobile-links a,#mewepak-homepage .mw-process-caption button{min-height:44px}#mewepak-homepage .mw-process-caption button{padding-top:13px}#mewepak-homepage .mw-footer-links a{padding:10px 0}#mewepak-homepage .mw-dialog-head button{min-height:44px}}
+    @media(max-width:600px){#mewepak-homepage .mw-process>.mw-inner>.mw-artwork-button{display:none}#mewepak-homepage .mw-process-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}#mewepak-homepage .mw-process-caption>span{display:none}}
+    @media(max-width:480px){#mewepak-homepage .mw-market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(prefers-reduced-motion:reduce){#mewepak-homepage *{transition:none!important}}
+  #mewepak-homepage .mw-hero-image{aspect-ratio:8/3;object-fit:contain;background:#f6f6f0}#mewepak-homepage .mw-market-grid{gap:18px}#mewepak-homepage .mw-market{position:relative;min-height:196px;overflow:hidden;border:1px solid #dce8e3;border-radius:9px;background:#f8fbf8;padding:21px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;transition:box-shadow .2s,border-color .2s}#mewepak-homepage .mw-market>img:not(.hy-market-photo){width:112px;height:112px;object-fit:contain;transition:opacity .2s,transform .2s}#mewepak-homepage .mw-market>span{font-size:15px;font-weight:600;line-height:1.3;z-index:2;position:relative;transition:color .2s}#mewepak-homepage .mw-market .hy-market-photo{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;opacity:0;transition:opacity .25s;z-index:1}#mewepak-homepage .mw-market[data-market-photo]:after{content:'';position:absolute;inset:48% 0 0;background:linear-gradient(transparent,#102b35dc);opacity:0;z-index:1;transition:opacity .25s}#mewepak-homepage .mw-market[data-market-photo]:hover .hy-market-photo,#mewepak-homepage .mw-market[data-market-photo]:focus-visible .hy-market-photo,#mewepak-homepage .mw-market.is-pinned .hy-market-photo{opacity:1}#mewepak-homepage .mw-market[data-market-photo]:hover:after,#mewepak-homepage .mw-market[data-market-photo]:focus-visible:after,#mewepak-homepage .mw-market.is-pinned:after{opacity:1}#mewepak-homepage .mw-market[data-market-photo]:hover>img:not(.hy-market-photo),#mewepak-homepage .mw-market.is-pinned>img:not(.hy-market-photo){opacity:0}#mewepak-homepage .mw-market[data-market-photo]:hover>span,#mewepak-homepage .mw-market[data-market-photo]:focus-visible>span,#mewepak-homepage .mw-market.is-pinned>span{color:#fff;transform:none;position:absolute;bottom:15px;left:8px;right:8px;text-align:center;text-shadow:0 1px 5px #102b3580}#mewepak-homepage .mw-market:hover{border-color:#75bcb1;box-shadow:0 10px 28px #102b3510}#mewepak-homepage .hy-market-note{font-size:11px;color:#6b8387;margin:18px 0 0}#mewepak-homepage .hy-product-window{overflow:hidden;width:100%}#mewepak-homepage .mw-product-grid.hy-product-track{display:flex;gap:24px;transition:transform .65s ease;width:100%;will-change:transform}#mewepak-homepage .hy-product-track .mw-product{flex:0 0 calc((100% - 48px)/3);min-width:0}#mewepak-homepage .hy-product-controls{display:flex;align-items:center;gap:9px;margin-top:18px}#mewepak-homepage .hy-gallery-arrow{width:37px;height:37px;border:1px solid #d2e1da;border-radius:50%;background:white;color:#294a50;font-size:18px}#mewepak-homepage .hy-gallery-arrow:hover{background:#e4f5ec}#mewepak-homepage .hy-sustainability{background:#edf4ee;padding:55px 0}#mewepak-homepage .hy-three-r{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}#mewepak-homepage .hy-r-card{padding:29px 29px 26px;background:white;border:1px solid #d6e5da;border-radius:9px;position:relative;overflow:hidden}#mewepak-homepage .hy-r-icon{width:62px;height:62px;padding:12px;background:#dff3e8;border-radius:14px;margin-bottom:21px}#mewepak-homepage .hy-r-card h3{font-size:25px;font-weight:600;line-height:1.2;letter-spacing:-.5px;margin:0 0 12px;color:#21343c}#mewepak-homepage .hy-r-card p{font-size:13px;color:#607b7d;line-height:1.7;max-width:310px;margin:0}#mewepak-homepage .hy-r-number{position:absolute;right:23px;top:25px;font-size:11px;color:#8aa39c;letter-spacing:1px}#mewepak-homepage .hy-factory{padding:59px 0 38px;background:#fff}#mewepak-homepage .hy-factory-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:60px;align-items:center}#mewepak-homepage .hy-factory .mw-heading{font-size:39px;margin-bottom:20px}#mewepak-homepage .hy-video-cover{display:block;width:100%;border:0;padding:0;background:#102b35;border-radius:8px;overflow:hidden;cursor:pointer}#mewepak-homepage .hy-video-cover img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}#mewepak-homepage .hy-video-caption{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:10px;color:#7b8d90;margin-top:12px;letter-spacing:1px;text-transform:uppercase}#mewepak-homepage .mw-process.hy-process-compact{padding:34px 0 39px;background:#f6f8f5;color:#21343c}#mewepak-homepage .hy-process-compact .mw-section-header{margin-bottom:18px;align-items:center}#mewepak-homepage .hy-process-compact .mw-heading{font-size:31px;color:#21343c;letter-spacing:-1px}#mewepak-homepage .hy-process-compact .mw-eyebrow{color:#007e79;margin-bottom:10px}#mewepak-homepage .hy-process-compact .mw-description{color:#647d80;max-width:370px;font-size:12px}#mewepak-homepage .hy-process-compact .mw-process-image{width:100%;height:auto;aspect-ratio:1600/245;object-fit:contain;border:0;border-radius:0;display:block}#mewepak-homepage .hy-process-list{display:none;list-style:none;margin:0;padding:0}#mewepak-homepage .hy-connect{background:#f2f7f4;position:relative;padding:62px 0;overflow:hidden}#mewepak-homepage .hy-connect:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 5% 20%,#c7ede580,transparent 45%),radial-gradient(ellipse at 98% 70%,#c6e7dc80,transparent 42%);pointer-events:none}#mewepak-homepage .hy-connect:after{content:'';position:absolute;width:800px;height:800px;border:1px solid #d5e6dd90;border-radius:50%;left:calc(50% - 400px);top:-320px;pointer-events:none}#mewepak-homepage .hy-connect-grid{position:relative;z-index:1;max-width:1440px;width:calc(100% - 70px);margin:auto;display:grid;grid-template-columns:170px minmax(0,1fr) minmax(0,1fr) 170px;gap:38px;align-items:center}#mewepak-homepage .hy-connect-copy{min-width:0}#mewepak-homepage .hy-connect h2{font-size:36px;font-weight:500;line-height:1.15;letter-spacing:-1.3px;color:#21343c;margin:0 0 21px}#mewepak-homepage .hy-connect p{font-size:13px;color:#647e82;line-height:1.85;margin:0 0 23px}#mewepak-homepage .hy-photo-rail{height:384px;position:relative}#mewepak-homepage .hy-photo-rail img{position:absolute;width:145px;height:189px;object-fit:cover;border:5px solid #fff;border-radius:10px;box-shadow:0 14px 27px #193b3b1f}#mewepak-homepage .hy-photo-rail img:nth-child(1){left:0;top:0;transform:rotate(-7deg)}#mewepak-homepage .hy-photo-rail img:nth-child(2){left:35px;top:102px;transform:rotate(5deg);z-index:2}#mewepak-homepage .hy-photo-rail img:nth-child(3){left:3px;top:210px;transform:rotate(-3deg);z-index:3}#mewepak-homepage .hy-photo-rail-right img:nth-child(1){left:22px;transform:rotate(7deg)}#mewepak-homepage .hy-photo-rail-right img:nth-child(2){left:-9px;transform:rotate(-5deg)}#mewepak-homepage .hy-photo-rail-right img:nth-child(3){left:27px;transform:rotate(3deg)}#mewepak-homepage .hy-subscribe{display:flex;gap:8px;border:1px solid #d7e4dc;padding:7px;border-radius:6px;background:white;max-width:390px}#mewepak-homepage .hy-subscribe input{min-width:0;width:100%;border:0;background:transparent;color:#21343c;font-size:12px;padding:8px 6px;outline:none}#mewepak-homepage .hy-subscribe button{flex-shrink:0;border:0;border-radius:4px;color:white;background:#102b35;padding:11px 14px;font-size:12px;font-weight:600}#mewepak-homepage .hy-subscribe-result{font-size:11px!important;line-height:1.7!important;margin-top:13px!important}#mewepak-homepage .hy-subscribe-result a{color:#007e79;text-decoration:underline}#mewepak-homepage .hy-compact-note{font-size:11px;color:#738c8d;margin:13px 0 0}#mewepak-homepage .hy-connect .mw-quote{min-height:45px;font-size:12px}#mewepak-homepage .hy-connect .mw-eyebrow{font-size:10px;line-height:1.5;color:#007e79;margin-bottom:14px;letter-spacing:1.5px}
+@media(max-width:1100px){#mewepak-homepage .mw-market-grid{gap:14px}#mewepak-homepage .mw-market{min-height:180px}#mewepak-homepage .mw-market>img:not(.hy-market-photo){width:98px;height:98px}#mewepak-homepage .mw-market>span{font-size:14px}#mewepak-homepage .hy-connect-grid{grid-template-columns:125px minmax(0,1fr) minmax(0,1fr) 125px;gap:26px;width:calc(100% - 48px)}#mewepak-homepage .hy-photo-rail img{width:118px;height:155px}#mewepak-homepage .hy-photo-rail{height:334px}#mewepak-homepage .hy-photo-rail img:nth-child(2){left:16px;top:88px}#mewepak-homepage .hy-photo-rail img:nth-child(3){left:0;top:178px}#mewepak-homepage .hy-connect h2{font-size:30px}#mewepak-homepage .hy-connect p{font-size:12px}#mewepak-homepage .hy-subscribe{flex-wrap:wrap}#mewepak-homepage .hy-subscribe button{width:100%}#mewepak-homepage .hy-factory-grid{gap:35px}}
+@media(max-width:760px){#mewepak-homepage .mw-market-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#mewepak-homepage .hy-product-track .mw-product{flex-basis:calc((100% - 24px)/2)}#mewepak-homepage .hy-factory-grid{grid-template-columns:1fr;gap:27px}#mewepak-homepage .hy-factory .mw-heading{font-size:32px}#mewepak-homepage .hy-factory{padding:45px 0 30px}#mewepak-homepage .hy-three-r{gap:15px}#mewepak-homepage .hy-r-card{padding:23px 20px}#mewepak-homepage .hy-r-card h3{font-size:23px}#mewepak-homepage .hy-r-card p{font-size:12px}#mewepak-homepage .hy-r-icon{width:54px;height:54px;padding:10px}#mewepak-homepage .hy-connect-grid{grid-template-columns:1fr 1fr;gap:32px;width:calc(100% - 48px)}#mewepak-homepage .hy-photo-rail{grid-column:1/-1;display:flex;justify-content:center;gap:20px;height:130px}#mewepak-homepage .hy-photo-rail img,#mewepak-homepage .hy-photo-rail-right img{position:static;width:100px;height:128px;transform:none!important}#mewepak-homepage .hy-connect-copy{align-self:start}#mewepak-homepage .hy-connect-grid>.hy-photo-rail-right{grid-row:3}#mewepak-homepage .hy-connect h2{font-size:30px}#mewepak-homepage .hy-subscribe{flex-wrap:nowrap}#mewepak-homepage .hy-subscribe button{width:auto}}
+@media(max-width:600px){#mewepak-homepage .mw-hero-image{aspect-ratio:1080/1250}#mewepak-homepage .mw-market-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}#mewepak-homepage .mw-market{min-height:185px;padding:18px 10px}#mewepak-homepage .mw-market>img:not(.hy-market-photo){width:108px;height:108px}#mewepak-homepage .mw-market>span{font-size:14px}#mewepak-homepage .mw-market[data-market-photo]:hover>span,#mewepak-homepage .mw-market[data-market-photo]:focus-visible>span,#mewepak-homepage .mw-market.is-pinned>span{transform:none;bottom:13px}#mewepak-homepage .hy-product-track .mw-product{flex-basis:100%}#mewepak-homepage .hy-three-r{grid-template-columns:1fr;gap:16px}#mewepak-homepage .hy-r-card{display:grid;grid-template-columns:58px 1fr;gap:6px 19px;padding:23px}#mewepak-homepage .hy-r-icon{grid-row:1/3;margin:0}#mewepak-homepage .hy-r-card h3{margin:0 0 4px}#mewepak-homepage .hy-r-card p{grid-column:2;font-size:12px}#mewepak-homepage .hy-r-number{display:none}#mewepak-homepage .hy-sustainability{padding:42px 0}#mewepak-homepage .hy-process-compact .mw-heading{font-size:28px}#mewepak-homepage .hy-process-compact .mw-section-header{gap:14px;align-items:flex-start}#mewepak-homepage .hy-process-compact .mw-process-image{display:none}#mewepak-homepage .hy-process-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}#mewepak-homepage .hy-process-list li{display:flex;align-items:center;gap:10px;background:white;border:1px solid #dce7e0;border-radius:5px;padding:13px 12px;font-size:13px;font-weight:500;color:#29454b;min-height:67px}#mewepak-homepage .hy-process-list b{font-size:10px;font-weight:600;color:#008780;width:20px;flex-shrink:0}#mewepak-homepage .mw-process.hy-process-compact{padding:32px 0}#mewepak-homepage .hy-connect{padding:38px 0}#mewepak-homepage .hy-connect-grid{grid-template-columns:1fr;gap:30px;width:calc(100% - 36px)}#mewepak-homepage .hy-connect-copy{grid-column:1}#mewepak-homepage .hy-connect-copy:nth-child(2){grid-row:2}#mewepak-homepage .hy-connect-copy:nth-child(3){grid-row:3}#mewepak-homepage .hy-connect-grid>.hy-photo-rail-right{grid-row:4}#mewepak-homepage .hy-photo-rail{gap:12px;height:124px;grid-row:1}#mewepak-homepage .hy-photo-rail img,#mewepak-homepage .hy-photo-rail-right img{width:calc((100% - 24px)/3);max-width:115px;height:124px}#mewepak-homepage .hy-connect h2{font-size:31px;letter-spacing:-1px;margin-bottom:16px}#mewepak-homepage .hy-connect p{font-size:13px;margin-bottom:20px}#mewepak-homepage .hy-subscribe{max-width:100%}}
+@media(prefers-reduced-motion:reduce){#mewepak-homepage .hy-product-track,#mewepak-homepage .mw-market,#mewepak-homepage .hy-market-photo{transition:none!important}}
+
+
+#mewepak-homepage .hy-r-card.hy-r-photo-card{padding:0;display:block;background:#fff;overflow:hidden;border:1px solid #d4e3d9;border-radius:10px}
+#mewepak-homepage .hy-r-photo-card .hy-r-photo{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-bottom:1px solid #e1e9e2}
+#mewepak-homepage .hy-r-photo-copy{padding:23px 25px 27px}
+#mewepak-homepage .hy-r-photo-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}
+#mewepak-homepage .hy-r-photo-card .hy-r-icon{width:42px;height:42px;padding:9px;background:#dff3e8;border-radius:11px;margin:0;grid-row:auto}
+#mewepak-homepage .hy-r-photo-card .hy-r-number{display:block;position:static;font-size:10px;letter-spacing:1.6px;color:#8aa39c;font-weight:400}
+#mewepak-homepage .hy-r-photo-card h3{font-size:25px;font-weight:600;line-height:1.2;letter-spacing:-.5px;margin:0 0 11px;color:#21343c}
+#mewepak-homepage .hy-r-photo-card p{font-size:13px;color:#607b7d;line-height:1.75;max-width:330px;margin:0;grid-column:auto}
+@media(max-width:760px) and (min-width:601px){#mewepak-homepage .hy-three-r{gap:14px}#mewepak-homepage .hy-r-photo-copy{padding:19px 17px 22px}#mewepak-homepage .hy-r-photo-card h3{font-size:23px}#mewepak-homepage .hy-r-photo-card p{font-size:12px}}
+@media(max-width:600px){#mewepak-homepage .hy-sustainability-photos .hy-three-r{gap:23px}#mewepak-homepage .hy-r-photo-copy{padding:21px 23px 25px}#mewepak-homepage .hy-r-photo-meta{margin-bottom:15px}#mewepak-homepage .hy-r-photo-card h3{font-size:25px}#mewepak-homepage .hy-r-photo-card p{font-size:13px;max-width:none}}
+
+/* Mewepak homepage revision: editable additions, scoped to this page. */
+#mewepak-homepage button, #mewepak-homepage a { -webkit-tap-highlight-color: transparent; }
+#mewepak-homepage :is(button,a,input):focus-visible { outline: 3px solid #00b9b1; outline-offset: 4px; }
+#mewepak-homepage .mw-hero { max-width:none; padding:0; overflow:hidden; background:#f8fbfa; }
+#mewepak-homepage .mw-hero-frame { border-radius:0; background:radial-gradient(ellipse at 80% 50%,#e5f3ee 0,transparent 55%),#f8fbfa; }
+#mewepak-homepage .v2-hero-grid { display:grid; grid-template-columns:1fr 1.1fr; min-height:562px; width:calc(100% - 80px); max-width:1240px; margin:auto; align-items:center; }
+#mewepak-homepage .v2-hero-copy { position:relative; z-index:2; padding:38px 0 42px; }
+#mewepak-homepage .v2-hero-copy .mw-eyebrow { letter-spacing:1.7px; margin-bottom:21px; }
+#mewepak-homepage .v2-hero-title { font-size:clamp(40px,4.25vw,62px); line-height:1.04; font-weight:600; letter-spacing:-2.7px; margin:0; max-width:600px; color:#102b35; }
+#mewepak-homepage .v2-hero-title span { color:#008a82; }
+#mewepak-homepage .v2-hero-description { font-size:16px; line-height:1.75; color:#5c7479; max-width:405px; margin:26px 0 28px; }
+#mewepak-homepage .v2-hero-actions { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+#mewepak-homepage .v2-hero-actions .mw-quote { background:#008c84; border-color:#008c84; border-radius:30px; padding:13px 23px; font-size:13px; }
+#mewepak-homepage .v2-hero-art { position:relative; height:562px; min-width:0; }
+#mewepak-homepage .v2-hero-circle { position:absolute; width:690px; height:690px; top:-64px; left:16px; border-radius:50%; border:1px solid #d9e8e1; background:radial-gradient(circle at 42% 40%,#f4faf7,#e4f0e8 65%,#d9eade); }
+#mewepak-homepage .v2-hero-circle:before { content:''; position:absolute; inset:20px; border:1px solid #d0e3d9; border-radius:50%; }
+#mewepak-homepage .v2-hero-circle:after { content:''; position:absolute; inset:43px; border:1px solid #ffffffb3; border-radius:50%; }
+#mewepak-homepage .v2-hero-shot { position:absolute; top:169px; width:210px; height:310px; margin:0; border-radius:17px; overflow:hidden; box-shadow:0 20px 35px #173b351a; border:5px solid #ffffffde; z-index:2; }
+#mewepak-homepage .v2-hero-shot img { height:100%; width:100%; object-fit:cover; }
+#mewepak-homepage .v2-hero-shot:nth-of-type(1) { left:39px; transform:rotate(-11deg); }
+#mewepak-homepage .v2-hero-shot:nth-of-type(2) { left:211px; top:125px; z-index:3; transform:rotate(1deg); }
+#mewepak-homepage .v2-hero-shot:nth-of-type(3) { left:381px; transform:rotate(12deg); }
+#mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(1) { left:125px; top:155px; transform:rotate(-9deg); }
+#mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(2) { left:355px; top:155px; transform:rotate(9deg); }
+#mewepak-homepage .v2-hero-round-caption { position:absolute; left:176px; top:520px; color:#49786b; font-size:10px; text-transform:uppercase; letter-spacing:2.8px; }
+#mewepak-homepage .mw-carousel-controls { max-width:1240px; width:calc(100% - 80px); margin:auto; background:transparent; }
+#mewepak-homepage .hy-product-track .mw-product { flex:0 0 calc((100% - 72px)/4); }
+#mewepak-homepage .hy-product-track .mw-product h3 { font-size:18px; }
+#mewepak-homepage .hy-product-track .mw-product-type { font-size:10px; letter-spacing:.5px; }
+#mewepak-homepage .hy-product-controls { gap:10px; }
+#mewepak-homepage .v2-product-pagination { font-size:11px; color:#6c827d; margin:0 12px; letter-spacing:1px; font-variant-numeric:tabular-nums; }
+#mewepak-homepage .v2-product-pause { border:0; padding:10px 3px; background:transparent; color:#007d77; margin-left:auto; font-size:12px; min-height:40px; cursor:pointer; }
+#mewepak-homepage .hy-r-photo-card .hy-r-photo { aspect-ratio:3/2; }
+#mewepak-homepage .v2-recycling-note { margin:20px 0 0; font-size:11px; color:#6a8078; }
+#mewepak-homepage .hy-factory { padding:62px 0 54px; }
+#mewepak-homepage .v2-factory-intro { display:flex; align-items:flex-end; justify-content:space-between; gap:36px; margin-bottom:28px; }
+#mewepak-homepage .hy-factory .mw-heading { font-size:40px; margin:0; }
+#mewepak-homepage .v2-factory-intro .mw-description { margin:0; max-width:350px; }
+#mewepak-homepage .hy-video-cover { position:relative; border-radius:14px; isolation:isolate; aspect-ratio:2.22; overflow:hidden; }
+#mewepak-homepage .hy-video-cover .v2-cover-background { position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:cover; transition:transform .6s; }
+#mewepak-homepage .hy-video-cover:before { content:''; position:absolute; inset:0; z-index:1; background:linear-gradient(90deg,#062b2552,#03271b0d 55%,#032b2833),linear-gradient(0deg,#021f24c9,transparent 50%); }
+#mewepak-homepage .hy-video-cover:hover .v2-cover-background { transform:scale(1.025); }
+#mewepak-homepage .v2-cover-content { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; color:white; text-align:center; }
+#mewepak-homepage .v2-cover-kicker { color:#d9eee1; font-size:10px; letter-spacing:3.4px; margin-bottom:24px; }
+#mewepak-homepage .hy-video-cover img.v2-cover-logo { position:static; width:clamp(220px,37vw,490px); height:auto; aspect-ratio:auto; filter:brightness(0) invert(1); object-fit:contain; }
+#mewepak-homepage .v2-cover-title { display:block; font-size:clamp(18px,2.25vw,32px); font-weight:700; line-height:1.15; letter-spacing:-.5px; margin-top:17px; max-width:650px; text-transform:uppercase; }
+#mewepak-homepage .v2-cover-play { display:grid; place-items:center; height:52px; width:52px; border:1px solid #ffffffa6; border-radius:50%; margin-top:24px; background:#ffffff14; }
+#mewepak-homepage .v2-cover-play svg { width:18px; height:18px; margin-left:3px; fill:white; }
+#mewepak-homepage .v2-cover-bottom { position:absolute; bottom:20px; left:26px; right:26px; display:flex; justify-content:space-between; gap:20px; color:#d3e7dc; font-size:10px; letter-spacing:1px; text-transform:uppercase; }
+#mewepak-homepage .hy-video-caption { font-size:10px; line-height:1.6; letter-spacing:.4px; text-transform:none; margin-top:12px; }
+#mewepak-homepage .hy-connect { padding:60px 0 30px; background-color:#103e40; color:white; }
+#mewepak-homepage .hy-connect:before { background:linear-gradient(100deg,#102f35ee 5%,#124847ef 58%,#173b33ca); }
+#mewepak-homepage .hy-connect:after { border-color:#d5efe01c; width:1000px; height:1000px; top:-420px; left:calc(50% - 500px); }
+#mewepak-homepage .hy-connect-grid { gap:34px; }
+#mewepak-homepage .hy-connect h2 { color:#fff; font-size:39px; font-weight:600; letter-spacing:-1.4px; }
+#mewepak-homepage .hy-connect p { color:#c1d6d2; }
+#mewepak-homepage .hy-connect .mw-eyebrow { color:#8fe0cc; font-size:10px; }
+#mewepak-homepage .hy-connect .mw-quote { color:#102f35; background:#d6f1dd; border-color:#d6f1dd; border-radius:30px; }
+#mewepak-homepage .hy-subscribe { border-radius:30px; padding:5px; border:0; box-shadow:0 5px 15px #051f242b; }
+#mewepak-homepage .hy-subscribe input { padding-left:14px; }
+#mewepak-homepage .hy-subscribe button { border-radius:25px; background:#008a81; }
+#mewepak-homepage .hy-subscribe-result a { color:#a8eddb; }
+#mewepak-homepage .hy-photo-rail img { border-color:#f0f6ef; box-shadow:0 17px 30px #041d274d; }
+#mewepak-homepage .v2-cert-panel { position:relative; z-index:1; max-width:1240px; width:calc(100% - 80px); margin:52px auto 0; border-top:1px solid #d4e8e032; padding-top:28px; display:grid; grid-template-columns:1fr 2.4fr; gap:35px; align-items:center; }
+#mewepak-homepage .v2-cert-intro h3 { font-size:20px; line-height:1.25; margin:0 0 8px; font-weight:500; letter-spacing:-.4px; color:#f1f8ef; }
+#mewepak-homepage .v2-cert-intro p { font-size:10px; line-height:1.65; margin:0; color:#b5cfc7; max-width:225px; }
+#mewepak-homepage .v2-cert-icons { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+#mewepak-homepage .v2-cert-item { background:#f1f6ed; border:1px solid #ffffff4d; border-radius:8px; padding:15px 6px 12px; text-align:center; color:#245a53; }
+#mewepak-homepage .v2-cert-item img { width:52px; height:52px; margin:auto auto 8px; }
+#mewepak-homepage .v2-cert-item strong { display:block; font-size:11px; line-height:1.4; font-weight:600; }
+#mewepak-homepage .v2-cert-item span { display:block; font-size:8px; letter-spacing:1px; text-transform:uppercase; margin-top:5px; color:#768f84; }
+@media(max-width:1100px) {
+ #mewepak-homepage .v2-hero-title { font-size:46px; letter-spacing:-2px; }
+ #mewepak-homepage .v2-hero-grid { min-height:500px; }
+ #mewepak-homepage .v2-hero-art { height:500px; }
+ #mewepak-homepage .v2-hero-circle { transform:scale(.85); transform-origin:20px center; top:-96px; left:-10px; }
+ #mewepak-homepage .hy-connect h2 { font-size:32px; }
+ #mewepak-homepage .hy-connect .hy-subscribe { border-radius:10px; }
+}
+@media(max-width:900px) {
+ #mewepak-homepage .hy-product-track .mw-product { flex-basis:calc((100% - 24px)/2); }
+ #mewepak-homepage .v2-hero-grid { grid-template-columns:1.1fr 1fr; width:calc(100% - 56px); }
+ #mewepak-homepage .v2-hero-title { font-size:40px; }
+ #mewepak-homepage .v2-hero-description { font-size:14px; max-width:330px; }
+ #mewepak-homepage .v2-hero-circle { transform:scale(.73); left:-30px; top:-105px; }
+ #mewepak-homepage .v2-hero-actions { gap:14px; }
+ #mewepak-homepage .v2-cert-panel { width:calc(100% - 56px); grid-template-columns:1fr; gap:18px; }
+ #mewepak-homepage .v2-cert-intro { display:flex; align-items:center; justify-content:space-between; gap:22px; }
+ #mewepak-homepage .v2-cert-intro p { max-width:290px; }
+}
+@media(max-width:760px) {
+ #mewepak-homepage .hy-connect-grid { gap:30px; }
+ #mewepak-homepage .v2-factory-intro { align-items:flex-start; flex-direction:column; gap:18px; }
+ #mewepak-homepage .hy-factory .mw-heading { font-size:34px; }
+ #mewepak-homepage .v2-cover-bottom { display:none; }
+ #mewepak-homepage .v2-cover-kicker { margin-bottom:16px; }
+ #mewepak-homepage .hy-video-cover { aspect-ratio:1.8; }
+ #mewepak-homepage .v2-cover-play { margin-top:17px; height:44px; width:44px; }
+}
+@media(max-width:600px) {
+ #mewepak-homepage .v2-hero-grid { display:block; width:100%; }
+ #mewepak-homepage .v2-hero-copy { padding:35px 24px 24px; }
+ #mewepak-homepage .v2-hero-copy .mw-eyebrow { font-size:9px; margin-bottom:17px; }
+ #mewepak-homepage .v2-hero-title { font-size:38px; letter-spacing:-1.7px; max-width:400px; }
+ #mewepak-homepage .v2-hero-description { margin:20px 0 20px; font-size:14px; }
+ #mewepak-homepage .v2-hero-actions { gap:19px; }
+ #mewepak-homepage .v2-hero-actions .mw-quote { padding:11px 19px; }
+ #mewepak-homepage .v2-hero-art { height:331px; }
+ #mewepak-homepage .v2-hero-circle { width:440px; height:440px; left:calc(50% - 220px); top:1px; transform:none; }
+ #mewepak-homepage .v2-hero-circle:before { inset:14px; }
+ #mewepak-homepage .v2-hero-circle:after { inset:29px; }
+ #mewepak-homepage .v2-hero-shot { width:132px; height:196px; border-width:4px; border-radius:12px; top:88px; }
+ #mewepak-homepage .v2-hero-shot:nth-of-type(1) { left:35px; }
+ #mewepak-homepage .v2-hero-shot:nth-of-type(2) { left:155px; top:59px; }
+ #mewepak-homepage .v2-hero-shot:nth-of-type(3) { left:272px; }
+ #mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(1) { left:82px; top:75px; }
+ #mewepak-homepage .v2-hero-circle[data-count="2"] .v2-hero-shot:nth-of-type(2) { left:225px; top:75px; }
+ #mewepak-homepage .v2-hero-round-caption { top:313px; left:95px; font-size:8px; letter-spacing:1.5px; }
+ #mewepak-homepage .mw-carousel-controls { width:calc(100% - 36px); }
+ #mewepak-homepage .hy-product-track .mw-product { flex-basis:100%; }
+ #mewepak-homepage .hy-product-track .mw-product h3 { font-size:21px; }
+ #mewepak-homepage .hy-product-track .mw-product-type { font-size:11px; }
+ #mewepak-homepage .v2-product-pagination { margin:0 4px; }
+ #mewepak-homepage .hy-factory { padding:42px 0 34px; }
+ #mewepak-homepage .hy-factory .mw-heading { font-size:30px; }
+ #mewepak-homepage .hy-video-cover { aspect-ratio:1.35; border-radius:10px; }
+ #mewepak-homepage .v2-cover-content { padding:18px; }
+ #mewepak-homepage .v2-cover-kicker { font-size:8px; letter-spacing:2px; margin-bottom:18px; }
+ #mewepak-homepage .hy-video-cover img.v2-cover-logo { width:83%; }
+ #mewepak-homepage .v2-cover-title { font-size:18px; max-width:260px; margin-top:14px; }
+ #mewepak-homepage .v2-cover-play { height:39px; width:39px; margin-top:18px; }
+ #mewepak-homepage .hy-video-caption { align-items:flex-start; gap:14px; font-size:9px; }
+ #mewepak-homepage .hy-connect { padding:38px 0 28px; }
+ #mewepak-homepage .hy-connect h2 { font-size:35px; }
+ #mewepak-homepage .hy-connect .hy-subscribe { border-radius:30px; }
+ #mewepak-homepage .v2-cert-panel { width:calc(100% - 36px); margin-top:34px; padding-top:25px; }
+ #mewepak-homepage .v2-cert-intro { display:block; }
+ #mewepak-homepage .v2-cert-intro h3 { font-size:22px; }
+ #mewepak-homepage .v2-cert-intro p { max-width:100%; }
+ #mewepak-homepage .v2-cert-icons { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+}
+@media(max-width:350px) {
+ #mewepak-homepage .v2-hero-title { font-size:33px; }
+ #mewepak-homepage .v2-hero-copy { padding-inline:18px; }
+ #mewepak-homepage .v2-hero-art { height:291px; }
+ #mewepak-homepage .v2-hero-circle { transform:scale(.88); transform-origin:center top; }
+ #mewepak-homepage .v2-hero-actions { gap:9px; }
+ #mewepak-homepage .v2-cover-kicker { margin-bottom:10px; }
+ #mewepak-homepage .v2-cover-title { font-size:16px; }
+ #mewepak-homepage .v2-cover-play { margin-top:12px; }
+}
+
+
+/* Certification reference strip and background marks — editable design layer. */
+#mewepak-homepage .hy-connect { padding-bottom:34px; }
+#mewepak-homepage .v3-badge-backdrop { position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+#mewepak-homepage .v3-badge-backdrop img { position:absolute; object-fit:contain; max-width:none; filter:grayscale(1) invert(1); mix-blend-mode:screen; opacity:.075; }
+#mewepak-homepage .v3-badge-ghost-a { width:280px; height:280px; left:17%; top:-100px; transform:rotate(-18deg); }
+#mewepak-homepage .v3-badge-ghost-b { width:245px; height:245px; left:45%; top:175px; transform:rotate(14deg); opacity:.045!important; }
+#mewepak-homepage .v3-badge-ghost-c { width:295px; height:295px; right:-74px; top:0; transform:rotate(15deg); }
+#mewepak-homepage .v3-certification-band { position:relative; z-index:2; max-width:1240px; width:calc(100% - 80px); margin:42px auto 0; padding:25px 30px 22px; background:#fff; color:#21343c; border:1px solid #e5ece5; border-radius:11px; box-shadow:0 10px 32px #061e2526; }
+#mewepak-homepage .v3-certification-header { display:flex; justify-content:space-between; align-items:flex-end; gap:30px; padding-bottom:18px; border-bottom:1px solid #e9eeea; }
+#mewepak-homepage .hy-connect .v3-certification-eyebrow { color:#00877f; font-size:9px; font-weight:600; line-height:1.3; letter-spacing:1.6px; text-transform:uppercase; margin:0 0 7px; }
+#mewepak-homepage .v3-certification-header h3 { color:#21343c; font-size:23px; line-height:1.2; font-weight:500; letter-spacing:-.6px; margin:0; }
+#mewepak-homepage .hy-connect .v3-certification-note { color:#6c7e79; font-size:10px; line-height:1.65; max-width:300px; margin:0; text-align:right; }
+#mewepak-homepage .v3-certification-logos { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:18px; padding:22px 0 1px; align-items:center; }
+#mewepak-homepage .v3-cert-logo { border:0; background:transparent; margin:0; padding:3px 0; width:100%; height:108px; cursor:pointer; border-radius:5px; transition:transform .2s; }
+#mewepak-homepage .v3-cert-logo:hover { transform:translateY(-3px); }
+#mewepak-homepage .v3-cert-logo img { display:block; width:100%; height:100%; max-width:132px; max-height:104px; margin:auto; object-fit:contain; }
+#mewepak-homepage .v3-cert-logo[data-cert="cibo-fce"] img { max-height:82px; }
+#mewepak-homepage .v3-cert-logo[data-cert="fsc"] img { max-height:106px; }
+@media(max-width:1000px) {
+ #mewepak-homepage .v3-certification-band { width:calc(100% - 56px); padding:23px 26px 20px; }
+ #mewepak-homepage .v3-certification-logos { gap:15px; }
+ #mewepak-homepage .v3-cert-logo { height:92px; }
+}
+@media(max-width:760px) {
+ #mewepak-homepage .v3-certification-logos { grid-template-columns:repeat(4,minmax(0,1fr)); gap:19px 22px; }
+ #mewepak-homepage .v3-cert-logo { height:104px; }
+ #mewepak-homepage .v3-badge-ghost-a { left:-70px; top:95px; }
+ #mewepak-homepage .v3-badge-ghost-b { top:350px; left:48%; }
+ #mewepak-homepage .v3-badge-ghost-c { top:600px; right:-120px; }
+}
+@media(max-width:600px) {
+ #mewepak-homepage .v3-certification-band { width:calc(100% - 36px); margin-top:30px; padding:22px 18px 20px; }
+ #mewepak-homepage .v3-certification-header { align-items:flex-start; flex-direction:column; gap:12px; padding-bottom:18px; }
+ #mewepak-homepage .v3-certification-header h3 { font-size:24px; }
+ #mewepak-homepage .hy-connect .v3-certification-note { text-align:left; font-size:10px; max-width:100%; }
+ #mewepak-homepage .v3-certification-logos { grid-template-columns:repeat(3,minmax(0,1fr)); gap:19px 14px; padding-top:21px; }
+ #mewepak-homepage .v3-cert-logo { height:99px; }
+ #mewepak-homepage .v3-cert-logo:nth-child(7) { transform:translateX(50%); }
+ #mewepak-homepage .v3-cert-logo:nth-child(8) { transform:translateX(50%); }
+ #mewepak-homepage .v3-cert-logo:nth-child(7):hover,#mewepak-homepage .v3-cert-logo:nth-child(8):hover { transform:translate(50%,-3px); }
+}
+@media(max-width:350px) {
+ #mewepak-homepage .v3-certification-band { padding-inline:15px; }
+ #mewepak-homepage .v3-certification-logos { gap:17px 11px; }
+ #mewepak-homepage .v3-cert-logo { height:84px; }
+}
+
+/* Packaging page — all additions are scoped to .packaging-page. */
+#mewepak-homepage.packaging-page { --pk-green:#00877f; --pk-mint:#edf4ee; --pk-cream:#f6f6ef; }
+#mewepak-homepage.packaging-page :is(button,a,input,select,textarea):focus-visible { outline:3px solid #00aaa3; outline-offset:4px; }
+#mewepak-homepage.packaging-page button { cursor:pointer; }
+#mewepak-homepage.packaging-page .mw-nav a[aria-current="page"] { color:#007e78; box-shadow:inset 0 -2px #00877f; }
+#mewepak-homepage.packaging-page .pk-breadcrumb { display:flex; gap:10px; align-items:center; padding:17px 0; font-size:11px; color:#7a8c87; }
+#mewepak-homepage.packaging-page .pk-breadcrumb a { color:#3d6660; }
+#mewepak-homepage.packaging-page .pk-hero { background:radial-gradient(ellipse at 85% 50%,#dcece0,transparent 54%),#f0f6f1; overflow:hidden; }
+#mewepak-homepage.packaging-page .pk-hero-grid { display:grid; grid-template-columns:1fr 1.05fr; align-items:center; min-height:510px; }
+#mewepak-homepage.packaging-page .pk-eyebrow { color:#00837c; text-transform:uppercase; letter-spacing:1.8px; font-size:10px; font-weight:600; line-height:1.5; margin:0 0 16px; }
+#mewepak-homepage.packaging-page .pk-h1 { color:#102b35; font-size:61px; font-weight:600; line-height:1.02; letter-spacing:-2.8px; margin:0; }
+#mewepak-homepage.packaging-page .pk-h1 em,#mewepak-homepage.packaging-page .pk-h2 em { color:#00877f; font-style:normal; }
+#mewepak-homepage.packaging-page .pk-lead { color:#5f7677; font-size:16px; line-height:1.8; max-width:405px; margin:25px 0 26px; }
+#mewepak-homepage.packaging-page .pk-hero-actions { display:flex; align-items:center; gap:25px; flex-wrap:wrap; }
+#mewepak-homepage.packaging-page .pk-btn { display:inline-flex; align-items:center; justify-content:center; gap:21px; min-height:46px; padding:12px 22px; background:#00877f; border:1px solid #00877f; color:white; border-radius:28px; font:600 12px/1.5 Arial,sans-serif; text-align:center; }
+#mewepak-homepage.packaging-page .pk-btn:hover { background:#006f68; }
+#mewepak-homepage.packaging-page .pk-text-link { display:inline-flex; align-items:center; gap:12px; color:#087b74; font-size:12px; font-weight:600; padding:10px 0; }
+#mewepak-homepage.packaging-page .pk-hero-art { position:relative; height:510px; }
+#mewepak-homepage.packaging-page .pk-hero-circle { position:absolute; width:590px; height:590px; left:25px; top:-40px; border:1px solid #c8dfd0; border-radius:50%; background:radial-gradient(circle at 40% 40%,#edf6ec,#d9ebdc); }
+#mewepak-homepage.packaging-page .pk-hero-circle:before,#mewepak-homepage.packaging-page .pk-hero-circle:after { content:''; position:absolute; border-radius:50%; inset:22px; border:1px solid #ffffffc2; }
+#mewepak-homepage.packaging-page .pk-hero-circle:after { inset:42px; border-color:#c9dfcf; }
+#mewepak-homepage.packaging-page .pk-hero-photo { position:absolute; width:190px; height:284px; margin:0; border:5px solid #fffffff0; border-radius:14px; overflow:hidden; box-shadow:0 15px 30px #23493b1f; z-index:1; }
+#mewepak-homepage.packaging-page .pk-hero-photo img { display:block; height:100%; width:100%; object-fit:cover; }
+#mewepak-homepage.packaging-page .pk-hero-photo:nth-of-type(1) { left:20px; top:141px; transform:rotate(-10deg); }
+#mewepak-homepage.packaging-page .pk-hero-photo:nth-of-type(2) { left:193px; top:100px; transform:rotate(1deg); z-index:2; }
+#mewepak-homepage.packaging-page .pk-hero-photo:nth-of-type(3) { left:365px; top:147px; transform:rotate(11deg); }
+#mewepak-homepage.packaging-page .pk-hero-caption { position:absolute; top:470px; left:130px; font-size:9px; text-transform:uppercase; letter-spacing:2.3px; color:#58816b; }
+#mewepak-homepage.packaging-page .pk-intro-strip { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; padding:23px 0; border-bottom:1px solid #e1e9e4; color:#617a76; font-size:11px; }
+#mewepak-homepage.packaging-page .pk-intro-strip span { display:flex; gap:9px; justify-content:center; align-items:center; }
+#mewepak-homepage.packaging-page .pk-intro-strip b { color:#00877f; font-size:14px; font-weight:400; }
+#mewepak-homepage.packaging-page .pk-section { padding:72px 0; }
+#mewepak-homepage.packaging-page .pk-h2 { color:#21343c; font-size:40px; line-height:1.1; font-weight:600; letter-spacing:-1.5px; margin:0; }
+#mewepak-homepage.packaging-page .pk-section-intro { display:flex; gap:34px; justify-content:space-between; align-items:flex-end; margin-bottom:31px; }
+#mewepak-homepage.packaging-page .pk-section-intro > p { color:#637b78; font-size:14px; line-height:1.75; margin:0; max-width:340px; }
+#mewepak-homepage.packaging-page .pk-tools { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; padding:18px 0 22px; border-top:1px solid #e2eae5; }
+#mewepak-homepage.packaging-page .pk-filters { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
+#mewepak-homepage.packaging-page .pk-filter { border:1px solid #dfe8e2; border-radius:23px; padding:9px 17px; min-height:40px; background:white; color:#60756e; font-size:11px; }
+#mewepak-homepage.packaging-page .pk-filter[aria-pressed="true"] { background:#103d40; border-color:#103d40; color:#fff; }
+#mewepak-homepage.packaging-page .pk-search { display:flex; align-items:center; width:280px; max-width:100%; border:1px solid #d8e3dc; border-radius:6px; background:#fff; min-height:41px; }
+#mewepak-homepage.packaging-page .pk-search svg { width:17px; height:17px; fill:none; stroke:#82958b; stroke-width:1.6; margin-left:13px; flex-shrink:0; }
+#mewepak-homepage.packaging-page .pk-search input { width:100%; min-width:0; border:0; background:transparent; color:#21343c; padding:10px 12px; font:12px Arial,sans-serif; }
+#mewepak-homepage.packaging-page .pk-results { display:flex; justify-content:space-between; gap:20px; margin-bottom:17px; color:#7a8f85; font-size:10px; letter-spacing:.3px; }
+#mewepak-homepage.packaging-page .pk-results p { margin:0; }
+#mewepak-homepage.packaging-page .pk-results button { border:0; background:transparent; color:#00877f; font-size:10px; padding:0; }
+#mewepak-homepage.packaging-page .pk-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:34px 25px; }
+#mewepak-homepage.packaging-page .pk-card { min-width:0; }
+#mewepak-homepage.packaging-page .pk-card-media { position:relative; display:block; width:100%; padding:0; border:0; background:#eaf1e7; border-radius:9px; overflow:hidden; aspect-ratio:4/3; }
+#mewepak-homepage.packaging-page .pk-card-media img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .35s; }
+#mewepak-homepage.packaging-page .pk-card-media.pk-original img { object-fit:contain; }
+#mewepak-homepage.packaging-page .pk-card-media:hover img { transform:scale(1.025); }
+#mewepak-homepage.packaging-page .pk-card-number { position:absolute; top:14px; left:14px; display:grid; place-items:center; width:28px; height:28px; background:#ffffffcf; color:#53756b; border-radius:50%; font-size:9px; }
+#mewepak-homepage.packaging-page .pk-card-copy { padding:18px 1px 0; }
+#mewepak-homepage.packaging-page .pk-card-kicker { color:#7d9087; text-transform:uppercase; letter-spacing:1.1px; font-size:9px; line-height:1.5; margin:0 0 7px; }
+#mewepak-homepage.packaging-page .pk-card h3 { color:#21343c; font-size:23px; font-weight:600; letter-spacing:-.5px; line-height:1.25; margin:0 0 9px; }
+#mewepak-homepage.packaging-page .pk-card-summary { color:#687f78; font-size:12px; line-height:1.75; margin:0 0 9px; max-width:340px; min-height:42px; }
+#mewepak-homepage.packaging-page .pk-card-action { display:flex; width:100%; align-items:center; justify-content:space-between; gap:20px; padding:11px 0; border:0; border-bottom:1px solid #dce6df; color:#00837a; background:transparent; font-size:11px; font-weight:600; text-align:left; }
+#mewepak-homepage.packaging-page .pk-card-action b { font-size:16px; font-weight:400; }
+#mewepak-homepage.packaging-page .pk-empty { padding:55px 25px; border:1px solid #dce8df; border-radius:8px; text-align:center; background:#f7faf6; }
+#mewepak-homepage.packaging-page .pk-empty h3 { font-size:24px; font-weight:500; margin-bottom:12px; }
+#mewepak-homepage.packaging-page .pk-empty p { color:#677f74; font-size:13px; margin-bottom:16px; }
+#mewepak-homepage.packaging-page .pk-catalogue-note { font-size:10px; color:#89978e; margin:23px 0 0; line-height:1.7; }
+#mewepak-homepage.packaging-page .pk-details { background:#f1f5ee; }
+#mewepak-homepage.packaging-page .pk-details-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:75px; align-items:center; }
+#mewepak-homepage.packaging-page .pk-detail-photo { position:relative; margin:0; border-radius:12px; overflow:hidden; background:#e6eddf; }
+#mewepak-homepage.packaging-page .pk-detail-photo img { width:100%; height:auto; aspect-ratio:1/1.05; object-fit:cover; object-position:center; }
+#mewepak-homepage.packaging-page .pk-detail-photo figcaption { padding:18px 22px; font-size:10px; color:#557264; letter-spacing:.5px; background:#e7efdf; }
+#mewepak-homepage.packaging-page .pk-detail-description { color:#677d72; font-size:14px; line-height:1.8; max-width:440px; margin:20px 0 25px; }
+#mewepak-homepage.packaging-page .pk-detail-options { display:grid; grid-template-columns:1fr 1fr; gap:25px 26px; }
+#mewepak-homepage.packaging-page .pk-detail-option { border-top:1px solid #d5e1d4; padding-top:21px; }
+#mewepak-homepage.packaging-page .pk-detail-option img { width:36px; height:36px; margin:0 0 12px; }
+#mewepak-homepage.packaging-page .pk-detail-option h3 { color:#2c4841; font-size:15px; font-weight:600; margin:0 0 7px; line-height:1.4; }
+#mewepak-homepage.packaging-page .pk-detail-option p { color:#6f8477; font-size:12px; line-height:1.75; margin:0; }
+#mewepak-homepage.packaging-page .pk-enquiry { background:#123c40; position:relative; overflow:hidden; }
+#mewepak-homepage.packaging-page .pk-enquiry:before { content:''; position:absolute; width:900px; height:900px; right:-400px; top:-350px; border:1px solid #cbe9d41c; border-radius:50%; box-shadow:0 0 0 55px #ffffff02,0 0 0 56px #e1f3df12; pointer-events:none; }
+#mewepak-homepage.packaging-page .pk-enquiry-grid { position:relative; display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; align-items:start; }
+#mewepak-homepage.packaging-page .pk-enquiry .pk-h2 { color:#fff; font-size:43px; }
+#mewepak-homepage.packaging-page .pk-enquiry .pk-h2 em { color:#b3e8cc; }
+#mewepak-homepage.packaging-page .pk-enquiry .pk-eyebrow { color:#88d5c0; }
+#mewepak-homepage.packaging-page .pk-enquiry-intro { color:#b7d0c8; font-size:14px; line-height:1.85; margin:23px 0 27px; max-width:360px; }
+#mewepak-homepage.packaging-page .pk-brief-steps { list-style:none; padding:0; margin:0 0 27px; }
+#mewepak-homepage.packaging-page .pk-brief-steps li { display:flex; gap:16px; padding:18px 0; border-top:1px solid #5f8b8038; }
+#mewepak-homepage.packaging-page .pk-brief-steps b { color:#9bd8c4; font-size:10px; font-weight:500; width:20px; flex-shrink:0; padding-top:3px; }
+#mewepak-homepage.packaging-page .pk-brief-steps h3 { color:#ebf5eb; font-size:14px; font-weight:500; margin:0 0 5px; }
+#mewepak-homepage.packaging-page .pk-brief-steps p { color:#a1bfb6; font-size:12px; line-height:1.7; margin:0; }
+#mewepak-homepage.packaging-page .pk-email-link { color:#b2e5d1; font-size:14px; border-bottom:1px solid #79c5ac7a; display:inline-block; padding:0 0 6px; }
+#mewepak-homepage.packaging-page .pk-form-panel { background:#fcfdf8; border-radius:13px; padding:33px; color:#24463c; }
+#mewepak-homepage.packaging-page .pk-form-heading { font-size:23px; font-weight:500; letter-spacing:-.5px; margin:0 0 10px; }
+#mewepak-homepage.packaging-page .pk-form-intro { color:#7b8b7e; font-size:12px; line-height:1.75; margin:0 0 23px; }
+#mewepak-homepage.packaging-page .pk-form { display:grid; grid-template-columns:1fr 1fr; gap:19px 17px; }
+#mewepak-homepage.packaging-page .pk-form label { display:grid; gap:8px; font-size:11px; color:#526a5c; }
+#mewepak-homepage.packaging-page .pk-form label > span { display:flex; gap:6px; align-items:baseline; }
+#mewepak-homepage.packaging-page .pk-form label small { color:#95a092; font-size:9px; margin-left:auto; font-weight:400; }
+#mewepak-homepage.packaging-page .pk-form label em { color:#00877f; font-style:normal; }
+#mewepak-homepage.packaging-page .pk-form input,#mewepak-homepage.packaging-page .pk-form select,#mewepak-homepage.packaging-page .pk-form textarea { width:100%; min-width:0; border:1px solid #d7e1d1; border-radius:5px; background:white; color:#284339; font:12px/1.5 Arial,sans-serif; padding:12px; min-height:43px; }
+#mewepak-homepage.packaging-page .pk-form textarea { min-height:104px; resize:vertical; }
+#mewepak-homepage.packaging-page .pk-full { grid-column:1/-1; }
+#mewepak-homepage.packaging-page .pk-form-hint { font-size:10px; color:#81917f; line-height:1.75; margin:0; }
+#mewepak-homepage.packaging-page .pk-form .pk-btn { width:100%; border-radius:6px; }
+#mewepak-homepage.packaging-page .pk-selected-status { color:#00877f; font-size:11px; line-height:1.7; margin:0 0 17px; }
+#mewepak-homepage.packaging-page .pk-review { margin-top:24px; border-top:1px solid #d7e3d0; padding-top:23px; }
+#mewepak-homepage.packaging-page .pk-review h3 { font-size:22px; font-weight:500; margin:0 0 11px; }
+#mewepak-homepage.packaging-page .pk-review p { font-size:12px; color:#6c816e; line-height:1.75; margin:0 0 16px; }
+#mewepak-homepage.packaging-page .pk-review dl { margin:0 0 19px; display:grid; grid-template-columns:1fr 1fr; gap:15px 18px; }
+#mewepak-homepage.packaging-page .pk-review dt { font-size:9px; text-transform:uppercase; letter-spacing:1px; color:#8b9b87; margin-bottom:5px; }
+#mewepak-homepage.packaging-page .pk-review dd { margin:0; font-size:12px; color:#29483b; line-height:1.75; white-space:pre-wrap; overflow-wrap:anywhere; }
+#mewepak-homepage.packaging-page .pk-review-actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px 22px; }
+#mewepak-homepage.packaging-page .pk-download,#mewepak-homepage.packaging-page .pk-edit { border:0; padding:9px 0; background:transparent; color:#00877f; font-size:11px; }
+#mewepak-homepage.packaging-page .pk-edit { margin-top:12px; }
+#mewepak-homepage.packaging-page .pk-faq-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; }
+#mewepak-homepage.packaging-page .pk-faq-list details { border-top:1px solid #dce6dd; padding:20px 0; }
+#mewepak-homepage.packaging-page .pk-faq-list details:last-child { border-bottom:1px solid #dce6dd; }
+#mewepak-homepage.packaging-page .pk-faq-list summary { color:#37564b; font-size:14px; cursor:pointer; line-height:1.6; }
+#mewepak-homepage.packaging-page .pk-faq-list p { color:#738678; font-size:12px; line-height:1.85; margin:15px 0 0; max-width:540px; }
+#mewepak-homepage.packaging-page .pk-dialog { border:1px solid #dae4db; border-radius:12px; padding:0; width:min(94vw,1010px); max-height:89vh; overflow:auto; background:#fcfdf9; color:#29463c; }
+#mewepak-homepage.packaging-page .pk-dialog::backdrop { background:#102b35c9; }
+#mewepak-homepage.packaging-page .pk-dialog-head { display:flex; align-items:center; justify-content:space-between; gap:25px; padding:13px 18px; border-bottom:1px solid #dce6dc; font-size:10px; text-transform:uppercase; letter-spacing:1.3px; color:#6d8475; }
+#mewepak-homepage.packaging-page .pk-dialog-head button { border:1px solid #d5e2d4; background:white; color:#385648; font-size:11px; padding:7px 12px; border-radius:5px; min-height:36px; text-transform:none; letter-spacing:0; }
+#mewepak-homepage.packaging-page .pk-dialog-grid { display:grid; grid-template-columns:1fr 1fr; min-height:440px; }
+#mewepak-homepage.packaging-page .pk-dialog-image { width:100%; height:100%; object-fit:contain; background:#edf2e7; max-height:600px; }
+#mewepak-homepage.packaging-page .pk-dialog-copy { padding:35px; }
+#mewepak-homepage.packaging-page .pk-dialog-copy h2 { font-size:32px; line-height:1.15; font-weight:500; letter-spacing:-1px; margin:0 0 18px; }
+#mewepak-homepage.packaging-page .pk-dialog-description { color:#6e8475; font-size:13px; line-height:1.8; margin:0 0 22px; }
+#mewepak-homepage.packaging-page .pk-dialog-subtitle { font-size:10px; letter-spacing:1.1px; text-transform:uppercase; margin:0 0 9px; color:#7b927f; }
+#mewepak-homepage.packaging-page .pk-dialog-list { list-style:none; margin:0 0 26px; padding:0; }
+#mewepak-homepage.packaging-page .pk-dialog-list li { padding:10px 0; border-bottom:1px solid #e0e8db; font-size:12px; line-height:1.65; color:#45634e; }
+@media(max-width:1100px) {
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:52px; }
+ #mewepak-homepage.packaging-page .pk-hero-circle { left:-18px; transform:scale(.88); transform-origin:top left; top:0; }
+ #mewepak-homepage.packaging-page .pk-details-grid { gap:40px; }
+ #mewepak-homepage.packaging-page .pk-enquiry-grid,#mewepak-homepage.packaging-page .pk-faq-grid { gap:42px; }
+ #mewepak-homepage.packaging-page .pk-form-panel { padding:27px; }
+}
+@media(max-width:900px) {
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:46px; letter-spacing:-2px; }
+ #mewepak-homepage.packaging-page .pk-hero-circle { transform:scale(.74); left:-32px; top:34px; }
+ #mewepak-homepage.packaging-page .pk-hero-grid,#mewepak-homepage.packaging-page .pk-hero-art { min-height:460px; height:460px; }
+ #mewepak-homepage.packaging-page .pk-lead { font-size:14px; }
+ #mewepak-homepage.packaging-page .pk-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 22px; }
+ #mewepak-homepage.packaging-page .pk-h2 { font-size:35px; }
+ #mewepak-homepage.packaging-page .pk-enquiry-grid { grid-template-columns:.85fr 1.15fr; gap:29px; }
+ #mewepak-homepage.packaging-page .pk-enquiry .pk-h2 { font-size:35px; }
+ #mewepak-homepage.packaging-page .pk-form-panel { padding:24px; }
+ #mewepak-homepage.packaging-page .pk-form { gap:16px 13px; }
+}
+@media(max-width:700px) {
+ #mewepak-homepage.packaging-page .pk-hero-grid { display:block; height:auto; }
+ #mewepak-homepage.packaging-page .pk-hero-copy { padding-top:37px; }
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:47px; }
+ #mewepak-homepage.packaging-page .pk-lead { max-width:440px; margin:21px 0 22px; }
+ #mewepak-homepage.packaging-page .pk-hero-art { height:345px; min-height:0; }
+ #mewepak-homepage.packaging-page .pk-hero-circle { transform:scale(.69); transform-origin:top center; left:calc(50% - 295px); top:25px; }
+ #mewepak-homepage.packaging-page .pk-hero-caption { top:440px; }
+ #mewepak-homepage.packaging-page .pk-intro-strip { grid-template-columns:1fr 1fr; gap:13px 18px; padding:20px 0; font-size:10px; }
+ #mewepak-homepage.packaging-page .pk-intro-strip span { justify-content:flex-start; }
+ #mewepak-homepage.packaging-page .pk-section { padding:45px 0; }
+ #mewepak-homepage.packaging-page .pk-section-intro { flex-direction:column; align-items:flex-start; gap:18px; margin-bottom:24px; }
+ #mewepak-homepage.packaging-page .pk-section-intro > p { max-width:420px; font-size:13px; }
+ #mewepak-homepage.packaging-page .pk-h2 { font-size:33px; }
+ #mewepak-homepage.packaging-page .pk-tools { align-items:flex-start; gap:16px; }
+ #mewepak-homepage.packaging-page .pk-search { width:100%; }
+ #mewepak-homepage.packaging-page .pk-search input { font-size:16px; }
+ #mewepak-homepage.packaging-page .pk-filter { padding:8px 13px; font-size:10px; }
+ #mewepak-homepage.packaging-page .pk-results { font-size:10px; gap:15px; }
+ #mewepak-homepage.packaging-page .pk-details-grid { grid-template-columns:1fr; gap:30px; }
+ #mewepak-homepage.packaging-page .pk-detail-photo { max-width:500px; }
+ #mewepak-homepage.packaging-page .pk-detail-photo img { aspect-ratio:4/3; object-position:center 38%; }
+ #mewepak-homepage.packaging-page .pk-detail-description { max-width:100%; font-size:13px; }
+ #mewepak-homepage.packaging-page .pk-enquiry-grid,#mewepak-homepage.packaging-page .pk-faq-grid { grid-template-columns:1fr; gap:31px; }
+ #mewepak-homepage.packaging-page .pk-enquiry .pk-h2 { font-size:37px; }
+ #mewepak-homepage.packaging-page .pk-enquiry-intro { max-width:100%; }
+ #mewepak-homepage.packaging-page .pk-brief-steps li { padding:14px 0; }
+ #mewepak-homepage.packaging-page .pk-form input,#mewepak-homepage.packaging-page .pk-form select,#mewepak-homepage.packaging-page .pk-form textarea { font-size:16px; }
+ #mewepak-homepage.packaging-page .pk-dialog-grid { grid-template-columns:1fr; }
+ #mewepak-homepage.packaging-page .pk-dialog-image { height:230px; }
+ #mewepak-homepage.packaging-page .pk-dialog-copy { padding:27px; }
+}
+@media(max-width:480px) {
+ #mewepak-homepage.packaging-page .pk-hero-copy { padding-top:31px; }
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:44px; letter-spacing:-2px; }
+ #mewepak-homepage.packaging-page .pk-hero-art { height:315px; }
+ #mewepak-homepage.packaging-page .pk-hero-circle { transform:scale(.61); top:24px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions { gap:21px; }
+ #mewepak-homepage.packaging-page .pk-card-grid { grid-template-columns:1fr; gap:30px; }
+ #mewepak-homepage.packaging-page .pk-card h3 { font-size:24px; }
+ #mewepak-homepage.packaging-page .pk-card-summary { min-height:0; font-size:13px; }
+ #mewepak-homepage.packaging-page .pk-card-copy { padding-top:17px; }
+ #mewepak-homepage.packaging-page .pk-details-grid { gap:28px; }
+ #mewepak-homepage.packaging-page .pk-detail-options { gap:22px 18px; }
+ #mewepak-homepage.packaging-page .pk-form-panel { padding:25px 20px; }
+ #mewepak-homepage.packaging-page .pk-form { grid-template-columns:1fr; gap:17px; }
+ #mewepak-homepage.packaging-page .pk-form label { font-size:12px; }
+ #mewepak-homepage.packaging-page .pk-form-heading { font-size:24px; }
+ #mewepak-homepage.packaging-page .pk-review dl { grid-template-columns:1fr; gap:13px; }
+ #mewepak-homepage.packaging-page .pk-dialog-copy { padding:23px; }
+ #mewepak-homepage.packaging-page .pk-dialog-copy h2 { font-size:29px; }
+}
+@media(max-width:350px) {
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:39px; }
+ #mewepak-homepage.packaging-page .pk-hero-circle { transform:scale(.53); }
+ #mewepak-homepage.packaging-page .pk-hero-art { height:279px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions { gap:15px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions .pk-btn { padding-inline:16px; }
+ #mewepak-homepage.packaging-page .pk-filter { font-size:10px; padding-inline:10px; }
+ #mewepak-homepage.packaging-page .pk-h2 { font-size:30px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ html { scroll-behavior:auto; }
+ #mewepak-homepage.packaging-page * { scroll-behavior:auto!important; transition:none!important; }
+}
+
+/* Professional Packaging page — second-page design refinements. */
+html { scroll-behavior:smooth; }
+#mewepak-homepage.packaging-page [hidden] { display:none!important; }
+#mewepak-homepage.packaging-page { --pk-line:#dce5dd; --pk-dark:#143c3e; }
+#mewepak-homepage.packaging-page .pk-hero-grid { grid-template-columns:1.08fr 1fr; min-height:510px; }
+#mewepak-homepage.packaging-page .pk-h1 { font-size:61px; letter-spacing:-2.8px; line-height:1.06; }
+#mewepak-homepage.packaging-page .pk-lead { max-width:450px; font-size:16px; }
+#mewepak-homepage.packaging-page .pk-eyebrow { font-size:11px; letter-spacing:1.9px; }
+#mewepak-homepage.packaging-page .pk-hero-copy { position:relative; z-index:2; }
+#mewepak-homepage.packaging-page .pk-hero-art { min-width:0; }
+#mewepak-homepage.packaging-page .pk-h2 { font-size:43px; letter-spacing:-1.7px; }
+#mewepak-homepage.packaging-page .pk-btn { min-height:48px; font-size:13px; }
+#mewepak-homepage.packaging-page .pk-text-link { font-size:13px; }
+#mewepak-homepage.packaging-page .pk-section { padding:76px 0; }
+#mewepak-homepage.packaging-page .pk-section-intro > p { max-width:370px; font-size:15px; }
+#mewepak-homepage.packaging-page .pk-page-nav { display:flex; justify-content:center; gap:34px; padding:19px 20px; border-bottom:1px solid var(--pk-line); background:#fff; }
+#mewepak-homepage.packaging-page .pk-page-nav a { font-size:12px; color:#55736a; padding:4px 0; }
+#mewepak-homepage.packaging-page .pk-page-nav a:last-child { color:#00877f; font-weight:600; }
+#mewepak-homepage.packaging-page .pk-filter { font-size:12px; min-height:42px; }
+#mewepak-homepage.packaging-page .pk-search { width:290px; }
+#mewepak-homepage.packaging-page .pk-search input { font-size:13px; padding:13px; }
+#mewepak-homepage.packaging-page .pk-results { font-size:11px; margin-bottom:21px; }
+#mewepak-homepage.packaging-page .pk-results button { font-size:11px; }
+#mewepak-homepage.packaging-page .pk-card-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:35px 24px; align-items:stretch; }
+#mewepak-homepage.packaging-page .pk-card { display:flex; flex-direction:column; }
+#mewepak-homepage.packaging-page .pk-card-media { aspect-ratio:1.18; border-radius:10px; }
+#mewepak-homepage.packaging-page .pk-card-media img { object-fit:cover; }
+#mewepak-homepage.packaging-page .pk-card-media.pk-original img { object-fit:contain; }
+#mewepak-homepage.packaging-page .pk-card-number { width:29px; height:29px; font-size:10px; }
+#mewepak-homepage.packaging-page .pk-card-copy { display:flex; flex:1; flex-direction:column; padding-top:18px; }
+#mewepak-homepage.packaging-page .pk-card h3 { font-size:23px; line-height:1.23; margin-bottom:11px; }
+#mewepak-homepage.packaging-page .pk-card-kicker { font-size:9px; letter-spacing:1px; min-height:27px; margin-bottom:5px; }
+#mewepak-homepage.packaging-page .pk-card-summary { font-size:13px; line-height:1.7; min-height:67px; margin-bottom:12px; }
+#mewepak-homepage.packaging-page .pk-card-tags { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 13px; padding:0; list-style:none; }
+#mewepak-homepage.packaging-page .pk-card-tags li { color:#62796a; font-size:10px; line-height:1.6; background:#f1f5ee; border:1px solid #e3eade; padding:3px 7px; border-radius:3px; }
+#mewepak-homepage.packaging-page .pk-card-action { margin-top:auto; padding:12px 0; font-size:12px; min-height:43px; }
+#mewepak-homepage.packaging-page .pk-help-card { grid-column:span 2; border-radius:10px; padding:36px 35px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; background:#123d40; color:#ecf5eb; min-height:340px; }
+#mewepak-homepage.packaging-page .pk-help-card .pk-eyebrow { font-size:10px; color:#91cfb7; position:relative; z-index:1; }
+#mewepak-homepage.packaging-page .pk-help-card h3 { color:#fff; font-size:36px; line-height:1.12; letter-spacing:-1px; margin:0 0 17px; font-weight:500; position:relative; z-index:1; }
+#mewepak-homepage.packaging-page .pk-help-card > p:not(.pk-eyebrow) { color:#b4cfc2; font-size:14px; line-height:1.7; margin:0 0 23px; position:relative; z-index:1; }
+#mewepak-homepage.packaging-page .pk-help-card .pk-btn { background:#d2ead8; border-color:#d2ead8; color:#174b42; border-radius:5px; font-size:12px; position:relative; z-index:1; }
+#mewepak-homepage.packaging-page .pk-help-card .pk-btn:hover { background:#e5f4e8; }
+#mewepak-homepage.packaging-page .pk-help-circle { position:absolute; width:350px; height:350px; right:-190px; top:35px; border:1px solid #6a9e862e; border-radius:50%; box-shadow:0 0 0 35px #6a9e8610,0 0 0 70px #6a9e860c; }
+#mewepak-homepage.packaging-page .pk-catalogue-note { font-size:11px; line-height:1.8; color:#6f8376; }
+#mewepak-homepage.packaging-page .pk-markets { background:#f7f8f2; }
+#mewepak-homepage.packaging-page .pk-market-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; }
+#mewepak-homepage.packaging-page .pk-market { display:block; border:0; padding:0; border-radius:9px; overflow:hidden; background:#fff; color:#24423b; text-align:left; }
+#mewepak-homepage.packaging-page .pk-market img { display:block; width:100%; height:auto; aspect-ratio:1.22; object-fit:cover; transition:filter .25s; }
+#mewepak-homepage.packaging-page .pk-market:hover img { filter:saturate(1.12); }
+#mewepak-homepage.packaging-page .pk-market > span { display:flex; align-items:center; justify-content:space-between; gap:15px; padding:18px; font-size:16px; font-weight:600; }
+#mewepak-homepage.packaging-page .pk-market b { font-size:18px; font-weight:400; color:#00877f; }
+#mewepak-homepage.packaging-page .pk-details { background:#edf3ea; }
+#mewepak-homepage.packaging-page .pk-detail-photo img { aspect-ratio:1.12; }
+#mewepak-homepage.packaging-page .pk-detail-description { font-size:15px; max-width:490px; }
+#mewepak-homepage.packaging-page .pk-detail-option img { width:42px; height:42px; }
+#mewepak-homepage.packaging-page .pk-detail-option h3 { font-size:16px; }
+#mewepak-homepage.packaging-page .pk-detail-option p { font-size:13px; }
+#mewepak-homepage.packaging-page .pk-start { background:#fff; }
+#mewepak-homepage.packaging-page .pk-project-steps { list-style:none; padding:0; margin:36px 0 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:38px; }
+#mewepak-homepage.packaging-page .pk-project-steps li { position:relative; padding:26px 0 0; border-top:1px solid #b8cfc0; }
+#mewepak-homepage.packaging-page .pk-project-steps li:before { content:''; width:9px; height:9px; border-radius:50%; background:#00877f; position:absolute; top:-5px; left:0; }
+#mewepak-homepage.packaging-page .pk-project-steps span { display:block; color:#00877f; font-size:12px; letter-spacing:1px; margin-bottom:18px; }
+#mewepak-homepage.packaging-page .pk-project-steps h3 { font-size:24px; letter-spacing:-.6px; font-weight:500; margin:0 0 12px; }
+#mewepak-homepage.packaging-page .pk-project-steps p { color:#637a6d; font-size:14px; line-height:1.8; margin:0; max-width:310px; }
+#mewepak-homepage.packaging-page .pk-enquiry .pk-h2 { font-size:46px; }
+#mewepak-homepage.packaging-page .pk-form-heading { font-size:26px; }
+#mewepak-homepage.packaging-page .pk-form-intro { font-size:13px; }
+#mewepak-homepage.packaging-page .pk-form label { font-size:12px; }
+#mewepak-homepage.packaging-page .pk-form input,#mewepak-homepage.packaging-page .pk-form select,#mewepak-homepage.packaging-page .pk-form textarea { font-size:14px; min-height:47px; }
+#mewepak-homepage.packaging-page .pk-form textarea { min-height:115px; }
+#mewepak-homepage.packaging-page .pk-form-hint { font-size:11px; }
+#mewepak-homepage.packaging-page .pk-brief-steps h3 { font-size:15px; }
+#mewepak-homepage.packaging-page .pk-brief-steps p { font-size:13px; }
+#mewepak-homepage.packaging-page .pk-faq-list summary { font-size:15px; }
+#mewepak-homepage.packaging-page .pk-faq-list p { font-size:14px; }
+#mewepak-homepage.packaging-page .pk-dialog-description { font-size:15px; }
+#mewepak-homepage.packaging-page .pk-dialog-list li { font-size:14px; }
+#mewepak-homepage.packaging-page .pk-dialog-copy { padding:38px; }
+#mewepak-homepage.packaging-page .pk-dialog .pk-image-note { font-size:11px; line-height:1.7; color:#7a8d7c; margin:22px 0 0; }
+@media(max-width:1150px){
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:52px; }
+ #mewepak-homepage.packaging-page .pk-card-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ #mewepak-homepage.packaging-page .pk-help-card { min-height:320px; }
+ #mewepak-homepage.packaging-page .pk-tools { align-items:flex-start; }
+ #mewepak-homepage.packaging-page .pk-search { width:270px; }
+ #mewepak-homepage.packaging-page .pk-filter { padding:9px 13px; }
+}
+@media(max-width:900px){
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:45px; letter-spacing:-2px; }
+ #mewepak-homepage.packaging-page .pk-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ #mewepak-homepage.packaging-page .pk-help-card { min-height:290px; padding:32px; }
+ #mewepak-homepage.packaging-page .pk-card-kicker { min-height:0; }
+ #mewepak-homepage.packaging-page .pk-card-summary { min-height:44px; }
+ #mewepak-homepage.packaging-page .pk-h2 { font-size:36px; }
+ #mewepak-homepage.packaging-page .pk-market-grid { gap:16px; }
+ #mewepak-homepage.packaging-page .pk-market > span { font-size:13px; padding:13px; }
+ #mewepak-homepage.packaging-page .pk-project-steps { gap:25px; }
+ #mewepak-homepage.packaging-page .pk-project-steps h3 { font-size:21px; }
+ #mewepak-homepage.packaging-page .pk-project-steps p { font-size:13px; }
+}
+@media(max-width:700px){
+ #mewepak-homepage.packaging-page .pk-hero-grid { display:block; min-height:0; }
+ #mewepak-homepage.packaging-page .pk-hero-copy { padding-top:38px; }
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:45px; line-height:1.06; }
+ #mewepak-homepage.packaging-page .pk-lead { font-size:15px; }
+ #mewepak-homepage.packaging-page .pk-hero-art { height:345px; }
+ #mewepak-homepage.packaging-page .pk-section { padding:48px 0; }
+ #mewepak-homepage.packaging-page .pk-section-intro > p { max-width:440px; font-size:14px; }
+ #mewepak-homepage.packaging-page .pk-page-nav { gap:23px; padding:16px 18px; justify-content:flex-start; overflow:auto; white-space:nowrap; }
+ #mewepak-homepage.packaging-page .pk-page-nav a { font-size:11px; }
+ #mewepak-homepage.packaging-page .pk-tools { gap:16px; }
+ #mewepak-homepage.packaging-page .pk-search { width:100%; }
+ #mewepak-homepage.packaging-page .pk-search input { font-size:16px; }
+ #mewepak-homepage.packaging-page .pk-filter { font-size:11px; padding:8px 13px; }
+ #mewepak-homepage.packaging-page .pk-filters { gap:7px; }
+ #mewepak-homepage.packaging-page .pk-market-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ #mewepak-homepage.packaging-page .pk-market > span { font-size:14px; }
+ #mewepak-homepage.packaging-page .pk-project-steps { grid-template-columns:1fr; gap:27px; margin-top:10px; }
+ #mewepak-homepage.packaging-page .pk-project-steps li { padding:21px 0 0 43px; }
+ #mewepak-homepage.packaging-page .pk-project-steps span { position:absolute; left:0; top:24px; }
+ #mewepak-homepage.packaging-page .pk-project-steps h3 { font-size:23px; margin-bottom:8px; }
+ #mewepak-homepage.packaging-page .pk-project-steps p { max-width:460px; font-size:14px; }
+ #mewepak-homepage.packaging-page .pk-enquiry .pk-h2 { font-size:39px; }
+ #mewepak-homepage.packaging-page .pk-form input,#mewepak-homepage.packaging-page .pk-form select,#mewepak-homepage.packaging-page .pk-form textarea { font-size:16px; }
+ #mewepak-homepage.packaging-page .pk-dialog-copy { padding:26px; }
+}
+@media(max-width:480px){
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:41px; letter-spacing:-1.9px; }
+ #mewepak-homepage.packaging-page .pk-h2 { font-size:34px; }
+ #mewepak-homepage.packaging-page .pk-hero-art { height:315px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions { gap:15px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions .pk-btn { font-size:12px; padding:11px 17px; gap:12px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions .pk-text-link { font-size:12px; gap:8px; }
+ #mewepak-homepage.packaging-page .pk-card-grid { grid-template-columns:1fr; gap:32px; }
+ #mewepak-homepage.packaging-page .pk-card-media { aspect-ratio:1.3; }
+ #mewepak-homepage.packaging-page .pk-card h3 { font-size:25px; }
+ #mewepak-homepage.packaging-page .pk-card-summary { min-height:0; font-size:14px; }
+ #mewepak-homepage.packaging-page .pk-card-kicker { font-size:10px; margin-bottom:8px; }
+ #mewepak-homepage.packaging-page .pk-help-card { grid-column:auto; min-height:340px; padding:30px; }
+ #mewepak-homepage.packaging-page .pk-help-card h3 { font-size:33px; }
+ #mewepak-homepage.packaging-page .pk-catalogue-note { font-size:11px; }
+ #mewepak-homepage.packaging-page .pk-market > span { font-size:13px; padding:14px 11px; }
+ #mewepak-homepage.packaging-page .pk-form-panel { padding:26px 21px; }
+}
+@media(max-width:350px){
+ #mewepak-homepage.packaging-page .pk-h1 { font-size:36px; }
+ #mewepak-homepage.packaging-page .pk-hero-art { height:279px; }
+ #mewepak-homepage.packaging-page .pk-h2 { font-size:31px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions { gap:10px; }
+ #mewepak-homepage.packaging-page .pk-hero-actions .pk-btn { padding-inline:12px; }
+ #mewepak-homepage.packaging-page .pk-market > span { font-size:12px; }
+}
+@media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+
+/* Requested banner updates only. Existing catalogue and form styling is preserved. */
+#mewepak-homepage.packaging-page .pk-sky-hero { position:relative; background:#eef4f0; isolation:isolate; }
+#mewepak-homepage.packaging-page .pk-sky-inner { display:grid; grid-template-columns:1fr 1fr; align-items:center; position:relative; min-height:560px; }
+#mewepak-homepage.packaging-page .pk-sky-scene { position:absolute; top:0; right:0; bottom:0; width:35%; z-index:-1; overflow:hidden; }
+#mewepak-homepage.packaging-page .pk-sky-scene:after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#eef4f0,transparent 30%),#183d322b; }
+#mewepak-homepage.packaging-page .pk-sky-scene img { width:100%; height:100%; object-fit:cover; object-position:65% 42%; filter:brightness(.8) saturate(.75); }
+#mewepak-homepage.packaging-page .pk-sky-copy { position:relative; z-index:3; padding:66px 0; max-width:530px; }
+#mewepak-homepage.packaging-page .pk-sky-copy .pk-h1 { font-size:58px; line-height:1.06; letter-spacing:-2.5px; }
+#mewepak-homepage.packaging-page .pk-sky-copy .pk-lead { max-width:430px; margin-top:23px; }
+#mewepak-homepage.packaging-page .pk-sky-art { min-width:0; height:560px; position:relative; }
+#mewepak-homepage.packaging-page .pk-sky-ring { position:absolute; width:510px; height:510px; border:34px solid #ffffffd9; border-radius:50%; background:#dce9e1a6; right:25px; top:25px; box-shadow:0 0 0 1px #cee1d455; }
+#mewepak-homepage.packaging-page .pk-sky-ring:after { content:''; position:absolute; inset:23px; border-radius:50%; border:1px solid #b7cfc1; }
+#mewepak-homepage.packaging-page .pk-sky-products { position:absolute; max-width:none; width:680px; height:auto; right:-45px; bottom:47px; z-index:2; }
+#mewepak-homepage.packaging-page .pk-sky-caption { position:absolute; bottom:28px; left:0; right:0; text-align:center; margin:0; color:#42675a; font-size:9px; text-transform:uppercase; letter-spacing:2px; z-index:2; }
+#mewepak-homepage.packaging-page .pk-eco-banner { position:relative; overflow:hidden; background:#e7ebd6; min-height:440px; display:grid; grid-template-columns:minmax(0,1fr); place-items:center; isolation:isolate; }
+#mewepak-homepage.packaging-page .pk-eco-art { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; }
+#mewepak-homepage.packaging-page .pk-eco-content { text-align:center; width:720px; min-width:0; max-width:calc(100% - 360px); padding:62px 0; }
+#mewepak-homepage.packaging-page .pk-eco-content .pk-eyebrow { font-size:10px; margin-bottom:13px; }
+#mewepak-homepage.packaging-page .pk-eco-content h2 { font-size:44px; line-height:1.13; letter-spacing:-1.5px; color:#183d36; margin:0 0 20px; font-weight:600; }
+#mewepak-homepage.packaging-page .pk-eco-content > p:not(.pk-eyebrow) { font-size:15px; line-height:1.85; color:#567260; max-width:610px; margin:0 auto 23px; }
+#mewepak-homepage.packaging-page .pk-eco-content .pk-btn { background:#2b704d; border-color:#2b704d; padding-inline:26px; }
+#mewepak-homepage.packaging-page .pk-eco-content .pk-btn:hover { background:#20583c; }
+#mewepak-homepage.packaging-page .pk-eco-topics { display:block; font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:#658068; margin-top:18px; }
+#mewepak-homepage.packaging-page .pk-bottom-banner { position:relative; padding:42px 40px; background:#0d5557; overflow:hidden; isolation:isolate; }
+#mewepak-homepage.packaging-page .pk-bottom-art { position:absolute; inset:0; z-index:-1; width:100%; height:100%; object-fit:cover; }
+#mewepak-homepage.packaging-page .pk-bottom-inner { width:100%; max-width:1120px; margin:0 auto; background:#fffef8; border-radius:15px; padding:52px 34px 43px; text-align:center; }
+#mewepak-homepage.packaging-page .pk-bottom-inner h2 { font-size:42px; line-height:1.12; letter-spacing:-1.5px; font-weight:600; color:#173c3c; margin:0 0 20px; }
+#mewepak-homepage.packaging-page .pk-bottom-inner > p:not(.pk-eyebrow) { font-size:15px; line-height:1.8; color:#6a8076; margin:0 auto 25px; max-width:650px; }
+#mewepak-homepage.packaging-page .pk-bottom-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; }
+#mewepak-homepage.packaging-page .pk-bottom-actions .pk-btn { padding-inline:24px; min-width:199px; }
+#mewepak-homepage.packaging-page .pk-bottom-actions .pk-btn-outline { color:#087e73; border:1px solid #00877f; background:transparent; }
+#mewepak-homepage.packaging-page .pk-bottom-actions .pk-btn-outline:hover { background:#edf5ed; }
+#mewepak-homepage.packaging-page .pk-bottom-inner small { display:block; font-size:10px; line-height:1.7; color:#809185; margin-top:18px; }
+#mewepak-homepage.packaging-page .pk-eco-dialog { max-width:940px; }
+#mewepak-homepage.packaging-page .pk-guide-body { padding:38px; }
+#mewepak-homepage.packaging-page .pk-guide-body > h2 { font-size:36px; line-height:1.1; letter-spacing:-1.2px; margin:0 0 18px; }
+#mewepak-homepage.packaging-page .pk-guide-intro { color:#657d6b; font-size:14px; line-height:1.85; max-width:740px; margin:0 0 30px; }
+#mewepak-homepage.packaging-page .pk-guide-grid { display:grid; grid-template-columns:1fr 1fr; gap:29px 32px; }
+#mewepak-homepage.packaging-page .pk-guide-grid article { border-top:1px solid #d7e3d4; padding-top:20px; }
+#mewepak-homepage.packaging-page .pk-guide-grid article > span { color:#00877f; font-size:11px; letter-spacing:1px; }
+#mewepak-homepage.packaging-page .pk-guide-grid h3 { font-size:22px; font-weight:500; letter-spacing:-.5px; margin:10px 0; line-height:1.3; }
+#mewepak-homepage.packaging-page .pk-guide-grid p { color:#657d6b; font-size:13px; line-height:1.85; margin:0; }
+#mewepak-homepage.packaging-page .pk-guide-checklist { background:#edf3e7; padding:24px; margin-top:30px; }
+#mewepak-homepage.packaging-page .pk-guide-checklist h3 { font-size:18px; font-weight:500; line-height:1.3; margin:0 0 13px; }
+#mewepak-homepage.packaging-page .pk-guide-checklist ul { padding-left:18px; color:#627a66; font-size:13px; line-height:1.9; margin:0; }
+#mewepak-homepage.packaging-page .pk-guide-note { font-size:11px; line-height:1.75; color:#7b8b79; margin:21px 0; }
+#mewepak-homepage.packaging-page .pk-guide-actions { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+#mewepak-homepage.packaging-page button.pk-text-link { background:transparent; border:0; }
+@media(max-width:1150px){
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-h1 { font-size:50px; }
+ #mewepak-homepage.packaging-page .pk-sky-ring { width:460px; height:460px; top:50px; right:-5px; border-width:30px; }
+ #mewepak-homepage.packaging-page .pk-sky-products { width:590px; right:-45px; bottom:67px; }
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-lead { max-width:380px; font-size:15px; }
+ #mewepak-homepage.packaging-page .pk-eco-content { max-width:calc(100% - 240px); }
+}
+@media(max-width:900px){
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-h1 { font-size:43px; letter-spacing:-1.8px; }
+ #mewepak-homepage.packaging-page .pk-sky-inner,#mewepak-homepage.packaging-page .pk-sky-art { min-height:510px; height:510px; }
+ #mewepak-homepage.packaging-page .pk-sky-ring { width:390px; height:390px; top:62px; right:-40px; border-width:26px; }
+ #mewepak-homepage.packaging-page .pk-sky-products { width:480px; right:-65px; bottom:86px; }
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-lead { max-width:310px; }
+ #mewepak-homepage.packaging-page .pk-sky-caption { bottom:67px; font-size:8px; letter-spacing:1.3px; }
+ #mewepak-homepage.packaging-page .pk-eco-content h2 { font-size:38px; }
+ #mewepak-homepage.packaging-page .pk-eco-content { max-width:calc(100% - 180px); }
+ #mewepak-homepage.packaging-page .pk-eco-art { opacity:.6; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner h2 { font-size:36px; }
+}
+@media(max-width:700px){
+ #mewepak-homepage.packaging-page .pk-sky-inner { display:block; height:auto; min-height:0; }
+ #mewepak-homepage.packaging-page .pk-sky-copy { padding:39px 0 21px; max-width:100%; }
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-h1 { font-size:46px; }
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-lead { max-width:460px; font-size:15px; }
+ #mewepak-homepage.packaging-page .pk-sky-art { height:340px; min-height:0; }
+ #mewepak-homepage.packaging-page .pk-sky-scene { top:auto; height:350px; width:100%; opacity:.36; }
+ #mewepak-homepage.packaging-page .pk-sky-scene:after { background:linear-gradient(#eef4f0,transparent 42%); }
+ #mewepak-homepage.packaging-page .pk-sky-ring { width:365px; height:365px; border-width:26px; right:calc(50% - 182.5px); top:-9px; }
+ #mewepak-homepage.packaging-page .pk-sky-products { width:470px; max-width:none; left:50%; right:auto; transform:translateX(-50%); bottom:24px; }
+ #mewepak-homepage.packaging-page .pk-sky-caption { bottom:13px; color:#42675a; }
+ #mewepak-homepage.packaging-page .pk-eco-banner { min-height:390px; }
+ #mewepak-homepage.packaging-page .pk-eco-content { max-width:calc(100% - 44px); width:540px; padding:46px 0; }
+ #mewepak-homepage.packaging-page .pk-eco-art { opacity:.28; object-position:center; }
+ #mewepak-homepage.packaging-page .pk-eco-content h2 { font-size:35px; letter-spacing:-1px; }
+ #mewepak-homepage.packaging-page .pk-eco-content > p:not(.pk-eyebrow) { font-size:14px; line-height:1.85; }
+ #mewepak-homepage.packaging-page .pk-bottom-banner { padding:24px 18px; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner { padding:35px 23px 30px; border-radius:11px; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner h2 { font-size:32px; letter-spacing:-1.1px; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner > p:not(.pk-eyebrow) { font-size:14px; }
+ #mewepak-homepage.packaging-page .pk-guide-body { padding:27px; }
+ #mewepak-homepage.packaging-page .pk-guide-body > h2 { font-size:31px; }
+ #mewepak-homepage.packaging-page .pk-guide-grid { grid-template-columns:1fr; gap:24px; }
+}
+@media(max-width:480px){
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-h1 { font-size:40px; letter-spacing:-1.8px; }
+ #mewepak-homepage.packaging-page .pk-sky-art { height:310px; }
+ #mewepak-homepage.packaging-page .pk-sky-products { width:390px; bottom:23px; }
+ #mewepak-homepage.packaging-page .pk-sky-ring { width:325px; height:325px; right:calc(50% - 162.5px); top:-4px; border-width:24px; }
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-lead { margin-top:21px; }
+ #mewepak-homepage.packaging-page .pk-eco-content { max-width:calc(100% - 40px); }
+ #mewepak-homepage.packaging-page .pk-eco-content .pk-eyebrow { letter-spacing:1.1px; font-size:9px; }
+ #mewepak-homepage.packaging-page .pk-eco-content h2 { font-size:34px; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner h2 { font-size:30px; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner .pk-eyebrow { font-size:9px; letter-spacing:1.2px; }
+ #mewepak-homepage.packaging-page .pk-bottom-actions { flex-direction:column; gap:11px; }
+ #mewepak-homepage.packaging-page .pk-bottom-actions .pk-btn { width:100%; }
+ #mewepak-homepage.packaging-page .pk-guide-body { padding:24px 21px; }
+}
+@media(max-width:350px){
+ #mewepak-homepage.packaging-page .pk-sky-copy .pk-h1 { font-size:35px; }
+ #mewepak-homepage.packaging-page .pk-sky-art { height:275px; }
+ #mewepak-homepage.packaging-page .pk-sky-products { width:320px; }
+ #mewepak-homepage.packaging-page .pk-sky-ring { width:285px; height:285px; right:calc(50% - 142.5px); }
+ #mewepak-homepage.packaging-page .pk-eco-content h2 { font-size:30px; }
+ #mewepak-homepage.packaging-page .pk-bottom-inner { padding-inline:19px; }
+}

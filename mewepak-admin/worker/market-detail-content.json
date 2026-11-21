@@ -1,0 +1,237 @@
+{
+  "coffee-tea": {
+    "intro": "Custom printed pouches and roll stock for whole bean coffee, ground coffee and loose-leaf tea. Compare formats for your filling process and confirm the barrier, valve and closure before approving a sample.",
+    "questions": [
+      "Product and fill weight, pack dimensions and preferred format",
+      "Filling method, target shelf life, storage conditions and required closure",
+      "Artwork status, finish, number of SKUs and quantity per design",
+      "Delivery destination, requested date and any sampling or documentation needs"
+    ],
+    "photo": "/assets/client-design/images/873549651fc1a911.webp",
+    "alt": "Illustrative coffee & tea packaging scene",
+    "guide": "/how-to-choose-the-right-barrier-film-for-coffee-packaging/",
+    "guideLabel": "Choosing a barrier film for coffee",
+    "formatImages": {
+      "stand-up-pouch": "/assets/media/coffee-tea-formats/stand-up-pouch.webp",
+      "flat-bottom-pouch": "/assets/media/coffee-tea-formats/flat-bottom-pouch.webp",
+      "pinch-bottom-pouches": "/assets/media/coffee-tea-formats/pinch-bottom-pouches.webp",
+      "roll-stock-films": "/assets/media/coffee-tea-formats/roll-stock-films.webp"
+    },
+    "formatDescriptions": {
+      "stand-up-pouch": "An upright pouch with reseal options for beans, ground coffee or loose-leaf tea.",
+      "flat-bottom-pouch": "A stable base and broad print panels for retail coffee and tea bags.",
+      "pinch-bottom-pouches": "A folded base with wide print panels for larger coffee and tea packs.",
+      "roll-stock-films": "Printed film for compatible automated filling and sealing equipment."
+    }
+  },
+  "snacks-sweets": {
+    "intro": "A sharing bag, a small treat or a product to enjoy on the go: the pack starts with the occasion. Explore a silhouette and artwork layout that make sense for the product inside.",
+    "questions": [
+      "Product size, shape and handling needs",
+      "Single portions, sharing packs or repeated use?",
+      "Shelf display, hanging features and artwork direction"
+    ],
+    "photo": "/assets/client-design/images/d1b92713ab295161.webp",
+    "alt": "Illustrative snacks & sweets packaging scene",
+    "formatDescriptions": {
+      "stand-up-pouch": "An upright format with reseal options for sharing packs and everyday snacks.",
+      "flat-pouch": "A compact format for single portions, samples and sachets.",
+      "shaped-pouch": "A custom silhouette for confectionery and retail display.",
+      "flat-bottom-pouch": "A stable upright base for larger snack bags and bundles."
+    }
+  },
+  "supplement": {
+    "intro": "Begin with the physical form of your product and how it will be measured, stored and used. Bring your information requirements into the artwork conversation from the start.",
+    "questions": [
+      "Powder, capsules, tablets or another product form?",
+      "Fill quantity, serving routine and closure preferences",
+      "Product-protection needs and required on-pack information"
+    ],
+    "photo": "/assets/client-design/images/740080ec3ae057b2.webp",
+    "alt": "Illustrative supplements packaging scene"
+  },
+  "pet-food": {
+    "intro": "Treats, dry food and wet products call for different conversations. Share what you are packing and how the customer will handle the pack, from the first opening to the last serving.",
+    "questions": [
+      "Dry food, treats, wet food or another pet product?",
+      "Target fill weight and handling requirements",
+      "Filling, sealing, storage and resealing preferences"
+    ],
+    "photo": "/assets/client-design/images/cfcdbd746a6ff3b8.webp",
+    "alt": "Illustrative pet food packaging scene",
+    "guide": "/pet-food-packaging-what-pet-owners-want/",
+    "guideLabel": "Packaging for pet food and treats"
+  },
+  "sauce-soup": {
+    "intro": "Your recipe, processing conditions and serving method help shape the packaging brief. Explore the pouch and opening together rather than choosing the appearance alone.",
+    "questions": [
+      "Product consistency and filling conditions",
+      "Portion size, pouring and dispensing preferences",
+      "Processing, storage and validation requirements"
+    ],
+    "photo": "/assets/client-design/images/39b101c6f4e0ea09.webp",
+    "alt": "Illustrative sauces & soups packaging scene"
+  },
+  "baby-food": {
+    "intro": "Plan the pack around the product and how a parent or caregiver will use it. The filling process, opening and fitment requirements belong in the brief from the beginning.",
+    "questions": [
+      "Purée, powder or another product type?",
+      "Portion size and intended serving method",
+      "Fitment, processing and product-specific validation needs"
+    ],
+    "photo": "/assets/client-design/images/e81d60808ae47bc9.webp",
+    "alt": "Illustrative baby food packaging scene"
+  },
+  "beverage": {
+    "intro": "From a small pouch to a larger dispensing format, start with the drink and where it will be used. Discuss the liquid, fill volume and handling needs as one packaging system.",
+    "questions": [
+      "Drink type and intended pack volume",
+      "Single servings, pouring or larger-format dispensing?",
+      "Filling, handling and storage requirements"
+    ],
+    "photo": "/assets/client-design/images/b516f69f40e45895.webp",
+    "alt": "Illustrative beverages packaging scene"
+  },
+  "frozen-food": {
+    "intro": "The pack needs to be discussed in the context of the product and its journey. Share the filling conditions, target size and cold-storage requirements before the material and format are specified.",
+    "questions": [
+      "Product type, portion and fill weight",
+      "Storage and handling conditions across the journey",
+      "Sealing process, material requirements and artwork layout"
+    ],
+    "photo": "/assets/client-design/images/457e72a2cbb71194.webp",
+    "alt": "Illustrative frozen food packaging scene",
+    "guide": "/choosing-packaging-for-frozen-chilled-foods/",
+    "guideLabel": "Choosing packaging for frozen food"
+  },
+  "home-care": {
+    "intro": "A liquid refill, powder or tablet product starts a different packaging conversation. Define the product and the way customers will handle it, then discuss the opening, pack volume and material requirements.",
+    "questions": [
+      "Liquid, powder, tablets or another product form?",
+      "Refill use, pack volume and dispensing preferences",
+      "Product compatibility, closures and handling requirements"
+    ],
+    "photo": "/assets/client-design/images/1a461dfa6c622d5f.webp",
+    "alt": "Illustrative home care packaging scene"
+  },
+  "fruits-veggies": {
+    "intro": "Fresh, dried and prepared products have different needs. Share the product and its route to market so the format, material and presentation can be considered together.",
+    "questions": [
+      "Fresh, dried or prepared produce?",
+      "Portion size and intended shelf presentation",
+      "Packing, storage, transport and material requirements"
+    ],
+    "photo": "/assets/client-design/images/263d52df600b949b.webp",
+    "alt": "Illustrative fruit & vegetables packaging scene"
+  },
+  "accessories": {
+    "intro": "Match the pack to the size and weight of the accessory, the way it is displayed, and whether it needs to be resealed or hung.",
+    "questions": [
+      "Item dimensions, weight and any sharp edges",
+      "Retail hang display, shelf display or transit protection",
+      "Label, barcode and opening requirements"
+    ],
+    "photo": "/assets/3d/formats/polybag.webp",
+    "alt": "Polybag packaging format illustration"
+  },
+  "beauty-care": {
+    "intro": "Samples, refills and retail packs have different needs. Describe the product texture and how customers open, dispense and store it.",
+    "questions": [
+      "Product type and fill volume",
+      "Single-use sample or resealable refill",
+      "Dispensing method and compatibility with the pack"
+    ],
+    "photo": "/assets/3d/formats/spout-pouch.webp",
+    "alt": "Spout pouch packaging format illustration"
+  },
+  "cannabis": {
+    "intro": "Share the product form, pack size and where it will be sold so the team can review the proposed format against your packaging requirements.",
+    "questions": [
+      "Product form and intended portion size",
+      "Closure, labeling and artwork requirements",
+      "Target market and required packaging specifications"
+    ],
+    "photo": "/assets/3d/formats/flat-pouch.webp",
+    "alt": "Flat pouch packaging format illustration"
+  },
+  "cbd": {
+    "intro": "Explain what you are filling and how customers will use the finished pack. Include the closure and labeling requirements in your brief.",
+    "questions": [
+      "Product form, dimensions and fill quantity",
+      "Shelf display and opening preferences",
+      "Target market and on-pack information requirements"
+    ],
+    "photo": "/assets/3d/formats/shaped-pouch.webp",
+    "alt": "Shaped pouch packaging format illustration"
+  },
+  "cbd-thc": {
+    "intro": "Define the product, pack presentation and applicable packaging specifications before selecting a pouch structure or closure.",
+    "questions": [
+      "Product form and target fill quantity",
+      "Closure and product-specific packaging specifications",
+      "Artwork, labeling and target market"
+    ],
+    "photo": "/assets/3d/formats/flat-pouch.webp",
+    "alt": "Flat pouch packaging format illustration"
+  },
+  "cosmetics": {
+    "intro": "Plan the format around the formula and the way it is used. The pack may need to dispense a sample, hold a refill, or stand upright in retail.",
+    "questions": [
+      "Formula type, consistency and pack volume",
+      "Use as a sample, refill or primary pack",
+      "Fitment, film compatibility and artwork needs"
+    ],
+    "photo": "/assets/3d/formats/spout-pouch.webp",
+    "alt": "Spout pouch packaging format illustration"
+  },
+  "fashion": {
+    "intro": "Start with the folded size and how the garment is sold or shipped. Discuss the opening, print and any display features required by the product.",
+    "questions": [
+      "Folded garment dimensions and pack quantity",
+      "In-store display, storage or delivery use",
+      "Closure, artwork and handling requirements"
+    ],
+    "photo": "/assets/3d/formats/polybag.webp",
+    "alt": "Polybag packaging format illustration"
+  },
+  "meat-poultry": {
+    "intro": "Raw, cooked and prepared products have different packaging needs. Share the filling and storage conditions before comparing formats.",
+    "questions": [
+      "Product cut, portion size and fill weight",
+      "Processing, cooling and storage conditions",
+      "Seal area, handling and validation requirements"
+    ],
+    "photo": "/assets/3d/formats/retort-pouch.webp",
+    "alt": "Retort pouch packaging format illustration"
+  },
+  "powder-spices": {
+    "intro": "A single-serve blend and a bulk powder call for different formats. Bring the target fill, dispensing routine and storage requirements into the brief.",
+    "questions": [
+      "Powder density, portion size and fill weight",
+      "Single use, repeat dispensing or bulk refills",
+      "Dust control at filling and seal requirements"
+    ],
+    "photo": "/assets/3d/formats/flat-bottom-pouch.webp",
+    "alt": "Flat bottom pouch packaging format illustration"
+  },
+  "sea-food": {
+    "intro": "Plan the pack around the portion, processing method and route to the customer. Share whether the product is chilled, frozen or prepared for another storage condition.",
+    "questions": [
+      "Species or preparation and portion size",
+      "Filling conditions and storage temperature",
+      "Handling, sealing and processing requirements"
+    ],
+    "photo": "/assets/3d/formats/retort-pouch.webp",
+    "alt": "Retort pouch packaging format illustration"
+  },
+  "tobacco-filters": {
+    "intro": "Share the product dimensions, how it will be packed and how the finished pack will be distributed. Include the relevant project specifications up front.",
+    "questions": [
+      "Product size and pack count",
+      "Opening, closure and storage requirements",
+      "Artwork and packaging specifications for the target market"
+    ],
+    "photo": "/assets/3d/formats/flat-pouch.webp",
+    "alt": "Flat pouch packaging format illustration"
+  }
+}

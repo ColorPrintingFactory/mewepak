@@ -1,0 +1,99 @@
+(function(){
+ 'use strict';
+ const root=document.getElementById('mewepak-homepage');
+ const assets={"logo":"/assets/client-design/images/20a077c2c564b477.webp","market-coffee-photo":"/assets/client-design/images/873549651fc1a911.webp","market-coffee":"/assets/client-design/images/cbada3a2ffb092a4.svg","market-snacks-photo":"/assets/client-design/images/d1b92713ab295161.webp","market-snacks":"/assets/client-design/images/8e8e9d8102e08f50.svg","market-supplement-photo":"/assets/client-design/images/740080ec3ae057b2.webp","market-supplement":"/assets/client-design/images/26bc4c1e297a1d4d.svg","market-pet-photo":"/assets/client-design/images/cfcdbd746a6ff3b8.webp","market-pet":"/assets/client-design/images/1eb0e00948281260.svg","market-sauce-photo":"/assets/client-design/images/39b101c6f4e0ea09.webp","market-sauce":"/assets/client-design/images/0f0a8f3c5634aef2.svg","market-baby-photo":"/assets/client-design/images/e81d60808ae47bc9.webp","market-baby":"/assets/client-design/images/57bb86b6edf91910.svg","market-beverage-photo":"/assets/client-design/images/b516f69f40e45895.webp","market-beverage":"/assets/client-design/images/a09696afbefdd187.svg","market-frozen-photo":"/assets/client-design/images/457e72a2cbb71194.webp","market-frozen":"/assets/client-design/images/8ed7e5f7beec344f.svg","market-home-photo":"/assets/client-design/images/1a461dfa6c622d5f.webp","market-home":"/assets/client-design/images/a65c8f550eeffe4f.svg","market-produce-photo":"/assets/client-design/images/263d52df600b949b.webp","market-produce":"/assets/client-design/images/679bb263d633ab40.svg","bottom-photo-1":"/assets/client-design/images/30e138afb1ec62c7.webp","bottom-photo-4":"/assets/client-design/images/70ca70e35365e5ab.webp","product-almonds":"/assets/client-design/images/14980b4aa189caae.webp"};
+ const markets=[{"id":"coffee","name":"Coffee & tea","group":"food","kicker":"From the first aroma","summary":"Build a brief around the blend, the format and the way your customers brew.","image":"market-coffee-photo","icon":"market-coffee","keywords":"coffee tea beans ground roastery loose leaf drinks","formats":["Flat-bottom pouches","Stand-up pouches","Quad seal bags"],"detail":"From whole beans to loose-leaf tea, start with the product and the experience you want to create. Consider how the pack is displayed, opened, closed and used between servings.","questions":["Whole bean, ground coffee or loose-leaf tea?","Fill weight, pack dimensions and intended shelf life","Filling method, opening preferences and product-protection requirements"]},{"id":"snacks","name":"Snacks & sweets","group":"food","kicker":"A little shelf personality","summary":"Bring your brand, portion size and the way people snack into the same brief.","image":"market-snacks-photo","icon":"market-snacks","keywords":"snack sweets candy confectionery nuts chocolate portions","formats":["Stand-up pouches","Flat pouches","Shaped pouches"],"detail":"A sharing bag, a small treat or a product to enjoy on the go: the pack starts with the occasion. Explore a silhouette and artwork layout that make sense for the product inside.","questions":["Product size, shape and handling needs","Single portions, sharing packs or repeated use?","Shelf display, hanging features and artwork direction"]},{"id":"supplement","name":"Supplements","group":"care","kicker":"Clarity in every detail","summary":"Consider the product format, daily use and the information your pack needs to carry.","image":"market-supplement-photo","icon":"market-supplement","keywords":"supplement wellness powder capsules tablets nutrition health","formats":["Stand-up pouches","Flat pouches","Flat-bottom pouches"],"detail":"Begin with the physical form of your product and how it will be measured, stored and used. Bring your information requirements into the artwork conversation from the start.","questions":["Powder, capsules, tablets or another product form?","Fill quantity, serving routine and closure preferences","Product-protection needs and required on-pack information"]},{"id":"pet","name":"Pet food","group":"pet","kicker":"For their everyday favourites","summary":"Explore a pack around the food, the serving routine and the size of the bag.","image":"market-pet-photo","icon":"market-pet","keywords":"pet food dog cat treats animal feed dry wet","formats":["Quad seal bags","Flat-bottom pouches","Stand-up pouches"],"detail":"Treats, dry food and wet products call for different conversations. Share what you are packing and how the customer will handle the pack, from the first opening to the last serving.","questions":["Dry food, treats, wet food or another pet product?","Target fill weight and handling requirements","Filling, sealing, storage and resealing preferences"]},{"id":"sauce","name":"Sauces & soups","group":"food","kicker":"Think about the pour","summary":"Start with the consistency, filling process and how the product will be served.","image":"market-sauce-photo","icon":"market-sauce","keywords":"sauce soup puree dressing liquid paste condiments","formats":["Spout pouches","Retort pouches","Flat pouches"],"detail":"Your recipe, processing conditions and serving method help shape the packaging brief. Explore the pouch and opening together rather than choosing the appearance alone.","questions":["Product consistency and filling conditions","Portion size, pouring and dispensing preferences","Processing, storage and validation requirements"]},{"id":"baby","name":"Baby food","group":"food","kicker":"Small portions. Considered details.","summary":"Bring the product, portion size and intended serving method into the discussion.","image":"market-baby-photo","icon":"market-baby","keywords":"baby food puree infant toddler portions spout","formats":["Spout pouches","Retort pouches","Stand-up pouches"],"detail":"Plan the pack around the product and how a parent or caregiver will use it. The filling process, opening and fitment requirements belong in the brief from the beginning.","questions":["Pur\u00e9e, powder or another product type?","Portion size and intended serving method","Fitment, processing and product-specific validation needs"]},{"id":"beverage","name":"Beverages","group":"food","kicker":"A format around the occasion","summary":"Consider volume, filling and the way your customers pour or dispense the drink.","image":"market-beverage-photo","icon":"market-beverage","keywords":"beverage juice drink smoothie liquid tap bag in box","formats":["Spout pouches","Pouches with tap","Bag-in-box"],"detail":"From a small pouch to a larger dispensing format, start with the drink and where it will be used. Discuss the liquid, fill volume and handling needs as one packaging system.","questions":["Drink type and intended pack volume","Single servings, pouring or larger-format dispensing?","Filling, handling and storage requirements"]},{"id":"frozen","name":"Frozen food","group":"food","kicker":"Plan beyond the shelf","summary":"Shape the brief around the product and its filling, storage and handling journey.","image":"market-frozen-photo","icon":"market-frozen","keywords":"frozen chilled freezer seafood meat vegetables food cold","formats":["Stand-up pouches","Flat pouches","Printed roll stock"],"detail":"The pack needs to be discussed in the context of the product and its journey. Share the filling conditions, target size and cold-storage requirements before the material and format are specified.","questions":["Product type, portion and fill weight","Storage and handling conditions across the journey","Sealing process, material requirements and artwork layout"]},{"id":"home","name":"Home care","group":"care","kicker":"Made around the everyday","summary":"Explore formats for your product\u2019s use, storage and refill routine.","image":"market-home-photo","icon":"market-home","keywords":"home care household cleaning detergent refill soap liquid powder tablets","formats":["Spout pouches","Pouches with tap","Flat-bottom pouches"],"detail":"A liquid refill, powder or tablet product starts a different packaging conversation. Define the product and the way customers will handle it, then discuss the opening, pack volume and material requirements.","questions":["Liquid, powder, tablets or another product form?","Refill use, pack volume and dispensing preferences","Product compatibility, closures and handling requirements"]},{"id":"produce","name":"Fruit & vegetables","group":"food","kicker":"From field to first impression","summary":"Consider the product\u2019s condition, presentation and route to your customer.","image":"market-produce-photo","icon":"market-produce","keywords":"fruit vegetables veggies produce fresh dried prepared food","formats":["Flat pouches","Stand-up pouches","Printed roll stock"],"detail":"Fresh, dried and prepared products have different needs. Share the product and its route to market so the format, material and presentation can be considered together.","questions":["Fresh, dried or prepared produce?","Portion size and intended shelf presentation","Packing, storage, transport and material requirements"]}];
+ const grid=root.querySelector('#mk-market-grid'),search=root.querySelector('#mk-search');
+ const filters=[...root.querySelectorAll('[data-filter]')];
+ const help=root.querySelector('#mk-library-help');
+ let activeFilter='all',selectedMarket=null;
+ function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+ const cards=markets.map((market,index)=>{
+  const card=el('article','mk-card');card.dataset.market=market.id;
+  const photo=el('button','mk-card-photo');photo.type='button';photo.dataset.marketDetail=market.id;photo.setAttribute('aria-label','Explore '+market.name);
+  const image=el('img');image.dataset.asset=market.image;image.alt=market.name+' illustrative packaging scene';image.width=850;image.height=850;photo.append(image,el('span','mk-card-number',String(index+1).padStart(2,'0')));
+  const copy=el('div','mk-card-copy');copy.append(el('p','mk-card-kicker',market.kicker));
+  const title=el('div','mk-card-title'),icon=el('img','mk-card-icon');icon.dataset.asset=market.icon;icon.alt='';icon.setAttribute('aria-hidden','true');icon.width=38;icon.height=38;title.append(icon,el('h3','',market.name));copy.append(title,el('p','mk-card-description',market.summary));
+  const action=el('button','mk-card-action');action.type='button';action.dataset.marketDetail=market.id;action.setAttribute('aria-label','View '+market.name+' market details');action.append(el('span','','Explore market'),el('b','','↗'));copy.append(action);card.append(photo,copy);grid.append(card);return{card,market};
+ });
+ grid.append(help);
+ root.querySelectorAll('img[data-asset]').forEach(img=>{img.src=assets[img.dataset.asset];});
+ function apply(){
+  const words=search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);let visible=0;
+  cards.forEach(({card,market})=>{const text=(market.name+' '+market.summary+' '+market.keywords).toLowerCase();const show=(activeFilter==='all'||market.group===activeFilter)&&words.every(w=>text.includes(w));card.hidden=!show;if(show)visible++;});
+  root.querySelector('#mk-count').textContent=visible+' '+(visible===1?'market':'markets')+' to explore';
+  root.querySelector('#mk-empty').hidden=visible!==0;help.hidden=activeFilter!=='all'||words.length>0;
+  root.querySelector('#mk-clear').hidden=activeFilter==='all'&&!words.length;
+  filters.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===activeFilter)));
+ }
+ function reset(){activeFilter='all';search.value='';apply();}
+ function scrollToSection(id){root.querySelector(id).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});}
+ search.addEventListener('input',apply);
+ filters.forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.filter;apply();}));
+ root.querySelector('#mk-clear').addEventListener('click',reset);
+ root.querySelector('#mk-reset').addEventListener('click',()=>{reset();search.focus();});
+ root.querySelectorAll('[data-sector]').forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.sector;search.value='';apply();scrollToSection('#markets');}));
+ apply();
+ const dialog=root.querySelector('#mk-market-dialog'),form=root.querySelector('#mk-enquiry-form'),review=root.querySelector('#mk-review');
+ const marketPages = {
+  coffee: 'coffee-tea', snacks: 'snacks-sweets', supplement: 'supplement', pet: 'pet-food',
+  sauce: 'sauce-soup', baby: 'baby-food', beverage: 'beverage', frozen: 'frozen-food',
+  home: 'home-care', produce: 'fruits-veggies',
+ };
+ const dialogScroll = root.querySelector('.mk-dialog-scroll');
+ const viewMarket = root.querySelector('#mk-view-market');
+ let trigger = null;
+ let restoreFocus = true;
+ const marketSelect=root.querySelector('#mk-market-select'),formatSelect=root.querySelector('#mk-format-select'),status=root.querySelector('#mk-selected');
+ function chooseMarket(format){
+  if(!selectedMarket)return;
+  marketSelect.value=selectedMarket.id;formatSelect.value=format||'';review.hidden=true;
+  status.hidden=false;status.textContent=selectedMarket.name+' selected'+(format?' with '+format.toLowerCase():'')+' for your brief.';
+  restoreFocus = false;
+  dialog.close();scrollToSection('#market-enquiry');root.querySelector('#mk-product').focus({preventScroll:true});
+ }
+ root.addEventListener('click',event=>{
+  const b=event.target.closest('[data-market-detail]');if(!b||!root.contains(b))return;
+  selectedMarket=markets.find(m=>m.id===b.dataset.marketDetail);if(!selectedMarket)return;
+  root.querySelector('#mk-dialog-title').textContent=selectedMarket.name;
+  root.querySelector('#mk-dialog-category').textContent={food:'Food & drink',care:'Wellness & home',pet:'Pet food'}[selectedMarket.group]+' · Market guide';
+  root.querySelector('#mk-dialog-description').textContent=selectedMarket.detail;
+  const image=root.querySelector('#mk-dialog-image');image.src=assets[selectedMarket.image];image.alt=selectedMarket.name+' illustrative packaging scene';
+  root.querySelector('#mk-dialog-questions').replaceChildren(...selectedMarket.questions.map(q=>el('li','',q)));
+  root.querySelector('#mk-dialog-formats').replaceChildren(...selectedMarket.formats.map(format=>{const n=el('button','',format+' ↗');n.type='button';n.addEventListener('click',()=>chooseMarket(format));return n;}));
+  trigger = b;
+  restoreFocus = true;
+  viewMarket.href = '/markets/' + marketPages[selectedMarket.id] + '/';
+  dialog.showModal();
+  document.body.classList.add('market-dialog-open');
+  dialogScroll.scrollTop = 0;
+ });
+ dialog.addEventListener('close', () => {
+  document.body.classList.remove('market-dialog-open');
+  if (restoreFocus) trigger?.focus({preventScroll:true});
+ });
+ root.querySelector('#mk-close-dialog').addEventListener('click',()=>dialog.close());
+ root.querySelector('#mk-build-brief').addEventListener('click',()=>chooseMarket(''));
+ dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
+ form.addEventListener('input',()=>{review.hidden=true;});
+ form.addEventListener('change',()=>{review.hidden=true;status.hidden=true;});
+ form.addEventListener('submit',event=>{
+  event.preventDefault();if(!form.reportValidity())return;
+  const data=new FormData(form),get=k=>String(data.get(k)||'').trim();
+  const market=markets.find(m=>m.id===get('market'));const marketName=market?market.name:'Please advise';
+  const rows=[['Name',get('name')],['Email',get('email')],['Company',get('company')||'Not provided'],['Market',marketName],['Product',get('product')],['Preferred format',get('format')||'Please advise'],['Project notes',get('notes')]];
+  const dl=root.querySelector('#mk-review-details');dl.replaceChildren(...rows.map(([k,v])=>{const item=el('div',k==='Project notes'?'mk-full':'');item.append(el('dt','',k),el('dd','',v));return item;}));
+  const brief='MEWEPAK — MARKET PACKAGING BRIEF\n\n'+rows.map(([k,v])=>k+': '+v).join('\n')+'\n\nOur team will follow up for artwork or reference photos.';
+  window.mewepakClient.fillBrief('mk', data, brief);
+  root.querySelector('#mk-download-brief').href='data:text/plain;charset=utf-8,'+encodeURIComponent(brief);
+  review.hidden=false;root.querySelector('#mk-review-title').focus({preventScroll:true});review.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+ });
+ root.querySelector('#mk-edit-brief').addEventListener('click',()=>{review.hidden=true;root.querySelector('#mk-name').focus();});
+ root.querySelector('#mk-sample-request').addEventListener('click',()=>{
+  const notes=root.querySelector('#mk-notes'),prefix='I would like to request packaging samples.';
+  if(!notes.value.includes(prefix))notes.value=prefix+'\nPreferred formats: \nDelivery country: '+(notes.value.trim()?'\n\nExisting project notes:\n'+notes.value:'');
+  review.hidden=true;status.hidden=false;status.textContent='Sample request selected. Add formats and delivery country to your notes; availability and shipping will be confirmed.';root.querySelector('#mk-name').focus();
+ });
+ const images=[...root.querySelectorAll('img[src]')];
+ Promise.all(images.map(i=>i.complete?Promise.resolve():new Promise(done=>{i.addEventListener('load',done,{once:true});i.addEventListener('error',done,{once:true});}))).then(()=>{document.body.dataset.marketsReady='1';document.body.dataset.marketsBroken=String(images.filter(i=>!i.naturalWidth).length);});
+})();

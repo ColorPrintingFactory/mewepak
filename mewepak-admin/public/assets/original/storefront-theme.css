@@ -1,0 +1,233 @@
+/* Customer design colors, applied to the existing storefront navigation and footer. */
+:root {
+  --chrome-font: Arial, Helvetica, sans-serif;
+  --chrome-deep: #102b35;
+  --chrome-deep-hover: #1b4450;
+  --chrome-nav: #465b63;
+  --chrome-accent: #007b79;
+  --chrome-soft: #f2f6f5;
+  --chrome-line: #d9e4e2;
+  --chrome-muted: #5c7279;
+}
+
+[data-mewepak-header] > div:first-child,
+.site-header > .utility {
+  background: var(--chrome-deep) !important;
+  color: #e1efee;
+}
+
+
+:is([data-mewepak-header], [data-mobile-menu], [data-search-overlay], .site-header, .mobile-panel,
+    footer[data-storefront-footer], footer.site-footer) {
+  font-family: var(--chrome-font) !important;
+}
+
+:is([data-mewepak-header], [data-mobile-menu], [data-search-overlay], .site-header, .mobile-panel,
+    footer[data-storefront-footer], footer.site-footer) :is(a, button, input, h3, h4, p) {
+  font-family: inherit !important;
+}
+
+[data-mewepak-header] > div:first-child,
+.site-header > .utility {
+  font-size: 11px;
+  letter-spacing: .2px;
+}
+
+[data-mewepak-header] > div:first-child p {
+  font-size: inherit;
+}
+
+:is([data-mewepak-header], [data-search-overlay], .site-header) [role="search"] input {
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+:is(footer[data-storefront-footer], footer.site-footer) {
+  padding-block: 48px 22px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+footer[data-storefront-footer] > div > .grid,
+.site-footer .footer-grid {
+  gap: clamp(22px, 3vw, 42px);
+  padding-block-end: 36px;
+}
+
+footer[data-storefront-footer] > div > .border-t,
+.site-footer .footer-bottom {
+  padding-block-start: 19px;
+}
+
+.site-footer .footer-bottom {
+  margin-block-start: 0;
+  font-size: 11px;
+}
+
+[data-mewepak-header] .mewepak-header-logo,
+.site-header .brand img {
+  width: 146px;
+  height: auto;
+}
+
+:is(footer[data-storefront-footer], footer.site-footer) :is(.mewepak-footer-logo, .footer-logo) {
+  width: 151px;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  :is(footer[data-storefront-footer], footer.site-footer) {
+    padding-block-start: 32px;
+  }
+}
+
+@layer utilities {
+  [data-mewepak-header] > div:first-child p {
+    color: #e1efee;
+  }
+
+  [data-mewepak-header] > div:first-child a,
+  .site-header > .utility a {
+    color: #c2d4d8 !important;
+  }
+
+  [data-mewepak-header] > div:first-child a:hover,
+  .site-header > .utility a:hover {
+    color: #fff !important;
+  }
+
+  [data-mewepak-header] [data-nav-link],
+  .site-header .nav-item > a {
+    color: var(--chrome-nav) !important;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  [data-mewepak-header] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]),
+  .site-header .nav-item > a:is(:hover, :focus-visible),
+  .site-header .nav-item.active > a,
+  [data-mobile-menu] nav :is(a, button):is(:hover, :focus-visible) {
+    color: var(--chrome-accent) !important;
+  }
+
+  [data-mewepak-header] [role="search"] input {
+    border-color: var(--chrome-line);
+  }
+
+  [data-mewepak-header] [role="search"] input:focus,
+  .site-header [role="search"] input:focus {
+    border-color: var(--chrome-accent);
+    box-shadow: 0 0 0 3px #007b791a;
+  }
+
+  [data-mewepak-header] a.shadow-lg,
+  [data-mobile-menu] a.w-full.h-12,
+  .site-header .header-actions .button-primary,
+  .mobile-panel .button-primary,
+  [data-scroll-top] {
+    background: var(--chrome-deep) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+  }
+
+  [data-mewepak-header] a.shadow-lg,
+  [data-mobile-menu] a.w-full.h-12,
+  .site-header .header-actions .button-primary,
+  .mobile-panel .button-primary {
+    border: 1px solid var(--chrome-deep);
+    border-radius: 5px !important;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  [data-mewepak-header] a.shadow-lg:hover,
+  [data-mobile-menu] a.w-full.h-12:hover,
+  .site-header .header-actions .button-primary:hover,
+  .mobile-panel .button-primary:hover,
+  [data-scroll-top]:hover {
+    background: var(--chrome-deep-hover) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) {
+    background: var(--chrome-soft) !important;
+    color: var(--chrome-muted);
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(h4, .mewepak-category-menu-title) {
+    color: var(--chrome-deep) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) h4 {
+    font-size: 12px !important;
+    line-height: 1.4;
+    font-weight: 600 !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span) {
+    font-size: 12px !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) p {
+    line-height: 1.7;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span, svg) {
+    color: var(--chrome-muted) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) a:is(:hover, :focus-visible),
+  :is(footer[data-storefront-footer], footer.site-footer) a[href^="mailto:"] {
+    color: var(--chrome-accent) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(.mewepak-footer-logo, .footer-logo) {
+    filter: none !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(.border-t, .footer-bottom) {
+    border-color: var(--chrome-line) !important;
+    color: var(--chrome-muted);
+  }
+
+  footer[data-storefront-footer] :is(a.rounded-full, a[class~="!rounded-full"]) {
+    background: #fff !important;
+    border: 1px solid var(--chrome-line);
+    border-radius: 5px !important;
+    color: var(--chrome-accent) !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] input {
+    background: #fff !important;
+    border-color: var(--chrome-line) !important;
+    border-radius: 5px !important;
+    font-size: 12px;
+    color: var(--chrome-deep) !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] input::placeholder {
+    color: var(--chrome-muted) !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] button {
+    background: var(--chrome-deep) !important;
+    border-radius: 5px !important;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] button span {
+    color: #fff !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] button:hover {
+    background: var(--chrome-deep-hover) !important;
+  }
+
+  footer[data-storefront-footer] > div > .border-t > p {
+    font-size: 11px !important;
+  }
+
+  footer[data-storefront-footer] ul:has(> li > a[href="/products/stand-up-pouch"]) a:is(:hover, :focus-visible) {
+    background: #e2edeb;
+  }
+}

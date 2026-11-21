@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book a Packaging Consultation — Mewepak</title>
+  <meta name="description" content="Schedule a video call or factory visit with Mewepak packaging specialists.">
+  <link rel="stylesheet" href="/assets/original/tailwind.css">
+  <link rel="stylesheet" href="/assets/original/custom.css">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/booking.css?v=consultation-1">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async data-booking-verification></script>
+</head>
+<body>
+  <a class="sr-only focus:not-sr-only" href="#tool-main">Skip to content</a>
+  <div class="wp-site-blocks">
+    <header class="wp-block-template-part"></header>
+    <main id="tool-main" class="booking-page">
+      <div class="bk-layout">
+        <section class="bk-intro" aria-labelledby="bk-title">
+          <div class="bk-intro-copy">
+            <p class="bk-eyebrow">Free packaging consultation</p>
+            <h1 id="bk-title" data-booking-title>Meet with Mewepak</h1>
+            <p>Talk through the right format, materials and print options for your next packaging project.</p>
+            <div class="bk-venue">
+              <span data-booking-location>Zoom / Factory Visit</span>
+            </div>
+          </div>
+          <img class="bk-print-image" src="/assets/client-design/images/e28ba2d410cc1321.webp" width="1400" height="933" alt="Turquoise printed packaging film passing over metal rollers" decoding="async">
+          <aside class="bk-prepare">
+            <h2>Have something to share?</h2>
+            <p>A product reference, estimated quantity or target launch date gives us a place to start.</p>
+          </aside>
+        </section>
+
+        <section class="bk-panel" aria-labelledby="bk-appointment">
+          <form data-booking-form action="/api/bookings" method="post">
+            <div class="bk-section">
+              <h2 id="bk-appointment">Choose a time</h2>
+              <p class="bk-introduction">Select a date and available time window.</p>
+              <div class="bk-date-group">
+                <div class="bk-field">
+                  <label for="booking-date">Appointment date</label>
+                  <input id="booking-date" name="date" type="date" required>
+                </div>
+                <div class="bk-field">
+                  <label for="booking-timezone">Your time zone</label>
+                  <select id="booking-timezone" name="timezone" required aria-describedby="bk-timezone-help">
+                    <option value="">Loading time zones…</option>
+                  </select>
+                  <small id="bk-timezone-help">Included with your request.</small>
+                </div>
+              </div>
+              <div class="bk-week" role="group" aria-label="Quick dates" data-booking-week hidden></div>
+              <fieldset class="bk-slots">
+                <legend>Available time windows</legend>
+                <p id="bk-schedule-zone" class="bk-schedule-zone" data-booking-schedule-zone hidden></p>
+                <div class="bk-slot-grid" data-slot-grid aria-describedby="bk-schedule-zone"></div>
+                <p class="bk-slot-status" data-booking-slot-status role="status">Loading available times…</p>
+                <button class="bk-retry" data-booking-retry type="button" hidden>Try again</button>
+                <input type="hidden" name="time">
+              </fieldset>
+              <div class="bk-meeting">
+                <fieldset>
+                  <legend>Meeting type</legend>
+                  <div class="bk-choices">
+                    <label class="bk-choice"><input type="radio" name="meeting_type" value="video_call" checked><span>Video call</span></label>
+                    <label class="bk-choice"><input type="radio" name="meeting_type" value="factory_visit"><span>Factory visit</span></label>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <legend>Duration</legend>
+                  <div class="bk-choices" data-duration-options>
+                    <label class="bk-choice"><input type="radio" name="duration" value="15" checked><span>15 min</span></label>
+                    <label class="bk-choice"><input type="radio" name="duration" value="30"><span>30 min</span></label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <div class="bk-section">
+              <h2>Your details</h2>
+              <p class="bk-introduction">Tell us who to contact about your packaging project.</p>
+              <div class="bk-contact">
+                <div class="bk-field">
+                  <label for="booking-name">Full name</label>
+                  <input id="booking-name" name="name" autocomplete="name" required minlength="2" maxlength="120">
+                </div>
+                <div class="bk-field">
+                  <label for="booking-company">Company <small>Optional</small></label>
+                  <input id="booking-company" name="company" autocomplete="organization" maxlength="160">
+                </div>
+                <div class="bk-field">
+                  <label for="booking-email">Email</label>
+                  <input id="booking-email" name="email" type="email" autocomplete="email" required maxlength="254">
+                </div>
+                <div class="bk-field">
+                  <label for="booking-phone">Phone</label>
+                  <input id="booking-phone" name="phone" type="tel" autocomplete="tel" required minlength="5" maxlength="50">
+                </div>
+                <div class="bk-field bk-field-wide">
+                  <label for="booking-topic">What would you like to discuss? <small>Optional</small></label>
+                  <textarea id="booking-topic" name="topic" rows="3" maxlength="2000" placeholder="For example: coffee pouches, a matte finish and an estimate of 10,000 units"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="bk-submit-area">
+              <div class="bk-summary" data-booking-summary hidden>
+                <strong>Your selection</strong>
+                <span data-booking-summary-time></span>
+                <span data-booking-summary-type></span>
+              </div>
+              <div class="bk-verification" data-turnstile></div>
+              <p class="bk-verification-status" data-booking-verification-status role="status" hidden></p>
+              <button class="bk-submit" type="submit"><span data-booking-submit-label>Request consultation</span><span aria-hidden="true">↗</span></button>
+              <p class="bk-form-status" data-form-status role="status" hidden></p>
+              <noscript><p class="bk-form-status">JavaScript is required to check availability and request a consultation.</p></noscript>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+    <footer class="wp-block-template-part"></footer>
+  </div>
+  <script src="/assets/original/runtime-data.js" defer></script>
+  <script src="/api/frontend-navigation" defer></script>
+  <script src="/assets/original/main.js" defer></script>
+  <script type="module" src="/assets/booking.js?v=global-timezones"></script>
+</body>
+</html>

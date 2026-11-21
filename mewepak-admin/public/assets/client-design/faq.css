@@ -1,0 +1,774 @@
+body { margin: 0; }
+
+/* MewePak shared header and footer */
+#mewepak-homepage {
+  --mw-ink:#21343c;
+  --mw-teal:#00cfca;
+  --mw-deep:#102b35;
+  --mw-muted:#61747b;
+  --mw-line:#e1e9e9;
+  --mw-soft:#f3f7f6;
+  background:#fff;
+  color:var(--mw-ink);
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  color-scheme:light;
+  width:100%;
+  min-width:0;
+}
+
+#mewepak-homepage * {
+  box-sizing:border-box;
+}
+
+#mewepak-homepage [hidden] {
+  display:none!important;
+}
+
+#mewepak-homepage a {
+  color:inherit;
+  text-decoration:none;
+}
+
+#mewepak-homepage img {
+  display:block;
+  max-width:100%;
+}
+
+#mewepak-homepage p,#mewepak-homepage h2,#mewepak-homepage h3 {
+  margin-top:0;
+}
+
+#mewepak-homepage .mw-inner {
+  width:calc(100% - 80px);
+  max-width:1240px;
+  margin:0 auto;
+}
+
+#mewepak-homepage .mw-topbar {
+  background:var(--mw-deep);
+  color:#e1efee;
+  font-size:11px;
+  letter-spacing:.2px;
+}
+
+#mewepak-homepage .mw-topbar .mw-inner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  min-height:32px;
+}
+
+#mewepak-homepage .mw-topbar-mail {
+  color:#c2d4d8;
+}
+
+#mewepak-homepage .mw-header-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:98px;
+}
+
+#mewepak-homepage .mw-logo {
+  width:146px;
+  height:auto;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+#mewepak-homepage .mw-nav {
+  display:flex;
+  align-items:center;
+  gap:24px;
+  margin-left:auto;
+}
+
+#mewepak-homepage .mw-nav a {
+  font-size:12px;
+  font-weight:600;
+  padding:14px 0;
+  color:#465b63;
+}
+
+#mewepak-homepage .mw-nav a:hover {
+  color:#007b79;
+}
+
+#mewepak-homepage .mw-quote {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:17px;
+  min-height:44px;
+  padding:11px 20px;
+  background:var(--mw-deep);
+  color:#fff;
+  border:1px solid var(--mw-deep);
+  border-radius:5px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+#mewepak-homepage .mw-quote:hover {
+  background:#1b4450;
+}
+
+#mewepak-homepage .mw-mobile-menu {
+  display:none;
+  border-top:1px solid var(--mw-line);
+  border-bottom:1px solid var(--mw-line);
+}
+
+#mewepak-homepage .mw-mobile-menu summary {
+  padding:12px 0;
+  font-size:13px;
+}
+
+#mewepak-homepage .mw-mobile-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 24px;
+  padding:4px 0 20px;
+  font-size:13px;
+}
+
+#mewepak-homepage .mw-footer {
+  background:#f2f6f5;
+  padding:48px 0 22px;
+}
+
+#mewepak-homepage .mw-footer-top {
+  display:grid;
+  grid-template-columns:1.2fr .7fr 1fr;
+  gap:50px;
+  padding-bottom:36px;
+}
+
+#mewepak-homepage .mw-footer-logo {
+  width:151px;
+  height:auto;
+  object-fit:contain;
+  object-position:left;
+}
+
+#mewepak-homepage .mw-footer p {
+  font-size:12px;
+  color:#667c82;
+  margin:16px 0 0;
+  line-height:1.7;
+  max-width:240px;
+}
+
+#mewepak-homepage .mw-footer h3 {
+  font-size:12px;
+  line-height:1.4;
+  margin:0 0 14px;
+  font-weight:600;
+}
+
+#mewepak-homepage .mw-footer-links {
+  display:grid;
+  gap:9px;
+  align-content:start;
+  font-size:12px;
+  color:#5c7279;
+}
+
+#mewepak-homepage .mw-footer-contact a {
+  font-size:14px;
+  color:#007f7a;
+}
+
+#mewepak-homepage .mw-footer-contact p {
+  margin-top:8px;
+}
+
+#mewepak-homepage .mw-footer-bottom {
+  border-top:1px solid #d9e4e2;
+  padding-top:19px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:11px;
+  color:#6e8287;
+}
+
+#mewepak-homepage .mw-quote[aria-current="page"] {
+  background: #00766d;
+  border-color: #00766d;
+}
+#mewepak-homepage .mw-quote[aria-current="page"]:hover { background: #005f59; }
+#mewepak-homepage .mw-mobile-links a { padding: 9px 0; }
+#mewepak-homepage .mw-footer a:hover { text-decoration: underline; }
+
+@media (min-width: 1200px) {
+  #mewepak-homepage .mw-nav { gap: 30px; }
+  #mewepak-homepage .mw-nav a { font-size: 13px; }
+  #mewepak-homepage .mw-header-row { gap: 35px; }
+}
+@media (max-width: 900px) {
+  #mewepak-homepage .mw-inner { width: calc(100% - 56px); }
+  #mewepak-homepage .mw-header-row { min-height: 87px; gap: 17px; }
+  #mewepak-homepage .mw-nav { gap: 16px; }
+  #mewepak-homepage .mw-nav a { font-size: 11px; }
+  #mewepak-homepage .mw-logo { width: 131px; }
+  #mewepak-homepage .mw-quote { gap: 9px; padding: 10px 13px; }
+  #mewepak-homepage .mw-footer-top { gap: 30px; }
+}
+@media (max-width: 720px) {
+  #mewepak-homepage .mw-inner { width: calc(100% - 36px); }
+  #mewepak-homepage .mw-topbar-mail { display: none; }
+  #mewepak-homepage .mw-header-row { min-height: 74px; }
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+@media (max-width: 550px) {
+  #mewepak-homepage .mw-footer { padding-top: 32px; }
+  #mewepak-homepage .mw-footer-top { grid-template-columns: 1fr; gap: 23px; }
+  #mewepak-homepage .mw-footer-bottom { flex-wrap: wrap; gap: 8px; }
+}
+
+
+/* Gallery & Design navigation */
+#mewepak-homepage .mw-nav { gap: clamp(13px, 1.65vw, 27px); }
+#mewepak-homepage .mw-gallery-link { white-space: nowrap; }
+#mewepak-homepage .mw-gallery-link[aria-current="page"] { color: #00756b; }
+@media (max-width: 940px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* About Us navigation */
+#mewepak-homepage .mw-nav { gap: clamp(12px, 1.55vw, 26px); }
+#mewepak-homepage .mw-about-link { white-space: nowrap; }
+#mewepak-homepage .mw-about-link[aria-current="page"] { color: #196447; font-weight: 700; }
+#mewepak-homepage .mw-nav .mw-about-link[aria-current="page"] { box-shadow: inset 0 -2px #278361; }
+@media (max-width: 1000px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* Our Capabilities navigation */
+#mewepak-homepage .mw-nav { gap: clamp(11px, 1.32vw, 22px); }
+#mewepak-homepage .mw-nav a { white-space: nowrap; }
+#mewepak-homepage .mw-capabilities-link[aria-current="page"] {
+  color: #196447;
+  font-weight: 700;
+}
+#mewepak-homepage .mw-nav .mw-capabilities-link[aria-current="page"] {
+  box-shadow: inset 0 -2px #278361;
+}
+@media (max-width: 1080px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+/* FAQ navigation */
+#mewepak-homepage .mw-nav { gap: clamp(11px, 1.24vw, 21px); }
+#mewepak-homepage .mw-nav a { white-space: nowrap; }
+#mewepak-homepage .mw-faq-link[aria-current="page"] {
+  color: #196447;
+  font-weight: 700;
+}
+#mewepak-homepage .mw-nav .mw-faq-link[aria-current="page"] {
+  box-shadow: inset 0 -2px #278361;
+}
+@media (max-width: 1140px) {
+  #mewepak-homepage .mw-nav { display: none; }
+  #mewepak-homepage .mw-mobile-menu { display: block; }
+}
+
+#mewepak-homepage.faq-page {
+  --fq-forest: #103c33;
+  --fq-ink: #193e34;
+  --fq-body: #425b51;
+  --fq-green: #18614b;
+  --fq-sage: #eef4ed;
+  --fq-warm: #f8f7f1;
+  --fq-line: #d6e2da;
+  --fq-lime: #e2edb7;
+}
+#mewepak-homepage.faq-page .fq-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#mewepak-homepage.faq-page .fq-skip {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 16px;
+  transform: translateY(-180%);
+  background: #fff;
+  color: var(--fq-forest);
+  padding: 12px 18px;
+  border-radius: 5px;
+}
+#mewepak-homepage.faq-page .fq-skip:focus {
+  transform: translateY(0);
+}
+#mewepak-homepage.faq-page :is(a, button, summary):focus-visible {
+  outline: 2px solid #198569;
+  outline-offset: 4px;
+}
+#mewepak-homepage.faq-page .fq-icon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  vertical-align: middle;
+}
+#mewepak-homepage.faq-page .fq-breadcrumb-band {
+  background: var(--fq-warm);
+  border-top: 1px solid var(--mw-line);
+}
+#mewepak-homepage.faq-page .fq-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  color: var(--fq-body);
+  font-size: 12px;
+}
+#mewepak-homepage.faq-page .fq-breadcrumb [aria-current] {
+  color: var(--fq-green);
+  font-weight: 700;
+}
+#mewepak-homepage.faq-page .fq-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+#mewepak-homepage.faq-page .fq-hero {
+  color: #fff;
+  background: var(--fq-forest);
+}
+#mewepak-homepage.faq-page .fq-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.58fr) minmax(0, .85fr);
+  align-items: center;
+  gap: clamp(28px, 7vw, 106px);
+  padding: clamp(40px, 5vw, 70px) 0 clamp(38px, 4.5vw, 62px);
+}
+#mewepak-homepage.faq-page .fq-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--fq-green);
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+#mewepak-homepage.faq-page .fq-kicker::before {
+  content: "";
+  width: 21px;
+  height: 1px;
+  background: currentColor;
+}
+#mewepak-homepage.faq-page .fq-hero .fq-kicker {
+  color: var(--fq-lime);
+}
+#mewepak-homepage.faq-page #fq-title {
+  margin: 0 0 15px;
+  color: #fff;
+  font-size: clamp(43px, 5.1vw, 74px);
+  line-height: .99;
+  letter-spacing: -.058em;
+  text-wrap: balance;
+}
+#mewepak-homepage.faq-page #fq-title em {
+  display: block;
+  color: var(--fq-lime);
+  font-style: normal;
+}
+#mewepak-homepage.faq-page .fq-lead {
+  max-width: 510px;
+  margin: 0 0 23px;
+  color: #e0ece5;
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.56;
+}
+#mewepak-homepage.faq-page .fq-search {
+  max-width: 585px;
+}
+#mewepak-homepage.faq-page .fq-search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--fq-green);
+}
+#mewepak-homepage.faq-page .fq-search-box:focus-within {
+  outline: 2px solid var(--fq-lime);
+  outline-offset: 4px;
+}
+#mewepak-homepage.faq-page .fq-search-box input {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 8px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--fq-ink);
+  font: 16px/1.25 Arial, Helvetica, sans-serif;
+}
+#mewepak-homepage.faq-page .fq-search-box input::placeholder {
+  color: #546b61;
+}
+#mewepak-homepage.faq-page .fq-search-box input::-webkit-search-cancel-button {
+  appearance: none;
+}
+#mewepak-homepage.faq-page #fq-clear {
+  flex: none;
+  padding: 6px 3px;
+  border: 0;
+  background: transparent;
+  color: var(--fq-green);
+  font: 700 13px/1.4 Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#mewepak-homepage.faq-page #fq-clear:hover {
+  text-decoration: underline;
+}
+#mewepak-homepage.faq-page .fq-status {
+  min-height: 19px;
+  margin: 8px 0 0;
+  color: #d4e5da;
+  font-size: 12px;
+}
+#mewepak-homepage.faq-page .fq-quick {
+  padding: clamp(21px, 3vw, 37px);
+  border-radius: 9px;
+  background: var(--fq-sage);
+  color: var(--fq-ink);
+}
+#mewepak-homepage.faq-page .fq-quick h2 {
+  margin: 0 0 12px;
+  font-size: clamp(23px, 2.1vw, 29px);
+  line-height: 1.15;
+  letter-spacing: -.035em;
+}
+#mewepak-homepage.faq-page .fq-quick a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+  padding: 10px 0;
+  border-top: 1px solid #cbdacf;
+  color: var(--fq-green);
+  font-size: 14px;
+  font-weight: 700;
+}
+#mewepak-homepage.faq-page .fq-quick a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+#mewepak-homepage.faq-page .fq-layout {
+  display: grid;
+  grid-template-columns: minmax(185px, 240px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(28px, 5vw, 75px);
+  min-height: 330px;
+  padding: clamp(36px, 4.6vw, 66px) 0 clamp(49px, 6vw, 88px);
+}
+#mewepak-homepage.faq-page .fq-topics {
+  position: sticky;
+  top: 22px;
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--fq-line);
+  border-radius: 8px;
+  background: var(--fq-sage);
+}
+#mewepak-homepage.faq-page .fq-topic-label {
+  margin: 0 0 3px;
+  padding: 0 9px;
+  color: var(--fq-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+#mewepak-homepage.faq-page .fq-topic {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  padding: 9px;
+  border-radius: 5px;
+  color: var(--fq-ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+#mewepak-homepage.faq-page .fq-topic:hover {
+  background: #fff;
+  color: var(--fq-green);
+}
+#mewepak-homepage.faq-page .fq-topic > span {
+  color: var(--fq-green);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+#mewepak-homepage.faq-page .fq-questions {
+  display: grid;
+  gap: clamp(34px, 4.4vw, 63px);
+  min-width: 0;
+}
+#mewepak-homepage.faq-page .fq-group {
+  scroll-margin-top: 22px;
+}
+#mewepak-homepage.faq-page .fq-group-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 13px;
+}
+#mewepak-homepage.faq-page :is(.fq-group h2, .fq-empty h2, .fq-cta h2) {
+  margin: 0;
+  color: var(--fq-ink);
+  font-size: clamp(29px, 3.15vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -.045em;
+}
+#mewepak-homepage.faq-page .fq-group-count {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--fq-sage);
+  color: var(--fq-green);
+  font-size: 12px;
+  font-weight: 700;
+}
+#mewepak-homepage.faq-page .fq-group-description {
+  margin: 8px 0 17px;
+  color: var(--fq-body);
+  font-size: 15px;
+}
+#mewepak-homepage.faq-page .fq-group-list {
+  border-top: 1px solid var(--fq-line);
+}
+#mewepak-homepage.faq-page .fq-question {
+  scroll-margin-top: 20px;
+  border-bottom: 1px solid var(--fq-line);
+}
+#mewepak-homepage.faq-page .fq-question summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 59px;
+  padding: 12px 12px 12px 0;
+  color: var(--fq-ink);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  list-style: none;
+  cursor: pointer;
+}
+#mewepak-homepage.faq-page .fq-question summary::-webkit-details-marker {
+  display: none;
+}
+#mewepak-homepage.faq-page .fq-question summary:hover {
+  color: var(--fq-green);
+}
+#mewepak-homepage.faq-page .fq-disclosure {
+  display: grid;
+  place-items: center;
+  flex: 0 0 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: var(--fq-sage);
+  color: var(--fq-green);
+}
+#mewepak-homepage.faq-page .fq-disclosure path:last-child {
+  opacity: 1;
+}
+#mewepak-homepage.faq-page .fq-question[open] .fq-disclosure path:last-child {
+  opacity: 0;
+}
+#mewepak-homepage.faq-page .fq-answer {
+  max-width: 730px;
+  padding: 0 17px 17px 0;
+  color: var(--fq-body);
+  font-size: 15px;
+  line-height: 1.63;
+}
+#mewepak-homepage.faq-page .fq-answer p {
+  margin: 0 0 7px;
+}
+#mewepak-homepage.faq-page .fq-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  color: var(--fq-green);
+  font-size: 14px;
+  font-weight: 700;
+}
+#mewepak-homepage.faq-page .fq-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+#mewepak-homepage.faq-page .fq-layout-empty .fq-questions {
+  grid-column: 1 / -1;
+}
+#mewepak-homepage.faq-page .fq-empty {
+  padding: clamp(25px, 4vw, 52px);
+  border: 1px solid var(--fq-line);
+  border-radius: 9px;
+  background: var(--fq-warm);
+}
+#mewepak-homepage.faq-page .fq-empty .fq-text-link {
+  margin-left: 14px;
+}
+#mewepak-homepage.faq-page .fq-empty p {
+  margin: 10px 0 18px;
+  color: var(--fq-body);
+  font-size: 16px;
+}
+
+#mewepak-homepage.faq-page .fq-cta {
+  background: var(--fq-sage);
+}
+#mewepak-homepage.faq-page .fq-cta-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 20px 40px;
+  padding: clamp(34px, 5vw, 70px) 0;
+}
+#mewepak-homepage.faq-page .fq-cta p:not(.fq-kicker) {
+  margin: 10px 0 0;
+  color: var(--fq-body);
+  font-size: 16px;
+}
+#mewepak-homepage.faq-page .fq-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+#mewepak-homepage.faq-page .fq-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 45px;
+  padding: 10px 15px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font: 700 13px/1.3 Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#mewepak-homepage.faq-page .fq-button-primary {
+  background: var(--fq-forest);
+  color: #fff;
+}
+#mewepak-homepage.faq-page .fq-button-primary:hover {
+  background: var(--fq-green);
+}
+#mewepak-homepage.faq-page .fq-button-secondary {
+  border-color: #91a99c;
+  color: var(--fq-forest);
+}
+#mewepak-homepage.faq-page .fq-button-secondary:hover {
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  #mewepak-homepage.faq-page .fq-hero-grid {
+    gap: 24px;
+  }
+  #mewepak-homepage.faq-page .fq-cta-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  #mewepak-homepage.faq-page :is(.fq-hero-grid, .fq-layout) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #mewepak-homepage.faq-page .fq-hero-grid {
+    padding: 34px 0 28px;
+  }
+  #mewepak-homepage.faq-page #fq-title em {
+    display: inline;
+  }
+  #mewepak-homepage.faq-page .fq-topics {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 12px;
+  }
+  #mewepak-homepage.faq-page .fq-topic-label {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 520px) {
+  #mewepak-homepage.faq-page #fq-title {
+    font-size: clamp(37px, 10vw, 49px);
+  }
+  #mewepak-homepage.faq-page .fq-quick {
+    padding: 16px;
+  }
+  #mewepak-homepage.faq-page .fq-topic {
+    gap: 6px;
+    font-size: 12px;
+  }
+  #mewepak-homepage.faq-page .fq-search-box input::placeholder {
+    font-size: 14px;
+  }
+  #mewepak-homepage.faq-page .fq-empty .fq-text-link {
+    display: flex;
+    width: fit-content;
+    margin: 9px 0 0;
+  }
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources {
+  padding-block: clamp(22px, 4vw, 45px) 0;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources h2 {
+  margin: 0 0 12px;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+  gap: 12px;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid article {
+  padding: 16px 18px;
+  border: 1px solid #d7e5de;
+  border-radius: 10px;
+  background: #edf5f1;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid :is(h3, p) {
+  margin: 0 0 6px;
+}
+
+#mewepak-homepage.faq-page .fq-buyer-resources__grid a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #176355;
+  font-weight: 650;
+}
