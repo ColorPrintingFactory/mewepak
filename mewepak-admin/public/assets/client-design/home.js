@@ -26,6 +26,7 @@ const reduce=matchMedia('(prefers-reduced-motion:reduce)');
 const still=new URLSearchParams(location.search).has('still');
 const hero=root.querySelector('.mw-hero');
 const heroFrame=hero.querySelector('.mw-hero-frame');
+const heroGrid=heroFrame.querySelector('.v2-hero-grid');
 const heroControls=hero.querySelector('#mw-carousel-controls');
 const heroStatus=hero.querySelector('#mw-slide-status');
 const rotationButton=hero.querySelector('#mw-hero-playback');
@@ -35,9 +36,38 @@ let rotating=!reduce.matches&&!still;
 let inView=!('IntersectionObserver' in window);
 let hovered=false;
 let rotationTimer;
+let heroTransition;
+const prefetchedHeroPhotos=new Set();
+
+function stopHeroTransition(){
+ if(!heroTransition)return;
+ const {outgoing, animations}=heroTransition;
+ heroTransition=undefined;
+ animations.forEach(animation=>{animation.onfinish=null;animation.cancel();});
+ outgoing.remove();
+}
+
+function slideHeroFromRight(outgoing){
+ const width=heroFrame.clientWidth;
+ outgoing.classList.add('mw-hero-outgoing');
+ outgoing.inert=true;
+ outgoing.setAttribute('aria-hidden','true');
+ outgoing.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
+ heroFrame.append(outgoing);
+ const timing={duration:520,easing:'cubic-bezier(.25,.7,.3,1)'};
+ const exit=outgoing.animate([{transform:'translateX(0)'},{transform:`translateX(-${width}px)`}],timing);
+ const enter=heroGrid.animate([{transform:`translateX(${width}px)`},{transform:'translateX(0)'}],timing);
+ heroTransition={outgoing,animations:[exit,enter]};
+ enter.onfinish=stopHeroTransition;
+}
 
 function showSlide(index, manual=false){
- current=(index+slides.length)%slides.length;
+ const next=(index+slides.length)%slides.length;
+ stopHeroTransition();
+ const outgoing=next!==current&&!reduce.matches&&heroGrid.animate&&heroFrame.clientWidth
+  ? heroGrid.cloneNode(true)
+  : null;
+ current=next;
  const slide=slides[current];
  root.querySelector('#v2-hero-kicker').textContent=slide.kicker;
  const title=root.querySelector('#v2-hero-title');
@@ -50,11 +80,21 @@ function showSlide(index, manual=false){
  root.querySelector('#mw-slide-title').textContent=slide.name;
  if(manual) heroStatus.textContent=slide.name+', '+announcement('banner',current+1,slides.length,'banner '+(current+1)+' of '+slides.length);
  root.querySelectorAll('[data-slide]').forEach((dot,i)=>dot.setAttribute('aria-pressed',String(i===current)));
+ if(outgoing)slideHeroFromRight(outgoing);
 }
 function queueRotation(){
  clearTimeout(rotationTimer);
  const focused=hero.contains(document.activeElement)&&document.activeElement!==rotationButton;
  if(!rotating||!inView||hovered||focused||document.hidden)return;
+ const next=slides[(current+1)%slides.length];
+ for(const photo of next.photos){
+  const src=photo.src||assets[photo.key];
+  if(!src||prefetchedHeroPhotos.has(src))continue;
+  prefetchedHeroPhotos.add(src);
+  const image=new Image();
+  image.fetchPriority='low';
+  image.src=src;
+ }
  rotationTimer=setTimeout(()=>{
   showSlide(current+1);
   queueRotation();
@@ -98,7 +138,11 @@ heroFrame.addEventListener('pointerleave',()=>{
 hero.addEventListener('focusin',queueRotation);
 hero.addEventListener('focusout',()=>queueMicrotask(queueRotation));
 document.addEventListener('visibilitychange',queueRotation);
-reduce.addEventListener('change',event=>{if(event.matches)setRotation(false);});
+reduce.addEventListener('change',event=>{
+ if(!event.matches)return;
+ stopHeroTransition();
+ setRotation(false);
+});
 if('IntersectionObserver' in window){
  new IntersectionObserver(([entry])=>{
   inView=entry.isIntersecting;
