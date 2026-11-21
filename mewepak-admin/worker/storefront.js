@@ -2,7 +2,7 @@ import { languageSwitcher } from './i18n.js';
 import { compactHeaderAssets } from './compact-header.js';
 import { headerActionsAssets, renderHeaderActions } from './header-actions.js';
 import { siteIcons } from './site-icons.js';
-import { homeFormatSection, homeReviewsPreview } from './homepage-sections.js';
+import { homeFormatSection, homeReviewsPreview, homeSustainabilitySection } from './homepage-sections.js';
 import { processPath } from './cms.js';
 import { previewFormats, studioModelUrl } from './preview-formats.js';
 import { markets } from './recommendations.js';
@@ -348,11 +348,12 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(headerActionsAssets + compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/home-sections.css?v=2">', { html: true }));
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/home-sections.css?v=3">', { html: true }));
     on('#mw-markets', (el) => el.after(homeFormatSection, { html: true }));
+    on('#mw-sustainability', (el) => el.remove());
+    on('#mw-contact', (el) => el.before(homeSustainabilitySection + (showReviewPreview ? homeReviewsPreview : ''), { html: true }));
     if (showReviewPreview) {
       on('head', (el) => el.append('<script src="/assets/client-design/home-reviews.js?v=1" defer></script>', { html: true }));
-      on('#mw-contact', (el) => el.before(homeReviewsPreview, { html: true }));
     }
     if (!settings.factoryEnabled) {
       on('.hy-factory', (el) => el.remove());
