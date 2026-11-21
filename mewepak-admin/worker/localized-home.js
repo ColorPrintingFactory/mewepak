@@ -34,7 +34,6 @@ export function localizeSharedHome(response, lang) {
     if (trailing && Object.hasOwn(phrases,trailing[1].trim())) return phrases[trailing[1].trim()]+' '+trailing[2];
     if (key.includes('All rights reserved.')) return key.replace('All rights reserved.',phrases['All rights reserved.']);
     if (/^(Call Us|Toll-Free|Front Desk):/.test(key)) return key.replace(/^[^:]+/,text=>phrases[text]||text);
-    if (/^Clean Hero, banner 1 of 4$/.test(key)) return labels.banner.replace('{current}','1').replace('{total}','4');
     if (/^Featured packaging 1 of 4$/.test(key)) return labels.product.replace('{current}','1').replace('{total}','4');
     return null;
   }

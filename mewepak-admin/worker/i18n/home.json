@@ -1433,6 +1433,18 @@
   "Bannière suivante",
   "الشريحة التالية"
  ],
+ "Pause banner rotation": [
+  "Bannerrotation pausieren",
+  "Pausar la rotación de banners",
+  "Mettre le défilement des bannières en pause",
+  "أوقف تدوير الشرائح مؤقتًا"
+ ],
+ "Play banner rotation": [
+  "Bannerrotation starten",
+  "Iniciar la rotación de banners",
+  "Lancer le défilement des bannières",
+  "شغّل تدوير الشرائح"
+ ],
  "Previous featured product": [
   "Vorheriges Produkt",
   "Producto destacado anterior",

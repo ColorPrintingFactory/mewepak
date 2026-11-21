@@ -22,8 +22,21 @@ const slides = content.heroSlides.map((slide, index) => {
  if (language.phrases) copy.photos = copy.photos.map(photo=>({...photo,alt:language.phrases[photo.alt] || copy.name}));
  return copy;
 });
+const reduce=matchMedia('(prefers-reduced-motion:reduce)');
+const still=new URLSearchParams(location.search).has('still');
+const hero=root.querySelector('.mw-hero');
+const heroFrame=hero.querySelector('.mw-hero-frame');
+const heroControls=hero.querySelector('#mw-carousel-controls');
+const heroStatus=hero.querySelector('#mw-slide-status');
+const rotationButton=hero.querySelector('#mw-hero-playback');
+const heroInterval=6000;
 let current=0;
-function showSlide(index){
+let rotating=!reduce.matches&&!still;
+let inView=!('IntersectionObserver' in window);
+let hovered=false;
+let rotationTimer;
+
+function showSlide(index, manual=false){
  current=(index+slides.length)%slides.length;
  const slide=slides[current];
  root.querySelector('#v2-hero-kicker').textContent=slide.kicker;
@@ -35,21 +48,66 @@ function showSlide(index){
  root.querySelectorAll('[data-hero-shot]').forEach((img,i)=>{img.parentElement.hidden=i>=slide.photos.length;if(i<slide.photos.length){img.src=slide.photos[i].src||assets[slide.photos[i].key];img.alt=slide.photos[i].alt;}});
  root.querySelector('#mw-slide-count').textContent=(current+1)+' / '+slides.length;
  root.querySelector('#mw-slide-title').textContent=slide.name;
- root.querySelector('#mw-slide-status').textContent=slide.name+', '+announcement('banner',current+1,slides.length,'banner '+(current+1)+' of '+slides.length);
+ if(manual) heroStatus.textContent=slide.name+', '+announcement('banner',current+1,slides.length,'banner '+(current+1)+' of '+slides.length);
  root.querySelectorAll('[data-slide]').forEach((dot,i)=>dot.setAttribute('aria-pressed',String(i===current)));
 }
-root.querySelector('#mw-previous').addEventListener('click',()=>showSlide(current-1));
-root.querySelector('#mw-next').addEventListener('click',()=>showSlide(current+1));
+function queueRotation(){
+ clearTimeout(rotationTimer);
+ const focused=hero.contains(document.activeElement)&&document.activeElement!==rotationButton;
+ if(!rotating||!inView||hovered||focused||document.hidden)return;
+ rotationTimer=setTimeout(()=>{
+  showSlide(current+1);
+  queueRotation();
+ },heroInterval);
+}
+function setRotation(enabled){
+ rotating=enabled;
+ const label=localized(enabled?'Pause banner rotation':'Play banner rotation');
+ rotationButton.setAttribute('aria-label',label);
+ rotationButton.title=label;
+ rotationButton.dataset.playing=String(enabled);
+ queueRotation();
+}
+function selectSlide(index){
+ showSlide(index,true);
+ queueRotation();
+}
+root.querySelector('#mw-previous').addEventListener('click',()=>selectSlide(current-1));
+root.querySelector('#mw-next').addEventListener('click',()=>selectSlide(current+1));
 root.querySelectorAll('[data-slide]').forEach(dot => {
  const index = Number(dot.dataset.slide);
  dot.setAttribute('aria-label', slides[index].name + ', ' + announcement('banner',index+1,slides.length,'banner '+(index+1)+' of '+slides.length));
- dot.addEventListener('click', () => showSlide(index));
+ dot.addEventListener('click', () => selectSlide(index));
 });
-root.querySelector('#mw-carousel-controls').addEventListener('keydown',event=>{
- if(event.key==='ArrowRight'){event.preventDefault();showSlide(current+1);}
- if(event.key==='ArrowLeft'){event.preventDefault();showSlide(current-1);}
+heroControls.addEventListener('keydown',event=>{
+ if(event.key!=='ArrowRight'&&event.key!=='ArrowLeft')return;
+ event.preventDefault();
+ const step=event.key==='ArrowRight'?1:-1;
+ selectSlide(current+(root.closest('[dir="rtl"]')?-step:step));
 });
+rotationButton.addEventListener('click',()=>setRotation(!rotating));
+heroFrame.addEventListener('pointerenter',event=>{
+ if(event.pointerType!=='mouse')return;
+ hovered=true;
+ queueRotation();
+});
+heroFrame.addEventListener('pointerleave',()=>{
+ hovered=false;
+ queueRotation();
+});
+hero.addEventListener('focusin',queueRotation);
+hero.addEventListener('focusout',()=>queueMicrotask(queueRotation));
+document.addEventListener('visibilitychange',queueRotation);
+reduce.addEventListener('change',event=>{if(event.matches)setRotation(false);});
+if('IntersectionObserver' in window){
+ new IntersectionObserver(([entry])=>{
+  inView=entry.isIntersecting;
+  queueRotation();
+ }).observe(heroFrame);
+}
 showSlide(0);
+rotationButton.hidden=false;
+setRotation(rotating);
 const expand=root.querySelector('#mw-expand-markets');expand.addEventListener('click',()=>{const open=expand.getAttribute('aria-expanded')!=='true';expand.setAttribute('aria-expanded',String(open));expand.textContent=open?localized('Show fewer markets')+' ↑':localized('View all markets')+' ↗';root.querySelectorAll('.mw-extra-market').forEach(card=>card.hidden=!open);});
 // Four original cards, with a hidden copy at either end for a continuous loop.
 const track=root.querySelector('.hy-product-track');
@@ -60,8 +118,6 @@ originals.forEach(card=>track.appendChild(copyCard(card)));
 const before=document.createDocumentFragment();originals.forEach(card=>before.appendChild(copyCard(card)));track.prepend(before);
 let productIndex=count, busy=false, userPaused=false, hoverPaused=false, focusPaused=false;
 let normalizer;
-const reduce=matchMedia('(prefers-reduced-motion:reduce)');
-const still=new URLSearchParams(location.search).has('still');
 const productWindow=track.parentElement;
 const pauseButton=root.querySelector('#hy-product-pause');
 function setProductPosition(animated){

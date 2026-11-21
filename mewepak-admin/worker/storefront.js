@@ -305,8 +305,8 @@ export async function connectStorefront(request, response, database, projectUrl,
     if (format) set('#qt-form', 'data-preview-format', format.name);
     set('script[src="/assets/client-design/quote.js"]', 'src', '/assets/client-design/quote.js?v=packaging-2');
   }
-  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=market-hover');
-  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=shared-home');
+  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=banner-rotation');
+  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=banner-rotation');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
