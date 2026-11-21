@@ -1,0 +1,265 @@
+.mw-material-specifications :is(h1,h2,h3) {font-weight:700}
+.mw-material-specifications p {margin-bottom:1em}
+.mw-material-specifications h3 {margin-bottom:1em}
+.mw-material-specifications {--ink:#21343c;--deep:#102b35;--teal:#00cfca;--mint:#e2f6f1;--muted:#61747b;--line:#dce7e6;--soft:#f5f8f7}
+.mw-material-specifications * {box-sizing:border-box}
+html:has(.mw-material-specifications) {scroll-behavior:smooth;scroll-padding-top:calc(var(--mw-compact-header-height, 64px) + 22px)}
+.mw-material-specifications {margin:0;color:var(--ink);font:15px/1.6 Arial,Helvetica,sans-serif;background:#fff}
+.mw-material-specifications a {color:inherit;text-decoration:none}
+.mw-material-specifications button, .mw-material-specifications input, .mw-material-specifications select {font:inherit}
+.mw-material-specifications button, .mw-material-specifications a, .mw-material-specifications input, .mw-material-specifications select, .mw-material-specifications summary {-webkit-tap-highlight-color:transparent}
+.mw-material-specifications button, .mw-material-specifications a, .mw-material-specifications summary {touch-action:manipulation}
+.mw-material-specifications button {cursor:pointer}
+.mw-material-specifications button:focus-visible, .mw-material-specifications a:focus-visible, .mw-material-specifications select:focus-visible, .mw-material-specifications input:focus-visible, .mw-material-specifications summary:focus-visible {outline:3px solid #008f8b;outline-offset:4px}
+.mw-material-specifications button {color:inherit}
+.mw-material-specifications h1, .mw-material-specifications h2, .mw-material-specifications h3, .mw-material-specifications p {margin-top:0}
+.mw-material-specifications h1, .mw-material-specifications h2, .mw-material-specifications h3 {line-height:1.13;letter-spacing:-.035em}
+.mw-material-specifications h1 {font-size:clamp(44px,5.2vw,72px);margin-bottom:24px}
+.mw-material-specifications h2 {font-size:clamp(30px,3.2vw,43px);margin-bottom:16px}
+.mw-material-specifications h3 {font-size:22px}
+.mw-material-specifications p {color:var(--muted)}
+.mw-material-specifications .wrap {max-width:1240px;width:calc(100% - 80px);margin:auto}
+.mw-material-specifications .topbar {background:var(--deep);color:#d0e2e3;font-size:11px}
+.mw-material-specifications .topbar .wrap {display:flex;justify-content:space-between;padding:8px 0}
+.mw-material-specifications .header {display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:98px}
+.mw-material-specifications .mw-logo {width:146px;height:auto;display:block}
+.mw-material-specifications .nav {display:flex;gap:25px;font-size:12px;font-weight:600;align-items:center}
+.mw-material-specifications .nav a:hover {color:#00847f}
+.mw-material-specifications .btn {border:1px solid var(--deep);background:var(--deep);color:white;border-radius:5px;padding:12px 20px;display:inline-flex;align-items:center;justify-content:center;gap:24px;font-size:13px;font-weight:600;min-height:46px}
+.mw-material-specifications .btn:hover {background:#20505b}
+.mw-material-specifications .btn.light {background:transparent;color:var(--ink);border-color:#bacdcd}
+.mw-material-specifications .btn.teal {background:var(--teal);border-color:var(--teal);color:var(--deep)}
+.mw-material-specifications .eyebrow {display:block;font-size:11px;letter-spacing:.17em;font-weight:700;text-transform:uppercase;color:#007c78;margin-bottom:18px}
+.mw-material-specifications .breadcrumb {font-size:12px;color:#718389;margin-bottom:32px}
+.mw-material-specifications .hero {position:relative;overflow:hidden;background:linear-gradient(108deg,#eef9f5 0%,#e0f4ef 70%,#d3eeea 100%);padding:29px 0 52px}
+.mw-material-specifications .hero-grid {display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:64px}
+.mw-material-specifications .hero p {max-width:490px;font-size:16px}
+.mw-material-specifications .hero h1 span {color:#007c78}
+.mw-material-specifications .actions {display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.mw-material-specifications .hero-art {min-height:340px;position:relative;display:flex;align-items:center;justify-content:center}
+.mw-material-specifications .hero-art svg {width:100%;max-width:480px;filter:drop-shadow(0 24px 20px #194f4516)}
+.mw-material-specifications .art-caption {position:absolute;bottom:5px;right:8px;font-size:10px;letter-spacing:.13em;color:#5d7c79;text-transform:uppercase}
+.mw-material-specifications .statline {border-bottom:1px solid var(--line)}
+.mw-material-specifications .stats {display:grid;grid-template-columns:repeat(4,1fr);padding:25px 0}
+.mw-material-specifications .stat {border-right:1px solid var(--line);padding-left:32px}
+.mw-material-specifications .stat:first-child {padding-left:0}
+.mw-material-specifications .stat:last-child {border:0}
+.mw-material-specifications .stat strong {font-size:24px;font-weight:500;line-height:1.3;display:block;letter-spacing:-.035em}
+.mw-material-specifications .stat span {font-size:12px;color:var(--muted)}
+.mw-material-specifications .section {padding:76px 0}
+.mw-material-specifications .section-head {display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:30px}
+.mw-material-specifications .section-head p {max-width:410px;font-size:14px;margin:0 0 5px}
+.mw-material-specifications .filters {background:var(--soft);border:1px solid var(--line);padding:22px;border-radius:10px;margin-bottom:24px}
+.mw-material-specifications .filter-top {display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.mw-material-specifications .tabs {display:flex;gap:7px;flex-wrap:wrap}
+.mw-material-specifications .tabs button {border:1px solid transparent;border-radius:5px;background:transparent;padding:9px 18px;font-size:13px}
+.mw-material-specifications .tabs button[aria-pressed=true] {background:var(--deep);color:#fff}
+.mw-material-specifications .search {background:white;border:1px solid #cedddb;border-radius:5px;display:flex;align-items:center;gap:10px;padding:10px 13px;max-width:310px;flex:1}
+.mw-material-specifications .search input {border:0;outline:none;background:none;width:100%;min-width:0;font-size:13px;color:var(--ink)}
+.mw-material-specifications .filter-bottom {display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:17px}
+.mw-material-specifications .filter-bottom label {font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.mw-material-specifications .filter-bottom select {border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:4px;padding:8px 26px 8px 10px;font-size:12px;max-width:100%}
+.mw-material-specifications .reset {border:0;background:transparent;color:#007c78;font-size:12px;margin-left:auto;text-decoration:underline;text-underline-offset:3px}
+.mw-material-specifications .resultline {display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px;color:var(--muted);margin:24px 0 20px}
+.mw-material-specifications .resultline p {margin:0}
+.mw-material-specifications .grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.mw-material-specifications .material {border:1px solid var(--line);border-radius:9px;overflow:hidden;transition:transform .2s,box-shadow .2s;background:#fff}
+.mw-material-specifications .material:hover {transform:translateY(-3px);box-shadow:0 15px 35px #163e3310}
+.mw-material-specifications .swatch {height:152px;background:#f0f6f4;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.mw-material-specifications .swatch.metal {background:#e9edf0}
+.mw-material-specifications .swatch.white {background:#edf3ed}
+.mw-material-specifications .sheet {width:132px;height:90px;border:1px solid #89aaa6;border-radius:5px 28px 4px 5px;transform:rotate(-19deg) skewX(7deg);background:linear-gradient(130deg,#e6fffa88,#85bbb466,#edfffcbb);box-shadow:8px 9px 0 -1px #cbdeda,8px 9px 0 0 #a0bdb8,16px 18px 0 -1px #dae8e5,16px 18px 0 0 #afc7c2;position:relative}
+.mw-material-specifications .sheet:after {content:"";position:absolute;inset:12px;border:1px solid #ffffffa0;border-radius:2px 18px 2px 2px}
+.mw-material-specifications .metal .sheet {background:linear-gradient(120deg,#8e9b9c,#f9ffff 36%,#a6b4b4 55%,#edf4f3 75%,#9caaaa);border-color:#a0adad}
+.mw-material-specifications .white .sheet {background:linear-gradient(120deg,#fff,#f5f6ed,#fff);border-color:#c4cec6}
+.mw-material-specifications .matte .sheet {filter:saturate(.4);background-blend-mode:soft-light}
+.mw-material-specifications .swatch-tag {position:absolute;top:15px;left:17px;font-size:9px;text-transform:uppercase;letter-spacing:.1em;background:#ffffffc9;border:1px solid #ffffff80;padding:4px 8px;border-radius:4px}
+.mw-material-specifications .swatch-id {position:absolute;right:16px;bottom:12px;font-size:10px;color:#6b8581}
+.mw-material-specifications .card-body {padding:22px}
+.mw-material-specifications .chips {display:flex;gap:6px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#47726c;margin-bottom:13px}
+.mw-material-specifications .chips span {background:#eff7f4;padding:3px 7px;border-radius:3px}
+.mw-material-specifications .material h3 {font-size:21px;margin-bottom:7px;letter-spacing:-.025em}
+.mw-material-specifications .sub {font-size:12px;margin-bottom:17px}
+.mw-material-specifications .metrics {display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:17px}
+.mw-material-specifications .metrics small {display:block;font-size:9px;color:var(--muted);letter-spacing:.02em}
+.mw-material-specifications .metrics strong {display:block;font-size:17px;font-weight:500;margin-top:3px}
+.mw-material-specifications .card-actions {display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mw-material-specifications .view {border:0;background:none;font-size:12px;font-weight:bold;padding:7px 0;color:#007b75}
+.mw-material-specifications .compare-check {display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);cursor:pointer}
+.mw-material-specifications .compare-check input {accent-color:#008e87;width:15px;height:15px}
+.mw-material-specifications .units-note {margin:24px 0 0;font-size:11px;max-width:900px}
+.mw-material-specifications .empty {grid-column:1/-1;padding:55px;text-align:center;background:var(--soft);border-radius:8px}
+.mw-material-specifications .guide {background:var(--deep);color:#fff}
+.mw-material-specifications .guide .eyebrow {color:var(--teal)}
+.mw-material-specifications .guide p {color:#b7cbd0}
+.mw-material-specifications .guide-grid {display:grid;grid-template-columns:.85fr 1.15fr;gap:80px}
+.mw-material-specifications .layer-stack {margin-top:33px}
+.mw-material-specifications .layer {display:flex;align-items:center;gap:18px;padding:20px 0;border-top:1px solid #ffffff20}
+.mw-material-specifications .layer b {font-size:11px;color:var(--teal);font-weight:normal}
+.mw-material-specifications .layer strong {font-size:16px;display:block}
+.mw-material-specifications .layer p {font-size:12px;margin:2px 0 0}
+.mw-material-specifications .layer-sample {width:58px;height:36px;transform:skewY(-12deg);border:1px solid #c1f6ed;flex-shrink:0;background:#96d2c7}
+.mw-material-specifications .layer:nth-child(2) .layer-sample {background:linear-gradient(120deg,#9caeaf,#ecf6f6,#7f9698)}
+.mw-material-specifications .layer:nth-child(3) .layer-sample {background:#d6ece3}
+.mw-material-specifications .guide-facts {display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mw-material-specifications .guide-facts article {background:#193b45;border:1px solid #32515a;border-radius:6px;padding:25px}
+.mw-material-specifications .guide-facts h3 {font-size:19px;letter-spacing:-.02em;margin:14px 0}
+.mw-material-specifications .guide-facts p {font-size:13px;margin:0}
+.mw-material-specifications .fact-icon {color:var(--teal);font-size:11px;letter-spacing:.1em}
+.mw-material-specifications .storage {display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:center}
+.mw-material-specifications .storage-values {display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mw-material-specifications .storage-values div {border-left:2px solid var(--teal);padding:9px 0 9px 18px}
+.mw-material-specifications .storage-values strong {display:block;font-size:25px;font-weight:500}
+.mw-material-specifications .storage-values span {display:block;font-size:12px;color:var(--muted)}
+.mw-material-specifications .faq {background:var(--soft)}
+.mw-material-specifications .faq details {border-bottom:1px solid var(--line);padding:19px 0}
+.mw-material-specifications .faq summary {font-size:15px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px}
+.mw-material-specifications .faq summary:after {content:"+";font-size:21px;color:#008e87}
+.mw-material-specifications .faq details[open] summary:after {content:"−"}
+.mw-material-specifications .faq details p {font-size:14px;max-width:860px;margin:15px 0 0}
+.mw-material-specifications .cta {background:#e1f5ef;border-radius:12px;padding:42px 46px;display:flex;justify-content:space-between;align-items:center;gap:25px}
+.mw-material-specifications .cta h2 {font-size:33px;margin-bottom:12px}
+.mw-material-specifications .cta p {margin:0;max-width:620px;font-size:14px}
+.mw-material-specifications .approval {font-size:11px;padding:20px 0 0;color:var(--muted)}
+.mw-material-specifications footer {background:var(--deep);color:#fff;padding:38px 0 90px}
+.mw-material-specifications .footer-row {display:flex;justify-content:space-between;gap:25px;align-items:center}
+.mw-material-specifications .footer-row p {color:#bdcfd1;font-size:12px;margin:8px 0 0}
+.mw-material-specifications .footer-links {display:flex;gap:24px;font-size:12px}
+.mw-material-specifications .mobile-menu {display:none}
+.mw-material-specifications .compare-bar {position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:20;border:1px solid #3b6167;background:var(--deep);color:#fff;box-shadow:0 8px 40px #0f2b3433;border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:25px;width:min(700px,calc(100% - 28px))}
+.mw-material-specifications .compare-bar p {color:#c7d9db;font-size:12px;margin:0;flex:1}
+.mw-material-specifications .compare-bar .clear {background:none;color:#fff;border:0;font-size:12px}
+.mw-material-specifications dialog {border:1px solid var(--line);border-radius:12px;padding:0;color:var(--ink);max-width:1000px;width:calc(100% - 32px);max-height:88vh}
+.mw-material-specifications dialog::backdrop {background:#092831ad;backdrop-filter:blur(4px)}
+.mw-material-specifications .dialog-head {position:sticky;top:0;background:white;z-index:2;padding:24px 30px;border-bottom:1px solid var(--line);display:flex;align-items:start;justify-content:space-between;gap:15px}
+.mw-material-specifications .dialog-head h2 {font-size:27px;margin:6px 0}
+.mw-material-specifications .dialog-head .eyebrow {margin:0;font-size:9px}
+.mw-material-specifications .close {border:1px solid var(--line);background:white;border-radius:50%;width:36px;height:36px;font-size:22px;flex-shrink:0}
+.mw-material-specifications .dialog-body {padding:26px 30px}
+.mw-material-specifications .dialog-body>p {font-size:14px}
+.mw-material-specifications .structure {display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin:25px 0}
+.mw-material-specifications .structure>div {background:var(--mint);padding:15px;border-radius:5px}
+.mw-material-specifications .structure small {display:block;font-size:10px;color:#47726c;margin-bottom:5px}
+.mw-material-specifications .structure strong {font-size:13px}
+.mw-material-specifications .table-scroll {overflow-x:auto}
+.mw-material-specifications table {border-collapse:collapse;width:100%;text-align:left;font-size:12px}
+.mw-material-specifications th, .mw-material-specifications td {padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.mw-material-specifications thead th {background:var(--soft);color:var(--deep)}
+.mw-material-specifications td:last-child {font-size:11px}
+.mw-material-specifications tbody th {font-weight:normal;color:var(--muted);min-width:160px}
+.mw-material-specifications .compare-table {min-width:620px}
+.mw-material-specifications .compare-table td {font-size:12px;min-width:160px}
+.mw-material-specifications .dialog-bottom {margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.mw-material-specifications .note {font-size:11px!important;background:var(--soft);border-left:3px solid var(--teal);padding:13px;margin:22px 0 0!important}
+.mw-material-specifications [hidden] {display:none!important}
+.mw-material-specifications .sr {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.mw-material-specifications .skip {position:absolute;top:-80px;background:white;padding:12px;z-index:50}
+.mw-material-specifications .skip:focus {top:5px}
+@media(min-width:1500px) {
+  .mw-material-specifications .hero {padding-bottom:65px}
+}
+@media(max-width:1000px) {
+  .mw-material-specifications .nav {gap:16px}
+  .mw-material-specifications .hero-grid {gap:24px}
+  .mw-material-specifications .hero-art {min-height:270px}
+  .mw-material-specifications .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mw-material-specifications .guide-grid {gap:35px}
+  .mw-material-specifications .storage {gap:25px}
+  .mw-material-specifications .wrap {width:calc(100% - 48px)}
+  .mw-material-specifications .header .btn {gap:10px}
+}
+@media(max-width:760px) {
+  .mw-material-specifications .wrap {width:calc(100% - 36px)}
+  .mw-material-specifications .topbar .wrap span {font-size:9px}
+  .mw-material-specifications .topbar a {font-size:10px}
+  .mw-material-specifications .header {min-height:80px}
+  .mw-material-specifications .mw-logo {width:128px}
+  .mw-material-specifications .nav {display:none}
+  .mw-material-specifications .header>.btn {padding:10px 13px;min-height:40px;font-size:11px}
+  .mw-material-specifications .mobile-menu {display:block;border-top:1px solid var(--line);font-size:12px}
+  .mw-material-specifications .mobile-menu summary {padding:12px 0;cursor:pointer}
+  .mw-material-specifications .mobile-menu nav {display:flex;flex-wrap:wrap;gap:15px;padding-bottom:16px}
+  .mw-material-specifications .hero {padding:20px 0 30px}
+  .mw-material-specifications .hero-grid {grid-template-columns:1fr;gap:15px}
+  .mw-material-specifications .hero h1 {font-size:46px}
+  .mw-material-specifications .breadcrumb {margin-bottom:25px;font-size:10px}
+  .mw-material-specifications .hero p {font-size:14px}
+  .mw-material-specifications .hero-art {min-height:240px}
+  .mw-material-specifications .hero-art svg {max-width:360px}
+  .mw-material-specifications .art-caption {right:5%;bottom:0}
+  .mw-material-specifications .stats {grid-template-columns:repeat(2,1fr);gap:20px}
+  .mw-material-specifications .stat:nth-child(3) {padding-left:0}
+  .mw-material-specifications .stat:nth-child(2) {border:0}
+  .mw-material-specifications .stat strong {font-size:22px}
+  .mw-material-specifications .section {padding:48px 0}
+  .mw-material-specifications .section-head {display:block;margin-bottom:25px}
+  .mw-material-specifications .section-head p {margin-top:15px}
+  .mw-material-specifications .filters {padding:15px}
+  .mw-material-specifications .filter-top {display:block}
+  .mw-material-specifications .tabs {gap:3px}
+  .mw-material-specifications .tabs button {padding:8px 12px;font-size:12px}
+  .mw-material-specifications .search {max-width:none;margin-top:14px}
+  .mw-material-specifications .filter-bottom {gap:10px}
+  .mw-material-specifications .filter-bottom label {flex:1 1 44%;display:block}
+  .mw-material-specifications .filter-bottom select {display:block;width:100%;margin-top:5px}
+  .mw-material-specifications .reset {padding:5px 0;margin-left:0}
+  .mw-material-specifications .resultline {font-size:10px}
+  .mw-material-specifications .grid {gap:16px;grid-template-columns:1fr}
+  .mw-material-specifications .swatch {height:150px}
+  .mw-material-specifications .guide-grid {grid-template-columns:1fr;gap:30px}
+  .mw-material-specifications .guide-facts {gap:12px}
+  .mw-material-specifications .guide-facts article {padding:19px}
+  .mw-material-specifications .storage {grid-template-columns:1fr}
+  .mw-material-specifications .storage-values {gap:8px}
+  .mw-material-specifications .storage-values div {padding-left:10px}
+  .mw-material-specifications .storage-values strong {font-size:23px}
+  .mw-material-specifications .storage-values span {font-size:10px}
+  .mw-material-specifications .cta {padding:29px;display:block}
+  .mw-material-specifications .cta .btn {margin-top:23px}
+  .mw-material-specifications .cta h2 {font-size:30px}
+  .mw-material-specifications .footer-row {display:block}
+  .mw-material-specifications .footer-links {margin-top:23px;flex-wrap:wrap}
+  .mw-material-specifications .compare-bar {gap:10px;padding:11px}
+  .mw-material-specifications .compare-bar .btn {gap:8px;font-size:11px;padding:9px;min-height:40px}
+  .mw-material-specifications .compare-bar p {font-size:10px}
+  .mw-material-specifications .dialog-head {padding:20px}
+  .mw-material-specifications .dialog-head h2 {font-size:23px}
+  .mw-material-specifications .dialog-body {padding:20px}
+  .mw-material-specifications .structure {grid-template-columns:1fr}
+  .mw-material-specifications .dialog-bottom .btn {width:100%;font-size:12px}
+  .mw-material-specifications th, .mw-material-specifications td {padding:12px 8px}
+  .mw-material-specifications .resultline span {max-width:45%;text-align:right}
+}
+@media(prefers-reduced-motion:reduce) {
+  html:has(.mw-material-specifications) {scroll-behavior:auto}
+  .mw-material-specifications * {transition:none!important}
+}
+.mw-material-specifications .btn span[aria-hidden="true"] {font-size:0}
+.mw-material-specifications .btn span[aria-hidden="true"]:after {content:"";display:block;width:9px;height:9px;border-right:1.5px solid currentColor;border-top:1.5px solid currentColor;transform:rotate(0deg)}
+.mw-material-specifications .view {font-family:Arial,Helvetica,sans-serif}
+.mw-material-specifications .btn {font-family:Arial,Helvetica,sans-serif}
+.mw-material-specifications footer {background:#f2f6f5;color:var(--ink)}
+.mw-material-specifications .mw-footer-logo {width:151px;height:auto;object-fit:contain;object-position:left;display:block}
+.mw-material-specifications .footer-row p {color:#667c82}
+.mw-material-specifications .footer-links {color:#5c7279}
+.mw-material-specifications .material-visual {height:230px;position:relative;overflow:hidden;background:#e9f0eb}
+.mw-material-specifications .finish-image {display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s ease}
+.mw-material-specifications .material:hover .finish-image {transform:scale(1.035)}
+.mw-material-specifications .visual-format {position:absolute;top:14px;left:15px;padding:4px 9px;background:#ffffffec;color:#315447;border:1px solid #fff;border-radius:4px;font-size:12px;line-height:1.5}
+.mw-material-specifications .visual-finish {position:absolute;right:13px;bottom:13px;border-radius:20px;padding:4px 10px;font-size:12px;line-height:1.5}
+.mw-material-specifications .visual-finish.gloss {background:#123b33;color:#fff;box-shadow:inset 0 1px 0 #ffffff4d}
+.mw-material-specifications .visual-finish.matte {background:#e5e8dd;color:#3a4e40;border:1px solid #c2cebf}
+.mw-material-specifications .visual-appearance {position:absolute;bottom:18px;left:15px;color:#274b3b;font-size:12px;line-height:1.4}
+.mw-material-specifications .film-profile {background:#f6f9f6;border-top:1px solid #dce5dc;border-bottom:1px solid #e0e8df;display:flex;align-items:center;gap:10px;min-height:49px;padding:10px 17px;font-size:13px;color:#456554}
+.mw-material-specifications .film-profile strong {margin-left:auto;font-size:13px;font-weight:600;white-space:nowrap;color:#193e34}
+.mw-material-specifications .profile-stack {width:42px;display:flex;flex-direction:column;gap:2px;flex:none;transform:skewX(-17deg)}
+.mw-material-specifications .profile-layer {display:block;width:100%;height:3px;border-radius:1px;background:#7fae98}
+.mw-material-specifications .profile-layer-1 {background:#aebdb5}
+.mw-material-specifications .profile-layer-2 {background:#315f4b}
+.mw-material-specifications .profile-stack.medium .profile-layer {height:4px}
+.mw-material-specifications .profile-stack.thick .profile-layer {height:5px}
+@media(max-width:760px) {
+  .mw-material-specifications .material-visual {height:230px}
+  .mw-material-specifications .film-profile {font-size:13px}
+  .mw-material-specifications .visual-format {font-size:12px}
+}

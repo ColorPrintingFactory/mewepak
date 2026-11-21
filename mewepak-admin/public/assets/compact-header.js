@@ -73,9 +73,10 @@
     const link = linkFrom(source);
     if (!link.textContent) continue;
     mobileNav.append(link.cloneNode(true));
-    if (source.dataset.navLink === 'added-value') {
-      const gallery = original.querySelector('[data-mega-panel="Added Value"] a[href="/added-value/gallery-design/"]');
-      if (gallery) mobileNav.append(linkFrom(gallery));
+    const group = source.closest('[data-nav-item]')?.dataset.navItem;
+    const panel = panels.find((candidate) => candidate.dataset.megaPanel === group);
+    for (const child of panel?.querySelectorAll('[data-compact-mobile-link]') || []) {
+      mobileNav.append(linkFrom(child));
     }
     if (!panels.length) desktop.append(link);
   }
