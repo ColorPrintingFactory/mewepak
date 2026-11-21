@@ -23,7 +23,7 @@ html.mw-has-compact-header {
 .mw-compact-header__row {
   direction: ltr;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
   align-items: center;
   gap: 12px;
   max-width: 1240px;
@@ -53,7 +53,8 @@ html.mw-has-compact-header {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: clamp(9px, 1.05vw, 16px);
+  justify-content: center;
+  gap: clamp(7px, .8vw, 12px);
   height: 100%;
   white-space: nowrap;
 }
@@ -66,9 +67,11 @@ html.mw-has-compact-header {
   height: 100%;
 }
 
+.mw-compact-header__desktop > [data-nav] { gap: 0; }
+
 .mw-compact-header__desktop [data-nav-link] {
   height: 100%;
-  padding-inline: clamp(5px, .6vw, 9px);
+  padding-inline: 6px;
 }
 
 @layer utilities {
@@ -118,29 +121,33 @@ html.mw-has-compact-header {
 .mw-compact-header__panel a:hover,
 .mw-compact-header__panel a[aria-current] { background: #eef6f3; color: #007b79; }
 
-.mw-compact-header a.mw-compact-header__appointment {
-  justify-self: end;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 38px;
-  padding: 0 13px;
-  border-radius: 6px;
-  color: #fff;
-  background: #102b35;
-  white-space: nowrap;
-}
-.mw-compact-header a.mw-compact-header__appointment:hover { color: #fff; background: #176355; }
-.mw-compact-header__mobile, .mw-compact-header__appointment-short { display: none; }
+.mw-header-actions--compact { gap: 8px; }
 
-[dir="rtl"] .mw-compact-header :is(nav, .mw-compact-header__panel, summary, .mw-compact-header__appointment) {
+.mw-header-actions--compact a[data-header-action] {
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 6px;
+}
+
+.mw-header-actions--compact a[data-header-action="quote"] { color: #102b35; background: #fff; }
+.mw-header-actions--compact a[data-header-action="quote"]:hover { background: #f1f7f4; }
+.mw-header-actions--compact a[data-header-action="booking"] { color: #fff; background: #102b35; }
+.mw-header-actions--compact a[data-header-action="booking"]:hover { background: #176355; }
+.mw-compact-header__mobile, .mw-compact-header__action-short { display: none; }
+
+[dir="rtl"] .mw-compact-header :is(nav, .mw-compact-header__panel, summary, .mw-header-actions--compact) {
   direction: rtl;
 }
 
-@media (max-width: 1160px) {
+@media (max-width: 1320px) {
+  .mw-compact-header__action-full { display: none; }
+  .mw-compact-header__action-short { display: inline; }
+}
+
+@media (max-width: 1180px) {
   html.mw-has-compact-header { --mw-compact-header-height: 54px; }
   .mw-compact-header__desktop { display: none; }
-  .mw-compact-header__mobile { display: block; }
+  .mw-compact-header__mobile { display: block; justify-self: center; }
   .mw-compact-header__mobile > summary {
     display: grid;
     place-items: center;
@@ -159,9 +166,9 @@ html.mw-has-compact-header {
 }
 
 @media (max-width: 430px) {
-  .mw-compact-header__row { width: calc(100% - 20px); gap: 4px; }
-  .mw-compact-header__brand img { width: 88px; }
-  .mw-compact-header__appointment-full { display: none; }
-  .mw-compact-header__appointment-short { display: inline; }
-  .mw-compact-header a.mw-compact-header__appointment { min-height: 42px; padding-inline: 8px; font-size: 12px; }
+  .mw-compact-header__row { width: calc(100% - 16px); gap: 4px; }
+  .mw-compact-header__brand img { width: 74px; }
+  .mw-compact-header__mobile > summary { padding-inline: 6px; }
+  .mw-header-actions--compact { gap: 4px; }
+  .mw-header-actions--compact a[data-header-action] { min-height: 44px; padding-inline: 7px; }
 }

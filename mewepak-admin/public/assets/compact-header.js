@@ -4,19 +4,21 @@
 
   const language = document.documentElement.lang.split('-')[0];
   const labels = {
-    en: ['Menu', 'Book a Consultation', 'Quick navigation', 'Book now'],
-    de: ['Menü', 'Termin buchen', 'Schnellnavigation', 'Termin buchen'],
-    es: ['Menú', 'Reservar consulta', 'Navegación rápida', 'Reservar'],
-    fr: ['Menu', 'Prendre rendez-vous', 'Navigation rapide', 'Rendez-vous'],
-    ar: ['القائمة', 'احجز استشارة', 'التنقّل السريع', 'احجز موعداً'],
+    en: ['Menu', 'Quick navigation', 'Quote', 'Book'],
+    de: ['Menü', 'Schnellnavigation', 'Angebot', 'Termin'],
+    es: ['Menú', 'Navegación rápida', 'Cotizar', 'Reservar'],
+    fr: ['Menu', 'Navigation rapide', 'Devis', 'Réserver'],
+    ar: ['القائمة', 'التنقّل السريع', 'عرض سعر', 'احجز'],
   };
-  const [menuLabel, bookingLabel, navLabel, shortBookingLabel] = labels[language] || labels.en;
+  const [menuLabel, navLabel, shortQuoteLabel, shortBookingLabel] = labels[language] || labels.en;
   const localized = ['de', 'es', 'fr', 'ar'].includes(language);
   const parentPath = localized ? '/' + language : '';
   const originalNav = original.querySelector('[data-nav], .mwl-primary-nav, .site-nav');
   const rootLink = original.querySelector('.mwl-brand, a:has(.mewepak-header-logo), .brand')
     || original.querySelector('a[href="' + parentPath + '/"]');
-  if (!originalNav || !rootLink) return;
+  const quoteLink = original.querySelector('[data-header-action="quote"]');
+  const bookingLink = original.querySelector('[data-header-action="booking"]');
+  if (!originalNav || !rootLink || !quoteLink || !bookingLink) return;
 
   const element = (tag, className) => {
     const node = document.createElement(tag);
@@ -45,7 +47,7 @@
 
   const panels = [...original.querySelectorAll('[data-mega-panel]')];
   const desktop = element(panels.length ? 'div' : 'nav', 'mw-compact-header__desktop');
-  const desktopViewport = matchMedia('(min-width: 1161px)');
+  const desktopViewport = matchMedia('(min-width: 1181px)');
   let navSlot;
   let panelSlot;
   if (panels.length) {
@@ -74,15 +76,18 @@
     if (!panels.length) desktop.append(link);
   }
 
-  const appointment = element('a', 'mw-compact-header__appointment');
-  appointment.href = parentPath + '/booking/';
-  appointment.setAttribute('aria-label', bookingLabel);
-  const fullLabel = element('span', 'mw-compact-header__appointment-full');
-  fullLabel.textContent = bookingLabel;
-  const shortLabel = element('span', 'mw-compact-header__appointment-short');
-  shortLabel.textContent = shortBookingLabel;
-  appointment.append(fullLabel, shortLabel);
-  row.append(brand, desktop, mobile, appointment);
+  const actions = element('div', 'mw-header-actions mw-header-actions--compact');
+  for (const [source, label] of [[quoteLink, shortQuoteLabel], [bookingLink, shortBookingLabel]]) {
+    const link = source.cloneNode(false);
+    link.setAttribute('aria-label', source.textContent.trim());
+    const full = element('span', 'mw-compact-header__action-full');
+    full.textContent = source.textContent.trim();
+    const short = element('span', 'mw-compact-header__action-short');
+    short.textContent = label;
+    link.append(full, short);
+    actions.append(link);
+  }
+  row.append(brand, desktop, mobile, actions);
   bar.append(row);
   document.body.append(bar);
   document.documentElement.classList.add('mw-has-compact-header');

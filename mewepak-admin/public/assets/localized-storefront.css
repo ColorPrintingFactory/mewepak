@@ -68,7 +68,7 @@
  .mwl-wrap { width:calc(100% - 36px); }
  .mwl-headline { gap:10px;grid-template-columns:minmax(115px,1fr) max-content max-content;min-height:66px;border-block-end:0; }
  .mwl-search { grid-column:1/-1;grid-row:2;margin-block-end:10px; }
- .mwl-head-quote,.mwl-primary-nav,.mwl-utility { display:none !important; }
+ .mwl-primary-nav,.mwl-utility { display:none !important; }
  .mwl-mobile-nav { display:block; }
  .mwl-brand img { max-height:45px;width:138px; }
 }

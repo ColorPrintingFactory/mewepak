@@ -1,5 +1,6 @@
 import ui from './i18n/ui.json' with { type: 'json' };
 import { compactHeaderAssets } from './compact-header.js';
+import { headerActionsAssets, renderHeaderActions } from './header-actions.js';
 import { siteIcons } from './site-icons.js';
 import bookingUi from './i18n/booking.json' with { type: 'json' };
 import pages from './i18n/pages.json' with { type: 'json' };
@@ -236,8 +237,8 @@ function pageMarkup({ path, lang, available, origin, url, settings, production }
 <title>${escape(metaTitle)}</title><meta name="description" content="${escape(lead)}">
 <link rel="canonical" href="${escape(canonical)}">${query ? '' : alternateTags(path,origin)}
 <meta name="robots" content="${showIndex ? 'index,follow,max-image-preview:large' : 'noindex,follow'}">
-${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=1">
-${compactHeaderAssets}
+${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=2">
+${headerActionsAssets}${compactHeaderAssets}
 ${openGraph}<script type="application/ld+json">${schema}</script>
 ${customerRequest || appointment ? '<script src="/assets/storefront-forms.js?v=locale-1" defer></script>' : ''}
 ${appointment ? '<script type="module" src="/assets/localized-booking.js?v=global-timezones"></script>' : ''}
@@ -252,7 +253,7 @@ ${appointment ? '<script type="module" src="/assets/localized-booking.js?v=globa
     <a href="${localized('/')}" class="mwl-brand"><img src="${escape(safeAsset(settings?.logo) || logo)}" alt="Mewepak" width="185" height="62"></a>
     <form role="search" action="${localized('/')}" class="mwl-search"><input type="search" name="s" placeholder="${escape(t.search)}" value="${escape(query)}" aria-label="${escape(t.search)}" maxlength="90"><button aria-label="${escape(t.search)}">⌕</button></form>
     ${languageSwitcher(path,lang,languageSuffix)}
-    <a class="mwl-button mwl-head-quote" href="${escape(quoteHref)}">${escape(t.quote)}</a>
+    ${renderHeaderActions({ quoteHref, bookingHref: localized('/booking/'), lang, variant: 'localized' })}
     <details class="mwl-mobile-nav" name="mwl-language"><summary aria-label="${escape(t.nav)}">☰</summary><nav aria-label="${escape(t.nav)}">${links}</nav></details>
   </div>
   <nav class="mwl-primary-nav mwl-wrap" aria-label="${escape(t.nav)}">${links}</nav>
