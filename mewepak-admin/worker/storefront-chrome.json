@@ -243,6 +243,7 @@
     "            <div>",
     "              <h3 class=\"!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200\">Resources</h3>",
     "              <ul class=\"space-y-2\">",
+    "                <li><a href=\"/added-value/gallery-design/\" class=\"text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors\">Gallery &amp; Design</a></li>",
     "                <li><a href=\"/added-value/pouch-patrol\" class=\"text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors\">Pouch Patrol</a></li>",
     "                <li><a href=\"/added-value/on-the-road\" class=\"text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors\">On The Road</a></li>",
     "                <li><a href=\"/added-value/keepin-it-green\" class=\"text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors\">Keepin’it Green</a></li>",
