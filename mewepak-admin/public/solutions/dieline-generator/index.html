@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flexible Packaging Dieline Generator | Mewepak</title>
+  <meta name="description" content="Preview flexible packaging panel layouts and export full-scale SVG and PDF design references.">
+  <link rel="stylesheet" href="/assets/original/tailwind.css">
+  <link rel="stylesheet" href="/assets/original/custom.css">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/dieline/studio.css">
+</head>
+<body>
+  <a class="sr-only focus:not-sr-only" href="#dieline-main">Skip to content</a>
+  <div class="wp-site-blocks">
+    <header class="wp-block-template-part"></header>
+    <main id="dieline-main" class="dieline-studio" data-client-page="dieline-generator">
+      <div class="dl-wrap">
+        <nav class="dl-crumb" aria-label="Breadcrumb"><a href="/solutions/">Solutions</a><span aria-hidden="true">/</span><span aria-current="page">Dieline Generator</span></nav>
+        <header class="dl-intro">
+          <h1>Packaging dieline generator</h1>
+          <p>Set your pouch dimensions, check the panel layout and download a full-scale vector reference for your artwork brief.</p>
+        </header>
+        <noscript><p>Enable JavaScript to generate a layout, or <a href="/solutions/prepress/">contact our prepress team</a> for help.</p></noscript>
+        <div class="dl-grid">
+          <form id="dl-form" class="dl-panel" novalidate>
+            <h2>Set your dimensions</h2>
+            <label>Packaging format
+              <select name="format">
+                <option value="stand-up-pouch">Stand-up pouch</option>
+                <option value="flat-pouch">Flat pouch</option>
+                <option value="flat-bottom-pouch">Flat-bottom pouch</option>
+              </select>
+            </label>
+            <label>Measurement units
+              <select name="unit"><option value="mm">Millimetres (mm)</option><option value="in">Inches (in)</option></select>
+            </label>
+            <div class="dl-dims">
+              <label>Width <input name="width" type="number" step="any" inputmode="decimal" required value="120"></label>
+              <label>Height <input name="height" type="number" step="any" inputmode="decimal" required value="200"></label>
+              <label id="dl-depth">Bottom gusset / depth <input name="depth" type="number" step="any" inputmode="decimal" value="70"></label>
+              <label>Seal margin <input name="seal" type="number" step="any" inputmode="decimal" required value="8"></label>
+            </div>
+            <fieldset>
+              <legend>Features</legend>
+              <div class="dl-options">
+                <label><input name="zipper" type="checkbox" checked> Zipper</label>
+                <label><input name="notch" type="checkbox" checked> Tear notch</label>
+                <label><input name="valve" type="checkbox"> Valve</label>
+                <label><input name="hole" type="checkbox"> Hang hole</label>
+              </div>
+            </fieldset>
+            <p class="dl-error" id="dl-error" role="status" hidden></p>
+          </form>
+          <section class="dl-panel dl-drawing" aria-labelledby="dl-drawing-title">
+            <div class="dl-drawing-head"><h2 id="dl-drawing-title">Panel preview</h2><p id="dl-dimensions"></p></div>
+            <div id="dl-preview" class="dl-preview"></div>
+            <ul class="dl-legend" aria-label="Drawing legend">
+              <li class="dl-cut">Panel outline</li><li class="dl-seal">Seal guide</li><li class="dl-fold">Fold guide</li><li class="dl-safe">Artwork safe area</li><li class="dl-bleed">Bleed</li><li class="dl-feature">Feature</li>
+            </ul>
+            <div class="dl-actions">
+              <button type="button" id="dl-svg" disabled>Download SVG</button>
+              <button type="button" id="dl-pdf" disabled>Download PDF</button>
+              <a id="dl-quote" href="/inquiry/#quote-request">Use these dimensions in a quote <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="dl-note"><strong>Design reference.</strong> Ask Mewepak prepress to confirm the final die, seal and feature positions before production. Print exported PDFs at actual size to retain the drawing scale.</p>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="wp-block-template-part"></footer>
+  </div>
+  <script src="/assets/original/runtime-data.js" defer></script>
+  <script src="/api/frontend-navigation" defer></script>
+  <script src="/assets/original/main.js" defer></script>
+  <script type="module" src="/assets/dieline/studio.js"></script>
+</body>
+</html>
