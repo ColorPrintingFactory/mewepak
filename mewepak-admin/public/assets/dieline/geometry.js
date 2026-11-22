@@ -29,8 +29,8 @@ export const formats = {
   },
   'shaped-pouch': {
     name: 'Shaped pouch', sizes: [[85, 125], [115, 170], [160, 225]],
-    chamfer: 16, features: [],
-    note: 'This example uses a clipped-corner outline. Share your actual contour with prepress for a custom die.',
+    features: [],
+    note: 'The rounded shoulders show an example contour. Share your actual outline with prepress for a custom die.',
   },
   'polybag': {
     name: 'Polybag', sizes: [[100, 155], [175, 240], [260, 360]],
@@ -62,14 +62,17 @@ export const formats = {
   },
 };
 
-const layers = {
-  bleed: { color: '#a33f73', dash: [2, 1] },
-  cut: { color: '#183a46', dash: [] },
-  seal: { color: '#9b4c31', dash: [3, 1] },
-  fold: { color: '#4958a6', dash: [4, 1, 1, 1] },
-  safe: { color: '#168468', dash: [1, 1] },
-  feature: { color: '#347b9f', dash: [] },
-  dimensions: { color: '#526970', dash: [] },
+export const layers = {
+  frame: { name: 'Sheet frame', color: '#a8b8bb', dash: [], weight: .3 },
+  bleed: { name: 'Bleed', color: '#a33f73', dash: [2, 1.4], weight: .38 },
+  cut: { name: 'Outline', color: '#183a46', dash: [], weight: .75 },
+  seal: { name: 'Seal boundary', color: '#9b4c31', dash: [3, 1], weight: .48 },
+  weld: { name: 'Seal detail', color: '#9b4c31', dash: [], weight: .33 },
+  fold: { name: 'Fold / repeat', color: '#4958a6', dash: [4, 1, 1, 1], weight: .5 },
+  center: { name: 'Centre / alignment', color: '#607981', dash: [5, 1, .8, 1], weight: .31 },
+  safe: { name: 'Safe area', color: '#168468', dash: [1, 1], weight: .44 },
+  feature: { name: 'Feature', color: '#347b9f', dash: [], weight: .47 },
+  dimensions: { name: 'Dimension', color: '#526970', dash: [], weight: .34 },
 };
 
 const round = value => Number(value.toFixed(6));
@@ -80,6 +83,23 @@ function clippedRectangle(x, y, w, h, clip) {
   if (clip <= 0) return rectangle(x, y, w, h);
   return [[x + clip, y], [x + w - clip, y], [x + w, y + clip], [x + w, y + h - clip],
     [x + w - clip, y + h], [x + clip, y + h], [x, y + h - clip], [x, y + clip], [x + clip, y]];
+}
+
+function roundedRectangle(x, y, w, h, topRadius, bottomRadius = topRadius) {
+  const top = Math.max(0, Math.min(topRadius, w / 2, h / 2));
+  const bottom = Math.max(0, Math.min(bottomRadius, w / 2, h / 2));
+  const corners = [[x + w - top, y + top, top, -90], [x + w - bottom, y + h - bottom, bottom, 0],
+    [x + bottom, y + h - bottom, bottom, 90], [x + top, y + top, top, 180]];
+  const points = corners.flatMap(([cx, cy, radius, angle]) => arc(cx, cy, radius, angle, angle + 90));
+  return [...points, points[0]];
+}
+
+function arc(x, y, radius, start, end, radiusY = radius) {
+  if (!radius) return [[x, y]];
+  return Array.from({ length: 13 }, (_, index) => {
+    const a = (start + (end - start) * index / 12) * Math.PI / 180;
+    return [x + radius * Math.cos(a), y + radiusY * Math.sin(a)];
+  });
 }
 
 const invalid = (message, ...fields) => new RangeError(message, { cause: fields });
@@ -143,10 +163,24 @@ export function buildDieline(options) {
   const labels = [];
   const panels = [];
   const add = (layer, points) => strokes[layer].push(points);
-  function panel(name, x, y, w, h, { artTop = inset, clip = 0, flap = 0 } = {}) {
+  function panel(name, x, y, w, h, { artTop = inset, clip = 0, flap = 0, radii, contour } = {}) {
     const shape = (padding, top = padding, bottom = padding) => {
       const corner = clip ? clip - (2 - Math.SQRT2) * padding : 0;
-      return clippedRectangle(x + padding, y + top, w - 2 * padding, h - top - bottom, corner);
+      const left = x + padding;
+      const head = y + top;
+      const span = w - 2 * padding;
+      const length = h - top - bottom;
+      if (contour === 'shoulder') {
+        const shoulder = Math.min(span * .17, length * .24);
+        const heel = Math.min(span * .10, length * .16);
+        return [[left + shoulder, head], [left + span - shoulder, head],
+          ...arc(left + span - shoulder, head + shoulder, shoulder, -90, 0).slice(1),
+          ...arc(left + span - heel, head + length - heel, heel, 0, 90),
+          ...arc(left + heel, head + length - heel, heel, 90, 180),
+          ...arc(left + shoulder, head + shoulder, shoulder, 180, 270), [left + shoulder, head]];
+      }
+      if (radii) return roundedRectangle(left, head, span, length, radii[0] - padding, radii[1] - padding);
+      return clippedRectangle(left, head, span, length, corner);
     };
     if (bleed) add('bleed', shape(-bleed, -bleed, -bleed - flap));
     const outline = shape(0, 0, -flap);
@@ -155,21 +189,27 @@ export function buildDieline(options) {
     add('seal', sealGuide);
     add('safe', shape(inset, artTop));
     panels.push({ outline, sealGuide });
-    labels.push({ x, y: y - bleed - 3.5, text: name, size: 5 });
+    labels.push({ x, y: y - bleed - 4, text: name, size: 5, strong: true });
   }
-  function dimension(x, y, length, vertical = false) {
+  function dimension(x, y, length, vertical = false, witness = 0) {
     const point = (a, b) => vertical ? [x + b, y + a] : [x + a, y + b];
     add('dimensions', [[0, 0], [length, 0]].map(p => point(...p)));
+    const arrow = Math.min(2.8, length / 7);
     for (const [at, direction] of [[0, 1], [length, -1]]) {
-      add('dimensions', [[at, -2.2], [at, 2.2]].map(p => point(...p)));
-      add('dimensions', [[at + direction * 3, -1.5], [at, 0], [at + direction * 3, 1.5]].map(p => point(...p)));
+      const from = witness ? witness - Math.sign(witness) * 2 : 2.2;
+      add('dimensions', [[at, from], [at, witness > 0 ? -2.2 : 2.2]].map(p => point(...p)));
+      add('dimensions', [[at + direction * arrow, -1.35], [at, 0], [at + direction * arrow, 1.35]].map(p => point(...p)));
     }
     const [textX, textY] = point(length / 2, vertical ? -3 : -2.5);
     labels.push({ x: textX, y: textY, rotate: vertical, centered: true, text: display(length) + ' mm', size: 4.6 });
   }
-  const x = 31;
-  const y = spec.fitment?.axis === 'left' ? 65 : 48;
-  const gap = 30;
+  function crosshair(x, y, extent) {
+    add('center', [[x - extent, y], [x + extent, y]]);
+    add('center', [[x, y - extent], [x, y + extent]]);
+  }
+  const x = 35;
+  const y = spec.fitment?.axis === 'left' ? 81 : 59;
+  const gap = 34;
   const step = width + gap;
   const artTop = Math.max(inset, zipper ? zipperPosition + 4 : 0);
   const baseY = y + height + 35;
@@ -194,37 +234,62 @@ export function buildDieline(options) {
     }
     labels.push({ x, y: y - 11, text: 'OPEN FILL EDGE', size: 4 });
     labels.push({ x, y: end + 10, text: 'OPEN FILL EDGE', size: 4 });
-    dimension(x, end + 21, width);
-    dimension(x - 15, y, height, true);
-    dimension(x - 15, foldY, height, true);
+    dimension(x, end + 21, width, false, -18);
+    dimension(x - 16, y, height, true, 16);
+    dimension(x - 16, foldY, height, true, 16);
     right = x + width;
     endY = end + 24;
   } else if (isRepeat) {
-    panel('PRINT REPEAT', x, y, width, height);
+    labels.push({ x, y: y - 11, text: 'ONE PRINT REPEAT', size: 5, strong: true });
+    for (const edge of [x, x + width]) add('cut', [[edge, y - 5], [edge, y + height + 5]]);
     for (const edge of [y, y + height]) add('fold', [[x, edge], [x + width, edge]]);
+    for (const edge of [x + seal, x + width - seal]) add('seal', [[edge, y], [edge, y + height]]);
+    add('safe', rectangle(x + inset, y + safe, width - 2 * inset, height - 2 * safe));
+    if (bleed) add('bleed', rectangle(x - bleed, y - bleed, width + 2 * bleed, height + 2 * bleed));
     const arrowX = x + width / 2;
     const arrowY = y + height / 2;
     add('feature', [[arrowX, arrowY - 9], [arrowX, arrowY + 9]]);
     add('feature', [[arrowX - 3, arrowY + 5], [arrowX, arrowY + 9], [arrowX + 3, arrowY + 5]]);
     labels.push({ x: arrowX, y: arrowY - 13, text: 'WEB DIRECTION', centered: true, size: 4.2 });
-    dimension(x, y + height + 15, width);
-    dimension(x - 15, y, height, true);
+    add('center', [[arrowX, y], [arrowX, arrowY - 20]]);
+    add('center', [[arrowX, arrowY + 14], [arrowX, y + height]]);
+    dimension(x, y + height + 15, width, false, -12);
+    dimension(x - 16, y, height, true, 16);
     right = x + width;
   } else {
-    panel('FRONT', x, y, width, height, { artTop, clip: spec.chamfer, flap });
-    panel('BACK', x + step, y, width, height, { artTop, clip: spec.chamfer });
-    dimension(x, y + height + flap + 15, width);
-    dimension(x - 15, y, height, true);
+    const roundedBase = spec.base && !spec.sides;
+    const radii = roundedBase ? [2, Math.min(depth * .30, width * .15)] : format === 'bag-in-box' ? [10, 10] : undefined;
+    const contour = format === 'shaped-pouch' ? 'shoulder' : undefined;
+    panel('A / FRONT PANEL', x, y, width, height, { artTop, clip: spec.chamfer, flap, radii, contour });
+    panel('B / BACK PANEL', x + step, y, width, height, { artTop, clip: spec.chamfer, radii, contour });
+    dimension(x, y + height + flap + 15, width, false, -15);
+    dimension(x - 16, y, height, true, 16);
+    if (roundedBase) {
+      for (const left of [x, x + step]) {
+        const half = width / 2 - seal;
+        const rise = Math.max(3, Math.min(depth * .27, height * .22) - seal);
+        const sealY = y + height - seal;
+        add('weld', arc(left + width / 2, sealY, half, 180, 360, rise));
+        add('center', [[left + width / 2, sealY - rise - 3], [left + width / 2, y + height + 3]]);
+        labels.push({ x: left + width / 2, y: sealY - rise - 4, text: 'GUSSET SEAL GUIDE', centered: true, size: 3.5 });
+      }
+    }
   }
   if (spec.pinch) {
     add('fold', [[x, y + height], [x + width, y + height]]);
     labels.push({ x: x + width / 2, y: y + height + flap / 2 + 1.5, text: 'PINCH FOLD FLAP', centered: true, size: 4.2 });
-    dimension(x - 15, y + height, flap, true);
+    dimension(x - 16, y + height, flap, true, 16);
   }
   if (spec.base) {
-    panel(spec.base, x, baseY, width, depth);
-    dimension(x - 15, baseY, depth, true);
-    if (!spec.sides) add('fold', [[x, baseY + depth / 2], [x + width, baseY + depth / 2]]);
+    const radii = spec.sides ? undefined : [Math.min(8, depth * .16), Math.min(8, depth * .16)];
+    panel('C / ' + spec.base, x, baseY, width, depth, { radii });
+    dimension(x - 16, baseY, depth, true, 16);
+    if (!spec.sides) {
+      const midY = baseY + depth / 2;
+      add('fold', [[x, midY], [x + width, midY]]);
+      crosshair(x + width / 2, midY, 4);
+      labels.push({ x: x + width / 2, y: midY - 5, text: 'CENTRE FOLD', size: 3.4, centered: true });
+    }
     endY = baseY + depth;
   }
   if (spec.sides) {
@@ -232,9 +297,15 @@ export function buildDieline(options) {
     const label = spec.base ? 'SIDE' : 'GUSSET';
     for (const [left, suffix] of [[sideX, 'A'], [sideX + depth + gap, 'B']]) {
       panel(label + ' ' + suffix, left, y, depth, height);
-      add('fold', [[left + depth / 2, y], [left + depth / 2, y + height]]);
+      const centre = left + depth / 2;
+      add('fold', [[centre, y], [centre, y + height]]);
+      labels.push({ x: centre - 3, y: y + height / 2, rotate: true, centered: true, text: 'CENTRE FOLD', size: 3.4 });
+      if (spec.quad) {
+        add('weld', [[left + seal / 2, y + seal], [left + seal / 2, y + height - seal]]);
+        add('weld', [[left + depth - seal / 2, y + seal], [left + depth - seal / 2, y + height - seal]]);
+      }
     }
-    dimension(sideX, y + height + 15, depth);
+    dimension(sideX, y + height + 15, depth, false, -15);
     right = sideX + 2 * depth + gap;
   }
   if (spec.quad) {
@@ -246,16 +317,20 @@ export function buildDieline(options) {
       const centre = left + offset;
       add('feature', rectangle(centre - 5, y - 14, 10, 9));
       add('feature', [[centre - 3, y - 5], [centre - 3, y + 3], [centre + 3, y + 3], [centre + 3, y - 5]]);
+      add('weld', [[centre - 9, y + 1], [centre - 5, y + 5], [centre + 5, y + 5], [centre + 9, y + 1]]);
+      add('center', [[centre, y - 15], [centre, y + 9]]);
       labels.push({ x: centre, y: y - 17, text: 'SPOUT', centered: true, size: 4.2 });
     }
-    dimension(x, y - 29, fitmentOffset);
+    dimension(x, y - 29, fitmentOffset, false, 16);
   } else if (spec.fitment) {
     const axis = spec.fitment.axis;
     const fittingY = y + (axis === 'bottom' ? height - fitmentOffset : fitmentOffset);
     add('feature', circle(x + width / 2, fittingY, 9));
     add('feature', circle(x + width / 2, fittingY, 4));
-    labels.push({ x: x + width / 2, y: fittingY - 12, text: spec.fitment.name.toUpperCase(), centered: true, size: 4.2 });
-    dimension(x + width + 12, axis === 'bottom' ? fittingY : y, fitmentOffset, true);
+    crosshair(x + width / 2, fittingY, 12);
+    labels.push({ x: x + width / 2, y: fittingY - 15, text: spec.fitment.name.toUpperCase(), centered: true, size: 4.2 });
+    dimension(x + width + 13, axis === 'bottom' ? fittingY : y, fitmentOffset, true, -13);
+    add('center', [[x + width / 2 + 12, fittingY], [x + width + 13, fittingY]]);
   }
   for (const left of [x, x + step]) {
     if (zipper) {
@@ -264,24 +339,67 @@ export function buildDieline(options) {
       }
     }
     if (notch) add('feature', [[left, y + notchPosition - 2], [left + 2.5, y + notchPosition], [left, y + notchPosition + 2]]);
-    if (hole) add('feature', circle(left + width / 2, y + holePosition, 3));
+    if (hole) {
+      const middle = left + width / 2;
+      add('feature', circle(middle, y + holePosition, 3));
+      crosshair(middle, y + holePosition, 5);
+    }
   }
   if (valve) {
     const valveX = x + step + width / 2;
     add('feature', circle(valveX, y + valvePosition, 5));
     add('feature', circle(valveX, y + valvePosition, 1.1));
+    crosshair(valveX, y + valvePosition, 7);
+  }
+  if (zipper) {
+    const markX = x + width + 13;
+    dimension(markX, y, zipperPosition, true, -13);
+    add('center', [[x + width - seal, y + zipperPosition], [markX, y + zipperPosition]]);
   }
 
+  const sheetWidth = Math.max(right + 18, 194);
+  const footer = endY + 13;
+  const sheetHeight = footer + 52;
+  add('frame', rectangle(8, 7, sheetWidth - 16, sheetHeight - 14));
+  for (const line of [36, footer, footer + 22]) add('frame', [[8, line], [sheetWidth - 8, line]]);
+  const summaryX = sheetWidth / 2 + 5;
+  const hardware = [
+    [zipper, 'Zipper', zipperPosition, 'from top'],
+    [notch, 'Notch', notchPosition, 'from top'],
+    [hole, 'Hang hole', holePosition, 'from top'],
+    [valve, 'Valve', valvePosition, 'from top'],
+    [spec.fitment, spec.fitment?.name, fitmentOffset, 'from ' + spec.fitment?.axis],
+  ];
+  const hardwareLabels = hardware.filter(([active]) => active).map(([, name, offset, edge], index) => ({
+    x: summaryX + (index % 2) * (sheetWidth / 4 - 1), y: footer + 12 + Math.floor(index / 2) * 5.3,
+    text: `${name} ${display(offset)} mm ${edge}`, size: 2.75,
+  }));
+  if (hardwareLabels.length) {
+    labels.push({ x: summaryX, y: footer + 6.4, text: 'FEATURE LOCATIONS', size: 3.2, strong: true }, ...hardwareLabels);
+  }
+  const legend = [['cut', 'Outline'], ['seal', 'Seal'], ['fold', 'Fold / repeat'], ['bleed', 'Bleed'],
+    ['safe', 'Safe area'], ['feature', 'Feature'], ['center', 'Alignment'], ['dimensions', 'Dimension']];
+  const legendSamples = legend.map(([layer, caption], index) => {
+    const left = 13 + (index % 4) * ((sheetWidth - 27) / 4);
+    const top = footer + 29.1 + Math.floor(index / 4) * 6;
+    labels.push({ x: left + 10, y: top + 1, text: caption, size: 3.2 });
+    return { layer, points: [[left, top], [left + 8, top]] };
+  });
   return {
     format, panels,
-    width: Math.max(right + 18, 180),
-    height: endY + 22,
-    strokes,
+    width: sheetWidth,
+    height: sheetHeight,
+    strokes, legendSamples,
     labels: [
-      { x: 12, y: 13, text: spec.name + ' / Mewepak', size: 6.5 },
-      { x: 12, y: 22, text: 'Design reference - prepress review required | 1:1 | millimetres', size: 4.1 },
+      { x: 13, y: 15, text: 'MEWEPAK / FLEXIBLE PACKAGING', size: 3.3, strong: true },
+      { x: 13, y: 24, text: spec.name, size: 6.8, strong: true },
+      { x: 13, y: 31, text: 'Design reference - prepress review required', size: 3.7 },
+      { x: sheetWidth - 44, y: 15, text: 'SCALE   1:1', size: 3.3, strong: true },
+      { x: sheetWidth - 44, y: 21, text: 'UNITS   mm', size: 3.3 },
       ...labels,
-      { x, y: endY + 15, text: 'Seal ' + display(seal) + ' mm / Bleed ' + display(bleed) + ' mm / Artwork inset ' + display(safe) + ' mm', size: 4 },
+      { x: 13, y: footer + 6.4, text: 'ARTWORK GUIDES', size: 3.2, strong: true },
+      { x: 13, y: footer + 12, text: 'Seal ' + display(seal) + ' mm / Bleed ' + display(bleed) + ' mm / Inset ' + display(safe) + ' mm', size: 3.2 },
+      { x: 13, y: footer + 19, text: 'Example profiles and fitments. Confirm with prepress.', size: 3 },
     ],
   };
 }
@@ -295,42 +413,45 @@ function circle(x, y, r) {
 }
 
 export function exportSvg(model, { preview = false } = {}) {
-  const { width, height, strokes, labels } = model;
-  const groups = Object.entries(layers).map(([id, { color, dash }]) => {
-    const paths = strokes[id].map(points => '<polyline points="' +
-      points.map(([x, y]) => round(x) + ',' + round(y)).join(' ') + '"/>').join('');
-    return '<g id="' + id + '" fill="none" stroke="' + color + '" stroke-width=".55"' +
-      (dash.length ? ' stroke-dasharray="' + dash.join(' ') + '"' : '') + '>' + paths + '</g>';
-  }).join('');
-  const text = labels.map(({ x, y, text, size, rotate, centered }) => {
+  const { width, height, strokes, labels, legendSamples } = model;
+  const attrs = ({ color, dash, weight }) => 'fill="none" stroke="' + color + '" stroke-width="' + weight + '" stroke-linejoin="round"' +
+    (dash.length ? ' stroke-dasharray="' + dash.join(' ') + '"' : '');
+  const polyline = (points, attributes = '') => '<polyline ' + attributes + ' points="' +
+    points.map(([x, y]) => round(x) + ',' + round(y)).join(' ') + '"/>';
+  const groups = Object.entries(layers).map(([id, layer]) => '<g id="' + id + '" ' + attrs(layer) + '><title>' + layer.name + '</title>' +
+    strokes[id].map(points => polyline(points)).join('') + '</g>').join('');
+  const lineKey = '<g id="line-key">' + legendSamples.map(({ layer, points }) => polyline(points, attrs(layers[layer]))).join('') + '</g>';
+  const text = labels.map(({ x, y, text, size, rotate, centered, strong }) => {
     const angle = rotate ? ' transform="rotate(-90 ' + x + ' ' + y + ')"' : '';
     return '<text x="' + x + '" y="' + y + '" font-size="' + size + '"' + angle +
-      (centered ? ' text-anchor="middle"' : '') + '>' + text + '</text>';
+      (centered ? ' text-anchor="middle"' : '') + (strong ? ' font-weight="700"' : '') + '>' + text + '</text>';
   }).join('');
   const fill = (points, color) => '<polygon fill="' + color + '" points="' + points.map(p => p.join(',')).join(' ') + '"/>';
   const sheet = preview ? '<rect width="100%" height="100%" fill="#fff"/>' +
     model.panels.map(({ outline, sealGuide }) => fill(outline, '#e2ece7') + fill(sealGuide, '#fff')).join('') : '';
   return '<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dimensioned pouch panels and guides" width="' +
-    width + 'mm" height="' + height + 'mm" viewBox="0 0 ' + width + ' ' + height + '">' + sheet + groups +
+    width + 'mm" height="' + height + 'mm" viewBox="0 0 ' + width + ' ' + height + '">' + sheet + groups + lineKey +
     '<g id="annotations" fill="#334e57" font-family="Arial,sans-serif">' + text + '</g></svg>';
 }
 
 export function exportPdf(model) {
   const pt = mm => round(mm * 72 / 25.4);
   const position = ([x, y]) => pt(x) + ' ' + pt(model.height - y);
-  const commands = [pt(.55) + ' w'];
-  for (const [name, { color, dash }] of Object.entries(layers)) {
+  const commands = ['1 j'];
+  for (const [name, { color, dash, weight }] of Object.entries(layers)) {
     const rgb = color.slice(1).match(/../g).map(part => round(parseInt(part, 16) / 255));
-    commands.push(rgb.join(' ') + ' RG', '[' + dash.map(pt).join(' ') + '] 0 d');
+    commands.push(pt(weight) + ' w', rgb.join(' ') + ' RG', '[' + dash.map(pt).join(' ') + '] 0 d');
     for (const points of model.strokes[name]) {
       commands.push(points.map((point, i) => position(point) + (i ? ' l' : ' m')).join(' ') + ' S');
     }
+    const sample = model.legendSamples.find(({ layer }) => layer === name);
+    if (sample) commands.push(position(sample.points[0]) + ' m ' + position(sample.points[1]) + ' l S');
   }
   commands.push('0.2 0.31 0.34 rg');
-  for (const { x, y, text, size, rotate, centered } of model.labels) {
+  for (const { x, y, text, size, rotate, centered, strong } of model.labels) {
     const shift = centered ? text.length * size * .24 : 0;
     const origin = rotate ? [x, y + shift] : [x - shift, y];
-    commands.push('BT /F1 ' + pt(size) + ' Tf ' + (rotate ? '0 1 -1 0 ' : '1 0 0 1 ') +
+    commands.push('BT ' + (strong ? '/F2 ' : '/F1 ') + pt(size) + ' Tf ' + (rotate ? '0 1 -1 0 ' : '1 0 0 1 ') +
       position(origin) + ' Tm (' + text.replace(/[()\\]/g, '\\$&') + ') Tj ET');
   }
   const stream = commands.join('\n') + '\n';
@@ -338,9 +459,10 @@ export function exportPdf(model) {
     '<< /Type /Catalog /Pages 2 0 R >>',
     '<< /Type /Pages /Count 1 /Kids [3 0 R] >>',
     '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + pt(model.width) + ' ' + pt(model.height) +
-      '] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>',
+      '] /Resources << /Font << /F1 4 0 R /F2 6 0 R >> >> /Contents 5 0 R >>',
     '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
     '<< /Length ' + stream.length + ' >>\nstream\n' + stream + 'endstream',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>',
   ];
   let pdf = '%PDF-1.4\n';
   const offsets = [];
@@ -348,6 +470,7 @@ export function exportPdf(model) {
     offsets.push(String(pdf.length).padStart(10, '0') + ' 00000 n ');
     pdf += (i + 1) + ' 0 obj\n' + object + '\nendobj\n';
   }
-  return pdf + 'xref\n0 6\n0000000000 65535 f \n' + offsets.join('\n') + '\ntrailer\n' +
-    '<< /Size 6 /Root 1 0 R >>\nstartxref\n' + pdf.length + '\n%%EOF\n';
+  const objectCount = objects.length + 1;
+  return pdf + 'xref\n0 ' + objectCount + '\n0000000000 65535 f \n' + offsets.join('\n') + '\ntrailer\n' +
+    '<< /Size ' + objectCount + ' /Root 1 0 R >>\nstartxref\n' + pdf.length + '\n%%EOF\n';
 }

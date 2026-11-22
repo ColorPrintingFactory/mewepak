@@ -72,6 +72,7 @@
 .dl-safe::before { color: #168468; }
 .dl-bleed::before { color: #a33f73; }
 .dl-feature::before { color: #347b9f; }
+.dl-center::before { color: #607981; }
 .dl-actions { display: flex; flex-wrap: wrap; gap: 7px; }
 .dl-actions button {
   display: inline-flex; min-height: 38px; align-items: center; padding-inline: 12px; border-radius: 7px;

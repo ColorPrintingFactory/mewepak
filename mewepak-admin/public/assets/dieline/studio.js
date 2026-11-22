@@ -1,4 +1,4 @@
-import { buildDieline, exportPdf, exportSvg, formats } from './geometry.js?v=3';
+import { buildDieline, exportPdf, exportSvg, formats } from './geometry.js?v=4';
 
 const form = document.querySelector('#dl-form');
 const field = name => form.elements.namedItem(name);
@@ -23,7 +23,7 @@ const featureNames = [['zipper', 'zipper'], ['notch', 'tear notch'], ['valve', '
 const presetIndex = { small: 0, medium: 1, large: 2 };
 const defaultContext = '/inquiry/#quote-request';
 const short = (number, precision = 3) => String(Number(number.toFixed(precision)));
-const zoomStops = [1, 1.25, 1.5, 2, 2.5, 3];
+const zoomStops = [1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
 let unit = field('unit').value;
 let model;
 let zoomIndex = 0;
