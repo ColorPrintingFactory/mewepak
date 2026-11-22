@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Flexible Packaging Dieline Generator | Mewepak</title>
-  <meta name="description" content="Preview flexible packaging panel layouts and export full-scale SVG and PDF design references.">
+  <meta name="description" content="Compare flexible pouch formats, set dimensions and feature positions, and export full-scale SVG and PDF design references.">
   <link rel="stylesheet" href="/assets/original/tailwind.css">
   <link rel="stylesheet" href="/assets/original/custom.css">
   <link rel="stylesheet" href="/assets/site.css">
-  <link rel="stylesheet" href="/assets/dieline/studio.css">
+  <link rel="stylesheet" href="/assets/dieline/studio.css?v=2">
 </head>
 <body>
   <a class="sr-only focus:not-sr-only" href="#dieline-main">Skip to content</a>
@@ -18,30 +18,34 @@
       <div class="dl-wrap">
         <nav class="dl-crumb" aria-label="Breadcrumb"><a href="/solutions/">Solutions</a><span aria-hidden="true">/</span><span aria-current="page">Dieline Generator</span></nav>
         <header class="dl-intro">
-          <h1>Packaging dieline generator</h1>
-          <p>Set your pouch dimensions, check the panel layout and download a full-scale vector reference for your artwork brief.</p>
+          <div><h1>Packaging dieline generator</h1><p>Build a dimensioned pouch layout for your artwork and share it with your packaging team.</p></div>
+          <a href="/solutions/material-specifications/">Compare packaging materials <span aria-hidden="true">↗</span></a>
         </header>
         <noscript><p>Enable JavaScript to generate a layout, or <a href="/solutions/prepress/">contact our prepress team</a> for help.</p></noscript>
         <div class="dl-grid">
-          <form id="dl-form" class="dl-panel" novalidate>
-            <h2>Set your dimensions</h2>
-            <label>Packaging format
-              <select name="format">
-                <option value="stand-up-pouch">Stand-up pouch</option>
-                <option value="flat-pouch">Flat pouch</option>
-                <option value="flat-bottom-pouch">Flat-bottom pouch</option>
-              </select>
-            </label>
-            <label>Measurement units
-              <select name="unit"><option value="mm">Millimetres (mm)</option><option value="in">Inches (in)</option></select>
-            </label>
-            <div class="dl-dims">
-              <label>Width <input name="width" type="number" step="any" inputmode="decimal" required value="120"></label>
-              <label>Height <input name="height" type="number" step="any" inputmode="decimal" required value="200"></label>
-              <label id="dl-depth">Bottom gusset / depth <input name="depth" type="number" step="any" inputmode="decimal" value="70"></label>
-              <label>Seal margin <input name="seal" type="number" step="any" inputmode="decimal" required value="8"></label>
-            </div>
-            <fieldset>
+          <form id="dl-form" class="dl-panel dl-config" novalidate>
+            <fieldset class="dl-form-section">
+              <legend>Packaging format</legend>
+              <div class="dl-formats">
+                <label><input type="radio" name="format" value="stand-up-pouch" checked><span class="dl-shape dl-shape-stand" aria-hidden="true"></span><span>Stand-up</span></label>
+                <label><input type="radio" name="format" value="flat-pouch"><span class="dl-shape dl-shape-flat" aria-hidden="true"></span><span>Flat pouch</span></label>
+                <label><input type="radio" name="format" value="flat-bottom-pouch"><span class="dl-shape dl-shape-box" aria-hidden="true"></span><span>Flat-bottom</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="dl-form-section">
+              <legend>Dimensions</legend>
+              <div class="dl-size-controls">
+                <label>Size <select name="preset"><option value="small">Compact</option><option value="medium" selected>Standard</option><option value="large">Large</option><option value="custom">Custom</option></select></label>
+                <label>Units <select name="unit"><option value="mm">mm</option><option value="in">in</option></select></label>
+              </div>
+              <div class="dl-dims">
+                <label>Width <input name="width" type="number" step="any" inputmode="decimal" required value="120"></label>
+                <label>Height <input name="height" type="number" step="any" inputmode="decimal" required value="200"></label>
+                <label id="dl-depth"><span id="dl-depth-label">Bottom gusset</span><input name="depth" type="number" step="any" inputmode="decimal" value="70"></label>
+                <label>Seal margin <input name="seal" type="number" step="any" inputmode="decimal" required value="8"></label>
+              </div>
+            </fieldset>
+            <fieldset class="dl-form-section">
               <legend>Features</legend>
               <div class="dl-options">
                 <label><input name="zipper" type="checkbox" checked> Zipper</label>
@@ -49,21 +53,42 @@
                 <label><input name="valve" type="checkbox"> Valve</label>
                 <label><input name="hole" type="checkbox"> Hang hole</label>
               </div>
+              <details class="dl-details">
+                <summary>Position and print guides</summary>
+                <p>Feature positions are measured from the top edge.</p>
+                <div class="dl-dims">
+                  <label data-for-feature="zipper">Zipper <input name="zipperPosition" type="number" step="any" inputmode="decimal" value="25"></label>
+                  <label data-for-feature="notch">Tear notch <input name="notchPosition" type="number" step="any" inputmode="decimal" value="12"></label>
+                  <label data-for-feature="valve" hidden>Valve <input name="valvePosition" type="number" step="any" inputmode="decimal" value="62"></label>
+                  <label data-for-feature="hole" hidden>Hang hole <input name="holePosition" type="number" step="any" inputmode="decimal" value="12"></label>
+                  <label>Bleed <input name="bleed" type="number" step="any" inputmode="decimal" value="3"></label>
+                  <label>Artwork inset <input name="safe" type="number" step="any" inputmode="decimal" value="3"></label>
+                </div>
+              </details>
             </fieldset>
             <p class="dl-error" id="dl-error" role="status" hidden></p>
+            <a class="dl-jump" href="#dl-drawing-title">View updated drawing <span aria-hidden="true">↓</span></a>
           </form>
           <section class="dl-panel dl-drawing" aria-labelledby="dl-drawing-title">
-            <div class="dl-drawing-head"><h2 id="dl-drawing-title">Panel preview</h2><p id="dl-dimensions"></p></div>
-            <div id="dl-preview" class="dl-preview"></div>
-            <ul class="dl-legend" aria-label="Drawing legend">
-              <li class="dl-cut">Panel outline</li><li class="dl-seal">Seal guide</li><li class="dl-fold">Fold guide</li><li class="dl-safe">Artwork safe area</li><li class="dl-bleed">Bleed</li><li class="dl-feature">Feature</li>
-            </ul>
-            <div class="dl-actions">
-              <button type="button" id="dl-svg" disabled>Download SVG</button>
-              <button type="button" id="dl-pdf" disabled>Download PDF</button>
-              <a id="dl-quote" href="/inquiry/#quote-request">Use these dimensions in a quote <span aria-hidden="true">↗</span></a>
+            <div class="dl-drawing-head"><div><h2 id="dl-drawing-title">Dieline preview</h2><p id="dl-dimensions"></p></div>
+              <div class="dl-tools" aria-label="Preview zoom">
+                <button type="button" id="dl-zoom-out" aria-label="Zoom out">−</button>
+                <button type="button" id="dl-fit" title="Fit drawing to view">Fit</button>
+                <button type="button" id="dl-zoom-in" aria-label="Zoom in">+</button>
+              </div>
             </div>
-            <p class="dl-note"><strong>Design reference.</strong> Ask Mewepak prepress to confirm the final die, seal and feature positions before production. Print exported PDFs at actual size to retain the drawing scale.</p>
+            <div id="dl-stage" class="dl-stage" tabindex="0" aria-label="Scrollable drawing preview">
+              <div id="dl-preview" class="dl-preview"></div>
+              <p id="dl-empty" hidden>Update the highlighted settings to redraw the layout.</p>
+            </div>
+            <ul class="dl-legend" aria-label="Drawing layers">
+              <li class="dl-cut">Panel outline</li><li class="dl-seal">Seal</li><li class="dl-fold">Fold</li><li class="dl-safe">Artwork safe area</li><li class="dl-bleed">Bleed</li><li class="dl-feature">Feature</li>
+            </ul>
+            <div class="dl-export">
+              <div><h3>Export at 1:1 scale</h3><p>Vector artwork reference · print at actual size</p></div>
+              <div class="dl-actions"><button type="button" id="dl-svg" disabled>Download SVG</button><button type="button" id="dl-pdf" disabled>Download PDF</button></div>
+            </div>
+            <div class="dl-review"><p><strong>Design reference.</strong> Confirm the die, seal and feature positions with Mewepak prepress before production.</p><a id="dl-quote" href="/inquiry/#quote-request">Use these dimensions in a quote <span aria-hidden="true">↗</span></a></div>
           </section>
         </div>
       </div>
@@ -73,6 +98,6 @@
   <script src="/assets/original/runtime-data.js" defer></script>
   <script src="/api/frontend-navigation" defer></script>
   <script src="/assets/original/main.js" defer></script>
-  <script type="module" src="/assets/dieline/studio.js"></script>
+  <script type="module" src="/assets/dieline/studio.js?v=2"></script>
 </body>
 </html>
