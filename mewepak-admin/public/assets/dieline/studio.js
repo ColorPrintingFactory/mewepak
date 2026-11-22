@@ -1,4 +1,4 @@
-import { buildDieline, exportPdf, exportSvg, formats } from './geometry.js?v=2';
+import { buildDieline, exportPdf, exportSvg, formats } from './geometry.js?v=3';
 
 const form = document.querySelector('#dl-form');
 const field = name => form.elements.namedItem(name);
@@ -13,15 +13,14 @@ const fitButton = document.querySelector('#dl-fit');
 const zoomIn = document.querySelector('#dl-zoom-in');
 const zoomOut = document.querySelector('#dl-zoom-out');
 const quote = document.querySelector('#dl-quote');
+const formatNote = document.querySelector('#dl-format-note');
+const fitmentField = document.querySelector('#dl-fitment');
+const featureOptions = form.querySelector('.dl-options');
 const unitByName = { mm: 1, in: 25.4 };
 const packFields = ['width', 'height', 'depth'];
-const numericFields = [...packFields, 'seal', 'bleed', 'safe', 'zipperPosition', 'notchPosition', 'valvePosition', 'holePosition'];
+const numericFields = [...packFields, 'seal', 'bleed', 'safe', 'zipperPosition', 'notchPosition', 'valvePosition', 'holePosition', 'fitmentOffset'];
 const featureNames = [['zipper', 'zipper'], ['notch', 'tear notch'], ['valve', 'valve'], ['hole', 'hang hole']];
-const presetSizes = {
-  'stand-up-pouch': { small: [90, 145, 50], medium: [120, 200, 70], large: [190, 270, 95] },
-  'flat-pouch': { small: [75, 105], medium: [110, 170], large: [160, 230] },
-  'flat-bottom-pouch': { small: [90, 155, 55], medium: [130, 220, 75], large: [185, 280, 100] },
-};
+const presetIndex = { small: 0, medium: 1, large: 2 };
 const defaultContext = '/inquiry/#quote-request';
 const short = (number, precision = 3) => String(Number(number.toFixed(precision)));
 const zoomStops = [1, 1.25, 1.5, 2, 2.5, 3];
@@ -30,9 +29,31 @@ let model;
 let zoomIndex = 0;
 
 function applyPreset() {
-  const size = presetSizes[field('format').value][field('preset').value];
+  const spec = formats[field('format').value];
+  const size = spec.sizes[presetIndex[field('preset').value]];
   if (!size) return;
   size.forEach((n, index) => { field(packFields[index]).value = short(n / unitByName[unit], 8); });
+  const fitting = spec.fitment;
+  if (fitting) field('fitmentOffset').value = short((fitting.offset ?? size[0] / 2) / unitByName[unit], 8);
+}
+
+function changeFormat() {
+  const spec = formats[field('format').value];
+  if (field('preset').value === 'custom') field('preset').value = 'medium';
+  const repeat = spec.web === 'repeat';
+  field('seal').value = short((spec.seal ?? 8) / unitByName[unit], 8);
+  document.querySelector('#dl-width-label').textContent = repeat ? 'Web width' : 'Width';
+  document.querySelector('#dl-height-label').textContent = repeat ? 'Print repeat length' : 'Height';
+  document.querySelector('#dl-depth').hidden = !spec.depthLabel;
+  document.querySelector('#dl-depth-label').textContent = spec.depthLabel ?? '';
+  document.querySelector('#dl-features-title').textContent = spec.features.length || spec.fitment ? 'Features and guides' : 'Print guides';
+  document.querySelector('#dl-position-help').hidden = !spec.features.length;
+  featureOptions.hidden = !spec.features.length;
+  fitmentField.hidden = !spec.fitment;
+  fitmentField.firstElementChild.textContent = spec.fitment?.label ?? '';
+  formatNote.textContent = spec.note ?? '';
+  formatNote.hidden = !spec.note;
+  applyPreset();
 }
 
 function sizePreview() {
@@ -52,13 +73,13 @@ function sizePreview() {
 
 function update() {
   const format = field('format').value;
-  const hasDepth = format !== 'flat-pouch';
-  document.querySelector('#dl-depth').hidden = !hasDepth;
-  document.querySelector('#dl-depth-label').textContent = format === 'flat-bottom-pouch' ? 'Base depth' : 'Bottom gusset';
+  const spec = formats[format];
   const options = Object.fromEntries(numericFields.map(name =>
     [name, Number((field(name).valueAsNumber * unitByName[unit]).toFixed(6))]));
   for (const [key] of featureNames) {
-    options[key] = field(key).checked;
+    const available = spec.features.includes(key);
+    field(key).closest('label').hidden = field(key).disabled = !available;
+    options[key] = available && field(key).checked;
     form.querySelector('[data-for-feature="' + key + '"]').hidden = !options[key];
   }
   for (const input of form.querySelectorAll('[aria-invalid]')) input.removeAttribute('aria-invalid');
@@ -66,11 +87,12 @@ function update() {
     model = buildDieline({ format, ...options });
     status.hidden = true;
     view.innerHTML = exportSvg(model, { preview: true });
-    dimensions.textContent = formats[format] + ' · ' + [options.width, options.height, ...(hasDepth ? [options.depth] : [])]
+    dimensions.textContent = spec.name + ' · ' + [options.width, options.height, ...(spec.depthLabel ? [options.depth] : [])]
       .map(n => short(n / unitByName[unit])).join(' × ') + ' ' + unit;
     const measured = (name) => short(options[name] / unitByName[unit]);
     const features = featureNames.filter(([key]) => options[key]).map(([key, label]) =>
       label + ' ' + measured(key + 'Position') + ' ' + unit);
+    if (spec.fitment) features.push(spec.fitment.label + ' ' + measured('fitmentOffset') + ' ' + unit);
     const context = dimensions.textContent + ', seal ' + measured('seal') + ' ' + unit +
       (features.length ? ', ' + features.join(', ') : '');
     quote.href = '/inquiry/?' + new URLSearchParams({ format, service: 'prepress', product: context }) + '#quote-request';
@@ -105,7 +127,8 @@ form.addEventListener('input', ({ target }) => {
   }
   if (packFields.includes(target.name)) field('preset').value = 'custom';
   if (target.name === 'preset' || target.name === 'format') {
-    applyPreset();
+    if (target.name === 'format') changeFormat();
+    else applyPreset();
     zoomIndex = 0;
     stage.scrollTo(0, 0);
   }
@@ -131,4 +154,7 @@ function download(extension, mime, exportFile) {
 
 svgButton.addEventListener('click', () => download('svg', 'image/svg+xml', exportSvg));
 pdfButton.addEventListener('click', () => download('pdf', 'application/pdf', exportPdf));
+const requestedFormat = new URLSearchParams(location.search).get('format');
+if (Object.hasOwn(formats, requestedFormat)) field('format').value = requestedFormat;
+changeFormat();
 update();
