@@ -2,6 +2,7 @@
   padding-block: clamp(44px, 5vw, 72px);
   border-block-start: 1px solid #e1ebe7;
   background: #f7faf8;
+  scroll-margin-top: 75px;
 }
 
 #mewepak-homepage .mw-formats-all {
@@ -65,6 +66,18 @@
   opacity: 0;
 }
 
+#mewepak-homepage .mw-format-card .mw-format-sample {
+  border-radius: 15%;
+}
+
+#mewepak-homepage .mw-format-sample-toned {
+  filter: url("/assets/client-design/format-icons/sample-tone.svg#deep-green");
+}
+
+#mewepak-homepage .mw-formats[data-sample-tone="teal"] .mw-format-sample-toned {
+  filter: url("/assets/client-design/format-icons/sample-tone.svg#teal");
+}
+
 @media (hover: hover) {
   #mewepak-homepage .mw-format-card:hover .mw-format-line { opacity: 0; }
   #mewepak-homepage .mw-format-card:hover .mw-format-sample { opacity: 1; }
@@ -72,6 +85,9 @@
 
 #mewepak-homepage .mw-format-card:focus-visible .mw-format-line { opacity: 0; }
 #mewepak-homepage .mw-format-card:focus-visible .mw-format-sample { opacity: 1; }
+
+#mewepak-homepage .mw-formats[data-show-samples] .mw-format-line { opacity: 0; }
+#mewepak-homepage .mw-formats[data-show-samples] .mw-format-sample { opacity: 1; }
 
 #mewepak-homepage .mw-format-label {
   font-size: clamp(13px, 1.3vw, 16px);

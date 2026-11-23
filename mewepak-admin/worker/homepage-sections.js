@@ -14,10 +14,13 @@ const types = [
 ];
 
 const directory = '/assets/client-design/format-icons';
-const icon = (slug, style) => `<img class="mw-format-${style}" src="${directory}/${slug}-${style}.webp" alt="" width="219" height="210" loading="lazy" decoding="async">`;
+const icon = (name, classes) => `<img class="${classes}" src="${directory}/${name}.webp" alt="" width="219" height="210" loading="lazy" decoding="async">`;
 
-export const homeFormatSection = `
-<section class="mw-section mw-formats" id="mw-formats" aria-labelledby="mw-formats-title">
+export function homeFormatSection(samplePreview) {
+  const color = samplePreview === 'teal' ? 'teal' : 'deep-green';
+  const preview = samplePreview === 'teal' || samplePreview === 'deep-green';
+  return `
+<section class="mw-section mw-formats" id="mw-formats" aria-labelledby="mw-formats-title" data-sample-tone="${color}"${preview ? ' data-show-samples' : ''}>
   <div class="mw-inner">
     <div class="mw-section-header">
       <div><h2 class="mw-heading" id="mw-formats-title">Choose your packaging format</h2></div>
@@ -27,13 +30,19 @@ export const homeFormatSection = `
       ${types.map(([slug, label]) => `
         <li>
           <a class="mw-format-card" href="/products/${slug}/">
-            <span class="mw-format-art">${slug === 'roll-stock-films' ? '' : icon(slug, 'line')}${icon(slug, 'sample')}</span>
+            <span class="mw-format-art">
+              ${icon(slug + '-line', 'mw-format-line')}
+              ${slug === 'stand-up-pouch'
+                ? icon(slug + '-sample-' + color, 'mw-format-sample')
+                : icon(slug + '-sample', 'mw-format-sample mw-format-sample-toned')}
+            </span>
             <span class="mw-format-label">${label}</span>
           </a>
         </li>`).join('')}
     </ul>
   </div>
 </section>`;
+}
 
 const sustainabilityPriorities = [
   ['Lightweighting', 'Use less material per pack.',

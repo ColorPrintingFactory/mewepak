@@ -348,8 +348,9 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(headerActionsAssets + compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=sustainability-layout"><script src="/assets/3d/pouch-interactive.js?v=home-studio" defer></script>', { html: true }));
-    on('#mw-markets', (el) => el.after(homeFormatSection, { html: true }));
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=format-samples"><script src="/assets/3d/pouch-interactive.js?v=home-studio" defer></script>', { html: true }));
+    const formatsSection = homeFormatSection(url.searchParams.get('format-color'));
+    on('#mw-markets', (el) => el.after(formatsSection, { html: true }));
     on('#mw-sustainability', (el) => el.remove());
     on('#mw-contact', (el) => el.before(homeSustainabilitySection + homePreviewSection + (showReviewPreview ? homeReviewsPreview : ''), { html: true }));
     if (showReviewPreview) {
