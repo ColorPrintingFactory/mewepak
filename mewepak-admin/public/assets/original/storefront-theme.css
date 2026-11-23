@@ -109,10 +109,18 @@ footer[data-storefront-footer] > div > .border-t,
   }
 
   [data-storefront-home] [data-mewepak-header] [data-nav] [data-nav-link] {
-    padding-inline: clamp(8px, .9vw, 14px);
+    padding-inline: clamp(5px, 1.5vw - 10px, 14px);
     font-size: clamp(.875rem, 1.16vw, 1rem);
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  @media (max-width: 1180px) {
+    [data-storefront-home] [data-mewepak-header] [data-nav] [data-nav-link] svg {
+      flex: none;
+      width: .75rem;
+      height: .75rem;
+    }
   }
 
   [data-storefront-home]:not([dir="rtl"]) [data-mewepak-header] [data-nav] [data-nav-link] {

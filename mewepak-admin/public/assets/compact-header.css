@@ -71,7 +71,13 @@ html.mw-has-compact-header {
 
 .mw-compact-header__desktop [data-nav-link] {
   height: 100%;
-  padding-inline: 6px;
+  padding-inline: 4px;
+}
+
+.mw-compact-header__desktop [data-nav-link] svg {
+  flex: none;
+  width: .75rem;
+  height: .75rem;
 }
 
 [data-storefront-home] .mw-compact-header [data-compact-primary] {
@@ -90,7 +96,7 @@ html.mw-has-compact-header {
   }
 
   [data-storefront-home] .mw-compact-header [data-nav] [data-nav-link] {
-    font-size: clamp(.8125rem, 1.12vw, .9375rem);
+    font-size: clamp(.8125rem, 1.015vw, .9375rem);
     text-transform: uppercase;
   }
 
@@ -152,9 +158,13 @@ html.mw-has-compact-header {
   direction: rtl;
 }
 
-@media (max-width: 1320px) {
+@media (max-width: 1520px) {
   .mw-compact-header__action-full { display: none; }
   .mw-compact-header__action-short { display: inline; }
+}
+
+@media (min-width: 1521px) {
+  .mw-compact-header__row { max-width: 1440px; }
 }
 
 @media (max-width: 1180px) {
