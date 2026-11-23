@@ -39,7 +39,7 @@
 }
 
 :is([data-mewepak-header], [data-search-overlay], .site-header) [role="search"] input {
-  font-size: .9375rem;
+  font-size: 14px;
   border-radius: 5px;
 }
 
@@ -104,13 +104,12 @@ footer[data-storefront-footer] > div > .border-t,
   [data-mewepak-header] [data-nav-link],
   .site-header .nav-item > a {
     color: var(--chrome-nav) !important;
-    font-size: .9375rem;
+    font-size: 14px;
     font-weight: 600;
   }
 
   [data-storefront-home] [data-mewepak-header] [data-nav] [data-nav-link] {
     padding-inline: clamp(5px, 1.5vw - 10px, 14px);
-    font-size: clamp(.875rem, 1.16vw, 1rem);
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -128,14 +127,14 @@ footer[data-storefront-footer] > div > .border-t,
   }
 
   [data-storefront-home][lang="de"] [data-mewepak-header] [data-nav] [data-nav-link] {
-    font-size: clamp(.8125rem, 1.06vw, .9rem);
+    font-size: clamp(13px, 1.06vw, 14px);
     padding-inline: clamp(4px, 1.25vw - 8px, 11px);
     letter-spacing: .01em;
   }
 
   [data-mobile-menu] nav > a,
   [data-mobile-menu] [data-mobile-group-trigger] {
-    font-size: 1rem;
+    font-size: 14px;
   }
 
   [data-storefront-home] [data-mobile-menu] nav > a,
@@ -145,7 +144,7 @@ footer[data-storefront-footer] > div > .border-t,
 
   :is([data-mewepak-header], .mw-compact-header) [data-mega-panel] :is(a, p).text-sm,
   [data-mobile-menu] [data-mobile-group-panel] a {
-    font-size: .9375rem;
+    font-size: 14px;
   }
 
   [data-mewepak-header] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]),

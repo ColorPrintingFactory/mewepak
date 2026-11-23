@@ -341,7 +341,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     el.setAttribute('data-storefront-page', type);
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=type-scale"><script src="/assets/original/storefront-layout.js?v=compact-header" defer></script>', { html: true }));
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=type-scale"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=nav-14"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
   const switchPath = path === '/' ? '/' : path + '/';
   const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));

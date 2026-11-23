@@ -237,7 +237,7 @@ function pageMarkup({ path, lang, available, origin, url, settings, production }
 <title>${escape(metaTitle)}</title><meta name="description" content="${escape(lead)}">
 <link rel="canonical" href="${escape(canonical)}">${query ? '' : alternateTags(path,origin)}
 <meta name="robots" content="${showIndex ? 'index,follow,max-image-preview:large' : 'noindex,follow'}">
-${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=type-scale">
+${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=nav-14">
 ${headerActionsAssets}${compactHeaderAssets}
 ${openGraph}<script type="application/ld+json">${schema}</script>
 ${customerRequest || appointment ? '<script src="/assets/storefront-forms.js?v=locale-1" defer></script>' : ''}
