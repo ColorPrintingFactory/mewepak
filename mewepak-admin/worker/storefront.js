@@ -214,7 +214,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('[data-mega-panel="Sustainability"] ul.space-y-2', (el) => el.prepend(
     `<li><a href="${processPath}" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Our Process</a></li>`, { html: true }));
   on('[data-mobile-menu] a[href="/sustainability"],[data-mobile-menu] a[href="/sustainability/"]', (el) => el.after(
-    `<a class="block py-2 pl-8 pr-4 text-sm !text-gray-700 hover:!text-[#00cfca]" href="${processPath}">Our Process</a>`, { html: true }));
+    `<a data-mobile-subitem class="block py-2 pl-8 pr-4 text-sm !text-gray-700 hover:!text-[#00cfca]" href="${processPath}">Our Process</a>`, { html: true }));
   const { usLocations = {} } = settings;
   set('body', 'data-mewepak-settings', JSON.stringify(settings));
   rewriteContactEmail(rewrite, settings.email);
@@ -341,14 +341,13 @@ export async function connectStorefront(request, response, database, projectUrl,
     el.setAttribute('data-storefront-page', type);
   });
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=centered-dialogs"><script src="/assets/original/storefront-layout.js?v=compact-header" defer></script>', { html: true }));
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=nav-14"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=shared-nav"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
   const switchPath = path === '/' ? '/' : path + '/';
   const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));
   on('head', (el) => el.append(headerActionsAssets + compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    if (!url.searchParams.has('s')) set('html', 'data-storefront-home', '');
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=format-samples"><script src="/assets/3d/pouch-interactive.js?v=home-studio" defer></script>', { html: true }));
     const formatsSection = homeFormatSection(url.searchParams.get('format-color'));
     on('#mw-markets', (el) => el.after(formatsSection, { html: true }));
