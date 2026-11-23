@@ -259,6 +259,7 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .v2-hero-description { margin:14px 0 20px; min-block-size:0; font-size:14px; }
  #mewepak-homepage .v2-hero-actions { gap:19px; }
  #mewepak-homepage .v2-hero-actions .mw-quote { padding:11px 19px; }
+ #mewepak-homepage .mw-home-preview .mw-text-action { max-width:100%; white-space:normal; }
  #mewepak-homepage .v2-hero-art { height:331px; }
  #mewepak-homepage .v2-hero-circle { width:440px; height:440px; left:calc(50% - 220px); top:1px; transform:none; }
  #mewepak-homepage .v2-hero-circle:before { inset:14px; }
