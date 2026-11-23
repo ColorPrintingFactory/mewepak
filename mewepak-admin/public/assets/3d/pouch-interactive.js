@@ -91,8 +91,12 @@
 		ratio: [3, 4], mirror: true, front: true, back: true,
 	};
 
+	const homePhrases = JSON.parse( document.getElementById( 'mewepak-home-language' )?.textContent || '{}' ).phrases;
+	const translate = (text) => homePhrases?.[text] || text;
+
 	function quoteTarget( model ) {
-		return '/inquiry/' + ( model.format ? '?format=' + encodeURIComponent( model.format ) : '' ) + '#quote-request';
+		const locale = homePhrases ? '/' + document.documentElement.lang : '';
+		return locale + '/inquiry/' + ( model.format ? '?format=' + encodeURIComponent( model.format ) : '' ) + '#quote-request';
 	}
 
 	class PouchViewer {
@@ -105,9 +109,11 @@
 			this.uploads = {};
 			this.loadVersion = 0;
 			this.loader = new THREE.GLTFLoader();
-			this.section = container.closest( '.preview-tool-section' );
+			this.homeStudio = container.closest( '[data-home-preview]' );
+			this.section = this.homeStudio || container.closest( '.preview-tool-section' );
+			this.formatSelect = this.homeStudio?.querySelector( '[data-packaging-select]' );
 			this.options = this.section?.querySelector( '[data-packaging-options]' );
-			this.quoteLinks = [...document.querySelectorAll( '[data-preview-quote]' )];
+			this.quoteLinks = this.homeStudio ? [] : [...document.querySelectorAll( '[data-preview-quote]' )];
 			this.reducedMotion = matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 			this.init();
 			this.createUI();
@@ -115,6 +121,10 @@
 			this.addControls();
 			this.bindSelection( selected );
 			this.select( selected );
+			this.visible = true;
+			if ( this.homeStudio ) {
+				new IntersectionObserver( ([entry]) => { this.visible = entry.isIntersecting; } ).observe( this.viewport );
+			}
 			this.animate();
 		}
 
@@ -133,7 +143,14 @@
 			this.renderer.outputEncoding = THREE.sRGBEncoding;
 			this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 			this.renderer.toneMappingExposure = 1.08;
-			this.renderer.domElement.setAttribute( 'aria-label', 'Drag to rotate. Scroll or pinch to zoom.' );
+			this.renderer.domElement.setAttribute( 'aria-label', translate( this.homeStudio
+				? 'Drag to rotate. Ctrl + scroll or pinch to zoom.'
+				: 'Drag to rotate. Scroll or pinch to zoom.' ) );
+			if ( this.homeStudio ) {
+				this.renderer.domElement.addEventListener( 'wheel', (event) => {
+					if ( !event.ctrlKey ) event.stopImmediatePropagation();
+				}, { capture: true, passive: true } );
+			}
 			this.viewport.append( this.renderer.domElement );
 
 			this.poster = document.createElement( 'img' );
@@ -170,16 +187,16 @@
 				<p class="mewepak-3d-guide"></p>
 				<div class="mewepak-3d-artwork"></div>
 				<p class="mewepak-3d-upload-status" role="status" hidden></p>
-				<button type="button" class="mewepak-3d-btn-clear" hidden>Remove artwork</button>
+				<button type="button" class="mewepak-3d-btn-clear" hidden>${translate( 'Remove artwork' )}</button>
 				<details class="mewepak-3d-view-settings">
-					<summary>View settings</summary>
+					<summary>${translate( 'View settings' )}</summary>
 					<div class="mewepak-3d-field">
-						<span>Background</span>
+						<span>${translate( 'Background' )}</span>
 						<div class="mewepak-3d-colors"></div>
 					</div>
-					<label class="mewepak-3d-rotate"><input type="checkbox"> Auto-rotate</label>
+					<label class="mewepak-3d-rotate"><input type="checkbox"> ${translate( 'Auto-rotate' )}</label>
 				</details>
-				<a class="mewepak-3d-quote" data-preview-quote>Request a quote <span aria-hidden="true">↗</span></a>
+				<a class="mewepak-3d-quote" data-preview-quote>${translate( 'Request a Quote' )} <span aria-hidden="true">↗</span></a>
 			`;
 			this.wrapper.append( panel );
 			this.panel = panel;
@@ -205,7 +222,7 @@
 				button.type = 'button';
 				button.className = 'color-swatch';
 				button.style.backgroundColor = value;
-				button.setAttribute( 'aria-label', label + ' background' );
+				button.setAttribute( 'aria-label', translate( label + ' background' ) );
 				button.setAttribute( 'aria-pressed', label === 'Mist' ? 'true' : 'false' );
 				button.addEventListener( 'click', () => {
 					colors.querySelector( '[aria-pressed="true"]' )?.setAttribute( 'aria-pressed', 'false' );
@@ -250,9 +267,9 @@
 				const hasFile = Boolean( this.artwork[side] );
 				upload.row.hidden = !this.selection[side];
 				upload.row.classList.toggle( 'has-file', hasFile );
-				upload.title.textContent = side === 'back' ? 'Back artwork · optional' :
-					this.selection.repeat > 1 ? 'Film artwork' : 'Front artwork';
-				upload.caption.textContent = hasFile ? this.artwork[side].name : 'Choose an image or drop it here';
+				upload.title.textContent = translate( side === 'back' ? 'Back artwork · optional' :
+					this.selection.repeat > 1 ? 'Film artwork' : 'Front artwork' );
+				upload.caption.textContent = hasFile ? this.artwork[side].name : translate( 'Choose an image or drop it here' );
 			}
 			this.clear.hidden = !Object.keys( this.artwork ).length;
 		}
@@ -267,7 +284,7 @@
 			const version = ++upload.version;
 			this.showUploadStatus( '' );
 			if ( !/^image\/(?:png|jpeg|webp)$/.test( file.type ) && !/\.(?:png|jpe?g|webp)$/i.test( file.name ) ) {
-				this.showUploadStatus( 'Choose a PNG, JPEG or WebP image.' );
+				this.showUploadStatus( translate( 'Choose a PNG, JPEG or WebP image.' ) );
 				return;
 			}
 			const src = URL.createObjectURL( file );
@@ -280,13 +297,20 @@
 				this.updateUploads();
 				this.applyTextures();
 			} catch {
-				if ( upload.version === version ) this.showUploadStatus( 'This image could not be opened. Try another file.' );
+				if ( upload.version === version ) this.showUploadStatus( translate( 'This image could not be opened. Try another file.' ) );
 			} finally {
 				URL.revokeObjectURL( src );
 			}
 		}
 
 		bindSelection( selected ) {
+			if ( this.formatSelect ) {
+				this.formatSelect.disabled = false;
+				this.formatSelect.addEventListener( 'change', () => {
+					const next = this.catalogue.find( (model) => model.id === this.formatSelect.value );
+					if ( next ) this.select( next );
+				} );
+			}
 			if ( !this.options ) return;
 			this.options.addEventListener( 'click', (event) => {
 				const link = event.target.closest( '[data-packaging-option]' );
@@ -307,11 +331,13 @@
 		select( next ) {
 			this.selection = next;
 			this.loadFailed = false;
-			this.container.setAttribute( 'aria-label', 'Interactive 3D preview — ' + next.name );
-			this.modelName.textContent = next.name;
+			const name = translate( next.name );
+			this.container.setAttribute( 'aria-label', translate( 'Interactive 3D preview — {format}' ).replace( '{format}', name ) );
+			this.modelName.textContent = name;
 			this.guide.textContent = next.ratio
-				? 'Use edge-to-edge artwork (' + next.ratio.join( ':' ) + '). PNG, JPG or WebP.'
-				: 'Use flat PNG, JPG or WebP artwork that matches the printable face.';
+				? translate( 'Use edge-to-edge artwork ({ratio}). PNG, JPG or WebP.' ).replace( '{ratio}', next.ratio.join( ':' ) )
+				: translate( 'Use flat PNG, JPG or WebP artwork that matches the printable face.' );
+			if ( this.formatSelect ) this.formatSelect.value = next.id;
 			this.options?.querySelectorAll( '[data-packaging-option]' ).forEach( (link) => {
 				if ( link.dataset.packagingOption === next.id ) link.setAttribute( 'aria-current', 'true' );
 				else link.removeAttribute( 'aria-current' );
@@ -356,7 +382,7 @@
 				this.model = null;
 			}
 			this.loadingEl.hidden = false;
-			this.loadingEl.replaceChildren( 'Loading ' + format.name + '…' );
+			this.loadingEl.replaceChildren( translate( 'Loading {format}…' ).replace( '{format}', translate( format.name ) ) );
 			this.poster.hidden = !format.poster;
 			if ( format.poster ) this.poster.src = format.poster;
 
@@ -403,9 +429,9 @@
 			this.loadFailed = true;
 			const retry = document.createElement( 'button' );
 			retry.type = 'button';
-			retry.textContent = 'Retry';
+			retry.textContent = translate( 'Retry' );
 			retry.addEventListener( 'click', () => this.select( format ), { once: true } );
-			this.loadingEl.replaceChildren( 'The model could not load. ', retry );
+			this.loadingEl.replaceChildren( translate( 'The model could not load.' ) + ' ', retry );
 		}
 
 		pointCamera() {
@@ -488,7 +514,7 @@
 
 		animate() {
 			requestAnimationFrame( () => this.animate() );
-			if ( !this.model || document.hidden ) return;
+			if ( !this.model || !this.visible || document.hidden ) return;
 			this.controls.update();
 			this.renderer.render( this.scene, this.camera );
 		}
@@ -500,18 +526,32 @@
 		if ( model.poster ) {
 			const image = document.createElement( 'img' );
 			image.src = model.poster;
-			image.alt = model.name;
+			image.alt = translate( model.name );
 			fallback.append( image );
 		}
 		const message = document.createElement( 'p' );
 		message.setAttribute( 'role', 'status' );
-		message.textContent = 'Your browser cannot display interactive 3D. You can still choose a format and request a quote.';
+		message.textContent = translate( container.closest( '[data-home-preview]' )
+			? 'Interactive 3D is unavailable. You can still view packaging formats and request a quote.'
+			: 'Your browser cannot display interactive 3D. You can still choose a format and request a quote.' );
 		const link = document.createElement( 'a' );
 		link.className = 'mewepak-3d-quote';
 		link.href = quoteTarget( model );
-		link.textContent = 'Request a quote';
+		link.textContent = translate( 'Request a Quote' );
 		fallback.append( message, link );
 		container.replaceChildren( fallback );
+	}
+
+	let engineLoad;
+	function loadEngine() {
+		return engineLoad ??= ['three.min.js', 'OrbitControls.js', 'GLTFLoader.js'].reduce( (ready, file) =>
+			ready.then( () => new Promise( (resolve, reject) => {
+				const script = document.createElement( 'script' );
+				script.src = '/assets/3d/' + file;
+				script.onload = resolve;
+				script.onerror = reject;
+				document.head.append( script );
+			} ) ), Promise.resolve() );
 	}
 
 	function initViewers() {
@@ -520,10 +560,11 @@
 			container.dataset.initialized = 'true';
 			const catalogue = container.dataset.packagingModels ? JSON.parse( container.dataset.packagingModels ) : [defaultModel];
 			const selected = catalogue.find( (model) => model.id === container.dataset.activeModel ) || catalogue[0];
-			const observer = new IntersectionObserver( (entries) => {
+			const observer = new IntersectionObserver( async (entries) => {
 				if ( !entries.some( (entry) => entry.isIntersecting ) ) return;
 				observer.disconnect();
 				try {
+					if ( !window.THREE?.GLTFLoader ) await loadEngine();
 					new PouchViewer( container, catalogue, selected );
 				} catch ( error ) {
 					console.warn( 'Interactive packaging preview unavailable:', error );

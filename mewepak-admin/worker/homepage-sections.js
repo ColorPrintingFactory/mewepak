@@ -1,3 +1,5 @@
+import { previewFormats } from './preview-formats.js';
+
 const types = [
   ['stand-up-pouch', 'Stand Up Pouch'],
   ['flat-bottom-pouch', 'Flat Bottom Pouch'],
@@ -34,19 +36,19 @@ export const homeFormatSection = `
 </section>`;
 
 const sustainabilityPriorities = [
-  ['Lightweighting', 'Compare pack weight while keeping the protection your product needs.',
+  ['Lightweighting',
     '<path d="M20 4C12 3 7 8 8 15c7 1 12-4 12-11ZM4 20l11-11M7 16l-2-3m6 0 4 1"/>'],
-  ['Recycled content', 'Review material documentation and suitability for the intended use.',
+  ['Recycled content',
     '<path d="M10 4h4v6h4l-6 6-6-6h4zM4 16v4h16v-4"/>'],
-  ['Design for recycling', 'Assess the full pack and the collection system in your market.',
+  ['Design for recycling',
     '<path d="m9 6 2-3 2 3m-2-3 4 7M18 10l4 1-1 4m1-4-5 8M9 20H5v-4m0 4 4-8m1 8h5M4 12l2-3"/>'],
-  ['Renewable materials', 'Explore paper-based options that meet your barrier and sealing needs.',
+  ['Renewable materials',
     '<path d="M12 20v-8m0 3C7 15 4 12 4 7c5 0 8 3 8 8Zm0-3c0-5 3-8 8-8 0 5-3 8-8 8Z"/>'],
-  ['Refill and reuse', 'Plan refill pouches around the container and how customers use it.',
+  ['Refill and reuse',
     '<path d="M8 8h8l2 4v8H6v-8l2-4Zm2 0V4h6l2 2M9 15h6"/>'],
-  ['Product protection', 'Test seals and barrier performance against your shelf-life target.',
+  ['Product protection',
     '<path d="M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10Zm-3-11 2 2 4-4"/>'],
-  ['Packaging footprint', 'Compare materials and formats using the same product and assumptions.',
+  ['Packaging footprint',
     '<path d="M3 20h18M6 16v-4m6 4V8m6 8V4M4 9l5-4"/>'],
 ];
 
@@ -54,21 +56,45 @@ export const homeSustainabilitySection = `
 <section class="mw-section mw-home-sustainability" id="mw-sustainability" aria-labelledby="hy-r-heading">
   <div class="mw-inner">
     <div class="mw-sustainability-heading">
-      <h2 class="mw-heading" id="hy-r-heading">Sustainable packaging starts with the right choices</h2>
-      <p>Explore material and format choices for your product, filling line and destination market.</p>
+      <h2 class="mw-heading" id="hy-r-heading">Sustainable packaging options</h2>
+      <a class="mw-sustainability-link" href="/sustainability/"><span>Explore sustainable packaging</span><span aria-hidden="true">↗</span></a>
     </div>
-    <ul class="mw-sustainability-grid">
-      ${sustainabilityPriorities.map(([title, copy, drawing]) => `
+    <ul class="mw-sustainability-grid" tabindex="0" aria-labelledby="hy-r-heading">
+      ${sustainabilityPriorities.map(([title, drawing]) => `
         <li>
           <span class="mw-sustainability-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${drawing}</svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${drawing}</svg>
           </span>
           <h3>${title}</h3>
-          <p>${copy}</p>
         </li>`).join('')}
     </ul>
-    <div class="mw-sustainability-footer">
-      <a href="/sustainability/"><span>Explore sustainable packaging</span><span aria-hidden="true">↗</span></a>
+  </div>
+</section>`;
+
+const homePreviewModels = [...previewFormats.values()];
+
+export const homePreviewSection = `
+<section class="mw-section mw-home-preview" id="packaging-preview" data-home-preview aria-labelledby="mw-home-preview-title">
+  <div class="mw-inner">
+    <div class="mw-home-preview-heading">
+      <div>
+        <h2 class="mw-heading" id="mw-home-preview-title">See your packaging design in 3D</h2>
+        <p>Choose a format, add your artwork and rotate the pack to check it from every angle.</p>
+      </div>
+      <label class="mw-preview-format">
+        <span>Packaging format</span>
+        <select data-packaging-select disabled>
+          ${homePreviewModels.map(({ id, name }) => `<option value="${id}">${name}</option>`).join('')}
+        </select>
+      </label>
+    </div>
+    <div class="mewepak-3d-container" data-bg-color="#eff3f0" aria-label="Interactive 3D packaging preview"
+      data-packaging-models='${JSON.stringify(homePreviewModels)}'>
+      <img class="mewepak-3d-poster" src="${homePreviewModels[0].poster}" alt="Stand-up pouch" loading="lazy" decoding="async">
+    </div>
+    <div class="mw-home-preview-meta">
+      <p>Your artwork stays in this browser tab.</p>
+      <a class="mw-text-action" href="/3d-preview/#packaging-preview"><span>Open the full 3D preview</span><span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>`;

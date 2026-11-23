@@ -1,4 +1,250 @@
 {
+ "Sustainable packaging options": [
+   "Optionen für nachhaltige Verpackungen",
+   "Opciones de envasado sostenible",
+   "Solutions d’emballage durable",
+   "خيارات التغليف المستدام"
+ ],
+ "See your packaging design in 3D": [
+   "Ihr Verpackungsdesign in 3D",
+   "Vea el diseño de su envase en 3D",
+   "Visualisez votre design d’emballage en 3D",
+   "شاهد تصميم عبوتك بتقنية ثلاثية الأبعاد"
+ ],
+ "Choose a format, add your artwork and rotate the pack to check it from every angle.": [
+   "Wählen Sie ein Format, fügen Sie Ihr Druckmotiv hinzu und drehen Sie die Verpackung zur Ansicht aus allen Winkeln.",
+   "Elija un formato, añada su diseño gráfico y gire el envase para revisarlo desde todos los ángulos.",
+   "Choisissez un format, ajoutez votre visuel et faites pivoter l’emballage pour l’examiner sous tous les angles.",
+   "اختر شكل العبوة، وأضف تصميم الطباعة، ثم أدر العبوة لمراجعتها من جميع الزوايا."
+ ],
+ "Packaging format": [
+   "Verpackungsformat",
+   "Formato de envase",
+   "Format d’emballage",
+   "شكل العبوة"
+ ],
+ "Interactive 3D packaging preview": [
+   "Interaktive 3D-Verpackungsvorschau",
+   "Vista 3D interactiva del envase",
+   "Aperçu 3D interactif de l’emballage",
+   "معاينة تفاعلية للعبوة بتقنية ثلاثية الأبعاد"
+ ],
+ "Your artwork stays in this browser tab.": [
+   "Ihre Druckdaten bleiben in diesem Browser-Tab.",
+   "Su diseño permanece en esta pestaña del navegador.",
+   "Votre visuel reste dans cet onglet du navigateur.",
+   "يبقى تصميمك في علامة التبويب هذه."
+ ],
+ "Open the full 3D preview": [
+   "Vollständige 3D-Vorschau öffnen",
+   "Abrir la vista 3D completa",
+   "Ouvrir l’outil de prévisualisation 3D complet",
+   "افتح أداة المعاينة ثلاثية الأبعاد الكاملة"
+ ],
+ "Stand-up pouch": [
+   "Standbodenbeutel",
+   "Bolsa stand-up",
+   "Sachet stand-up",
+   "كيس قائم"
+ ],
+ "Flat-bottom pouch": [
+   "Blockbodenbeutel",
+   "Bolsa de fondo plano",
+   "Sachet à fond plat",
+   "كيس بقاعدة مسطّحة"
+ ],
+ "Flat pouch": [
+   "Flachbeutel",
+   "Bolsa plana",
+   "Sachet plat",
+   "كيس مسطّح"
+ ],
+ "Pinch-bottom pouch": [
+   "Pinch-Bottom-Beutel",
+   "Bolsa con cierre de fondo plegado",
+   "Sachet à fond pincé",
+   "كيس بقاعدة مطوية"
+ ],
+ "Quad-seal bag": [
+   "Beutel mit vier Siegelnähten",
+   "Bolsa de cuatro sellos",
+   "Sachet à quatre soudures",
+   "كيس بأربع حواف ملحومة"
+ ],
+ "Retort pouch": [
+   "Sterilisierbeutel",
+   "Bolsa esterilizable",
+   "Sachet stérilisable",
+   "كيس قابل للتعقيم الحراري"
+ ],
+ "Spout pouch": [
+   "Ausgießbeutel",
+   "Bolsa con boquilla",
+   "Sachet à bec verseur",
+   "كيس بفوهة"
+ ],
+ "Stand-up pouch with tap": [
+   "Standbodenbeutel mit Zapfhahn",
+   "Bolsa stand-up con grifo",
+   "Sachet stand-up à robinet",
+   "كيس قائم بصنبور"
+ ],
+ "Shaped pouch": [
+   "Konturbeutel",
+   "Bolsa troquelada",
+   "Sachet de forme découpée",
+   "كيس بقصّة خاصة"
+ ],
+ "Polybag": [
+   "Folienbeutel",
+   "Bolsa de plástico",
+   "Sachet en plastique",
+   "كيس بلاستيكي"
+ ],
+ "Bag-in-box": [
+   "Bag-in-Box",
+   "Bolsa en caja (Bag-in-Box)",
+   "Bag-in-box",
+   "كيس داخل صندوق"
+ ],
+ "Printed roll stock": [
+   "Bedruckte Rollenfolie",
+   "Bobina de film impreso",
+   "Bobine de film imprimé",
+   "لفائف فيلم مطبوعة"
+ ],
+ "Interactive 3D preview — {format}": [
+   "Interaktive 3D-Vorschau – {format}",
+   "Vista 3D interactiva de {format}",
+   "Aperçu 3D interactif – {format}",
+   "معاينة تفاعلية ثلاثية الأبعاد — {format}"
+ ],
+ "Drag to rotate. Ctrl + scroll or pinch to zoom.": [
+   "Zum Drehen ziehen. Zum Zoomen Strg gedrückt halten und scrollen oder zwei Finger verwenden.",
+   "Arrastre para girar. Use Ctrl y la rueda o el gesto de pinza para ajustar el zoom.",
+   "Faites glisser pour pivoter. Utilisez Ctrl et la molette ou pincez pour zoomer.",
+   "اسحب للتدوير. للتقريب، استخدم Ctrl مع عجلة الفأرة أو حرّك إصبعين على الشاشة."
+ ],
+ "Use edge-to-edge artwork ({ratio}). PNG, JPG or WebP.": [
+   "Verwenden Sie ein randfüllendes Motiv ({ratio}) als PNG, JPG oder WebP.",
+   "Use un diseño a sangre ({ratio}) en PNG, JPG o WebP.",
+   "Utilisez un visuel bord à bord ({ratio}) au format PNG, JPG ou WebP.",
+   "استخدم تصميماً يغطي الوجه حتى الحواف ({ratio}) بصيغة PNG أو JPG أو WebP."
+ ],
+ "Use flat PNG, JPG or WebP artwork that matches the printable face.": [
+   "Verwenden Sie ein flaches Motiv als PNG, JPG oder WebP passend zur bedruckbaren Fläche.",
+   "Use un diseño plano en PNG, JPG o WebP que se ajuste a la cara imprimible.",
+   "Utilisez un visuel à plat, au format PNG, JPG ou WebP, adapté à la face imprimable.",
+   "استخدم تصميماً مسطحاً بصيغة PNG أو JPG أو WebP يناسب وجه الطباعة."
+ ],
+ "Front artwork": [
+   "Druckmotiv für die Vorderseite",
+   "Diseño frontal",
+   "Visuel du recto",
+   "تصميم الوجه الأمامي"
+ ],
+ "Back artwork · optional": [
+   "Druckmotiv für die Rückseite · optional",
+   "Diseño del reverso · opcional",
+   "Visuel du verso · facultatif",
+   "تصميم الوجه الخلفي · اختياري"
+ ],
+ "Film artwork": [
+   "Druckmotiv für die Folie",
+   "Diseño para el film",
+   "Visuel du film",
+   "تصميم طباعة الفيلم"
+ ],
+ "Choose an image or drop it here": [
+   "Bild auswählen oder hierher ziehen",
+   "Seleccione una imagen o arrástrela aquí",
+   "Choisissez une image ou déposez-la ici",
+   "اختر صورة أو اسحبها إلى هنا"
+ ],
+ "Choose a PNG, JPEG or WebP image.": [
+   "Wählen Sie ein Bild im Format PNG, JPEG oder WebP.",
+   "Seleccione una imagen PNG, JPEG o WebP.",
+   "Choisissez une image PNG, JPEG ou WebP.",
+   "اختر صورة بصيغة PNG أو JPEG أو WebP."
+ ],
+ "This image could not be opened. Try another file.": [
+   "Das Bild konnte nicht geöffnet werden. Wählen Sie eine andere Datei.",
+   "No se pudo abrir la imagen. Pruebe con otro archivo.",
+   "L’image n’a pas pu être ouverte. Essayez avec un autre fichier.",
+   "تعذّر فتح الصورة. جرّب ملفاً آخر."
+ ],
+ "Remove artwork": [
+   "Druckmotiv entfernen",
+   "Quitar el diseño",
+   "Retirer le visuel",
+   "إزالة التصميم"
+ ],
+ "View settings": [
+   "Ansichtseinstellungen",
+   "Ajustes de visualización",
+   "Réglages d’affichage",
+   "إعدادات العرض"
+ ],
+ "Background": [
+   "Hintergrund",
+   "Fondo",
+   "Arrière-plan",
+   "الخلفية"
+ ],
+ "Auto-rotate": [
+   "Automatisch drehen",
+   "Giro automático",
+   "Rotation automatique",
+   "تدوير تلقائي"
+ ],
+ "Mist background": [
+   "Hellgrauer Hintergrund",
+   "Fondo gris claro",
+   "Fond gris clair",
+   "خلفية رمادية فاتحة"
+ ],
+ "White background": [
+   "Weißer Hintergrund",
+   "Fondo blanco",
+   "Fond blanc",
+   "خلفية بيضاء"
+ ],
+ "Charcoal background": [
+   "Anthrazitfarbener Hintergrund",
+   "Fondo antracita",
+   "Fond anthracite",
+   "خلفية فحمية"
+ ],
+ "Sand background": [
+   "Sandfarbener Hintergrund",
+   "Fondo arena",
+   "Fond sable",
+   "خلفية رملية"
+ ],
+ "Loading {format}…": [
+   "{format} wird geladen …",
+   "Cargando {format}…",
+   "Chargement de {format}…",
+   "جارٍ تحميل {format}…"
+ ],
+ "The model could not load.": [
+   "Das Modell konnte nicht geladen werden.",
+   "No se pudo cargar el modelo.",
+   "Le modèle n’a pas pu être chargé.",
+   "تعذّر تحميل النموذج."
+ ],
+ "Retry": [
+   "Erneut versuchen",
+   "Reintentar",
+   "Réessayer",
+   "أعد المحاولة"
+ ],
+ "Interactive 3D is unavailable. You can still view packaging formats and request a quote.": [
+   "Die interaktive 3D-Ansicht ist nicht verfügbar. Sie können weiterhin Verpackungsformate ansehen und ein Angebot anfragen.",
+   "La vista 3D interactiva no está disponible. Puede consultar los formatos de envase y solicitar un presupuesto.",
+   "La vue 3D interactive est indisponible. Vous pouvez consulter les formats et demander un devis.",
+   "المعاينة التفاعلية غير متاحة. ما زال بإمكانك الاطلاع على أشكال العبوات وطلب عرض سعر."
+ ],
  "Sustainable packaging starts with the right choices": [
    "Nachhaltige Verpackung beginnt mit der richtigen Wahl",
    "Un envase más sostenible empieza con buenas decisiones",

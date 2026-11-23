@@ -2,7 +2,7 @@ import { languageSwitcher } from './i18n.js';
 import { compactHeaderAssets } from './compact-header.js';
 import { headerActionsAssets, renderHeaderActions } from './header-actions.js';
 import { siteIcons } from './site-icons.js';
-import { homeFormatSection, homeReviewsPreview, homeSustainabilitySection } from './homepage-sections.js';
+import { homeFormatSection, homePreviewSection, homeReviewsPreview, homeSustainabilitySection } from './homepage-sections.js';
 import { processPath } from './cms.js';
 import { previewFormats, studioModelUrl } from './preview-formats.js';
 import { markets } from './recommendations.js';
@@ -290,7 +290,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=flow-header');
   set('link[href="/assets/site.css"]', 'href', '/assets/site.css?v=flow-header');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=packaging-2');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=home-studio');
   if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=company-enquiry');
   if (path === '/booking' || path === '/inquiry') {
     const serviceKey = url.searchParams.get('service');
@@ -348,10 +348,10 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(headerActionsAssets + compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/client-design/home-sections.css?v=3">', { html: true }));
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=home-studio"><script src="/assets/3d/pouch-interactive.js?v=home-studio" defer></script>', { html: true }));
     on('#mw-markets', (el) => el.after(homeFormatSection, { html: true }));
     on('#mw-sustainability', (el) => el.remove());
-    on('#mw-contact', (el) => el.before(homeSustainabilitySection + (showReviewPreview ? homeReviewsPreview : ''), { html: true }));
+    on('#mw-contact', (el) => el.before(homeSustainabilitySection + homePreviewSection + (showReviewPreview ? homeReviewsPreview : ''), { html: true }));
     if (showReviewPreview) {
       on('head', (el) => el.append('<script src="/assets/client-design/home-reviews.js?v=1" defer></script>', { html: true }));
     }
