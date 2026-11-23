@@ -12,6 +12,13 @@
   --storefront-card-copy: 1rem;
 }
 
+/* Restore viewport centering after the shared margin reset. */
+dialog:modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+}
+
 #mewepak-homepage main[data-client-page] {
   color: var(--chrome-deep);
   font-family: var(--chrome-font);
