@@ -6,10 +6,10 @@
   --storefront-section: clamp(2.5rem, 5.3vw, 5rem);
   --storefront-display: clamp(2.125rem, 1.64rem + 2.4vw, 3.875rem);
   --storefront-detail: clamp(2rem, 1.55rem + 2vw, 3.5rem);
-  --storefront-heading: clamp(1.625rem, 1.3rem + 1.35vw, 2.5rem);
-  --storefront-card-heading: clamp(1.125rem, 1.02rem + .48vw, 1.375rem);
-  --storefront-body: 1rem;
-  --storefront-card-copy: .9375rem;
+  --storefront-heading: clamp(1.75rem, 1.36rem + 1.4vw, 2.625rem);
+  --storefront-card-heading: clamp(1.1875rem, 1.08rem + .49vw, 1.5rem);
+  --storefront-body: 1.0625rem;
+  --storefront-card-copy: 1rem;
 }
 
 #mewepak-homepage main[data-client-page] {
@@ -22,6 +22,22 @@
 #mewepak-homepage main[data-client-page] .mw-inner {
   width: var(--storefront-width);
   max-width: var(--storefront-content);
+}
+
+#mewepak-homepage main[data-client-page="home"] {
+  --storefront-heading: clamp(1.875rem, 1.44rem + 1.55vw, 2.875rem);
+}
+
+#mewepak-homepage main[data-client-page="home"] :is(.mw-description, .mw-home-preview-heading > div > p) {
+  font-size: var(--storefront-body);
+}
+
+#mewepak-homepage main[data-client-page="home"] :is(.mw-market > span, .mw-format-label) {
+  font-size: clamp(.9375rem, .83rem + .34vw, 1.0625rem);
+}
+
+#mewepak-homepage main[data-client-page="home"] :is(.mw-text-action, .mw-read, .mw-capabilities) {
+  font-size: .875rem;
 }
 
 #mewepak-homepage main[data-client-page] :is(h1, h2, h3, h4) {
@@ -61,7 +77,7 @@
   :is(.v2-hero-copy, .pk-sky-copy, .mk-hero-copy, .pr-hero-copy, .su-hero-copy, .ab-hero-copy, .ct-intro-copy, .qt-hero-copy, .fq-hero-grid, .in-intro-inner)
   > p:not([class*="eyebrow"], [class*="kicker"]) {
   max-width: 52ch;
-  font-size: clamp(1rem, .95rem + .3vw, 1.125rem);
+  font-size: clamp(1.0625rem, .98rem + .35vw, 1.1875rem);
   line-height: 1.6;
 }
 
@@ -105,6 +121,18 @@ main[data-storefront-page] {
   --page-radius: 12px;
   font: var(--storefront-body)/1.65 var(--chrome-font);
   color: var(--chrome-deep);
+}
+
+main[data-storefront-page] :is(section, .entry-content) p.text-sm {
+  font-size: var(--storefront-card-copy);
+}
+
+main[data-storefront-page] :is(section, .entry-content) p.text-base {
+  font-size: var(--storefront-body);
+}
+
+main[data-client-page="almond-pouch"] :is(.almond-feature-card, .description-copy, .brief-card) p {
+  font-size: var(--storefront-card-copy);
 }
 
 @layer utilities {
@@ -195,7 +223,7 @@ main[data-storefront-page] > div[class^="mewepak-"] > div:first-child.bg-gray-50
 main[data-storefront-page="article"] > div:first-child.bg-gray-50 {
   background: #fff;
   border-color: var(--chrome-line);
-  font-size: 13px;
+  font-size: .875rem;
 }
 
 main[data-storefront-page] > div[class^="mewepak-"] > section:has(h1),
@@ -355,7 +383,7 @@ main[data-storefront-page="article"] .entry-content {
 }
 
 main[data-storefront-page="article"] .entry-content :is(p, li) {
-  font-size: clamp(1rem, .97rem + .18vw, 1.125rem);
+  font-size: clamp(1.0625rem, 1rem + .23vw, 1.1875rem);
   line-height: 1.75;
 }
 

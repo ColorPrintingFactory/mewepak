@@ -72,6 +72,7 @@
   for (const source of originalNav.querySelectorAll('a[href]')) {
     const link = linkFrom(source);
     if (!link.textContent) continue;
+    link.setAttribute('data-compact-primary', '');
     mobileNav.append(link.cloneNode(true));
     const group = source.closest('[data-nav-item]')?.dataset.navItem;
     const panel = panels.find((candidate) => candidate.dataset.megaPanel === group);

@@ -29,23 +29,28 @@
 
 [data-mewepak-header] > div:first-child,
 .site-header > .utility {
-  font-size: 11px;
+  font-size: .8125rem;
   letter-spacing: .2px;
 }
 
+[data-mewepak-header] > div:first-child .text-xs,
 [data-mewepak-header] > div:first-child p {
   font-size: inherit;
 }
 
 :is([data-mewepak-header], [data-search-overlay], .site-header) [role="search"] input {
-  font-size: 12px;
+  font-size: .9375rem;
   border-radius: 5px;
+}
+
+[data-mewepak-header] .mw-header-actions a[data-header-action] {
+  font-size: .8125rem;
 }
 
 :is(footer[data-storefront-footer], footer.site-footer) {
   padding-block: 48px 22px;
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: .875rem;
+  line-height: 1.6;
 }
 
 footer[data-storefront-footer] > div > .grid,
@@ -61,7 +66,7 @@ footer[data-storefront-footer] > div > .border-t,
 
 .site-footer .footer-bottom {
   margin-block-start: 0;
-  font-size: 11px;
+  font-size: .8125rem;
 }
 
 [data-mewepak-header] .mewepak-header-logo,
@@ -99,8 +104,34 @@ footer[data-storefront-footer] > div > .border-t,
   [data-mewepak-header] [data-nav-link],
   .site-header .nav-item > a {
     color: var(--chrome-nav) !important;
-    font-size: 13px;
+    font-size: .9375rem;
     font-weight: 600;
+  }
+
+  [data-storefront-home] [data-mewepak-header] [data-nav] [data-nav-link] {
+    padding-inline: clamp(8px, .9vw, 14px);
+    font-size: clamp(.875rem, 1.16vw, 1rem);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  [data-storefront-home]:not([dir="rtl"]) [data-mewepak-header] [data-nav] [data-nav-link] {
+    letter-spacing: .03em;
+  }
+
+  [data-mobile-menu] nav > a,
+  [data-mobile-menu] [data-mobile-group-trigger] {
+    font-size: 1rem;
+  }
+
+  [data-storefront-home] [data-mobile-menu] nav > a,
+  [data-storefront-home] [data-mobile-menu] [data-mobile-group-trigger] {
+    text-transform: uppercase;
+  }
+
+  :is([data-mewepak-header], .mw-compact-header) [data-mega-panel] :is(a, p).text-sm,
+  [data-mobile-menu] [data-mobile-group-panel] a {
+    font-size: .9375rem;
   }
 
   [data-mewepak-header] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]),
@@ -158,13 +189,13 @@ footer[data-storefront-footer] > div > .border-t,
   }
 
   :is(footer[data-storefront-footer], footer.site-footer) h4 {
-    font-size: 12px !important;
+    font-size: .9375rem !important;
     line-height: 1.4;
     font-weight: 600 !important;
   }
 
   :is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span) {
-    font-size: 12px !important;
+    font-size: .875rem !important;
   }
 
   :is(footer[data-storefront-footer], footer.site-footer) p {
@@ -200,7 +231,7 @@ footer[data-storefront-footer] > div > .border-t,
     background: #fff !important;
     border-color: var(--chrome-line) !important;
     border-radius: 5px !important;
-    font-size: 12px;
+    font-size: .875rem;
     color: var(--chrome-deep) !important;
   }
 
@@ -211,7 +242,7 @@ footer[data-storefront-footer] > div > .border-t,
   footer[data-storefront-footer] [data-mewepak-subscribe] button {
     background: var(--chrome-deep) !important;
     border-radius: 5px !important;
-    font-size: 12px;
+    font-size: .875rem;
     font-weight: 600;
   }
 
@@ -224,7 +255,7 @@ footer[data-storefront-footer] > div > .border-t,
   }
 
   footer[data-storefront-footer] > div > .border-t > p {
-    font-size: 11px !important;
+    font-size: .8125rem !important;
   }
 
   footer[data-storefront-footer] ul:has(> li > a[href="/products/stand-up-pouch"]) a:is(:hover, :focus-visible) {

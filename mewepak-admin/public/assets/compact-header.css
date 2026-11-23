@@ -7,7 +7,7 @@ html.mw-has-compact-header {
   position: fixed;
   z-index: 45;
   inset: 0 0 auto;
-  font: 600 13px/1.35 Arial, Helvetica, sans-serif;
+  font: 600 .875rem/1.35 Arial, Helvetica, sans-serif;
   color: #102b35;
   background: #fff;
   border-block-end: 1px solid #d9e4e2;
@@ -74,15 +74,28 @@ html.mw-has-compact-header {
   padding-inline: 6px;
 }
 
+[data-storefront-home] .mw-compact-header [data-compact-primary] {
+  text-transform: uppercase;
+}
+
 @layer utilities {
   .mw-compact-header [data-nav] [data-nav-link] {
     color: #465b63 !important;
-    font-size: 13px;
+    font-size: .875rem;
     font-weight: 600;
   }
 
   .mw-compact-header [data-nav] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]) {
     color: #007b79 !important;
+  }
+
+  [data-storefront-home] .mw-compact-header [data-nav] [data-nav-link] {
+    font-size: clamp(.8125rem, 1.12vw, .9375rem);
+    text-transform: uppercase;
+  }
+
+  [data-storefront-home]:not([dir="rtl"]) .mw-compact-header [data-nav] [data-nav-link] {
+    letter-spacing: .02em;
   }
 }
 
