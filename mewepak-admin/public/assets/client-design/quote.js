@@ -140,6 +140,17 @@
   });
 
   showStep(0, false);
+  const enquiry = new URLSearchParams(location.search);
+  form.elements.size.value = (enquiry.get('size') || '').trim().slice(0, 120);
+  const finish = enquiry.get('finish');
+  if ([...form.elements.finish.options].some(option => option.value === finish)) {
+    form.elements.finish.value = finish;
+  }
+  const application = (enquiry.get('application') || '').trim().slice(0, 160);
+  if (application) {
+    const notes = form.elements.notes;
+    notes.value = [notes.value, `Packaging application: ${application}`].filter(Boolean).join('\n').slice(0, 1500);
+  }
   const format = form.dataset.previewFormat;
   if (format) {
     const options = [...form.querySelectorAll('input[name="format"]')];

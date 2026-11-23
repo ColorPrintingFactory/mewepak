@@ -16,7 +16,10 @@
 }
 html:has(.mw-almond-pouch) {
   scroll-behavior: smooth;
-  scroll-padding-top: 25px;
+  scroll-padding-top: max(
+    25px,
+    calc(var(--mw-compact-header-height, 0px) + 10px)
+  );
 }
 .mw-almond-pouch {
   margin: 0;
@@ -899,6 +902,9 @@ html:has(.mw-almond-pouch) {
   max-width: 760px;
   width: calc(100% - 28px);
   max-height: 90vh;
+  max-height: 90dvh;
+  margin: auto;
+  overscroll-behavior: contain;
 }
 .mw-almond-pouch dialog::backdrop {
   background: #102d26ad;
@@ -942,73 +948,8 @@ html:has(.mw-almond-pouch) {
 .mw-almond-pouch .dialog-body p {
   font-size: 14px;
 }
-.mw-almond-pouch .form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 17px;
-}
-.mw-almond-pouch .form-grid label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #395f44;
-  display: block;
-}
-.mw-almond-pouch .form-grid input,
-.mw-almond-pouch .form-grid select,
-.mw-almond-pouch .form-grid textarea {
-  width: 100%;
-  padding: 11px 12px;
-  margin-top: 7px;
-  border: 1px solid #cfdcca;
-  border-radius: 5px;
-  background: #fff;
-  color: #264d30;
-  min-height: 45px;
-  font-size: 14px;
-}
-.mw-almond-pouch .form-grid textarea {
-  resize: vertical;
-  min-height: 110px;
-}
 .mw-almond-pouch .full {
   grid-column: 1/-1;
-}
-.mw-almond-pouch .form-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 23px;
-}
-.mw-almond-pouch .form-help {
-  font-size: 12px !important;
-  color: #71856e;
-  margin: 15px 0 0;
-}
-.mw-almond-pouch .request-summary {
-  padding: 13px 15px;
-  background: #f0f7ec;
-  border: 1px solid #dce7d5;
-  border-radius: 5px;
-  font-size: 13px;
-  margin-bottom: 23px;
-  color: #3b6043;
-}
-.mw-almond-pouch .wa-message {
-  white-space: pre-wrap;
-  line-height: 1.8;
-  font:
-    14px/1.8 Arial,
-    sans-serif;
-  background: #f2f8ee;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  padding: 18px;
-  color: #385d3c;
-}
-.mw-almond-pouch .copy-status {
-  font-size: 13px;
-  color: #216b48;
-  margin: 12px 0 0;
 }
 .mw-almond-pouch [hidden] {
   display: none !important;
@@ -1282,15 +1223,6 @@ html:has(.mw-almond-pouch) {
   }
   .mw-almond-pouch .dialog-body {
     padding: 20px;
-  }
-  .mw-almond-pouch .form-grid {
-    grid-template-columns: 1fr;
-  }
-  .mw-almond-pouch .form-grid .full {
-    grid-column: auto;
-  }
-  .mw-almond-pouch .form-actions .btn {
-    width: 100%;
   }
   .mw-almond-pouch .thumb {
     height: 73px;

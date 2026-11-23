@@ -1,31 +1,65 @@
 (() => {
-  const shopHeader = document.querySelector(".wp-site-blocks > header");
-  const emailLink = shopHeader?.querySelector('a[href^="mailto:"]');
-  const whatsappLink = shopHeader?.querySelector('a[href^="https://wa.me/"]');
-  const config = {
-    email:
-      emailLink?.getAttribute("href").slice(7).split("?")[0] ||
-      "sales@mewepak.com",
-    whatsapp:
-      whatsappLink
-        ?.getAttribute("href")
-        .replace(/^https:\/\/wa\.me\//, "")
-        .split("?")[0] || "",
-    originalUrl:
-      location.origin +
-      "/products/stand-up-pouch/premium-almonds-window-stand-up-pouch/",
-  };
+  const page = document.querySelector(".mw-almond-pouch");
   const $ = (id) => document.getElementById(id);
-  let size = "100g",
-    finish = "Matte",
-    application = "Premium almonds";
+  const productName = "Premium Almonds Window Stand-Up Pouch";
+  const quoteLinks = page.querySelectorAll(
+    "[data-quote], [data-application], [data-recommend-enquiry]",
+  );
+  const whatsappLinks = page.querySelectorAll("[data-whatsapp]");
+  const whatsappNumber = document
+    .querySelector('.wp-site-blocks > header a[href^="https://wa.me/"]')
+    ?.getAttribute("href")
+    .match(/^https:\/\/wa\.me\/([1-9]\d{5,14})(?:[?#]|$)/)?.[1];
+  let size = page.querySelector('[data-size][aria-pressed="true"]').dataset
+    .size;
+  let finish = page.querySelector('[data-finish][aria-pressed="true"]').dataset
+    .finish;
+
+  function updateEnquiryLinks() {
+    for (const link of quoteLinks) {
+      const { bagTitle, application, recommendEnquiry } = link.dataset;
+      const query = new URLSearchParams({
+        format: "stand-up-pouch",
+        product: bagTitle || productName,
+      });
+      if (!bagTitle) {
+        query.set("size", size);
+        query.set(
+          "finish",
+          finish === "Soft-touch matte" ? "Soft touch" : finish,
+        );
+      }
+      const use = recommendEnquiry || application;
+      if (use) query.set("application", use);
+      link.href = "/inquiry/?" + query + "#quote-request";
+    }
+    if (!whatsappNumber) return;
+    const productUrl = new URL(location.pathname, location.origin).href;
+    const message = [
+      `Hello MewePak, I am interested in the ${productName}.`,
+      `Preferred size: ${size}`,
+      `Preferred finish: ${finish}`,
+      "Please help me review the material, window, quantity and quote.",
+      productUrl,
+    ].join("\n");
+    const url = `https://wa.me/${whatsappNumber}?${new URLSearchParams({ text: message })}`;
+    for (const link of whatsappLinks) {
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
+  }
+
+  if (!whatsappNumber) {
+    for (const link of whatsappLinks)
+      link.querySelector("span").textContent = "Contact MewePak";
+  }
+  updateEnquiryLinks();
   const images = {
     original: "/assets/client-design/almond-pouch/almond-pouch-original.webp",
     alternate: "/assets/client-design/almond-pouch/almond-pouch-alternate.webp",
     detail: "/assets/client-design/almond-pouch/almond-pouch-original.webp",
   };
-  const productName = "Premium Almonds Window Stand-Up Pouch";
-  let enquiryProduct = productName;
   const productImage = $("productimage");
   const photo = productImage.parentElement;
   const lens = $("product-lens");
@@ -136,6 +170,7 @@
   document.querySelectorAll("[data-size]").forEach((b) =>
     b.addEventListener("click", () => {
       size = b.dataset.size;
+      updateEnquiryLinks();
       document
         .querySelectorAll("[data-size]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
@@ -144,6 +179,7 @@
   document.querySelectorAll("[data-finish]").forEach((b) =>
     b.addEventListener("click", () => {
       finish = b.dataset.finish;
+      updateEnquiryLinks();
       document
         .querySelectorAll("[data-finish]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
@@ -175,106 +211,6 @@
       renderLens();
     }),
   );
-  function quote(app, selectedProduct = productName) {
-    enquiryProduct = selectedProduct;
-    application = app || "Premium almonds";
-    $("request-summary").textContent =
-      enquiryProduct +
-      " · " +
-      (selectedProduct === productName ? size : "Size to discuss") +
-      " · " +
-      finish;
-    $("form-size").value = size;
-    $("form-finish").value = finish;
-    $("form-application").value = application;
-    $("form-status").textContent = "";
-    $("quote-dialog").showModal();
-  }
-  document
-    .querySelectorAll("[data-quote]")
-    .forEach((b) => b.addEventListener("click", () => quote()));
-  document
-    .querySelectorAll("[data-application]")
-    .forEach((b) =>
-      b.addEventListener("click", () => quote(b.dataset.application)),
-    );
-  function brief() {
-    const d = new FormData($("quote-form"));
-    return (
-      "Hello MewePak,\n\nI would like to discuss " +
-      enquiryProduct +
-      ".\n\n" +
-      [
-        ["Name", "name"],
-        ["Email", "email"],
-        ["Company", "company"],
-        ["Delivery region", "country"],
-        ["Quantity", "quantity"],
-        ["Fill weight / size", "size"],
-        ["Finish", "finish"],
-        ["Application", "application"],
-        ["Project details", "notes"],
-      ]
-        .map(([a, b]) => a + ": " + (d.get(b) || "Not specified"))
-        .join("\n") +
-      "\n\nProduct reference: " +
-      config.originalUrl
-    );
-  }
-  $("quote-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const url =
-      "mailto:" +
-      config.email +
-      "?subject=" +
-      encodeURIComponent("Quote enquiry: " + enquiryProduct) +
-      "&body=" +
-      encodeURIComponent(brief());
-    window.location.href = url;
-    $("form-status").textContent =
-      "Your email draft is ready to open. If your email app does not open, use Copy Brief and email " +
-      config.email +
-      ".";
-  });
-  async function copy(text, status) {
-    try {
-      await navigator.clipboard.writeText(text);
-      $(status).textContent = "Copied. You can paste it into your message.";
-    } catch (e) {
-      $(status).textContent =
-        "Automatic copy is unavailable here. Select the message text to copy it manually.";
-    }
-  }
-  $("copy-brief").addEventListener("click", () => copy(brief(), "form-status"));
-  function whatsapp() {
-    const message =
-      "Hello MewePak, I am interested in the " +
-      productName +
-      ".\nPreferred size: " +
-      size +
-      "\nPreferred finish: " +
-      finish +
-      "\nPlease help me review the material, window, quantity and quote.\n" +
-      config.originalUrl;
-    $("wa-message").textContent = message;
-    const number = (config.whatsapp || "").replace(/\D/g, "");
-    $("wa-link").href =
-      "https://wa.me/" +
-      (number ? number : "") +
-      "?text=" +
-      encodeURIComponent(message);
-    $("wa-help").textContent = number
-      ? "Review your enquiry, then open the MewePak chat in WhatsApp."
-      : "Select your MewePak contact in WhatsApp to send this enquiry.";
-    $("wa-status").textContent = "";
-    $("wa-dialog").showModal();
-  }
-  document
-    .querySelectorAll("[data-whatsapp]")
-    .forEach((b) => b.addEventListener("click", whatsapp));
-  $("copy-wa").addEventListener("click", () =>
-    copy($("wa-message").textContent, "wa-status"),
-  );
   document
     .querySelectorAll("[data-close]")
     .forEach((b) =>
@@ -294,13 +230,19 @@
       }
     }),
   );
-  document.querySelectorAll(".section-nav a").forEach((a) =>
-    a.addEventListener("click", () => {
-      document
-        .querySelectorAll(".section-nav a")
-        .forEach((x) => x.classList.toggle("active", x === a));
-    }),
-  );
+  const sectionLinks = page.querySelectorAll(".section-nav a");
+  function syncSectionNav() {
+    const current =
+      [...sectionLinks].find((link) => link.hash === location.hash) ||
+      sectionLinks[0];
+    for (const link of sectionLinks) {
+      link.classList.toggle("active", link === current);
+      if (link === current) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    }
+  }
+  window.addEventListener("hashchange", syncSectionNav);
+  syncSectionNav();
 
   const recommendTrack = document.getElementById("recommend-track");
   const recommendCards = [
@@ -398,12 +340,6 @@
       recStart();
     }
   });
-  document.querySelectorAll("[data-recommend-enquiry]").forEach((button) =>
-    button.addEventListener("click", () => {
-      quote(button.dataset.recommendEnquiry, button.dataset.bagTitle);
-      document.getElementById("form-size").value = "";
-    }),
-  );
   document.querySelectorAll("[data-recommend-preview]").forEach((button) =>
     button.addEventListener("click", () => {
       const img = button.querySelector("img");
