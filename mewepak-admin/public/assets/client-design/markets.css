@@ -556,7 +556,7 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage.markets-page h1{font-size:42px;letter-spacing:-1.8px}
  #mewepak-homepage.markets-page .mk-hero-actions{gap:18px}
  #mewepak-homepage.markets-page .mk-hero-art{height:350px}
- #mewepak-homepage.markets-page .mk-orbit{width:360px;height:360px;left:calc(50% - 180px);top:5px}
+ #mewepak-homepage.markets-page .mk-orbit{width:min(360px,100%);height:auto;aspect-ratio:1;left:50%;transform:translateX(-50%);top:5px}
  #mewepak-homepage.markets-page .mk-hero-main{width:270px;height:270px;left:calc(50% - 135px);top:38px}
  #mewepak-homepage.markets-page .mk-hero-home{width:108px;height:117px;right:4px;top:22px}
  #mewepak-homepage.markets-page .mk-hero-sauce{width:117px;height:117px;left:2px;bottom:17px}
@@ -579,7 +579,6 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage.markets-page h1{font-size:36px}
  #mewepak-homepage.markets-page h2{font-size:30px}
  #mewepak-homepage.markets-page .mk-hero-art{height:310px}
- #mewepak-homepage.markets-page .mk-orbit{width:320px;height:320px;left:calc(50% - 160px)}
  #mewepak-homepage.markets-page .mk-hero-main{width:240px;height:240px;left:calc(50% - 120px);top:30px}
  #mewepak-homepage.markets-page .mk-hero-home{width:95px;height:104px;right:0;top:18px}
  #mewepak-homepage.markets-page .mk-hero-sauce{width:104px;height:104px;left:0;bottom:17px}

@@ -252,11 +252,11 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .hy-video-cover { aspect-ratio:1.8; }
 }
 @media(max-width:600px) {
- #mewepak-homepage .v2-hero-grid { display:block; width:100%; }
- #mewepak-homepage .v2-hero-copy { padding:35px 24px 24px; }
+ #mewepak-homepage .v2-hero-grid { display:block; width:100%; min-height:0; }
+ #mewepak-homepage .v2-hero-copy { padding:30px 24px 20px; }
  #mewepak-homepage .v2-hero-copy .mw-eyebrow { font-size:9px; margin-bottom:17px; }
- #mewepak-homepage .v2-hero-title { font-size:clamp(30px, 9vw, 38px); letter-spacing:-1.7px; max-width:400px; overflow-wrap:anywhere; }
- #mewepak-homepage .v2-hero-description { margin:20px 0 20px; font-size:14px; }
+ #mewepak-homepage .v2-hero-title { font-size:clamp(30px, 9vw, 38px); letter-spacing:-1.7px; max-width:400px; min-block-size:0; overflow-wrap:anywhere; }
+ #mewepak-homepage .v2-hero-description { margin:14px 0 20px; min-block-size:0; font-size:14px; }
  #mewepak-homepage .v2-hero-actions { gap:19px; }
  #mewepak-homepage .v2-hero-actions .mw-quote { padding:11px 19px; }
  #mewepak-homepage .v2-hero-art { height:331px; }
@@ -293,7 +293,6 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
  #mewepak-homepage .v2-cert-icons { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 }
 @media(max-width:350px) {
- #mewepak-homepage .v2-hero-title { font-size:33px; }
  #mewepak-homepage .v2-hero-copy { padding-inline:18px; }
  #mewepak-homepage .v2-hero-art { height:291px; }
  #mewepak-homepage .v2-hero-circle { transform:scale(.88); transform-origin:center top; }

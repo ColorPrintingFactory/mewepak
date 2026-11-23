@@ -305,7 +305,14 @@ export async function connectStorefront(request, response, database, projectUrl,
     if (format) set('#qt-form', 'data-preview-format', format.name);
     set('script[src="/assets/client-design/quote.js"]', 'src', '/assets/client-design/quote.js?v=packaging-2');
   }
-  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=banner-slide');
+  for (const href of [
+    '/assets/client-design/home.css',
+    '/assets/client-design/packaging.css?v=contrast',
+    '/assets/client-design/markets.css',
+    '/assets/client-design/material-specifications/page.css',
+  ]) {
+    set(`link[href="${href}"]`, 'href', href.split('?')[0] + '?v=responsive');
+  }
   set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=banner-slide');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');

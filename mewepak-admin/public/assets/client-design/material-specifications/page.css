@@ -180,8 +180,8 @@ html:has(.mw-material-specifications) {scroll-behavior:smooth;scroll-padding-top
   .mw-material-specifications .mobile-menu summary {padding:12px 0;cursor:pointer}
   .mw-material-specifications .mobile-menu nav {display:flex;flex-wrap:wrap;gap:15px;padding-bottom:16px}
   .mw-material-specifications .hero {padding:20px 0 30px}
-  .mw-material-specifications .hero-grid {grid-template-columns:1fr;gap:15px}
-  .mw-material-specifications .hero h1 {font-size:46px}
+  .mw-material-specifications .hero-grid {grid-template-columns:minmax(0,1fr);gap:15px}
+  .mw-material-specifications .hero h1 {font-size:clamp(34px,8vw,46px);overflow-wrap:anywhere}
   .mw-material-specifications .breadcrumb {margin-bottom:25px;font-size:10px}
   .mw-material-specifications .hero p {font-size:14px}
   .mw-material-specifications .hero-art {min-height:240px}
@@ -206,8 +206,8 @@ html:has(.mw-material-specifications) {scroll-behavior:smooth;scroll-padding-top
   .mw-material-specifications .resultline {font-size:10px}
   .mw-material-specifications .grid {gap:16px;grid-template-columns:1fr}
   .mw-material-specifications .swatch {height:150px}
-  .mw-material-specifications .guide-grid {grid-template-columns:1fr;gap:30px}
-  .mw-material-specifications .guide-facts {gap:12px}
+  .mw-material-specifications .guide-grid {grid-template-columns:minmax(0,1fr);gap:30px}
+  .mw-material-specifications .guide-facts {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .mw-material-specifications .guide-facts article {padding:19px}
   .mw-material-specifications .storage {grid-template-columns:1fr}
   .mw-material-specifications .storage-values {gap:8px}
@@ -229,6 +229,9 @@ html:has(.mw-material-specifications) {scroll-behavior:smooth;scroll-padding-top
   .mw-material-specifications .dialog-bottom .btn {width:100%;font-size:12px}
   .mw-material-specifications th, .mw-material-specifications td {padding:12px 8px}
   .mw-material-specifications .resultline span {max-width:45%;text-align:right}
+}
+@media(max-width:420px) {
+  .mw-material-specifications .guide-facts {grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce) {
   html:has(.mw-material-specifications) {scroll-behavior:auto}
