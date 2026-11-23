@@ -127,6 +127,12 @@ footer[data-storefront-footer] > div > .border-t,
     letter-spacing: .03em;
   }
 
+  [data-storefront-home][lang="de"] [data-mewepak-header] [data-nav] [data-nav-link] {
+    font-size: clamp(.8125rem, 1.06vw, .9rem);
+    padding-inline: clamp(4px, 1.25vw - 8px, 11px);
+    letter-spacing: .01em;
+  }
+
   [data-mobile-menu] nav > a,
   [data-mobile-menu] [data-mobile-group-trigger] {
     font-size: 1rem;

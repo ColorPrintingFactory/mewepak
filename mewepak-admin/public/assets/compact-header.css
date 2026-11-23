@@ -103,6 +103,11 @@ html.mw-has-compact-header {
   [data-storefront-home]:not([dir="rtl"]) .mw-compact-header [data-nav] [data-nav-link] {
     letter-spacing: .02em;
   }
+
+  [data-storefront-home][lang="de"] .mw-compact-header [data-nav] [data-nav-link] {
+    font-size: clamp(.75rem, .975vw, .9rem);
+    letter-spacing: 0;
+  }
 }
 
 .mw-compact-header [data-nav-link][aria-expanded="true"] svg {
@@ -166,6 +171,9 @@ html.mw-has-compact-header {
 @media (min-width: 1521px) {
   .mw-compact-header__row { max-width: 1440px; }
 }
+
+[data-storefront-home][lang="de"] .mw-compact-header__action-full { display: none; }
+[data-storefront-home][lang="de"] .mw-compact-header__action-short { display: inline; }
 
 @media (max-width: 1180px) {
   html.mw-has-compact-header { --mw-compact-header-height: 54px; }
