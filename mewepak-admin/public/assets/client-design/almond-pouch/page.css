@@ -193,7 +193,25 @@ html:has(.mw-almond-pouch) {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: object-position 0.2s;
+}
+@media (any-hover: hover) {
+  .mw-almond-pouch .main-photo img {
+    cursor: zoom-in;
+  }
+}
+.mw-almond-pouch .product-lens {
+  position: absolute;
+  box-sizing: border-box;
+  width: min(48%, 210px);
+  aspect-ratio: 1;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #f1ebe0 no-repeat border-box;
+  box-shadow:
+    0 1px 4px #173a2559,
+    0 5px 22px #173a2533;
+  pointer-events: none;
+  z-index: 1;
 }
 .mw-almond-pouch .gallery-view {
   position: absolute;
@@ -206,6 +224,11 @@ html:has(.mw-almond-pouch) {
   height: 43px;
   display: grid;
   place-items: center;
+  z-index: 2;
+}
+.mw-almond-pouch .gallery-view[aria-pressed="true"] {
+  background: var(--deep);
+  color: white;
 }
 .mw-almond-pouch .artwork-chip {
   position: absolute;
@@ -969,23 +992,6 @@ html:has(.mw-almond-pouch) {
   font-size: 13px;
   margin-bottom: 23px;
   color: #3b6043;
-}
-.mw-almond-pouch .lightbox {
-  max-width: 1080px;
-  background: #f5f0e6;
-  border: 0;
-}
-.mw-almond-pouch .lightbox img {
-  display: block;
-  max-height: 80vh;
-  object-fit: contain;
-  width: 100%;
-}
-.mw-almond-pouch .lightbox .close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  z-index: 2;
 }
 .mw-almond-pouch .wa-message {
   white-space: pre-wrap;

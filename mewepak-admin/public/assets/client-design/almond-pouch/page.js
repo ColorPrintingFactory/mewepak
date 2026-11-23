@@ -26,7 +26,113 @@
   };
   const productName = "Premium Almonds Window Stand-Up Pouch";
   let enquiryProduct = productName;
-  let currentImage = "original";
+  const productImage = $("productimage");
+  const photo = productImage.parentElement;
+  const lens = $("product-lens");
+  const zoom = $("zoom");
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+  let pinned = false;
+  let hovered = false;
+  let focal = [0.5, 0.5];
+
+  function renderLens() {
+    lens.hidden =
+      !(pinned || hovered) ||
+      !productImage.complete ||
+      !productImage.naturalWidth;
+    if (lens.hidden) return;
+
+    const width = photo.clientWidth;
+    const height = photo.clientHeight;
+    const style = getComputedStyle(productImage);
+    const scale =
+      style.objectFit === "none"
+        ? 1
+        : Math.max(
+            width / productImage.naturalWidth,
+            height / productImage.naturalHeight,
+          );
+    const [positionX, positionY] = style.objectPosition
+      .split(" ")
+      .map((value) => parseFloat(value) / 100);
+    const renderedWidth = productImage.naturalWidth * scale;
+    const renderedHeight = productImage.naturalHeight * scale;
+    const [x, y] = [focal[0] * width, focal[1] * height];
+    const imageX = x - (width - renderedWidth) * positionX;
+    const imageY = y - (height - renderedHeight) * positionY;
+    const diameter = lens.offsetWidth;
+    const half = diameter / 2;
+    const magnification = 2.25;
+    const zoomWidth = renderedWidth * magnification;
+    const zoomHeight = renderedHeight * magnification;
+
+    lens.style.left = `${clamp(x - half, 0, width - diameter)}px`;
+    lens.style.top = `${clamp(y - half, 0, height - diameter)}px`;
+    lens.style.backgroundImage = `url("${productImage.src}")`;
+    lens.style.backgroundSize = `${zoomWidth}px ${zoomHeight}px`;
+    lens.style.backgroundPosition = `${clamp(half - imageX * magnification, diameter - zoomWidth, 0)}px ${clamp(half - imageY * magnification, diameter - zoomHeight, 0)}px`;
+  }
+
+  function trackPointer(event) {
+    const bounds = photo.getBoundingClientRect();
+    focal = [
+      clamp(
+        (event.clientX - bounds.left - photo.clientLeft) / photo.clientWidth,
+        0,
+        1,
+      ),
+      clamp(
+        (event.clientY - bounds.top - photo.clientTop) / photo.clientHeight,
+        0,
+        1,
+      ),
+    ];
+    renderLens();
+  }
+
+  photo.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch") return;
+    hovered = !zoom.contains(event.target);
+    if (hovered) trackPointer(event);
+    else renderLens();
+  });
+  photo.addEventListener("pointerleave", () => {
+    hovered = false;
+    renderLens();
+  });
+  photo.addEventListener("pointerdown", (event) => {
+    if (pinned && event.pointerType === "touch" && !zoom.contains(event.target))
+      trackPointer(event);
+  });
+  zoom.addEventListener("click", () => {
+    pinned = !pinned;
+    zoom.setAttribute("aria-pressed", String(pinned));
+    focal = [0.5, 0.5];
+    renderLens();
+  });
+  zoom.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && pinned) {
+      pinned = hovered = false;
+      zoom.setAttribute("aria-pressed", "false");
+      renderLens();
+      return;
+    }
+    const direction = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    }[event.key];
+    if (!pinned || !direction) return;
+    event.preventDefault();
+    focal = focal.map((value, index) =>
+      clamp(value + direction[index] * 0.1, 0, 1),
+    );
+    renderLens();
+  });
+  productImage.addEventListener("load", renderLens);
+  productImage.addEventListener("error", renderLens);
+  window.addEventListener("resize", renderLens);
   document.querySelectorAll("[data-size]").forEach((b) =>
     b.addEventListener("click", () => {
       size = b.dataset.size;
@@ -45,13 +151,13 @@
   );
   document.querySelectorAll("[data-image]").forEach((b) =>
     b.addEventListener("click", () => {
-      currentImage = b.dataset.image;
-      $("productimage").src = images[currentImage];
-      $("productimage").classList.toggle(
+      const currentImage = b.dataset.image;
+      productImage.src = images[currentImage];
+      productImage.classList.toggle(
         "is-window-detail",
         currentImage === "detail",
       );
-      $("productimage").alt =
+      productImage.alt =
         currentImage === "alternate"
           ? "Supplied alternate almond pouch artwork, front and back"
           : currentImage === "detail"
@@ -66,12 +172,9 @@
       document
         .querySelectorAll("[data-image]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
+      renderLens();
     }),
   );
-  $("zoom").addEventListener("click", () => {
-    $("large-image").src = images[currentImage];
-    $("image-dialog").showModal();
-  });
   function quote(app, selectedProduct = productName) {
     enquiryProduct = selectedProduct;
     application = app || "Premium almonds";
