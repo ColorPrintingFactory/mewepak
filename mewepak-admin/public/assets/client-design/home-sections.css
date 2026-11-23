@@ -81,85 +81,127 @@
 }
 
 #mewepak-homepage .mw-section.mw-home-sustainability {
-  padding-block: clamp(22px, 3vw, 38px);
-  background: radial-gradient(ellipse at top, #205c51, #103b37 80%);
-  color: #fff;
+  padding-block: clamp(32px, 3.7vw, 52px);
+  border-block: 1px solid #dce8df;
+  background: linear-gradient(128deg, #eef5eb, #e1eee6);
+  color: #143b36;
 }
 
-#mewepak-homepage .mw-sustainability-heading,
+#mewepak-homepage .mw-sustainability-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 20px clamp(28px, 5vw, 66px);
+  margin-block-end: 24px;
+}
+
+#mewepak-homepage main[data-client-page="home"] .mw-sustainability-intro .mw-heading {
+  color: #123a35;
+  font-size: clamp(30px, 3vw, 45px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+#mewepak-homepage .mw-sustainability-intro p {
+  max-width: 53ch;
+  margin: 12px 0 19px;
+  color: #3d5d53;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+#mewepak-homepage .mw-sustainability-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  background: #174c42;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#mewepak-homepage .mw-sustainability-link:hover { background: #256557; }
+
+#mewepak-homepage .mw-sustainability-photo {
+  height: clamp(166px, 15.5vw, 218px);
+  overflow: hidden;
+  border: 1px solid #c5d8cc;
+  border-radius: 14px;
+  background: #d4e5d9;
+}
+
+#mewepak-homepage .mw-sustainability-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+}
+
+#mewepak-homepage .mw-sustainability-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border: 1px solid #cedfd3;
+  border-radius: 14px;
+  background: #fcfefb;
+  list-style: none;
+}
+
+#mewepak-homepage .mw-sustainability-grid > li {
+  min-width: 0;
+  padding: 15px clamp(10px, 1.12vw, 17px) 16px;
+}
+
+#mewepak-homepage .mw-sustainability-grid > li + li {
+  border-inline-start: 1px solid #dce9df;
+}
+
+#mewepak-homepage .mw-sustainability-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-block-end: 10px;
+  border-radius: 10px;
+  background: #e8f4eb;
+  color: #1a6a58;
+}
+
+#mewepak-homepage main[data-client-page="home"] .mw-sustainability-grid h3 {
+  margin: 0;
+  color: #183c36;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  overflow-wrap: anywhere;
+}
+
+#mewepak-homepage .mw-sustainability-grid p {
+  margin: 5px 0 0;
+  color: #4b655b;
+  font-size: 13px;
+  line-height: 1.38;
+  overflow-wrap: anywhere;
+}
+
+#mewepak-homepage :is(.mw-sustainability-grid, .mw-sustainability-link):focus-visible {
+  outline: 2px solid #24745f;
+  outline-offset: 3px;
+}
+
 #mewepak-homepage .mw-home-preview-heading,
 #mewepak-homepage .mw-home-preview-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px 26px;
-}
-
-#mewepak-homepage .mw-sustainability-heading { margin-block-end: 16px; }
-
-#mewepak-homepage .mw-sustainability-heading .mw-heading {
-  color: #fff;
-  font-size: clamp(24px, 2.5vw, 32px);
-  letter-spacing: -.03em;
-}
-
-#mewepak-homepage .mw-sustainability-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  color: #e1f2e9;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-#mewepak-homepage .mw-sustainability-link:hover { text-decoration: underline; }
-
-#mewepak-homepage .mw-sustainability-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-#mewepak-homepage .mw-sustainability-grid > li {
-  display: grid;
-  grid-template-rows: 34px 1fr;
-  justify-items: center;
-  align-items: center;
-  gap: 7px;
-  padding: 11px 7px;
-  border: 1px solid #ffffff38;
-  border-radius: 10px;
-  background: #ffffff0a;
-  text-align: center;
-}
-
-#mewepak-homepage .mw-sustainability-icon {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #e1f2e9;
-  color: #08675c;
-}
-
-#mewepak-homepage .mw-sustainability-grid h3 {
-  margin: 0;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.26;
-  overflow-wrap: anywhere;
-}
-
-#mewepak-homepage :is(.mw-sustainability-grid, .mw-sustainability-link):focus-visible {
-  outline: 2px solid #a5e9d7;
-  outline-offset: 3px;
 }
 
 #mewepak-homepage .mw-section.mw-home-preview {
@@ -240,20 +282,20 @@
 @media (max-width: 930px) {
   #mewepak-homepage .mw-sustainability-grid {
     grid-template-columns: none;
-    grid-auto-columns: minmax(128px, 1fr);
+    grid-auto-columns: minmax(146px, 1fr);
     grid-auto-flow: column;
     overflow-x: auto;
     scroll-snap-type: x proximity;
-    scrollbar-color: #a5d1c3 #16443e;
+    scrollbar-color: #83af9d #ecf5ee;
     scrollbar-width: thin;
-    padding-block-end: 6px;
   }
   #mewepak-homepage .mw-sustainability-grid > li { scroll-snap-align: start; }
 }
 
 @media (max-width: 720px) {
-  #mewepak-homepage .mw-home-preview-heading,
-  #mewepak-homepage .mw-sustainability-heading { align-items: start; flex-direction: column; gap: 8px; }
+  #mewepak-homepage .mw-sustainability-heading { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  #mewepak-homepage .mw-sustainability-photo { height: clamp(154px, 43vw, 218px); }
+  #mewepak-homepage .mw-home-preview-heading { align-items: start; flex-direction: column; gap: 8px; }
   #mewepak-homepage .mw-preview-format { flex: none; width: 100%; margin-block-start: 4px; }
   #mewepak-homepage .mw-home-preview .mewepak-3d-workspace { grid-template-columns: minmax(0, 1fr); }
   #mewepak-homepage .mw-home-preview :is(.mewepak-3d-viewport, .mewepak-3d-container > .mewepak-3d-poster) {

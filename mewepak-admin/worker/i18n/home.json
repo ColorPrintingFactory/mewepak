@@ -1,4 +1,52 @@
 {
+ "Use less material per pack.": [
+   "Weniger Material pro Packung.",
+   "Use menos material por envase.",
+   "Réduire la quantité de matière par emballage.",
+   "قلّل كمية المواد في كل عبوة."
+ ],
+ "Check recycled material options.": [
+   "Optionen mit Rezyklat prüfen.",
+   "Evalúe materiales reciclados.",
+   "Évaluer les options en matière recyclée.",
+   "قيّم خيارات المواد المعاد تدويرها."
+ ],
+ "Design for local collection.": [
+   "Auf die örtliche Sammlung abstimmen.",
+   "Diseñe para la recogida local.",
+   "Adapter le design aux filières de collecte locales.",
+   "صمّم بما يناسب أنظمة الجمع المحلية."
+ ],
+ "Explore paper-based formats.": [
+   "Papierbasierte Formate prüfen.",
+   "Explore formatos a base de papel.",
+   "Explorer les formats à base de papier.",
+   "استكشف أشكال التعبئة القائمة على الورق."
+ ],
+ "Plan for repeat use.": [
+   "Die Mehrfachnutzung einplanen.",
+   "Diseñe para varios usos.",
+   "Prévoir plusieurs utilisations.",
+   "خطّط لاستخدام العبوة أكثر من مرة."
+ ],
+ "Balance barrier and shelf life.": [
+   "Barriere auf die Haltbarkeit abstimmen.",
+   "Adapte la barrera a la vida útil.",
+   "Adapter la barrière à la durée de conservation.",
+   "وائم خصائص الحاجز مع مدة الصلاحية."
+ ],
+ "Compare material and weight.": [
+   "Material und Gewicht vergleichen.",
+   "Compare materiales y peso.",
+   "Comparer les matières et le poids.",
+   "قارن بين المواد والأوزان."
+ ],
+ "Mewepak sample pouches and film swatches on a packaging workbench": [
+   "Mewepak-Musterbeutel und Folienmuster auf einem Arbeitstisch",
+   "Bolsas de muestra Mewepak y muestras de film sobre una mesa de trabajo",
+   "Sachets d’essai Mewepak et échantillons de film sur un plan de travail",
+   "عينات من أكياس Mewepak وأغشية التغليف على طاولة عمل"
+ ],
  "Sustainable packaging options": [
    "Optionen für nachhaltige Verpackungen",
    "Opciones de envasado sostenible",

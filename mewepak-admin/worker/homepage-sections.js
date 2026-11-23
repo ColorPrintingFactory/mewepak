@@ -36,19 +36,19 @@ export const homeFormatSection = `
 </section>`;
 
 const sustainabilityPriorities = [
-  ['Lightweighting',
+  ['Lightweighting', 'Use less material per pack.',
     '<path d="M20 4C12 3 7 8 8 15c7 1 12-4 12-11ZM4 20l11-11M7 16l-2-3m6 0 4 1"/>'],
-  ['Recycled content',
+  ['Recycled content', 'Check recycled material options.',
     '<path d="M10 4h4v6h4l-6 6-6-6h4zM4 16v4h16v-4"/>'],
-  ['Design for recycling',
+  ['Design for recycling', 'Design for local collection.',
     '<path d="m9 6 2-3 2 3m-2-3 4 7M18 10l4 1-1 4m1-4-5 8M9 20H5v-4m0 4 4-8m1 8h5M4 12l2-3"/>'],
-  ['Renewable materials',
+  ['Renewable materials', 'Explore paper-based formats.',
     '<path d="M12 20v-8m0 3C7 15 4 12 4 7c5 0 8 3 8 8Zm0-3c0-5 3-8 8-8 0 5-3 8-8 8Z"/>'],
-  ['Refill and reuse',
+  ['Refill and reuse', 'Plan for repeat use.',
     '<path d="M8 8h8l2 4v8H6v-8l2-4Zm2 0V4h6l2 2M9 15h6"/>'],
-  ['Product protection',
+  ['Product protection', 'Balance barrier and shelf life.',
     '<path d="M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10Zm-3-11 2 2 4-4"/>'],
-  ['Packaging footprint',
+  ['Packaging footprint', 'Compare material and weight.',
     '<path d="M3 20h18M6 16v-4m6 4V8m6 8V4M4 9l5-4"/>'],
 ];
 
@@ -56,16 +56,23 @@ export const homeSustainabilitySection = `
 <section class="mw-section mw-home-sustainability" id="mw-sustainability" aria-labelledby="hy-r-heading">
   <div class="mw-inner">
     <div class="mw-sustainability-heading">
-      <h2 class="mw-heading" id="hy-r-heading">Sustainable packaging options</h2>
-      <a class="mw-sustainability-link" href="/sustainability/"><span>Explore sustainable packaging</span><span aria-hidden="true">↗</span></a>
+      <div class="mw-sustainability-intro">
+        <h2 class="mw-heading" id="hy-r-heading">Sustainable packaging options</h2>
+        <p>Explore material and format choices for your product, filling line and destination market.</p>
+        <a class="mw-sustainability-link" href="/sustainability/"><span>Explore sustainable packaging</span><span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="mw-sustainability-photo">
+        <img src="/assets/media/packaging-guides/packaging-comparison-pouch-print.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Mewepak sample pouches and film swatches on a packaging workbench">
+      </div>
     </div>
     <ul class="mw-sustainability-grid" tabindex="0" aria-labelledby="hy-r-heading">
-      ${sustainabilityPriorities.map(([title, drawing]) => `
+      ${sustainabilityPriorities.map(([title, description, drawing]) => `
         <li>
           <span class="mw-sustainability-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${drawing}</svg>
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${drawing}</svg>
           </span>
           <h3>${title}</h3>
+          <p>${description}</p>
         </li>`).join('')}
     </ul>
   </div>
