@@ -522,24 +522,24 @@ html:has(.mw-almond-pouch) {
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
-.mw-almond-pouch .feature {
+.mw-almond-pouch .almond-feature-card {
   border: 1px solid #dae4d7;
   border-radius: 7px;
   padding: 27px 22px;
   background: #fff;
   min-height: 218px;
 }
-.mw-almond-pouch .feature .icon {
+.mw-almond-pouch .almond-feature-card .icon {
   width: 33px;
   height: 33px;
   color: #147857;
   margin-bottom: 21px;
 }
-.mw-almond-pouch .feature h3 {
+.mw-almond-pouch .almond-feature-card h3 {
   font-size: 19px;
   margin-bottom: 12px;
 }
-.mw-almond-pouch .feature p {
+.mw-almond-pouch .almond-feature-card p {
   font-size: 14px;
   line-height: 1.7;
   margin: 0;
@@ -948,6 +948,79 @@ html:has(.mw-almond-pouch) {
 .mw-almond-pouch .dialog-body p {
   font-size: 14px;
 }
+.mw-almond-pouch .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+.mw-almond-pouch .form-grid label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #395f44;
+  display: block;
+}
+.mw-almond-pouch .form-grid input,
+.mw-almond-pouch .form-grid select,
+.mw-almond-pouch .form-grid textarea {
+  width: 100%;
+  padding: 11px 12px;
+  margin-top: 7px;
+  border: 1px solid #cfdcca;
+  border-radius: 5px;
+  background: #fff;
+  color: #264d30;
+  min-height: 45px;
+  font-size: 14px;
+}
+.mw-almond-pouch .form-grid textarea {
+  width: 100%;
+  padding: 11px 12px;
+  margin-top: 7px;
+  border: 1px solid #cfdcca;
+  border-radius: 5px;
+  background: #fff;
+  color: #264d30;
+  min-height: 45px;
+  font-size: 14px;
+}
+.mw-almond-pouch .form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 23px;
+}
+.mw-almond-pouch .form-help {
+  font-size: 12px !important;
+  color: #71856e;
+  margin: 15px 0 0;
+}
+.mw-almond-pouch .request-summary {
+  padding: 13px 15px;
+  background: #f0f7ec;
+  border: 1px solid #dce7d5;
+  border-radius: 5px;
+  font-size: 13px;
+  margin-bottom: 23px;
+  color: #3b6043;
+}
+.mw-almond-pouch .wa-message {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  line-height: 1.8;
+  font:
+    14px/1.8 Arial,
+    sans-serif;
+  background: #f2f8ee;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 18px;
+  color: #385d3c;
+}
+.mw-almond-pouch .copy-status {
+  font-size: 13px;
+  color: #216b48;
+  margin: 12px 0 0;
+}
 .mw-almond-pouch .full {
   grid-column: 1/-1;
 }
@@ -1098,17 +1171,17 @@ html:has(.mw-almond-pouch) {
   .mw-almond-pouch .features {
     gap: 12px;
   }
-  .mw-almond-pouch .feature {
+  .mw-almond-pouch .almond-feature-card {
     padding: 22px 17px;
     min-height: 230px;
   }
-  .mw-almond-pouch .feature h3 {
+  .mw-almond-pouch .almond-feature-card h3 {
     font-size: 18px;
   }
-  .mw-almond-pouch .feature p {
+  .mw-almond-pouch .almond-feature-card p {
     font-size: 13px;
   }
-  .mw-almond-pouch .feature .icon {
+  .mw-almond-pouch .almond-feature-card .icon {
     width: 27px;
     height: 27px;
     margin-bottom: 16px;
@@ -1472,7 +1545,7 @@ html:has(.mw-almond-pouch) {
   .mw-almond-pouch .guided-main .features {
     grid-template-columns: 1fr;
   }
-  .mw-almond-pouch .guided-main .feature {
+  .mw-almond-pouch .guided-main .almond-feature-card {
     min-height: 0;
   }
   .mw-almond-pouch .guided-main #specifications {
@@ -1738,5 +1811,14 @@ html:has(.mw-almond-pouch) {
 @media (max-width: 760px) {
   .wp-site-blocks:has(.mw-almond-pouch) > footer {
     padding-bottom: 88px;
+  }
+}
+
+@media (max-width: 760px) {
+  .mw-almond-pouch .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw-almond-pouch .form-actions .btn {
+    width: 100%;
   }
 }

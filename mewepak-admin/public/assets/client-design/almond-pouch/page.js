@@ -15,46 +15,117 @@
   let finish = page.querySelector('[data-finish][aria-pressed="true"]').dataset
     .finish;
 
-  function updateEnquiryLinks() {
-    for (const link of quoteLinks) {
+  const quoteForm = $("quote-form");
+  const quoteDialog = $("quote-dialog");
+  const waDialog = $("wa-dialog");
+  const contactEmail =
+    document.body.dataset.mewepakContactEmail || "sales@mewepak.com";
+  const productUrl = new URL(location.pathname, location.origin).href;
+  let enquiryProduct = productName;
+
+  for (const link of quoteLinks) {
+    link.addEventListener("click", (event) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+        return;
+      event.preventDefault();
       const { bagTitle, application, recommendEnquiry } = link.dataset;
-      const query = new URLSearchParams({
-        format: "stand-up-pouch",
-        product: bagTitle || productName,
-      });
-      if (!bagTitle) {
-        query.set("size", size);
-        query.set(
-          "finish",
-          finish === "Soft-touch matte" ? "Soft touch" : finish,
-        );
-      }
-      const use = recommendEnquiry || application;
-      if (use) query.set("application", use);
-      link.href = "/inquiry/?" + query + "#quote-request";
-    }
-    if (!whatsappNumber) return;
-    const productUrl = new URL(location.pathname, location.origin).href;
-    const message = [
-      `Hello MewePak, I am interested in the ${productName}.`,
-      `Preferred size: ${size}`,
-      `Preferred finish: ${finish}`,
-      "Please help me review the material, window, quantity and quote.",
-      productUrl,
+      enquiryProduct = bagTitle || productName;
+      quoteForm.elements.size.value = bagTitle ? "" : size;
+      quoteForm.elements.finish.value = bagTitle ? "Please advise" : finish;
+      quoteForm.elements.application.value =
+        recommendEnquiry || application || "Premium almonds";
+      $("request-summary").textContent = [
+        enquiryProduct,
+        quoteForm.elements.size.value || "Size to discuss",
+        quoteForm.elements.finish.value,
+      ].join(" · ");
+      $("form-status").textContent = "";
+      quoteDialog.showModal();
+      quoteDialog.scrollTop = 0;
+    });
+  }
+
+  function quoteBrief() {
+    const details = [
+      ["Name", "name"],
+      ["Email", "email"],
+      ["Company", "company"],
+      ["Delivery region", "country"],
+      ["Quantity", "quantity"],
+      ["Fill weight / size", "size"],
+      ["Finish", "finish"],
+      ["Application", "application"],
+      ["Project details", "notes"],
+    ].map(
+      ([label, name]) =>
+        `${label}: ${quoteForm.elements[name].value.trim() || "Not specified"}`,
+    );
+    return [
+      "Hello MewePak,",
+      "",
+      `I would like to discuss ${enquiryProduct}.`,
+      "",
+      ...details,
+      "",
+      `Product reference: ${productUrl}`,
     ].join("\n");
-    const url = `https://wa.me/${whatsappNumber}?${new URLSearchParams({ text: message })}`;
-    for (const link of whatsappLinks) {
-      link.href = url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
+  }
+
+  async function copyBrief(text, status) {
+    try {
+      await navigator.clipboard.writeText(text);
+      status.textContent = "Copied. You can paste it into your message.";
+    } catch {
+      status.textContent =
+        "Could not copy automatically. You can still open the prepared message.";
     }
   }
 
-  if (!whatsappNumber) {
-    for (const link of whatsappLinks)
-      link.querySelector("span").textContent = "Contact MewePak";
+  quoteForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const query = new URLSearchParams({
+      subject: `Quote enquiry: ${enquiryProduct}`,
+      body: quoteBrief(),
+    });
+    const mailto = `mailto:${contactEmail}?${query.toString().replaceAll("+", "%20")}`;
+    $("form-status").textContent =
+      "Your email draft is ready. If your email app does not open, use Copy Brief.";
+    window.location.href = mailto;
+  });
+  $("copy-brief").addEventListener("click", () => {
+    if (quoteForm.reportValidity()) copyBrief(quoteBrief(), $("form-status"));
+  });
+
+  for (const link of whatsappLinks) {
+    link.addEventListener("click", (event) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+        return;
+      event.preventDefault();
+      const message = [
+        `Hello MewePak, I am interested in the ${productName}.`,
+        `Preferred size: ${size}`,
+        `Preferred finish: ${finish}`,
+        "Please help me review the material, window, quantity and quote.",
+        productUrl,
+      ].join("\n");
+      $("wa-message").textContent = message;
+      const action = $("wa-link");
+      action.href = whatsappNumber
+        ? `https://wa.me/${whatsappNumber}?${new URLSearchParams({ text: message })}`
+        : "/contact/";
+      action.textContent = whatsappNumber ? "Open WhatsApp" : "Contact MewePak";
+      $("wa-help").textContent = whatsappNumber
+        ? "Review your enquiry, then open the MewePak chat in WhatsApp."
+        : "Copy your message or contact the MewePak team directly.";
+      $("wa-status").textContent = "";
+      waDialog.showModal();
+      waDialog.scrollTop = 0;
+    });
   }
-  updateEnquiryLinks();
+  $("copy-wa").addEventListener("click", () =>
+    copyBrief($("wa-message").textContent, $("wa-status")),
+  );
+
   const images = {
     original: "/assets/client-design/almond-pouch/almond-pouch-original.webp",
     alternate: "/assets/client-design/almond-pouch/almond-pouch-alternate.webp",
@@ -170,7 +241,6 @@
   document.querySelectorAll("[data-size]").forEach((b) =>
     b.addEventListener("click", () => {
       size = b.dataset.size;
-      updateEnquiryLinks();
       document
         .querySelectorAll("[data-size]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
@@ -179,7 +249,6 @@
   document.querySelectorAll("[data-finish]").forEach((b) =>
     b.addEventListener("click", () => {
       finish = b.dataset.finish;
-      updateEnquiryLinks();
       document
         .querySelectorAll("[data-finish]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
