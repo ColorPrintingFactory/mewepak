@@ -4,6 +4,7 @@ import { renderArticleLayout } from './article-layout.js';
 import { renderMarketLayout } from './market-layout.js';
 import { renderResourceLayout } from './resource-layout.js';
 import { renderSolutionsLayout } from './solutions-layout.js';
+import { applyProductDetail, productDetailTemplate } from './product-detail.js';
 import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
 
 const storefrontHeader = storefrontChrome.header.join('\n');
@@ -42,12 +43,6 @@ const pathFor = {
 const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const bullets = (items) => '<ul class="list-disc pl-6 space-y-2">' + items.map((item) => '<li>' + escape(item) + '</li>').join('') + '</ul>';
-const specificationFields = [
-  ['features', 'Features', '0'],
-  ['material_options', 'Materials', '1'],
-  ['printing_options', 'Printing and finishing', null],
-  ['applications', 'Applications', '3'],
-];
 
 async function digest(value) {
   const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
@@ -119,7 +114,12 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     if (!entry && baseline[path]) return new Response('Page not found.', { status: 404 });
     const isSearch = path.startsWith('/search/') || (path === '/' && url.searchParams.has('s'));
     if (!asset.ok && !entry && !isSearch) return asset;
-    const source = asset.ok ? asset : withStorefrontChrome(await getAsset('/'));
+    const product = entry?.table === 'products';
+    const template = product && path !== productDetailTemplate
+      ? withStorefrontChrome(await getAsset(productDetailTemplate))
+      : asset;
+    const productDetail = product && template.ok;
+    const source = productDetail ? template : asset.ok ? asset : withStorefrontChrome(await getAsset('/'));
     if (!source.ok) return asset;
     const rewriter = new HTMLRewriter();
     const edit = (selector, handler) => rewriter.on(selector, { element: handler });
@@ -164,7 +164,9 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     }
     if (row) {
       const title = row.title || row.name;
-      if (row.seo_title !== previous.seo_title || title !== previous.title) replace('title', row.seo_title || title);
+      if ((productDetail && path !== productDetailTemplate) || row.seo_title !== previous.seo_title || title !== previous.title) {
+        replace('title', row.seo_title || title);
+      }
       const description = (row.seo_description || row.short_description || row.excerpt || row.summary || '').trim();
       if (description) {
         edit('meta[name="description"]', (el) => el.remove());
@@ -173,7 +175,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       } else if (!asset.ok) {
         edit('meta[name="description"],meta[property="og:description"]', (el) => el.remove());
       }
-      if (title !== previous.title && asset.ok && path !== '/' && entry.table !== 'articles') {
+      if (title !== previous.title && asset.ok && path !== '/' && entry.table !== 'articles' && !productDetail) {
         let headingUpdated = false;
         edit('main h1', (el) => {
           if (headingUpdated) return;
@@ -236,35 +238,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
         edit('main .entry-content > *:not(.mewepak-article-related):not(.mw-article-related):not(.mewepak-article-cta):not(.mewepak-author)', (el) => el.remove());
         edit('main .entry-content', (el) => el.prepend(`<div class="mewepak-prose" data-article-body>${body}</div>`, { html: true }));
       }
-      if (entry.table === 'products' && asset.ok) {
-        if (row.short_description !== previous.short_description) replace('main h1 ~ p', row.short_description);
-        if (row.description && await digest(row.description) !== previous.description_hash) {
-          const html = await sanitize(row.description);
-          edit('main', (el) => el.append(`<section class="max-w-7xl mx-auto p-6 mewepak-prose">${html}</section>`, { html: true }));
-        }
-        const image = safeUrl(row.primary_image_url);
-        if (JSON.stringify(row.gallery_urls) !== JSON.stringify(previous.gallery_urls || [])) {
-          const gallery = [...new Set([image, ...row.gallery_urls.map(safeUrl)].filter(Boolean))];
-          if (gallery.length) {
-            const width = 100 / gallery.length + '%';
-            edit('[data-single-gallery-track]', (el) => el.setAttribute('style', 'width:' + gallery.length * 100 + '%'));
-            replaceHtml('[data-single-gallery-track]', gallery.map((src) => `<div class="h-full flex-shrink-0 flex items-center justify-center" style="width:${width}"><img src="${escape(src)}" alt="${escape(title)}" class="mewepak-single-product__image w-full h-full object-contain"></div>`).join(''));
-            edit('[data-single-gallery-thumb]', (el) => {
-              if (el.getAttribute('data-single-gallery-thumb') === '0') {
-                el.before(gallery.map((src, index) => `<button type="button" data-single-gallery-thumb="${index}" class="aspect-square border !rounded-xl p-2"><img src="${escape(src)}" alt="View image ${index + 1}"></button>`).join(''), { html: true });
-              }
-              el.remove();
-            });
-          }
-        } else if (image && image !== previous.primary_image_url) {
-          edit('[data-single-gallery-track] > div:first-child img,[data-single-gallery-thumb="0"] img', (el) => el.setAttribute('src', image));
-        }
-        for (const [field, label, panel] of specificationFields) {
-          if (!row[field]?.length) continue;
-          if (panel) replaceHtml(`[data-product-tabs] [data-panel="${panel}"]`, bullets(row[field]));
-          else edit('main', (el) => el.append(`<section class="max-w-7xl mx-auto p-6"><h2>${label}</h2>${bullets(row[field])}</section>`, { html: true }));
-        }
-      }
+      if (productDetail) await applyProductDetail({ entry, entries, previous, edit, replace, replaceHtml, escape, safeUrl, sanitize, digest });
       if (entry.table === 'product_categories' && asset.ok) {
         if (row.short_description !== previous.short_description) replace('main h1 ~ p', row.short_description);
         const image = safeUrl(row.image_url);
@@ -293,11 +267,12 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           replaceHtml('main', article.breadcrumbs + article.hero + `<div class="mw-article-body"><div class="mewepak-prose entry-content">${body}</div>${article.sidebar}</div>` + article.footer);
         }
       }
-      if (!asset.ok && !market && !solution && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
+      if (!asset.ok && !productDetail && !market && !solution && typeof pageBody !== 'string' && !isSearch && entry.table !== 'articles') {
         const body = await sanitize(row.body || row.description || '');
         const images = [...new Set([row.primary_image_url || row.featured_image_url || row.image_url, ...(row.gallery_urls || [])].map(safeUrl).filter(Boolean))];
         const gallery = images.map((src) => `<img class="w-full h-64 object-contain" src="${escape(src)}" alt="${escape(title)}">`).join('');
-        const specifications = specificationFields.filter(([key]) => row[key]?.length).map(([key, label]) => `<h2>${label}</h2>${bullets(row[key])}`).join('');
+        const fields = [['features', 'Features'], ['material_options', 'Materials'], ['printing_options', 'Printing and finishing'], ['applications', 'Applications']];
+        const specifications = fields.filter(([key]) => row[key]?.length).map(([key, label]) => `<h2>${label}</h2>${bullets(row[key])}`).join('');
         const inquiry = entry.table === 'products' ? `<a href="/inquiry/?product=${encodeURIComponent(title)}#quote-request">Request a Quote</a>` : '';
         replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16 mewepak-prose"><h1>${escape(title)}</h1><p>${escape(row.short_description || row.excerpt || row.summary)}</p><div class="grid md:grid-cols-3 gap-5">${gallery}</div>${body}${specifications}${inquiry}</section>`);
       }

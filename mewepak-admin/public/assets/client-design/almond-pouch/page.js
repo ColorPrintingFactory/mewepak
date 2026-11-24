@@ -1,7 +1,10 @@
 (() => {
   const page = document.querySelector(".mw-almond-pouch");
+  if (!page) return;
   const $ = (id) => document.getElementById(id);
-  const productName = "Premium Almonds Window Stand-Up Pouch";
+  const productName = page.dataset.productName || page.querySelector("h1").innerText.replace(/\s+/g, " ").trim();
+  const productType = page.dataset.productType || "Stand-up pouch";
+  const defaultApplication = page.dataset.productApplication ?? $("form-application").value;
   const quoteLinks = page.querySelectorAll(
     "[data-quote], [data-application], [data-recommend-enquiry]",
   );
@@ -31,7 +34,7 @@
       quoteForm.elements.size.value = bagTitle ? "" : size;
       quoteForm.elements.finish.value = bagTitle ? "Please advise" : finish;
       quoteForm.elements.application.value =
-        recommendEnquiry || application || "Premium almonds";
+        recommendEnquiry || application || defaultApplication;
       $("request-summary").textContent = [
         enquiryProduct,
         quoteForm.elements.size.value || "Size to discuss",
@@ -81,7 +84,7 @@
 
   quoteForm.addEventListener("formdata", ({ formData }) => {
     formData.set("company", formData.get("company").trim() || "Not supplied");
-    formData.set("product_type", "Stand-up pouch");
+    formData.set("product_type", enquiryProduct === productName ? productType : "Stand-up pouch");
     formData.set("product_context", enquiryProduct);
     formData.set("details", quoteBrief());
   });
@@ -96,9 +99,9 @@
       event.preventDefault();
       const message = [
         `Hello MewePak, I am interested in the ${productName}.`,
-        `Preferred size: ${size}`,
+        `Preferred size: ${size || "To discuss"}`,
         `Preferred finish: ${finish}`,
-        "Please help me review the material, window, quantity and quote.",
+        "Please help me review the material, packaging options, quantity and quote.",
         productUrl,
       ].join("\n");
       $("wa-message").textContent = message;
@@ -119,158 +122,141 @@
     copyBrief($("wa-message").textContent, $("wa-status")),
   );
 
-  const images = {
-    original: "/assets/client-design/almond-pouch/almond-pouch-original.webp",
-    alternate: "/assets/client-design/almond-pouch/almond-pouch-alternate.webp",
-    detail: "/assets/client-design/almond-pouch/almond-pouch-original.webp",
-  };
-  const productImage = $("productimage");
-  const photo = productImage.parentElement;
-  const lens = $("product-lens");
-  const zoom = $("zoom");
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  let pinned = false;
-  let hovered = false;
-  let focal = [0.5, 0.5];
+  function bindProductGallery() {
+    const productImage = $("productimage");
+    if (!productImage) return;
+    const photo = productImage.parentElement;
+    const lens = $("product-lens");
+    const zoom = $("zoom");
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    let pinned = false;
+    let hovered = false;
+    let focal = [0.5, 0.5];
 
-  function renderLens() {
-    lens.hidden =
-      !(pinned || hovered) ||
-      !productImage.complete ||
-      !productImage.naturalWidth;
-    if (lens.hidden) return;
+    function renderLens() {
+      lens.hidden =
+        !(pinned || hovered) ||
+        !productImage.complete ||
+        !productImage.naturalWidth;
+      if (lens.hidden) return;
 
-    const width = photo.clientWidth;
-    const height = photo.clientHeight;
-    const style = getComputedStyle(productImage);
-    const scale =
-      style.objectFit === "none"
-        ? 1
-        : Math.max(
-            width / productImage.naturalWidth,
-            height / productImage.naturalHeight,
-          );
-    const [positionX, positionY] = style.objectPosition
-      .split(" ")
-      .map((value) => parseFloat(value) / 100);
-    const renderedWidth = productImage.naturalWidth * scale;
-    const renderedHeight = productImage.naturalHeight * scale;
-    const [x, y] = [focal[0] * width, focal[1] * height];
-    const imageX = x - (width - renderedWidth) * positionX;
-    const imageY = y - (height - renderedHeight) * positionY;
-    const diameter = lens.offsetWidth;
-    const half = diameter / 2;
-    const magnification = 2.25;
-    const zoomWidth = renderedWidth * magnification;
-    const zoomHeight = renderedHeight * magnification;
+      const width = photo.clientWidth;
+      const height = photo.clientHeight;
+      const style = getComputedStyle(productImage);
+      const fit = style.objectFit === "contain" ? Math.min : Math.max;
+      const scale = style.objectFit === "none" ? 1 : fit(
+        width / productImage.naturalWidth,
+        height / productImage.naturalHeight,
+      );
+      const [positionX, positionY] = style.objectPosition
+        .split(" ")
+        .map((value) => parseFloat(value) / 100);
+      const renderedWidth = productImage.naturalWidth * scale;
+      const renderedHeight = productImage.naturalHeight * scale;
+      const [x, y] = [focal[0] * width, focal[1] * height];
+      const imageX = x - (width - renderedWidth) * positionX;
+      const imageY = y - (height - renderedHeight) * positionY;
+      const diameter = lens.offsetWidth;
+      const half = diameter / 2;
+      const magnification = 2.25;
+      const zoomWidth = renderedWidth * magnification;
+      const zoomHeight = renderedHeight * magnification;
 
-    lens.style.left = `${clamp(x - half, 0, width - diameter)}px`;
-    lens.style.top = `${clamp(y - half, 0, height - diameter)}px`;
-    lens.style.backgroundImage = `url("${productImage.src}")`;
-    lens.style.backgroundSize = `${zoomWidth}px ${zoomHeight}px`;
-    lens.style.backgroundPosition = `${clamp(half - imageX * magnification, diameter - zoomWidth, 0)}px ${clamp(half - imageY * magnification, diameter - zoomHeight, 0)}px`;
-  }
-
-  function trackPointer(event) {
-    const bounds = photo.getBoundingClientRect();
-    focal = [
-      clamp(
-        (event.clientX - bounds.left - photo.clientLeft) / photo.clientWidth,
-        0,
-        1,
-      ),
-      clamp(
-        (event.clientY - bounds.top - photo.clientTop) / photo.clientHeight,
-        0,
-        1,
-      ),
-    ];
-    renderLens();
-  }
-
-  photo.addEventListener("pointermove", (event) => {
-    if (event.pointerType === "touch") return;
-    hovered = !zoom.contains(event.target);
-    if (hovered) trackPointer(event);
-    else renderLens();
-  });
-  photo.addEventListener("pointerleave", () => {
-    hovered = false;
-    renderLens();
-  });
-  photo.addEventListener("pointerdown", (event) => {
-    if (pinned && event.pointerType === "touch" && !zoom.contains(event.target))
-      trackPointer(event);
-  });
-  zoom.addEventListener("click", () => {
-    pinned = !pinned;
-    zoom.setAttribute("aria-pressed", String(pinned));
-    focal = [0.5, 0.5];
-    renderLens();
-  });
-  zoom.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && pinned) {
-      pinned = hovered = false;
-      zoom.setAttribute("aria-pressed", "false");
-      renderLens();
-      return;
+      lens.style.left = `${clamp(x - half, 0, width - diameter)}px`;
+      lens.style.top = `${clamp(y - half, 0, height - diameter)}px`;
+      lens.style.backgroundImage = `url("${productImage.src}")`;
+      lens.style.backgroundSize = `${zoomWidth}px ${zoomHeight}px`;
+      lens.style.backgroundPosition = `${clamp(half - imageX * magnification, diameter - zoomWidth, 0)}px ${clamp(half - imageY * magnification, diameter - zoomHeight, 0)}px`;
     }
-    const direction = {
-      ArrowLeft: [-1, 0],
-      ArrowRight: [1, 0],
-      ArrowUp: [0, -1],
-      ArrowDown: [0, 1],
-    }[event.key];
-    if (!pinned || !direction) return;
-    event.preventDefault();
-    focal = focal.map((value, index) =>
-      clamp(value + direction[index] * 0.1, 0, 1),
+
+    function trackPointer(event) {
+      const bounds = photo.getBoundingClientRect();
+      focal = [
+        clamp(
+          (event.clientX - bounds.left - photo.clientLeft) / photo.clientWidth,
+          0,
+          1,
+        ),
+        clamp(
+          (event.clientY - bounds.top - photo.clientTop) / photo.clientHeight,
+          0,
+          1,
+        ),
+      ];
+      renderLens();
+    }
+
+    photo.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch") return;
+      hovered = !zoom.contains(event.target);
+      if (hovered) trackPointer(event);
+      else renderLens();
+    });
+    photo.addEventListener("pointerleave", () => {
+      hovered = false;
+      renderLens();
+    });
+    photo.addEventListener("pointerdown", (event) => {
+      if (pinned && event.pointerType === "touch" && !zoom.contains(event.target))
+        trackPointer(event);
+    });
+    zoom.addEventListener("click", () => {
+      pinned = !pinned;
+      zoom.setAttribute("aria-pressed", String(pinned));
+      focal = [0.5, 0.5];
+      renderLens();
+    });
+    zoom.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && pinned) {
+        pinned = hovered = false;
+        zoom.setAttribute("aria-pressed", "false");
+        renderLens();
+        return;
+      }
+      const direction = {
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+      }[event.key];
+      if (!pinned || !direction) return;
+      event.preventDefault();
+      focal = focal.map((value, index) =>
+        clamp(value + direction[index] * 0.1, 0, 1),
+      );
+      renderLens();
+    });
+    productImage.addEventListener("load", renderLens);
+    productImage.addEventListener("error", renderLens);
+    window.addEventListener("resize", renderLens);
+    const thumbnails = page.querySelectorAll("[data-image]");
+    thumbnails.forEach((b) =>
+      b.addEventListener("click", () => {
+        productImage.src = b.dataset.imageSrc || b.querySelector("img").src;
+        productImage.classList.toggle("is-window-detail", b.dataset.image === "detail");
+        productImage.alt = b.dataset.imageAlt || b.querySelector("img").alt;
+        $("artwork-label").textContent = b.dataset.imageLabel || b.getAttribute("aria-label");
+        thumbnails.forEach((x) => x.setAttribute("aria-pressed", x === b));
+        renderLens();
+      }),
     );
-    renderLens();
-  });
-  productImage.addEventListener("load", renderLens);
-  productImage.addEventListener("error", renderLens);
-  window.addEventListener("resize", renderLens);
-  document.querySelectorAll("[data-size]").forEach((b) =>
+  }
+  bindProductGallery();
+
+  page.querySelectorAll("[data-size]").forEach((b) =>
     b.addEventListener("click", () => {
       size = b.dataset.size;
-      document
+      page
         .querySelectorAll("[data-size]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
     }),
   );
-  document.querySelectorAll("[data-finish]").forEach((b) =>
+  page.querySelectorAll("[data-finish]").forEach((b) =>
     b.addEventListener("click", () => {
       finish = b.dataset.finish;
-      document
+      page
         .querySelectorAll("[data-finish]")
         .forEach((x) => x.setAttribute("aria-pressed", x === b));
-    }),
-  );
-  document.querySelectorAll("[data-image]").forEach((b) =>
-    b.addEventListener("click", () => {
-      const currentImage = b.dataset.image;
-      productImage.src = images[currentImage];
-      productImage.classList.toggle(
-        "is-window-detail",
-        currentImage === "detail",
-      );
-      productImage.alt =
-        currentImage === "alternate"
-          ? "Supplied alternate almond pouch artwork, front and back"
-          : currentImage === "detail"
-            ? "Close-up of the transparent almond window"
-            : "Original cream and maroon almond pouch artwork, front and back";
-      $("artwork-label").textContent =
-        currentImage === "alternate"
-          ? "Alternate supplied artwork"
-          : currentImage === "detail"
-            ? "Original artwork · Window detail"
-            : "Original artwork · Front & back";
-      document
-        .querySelectorAll("[data-image]")
-        .forEach((x) => x.setAttribute("aria-pressed", x === b));
-      renderLens();
     }),
   );
   document

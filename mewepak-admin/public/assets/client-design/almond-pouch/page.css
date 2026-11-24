@@ -1804,3 +1804,36 @@ html:has(.mw-almond-pouch) {
     width: 100%;
   }
 }
+
+.mw-almond-pouch .product-info,
+.mw-almond-pouch .mobile-cta strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.mw-almond-pouch .main-photo[data-catalog-photo] img {
+  object-fit: contain;
+}
+.mw-almond-pouch .product-image-placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.mw-almond-pouch .product-image-placeholder svg {
+  width: 90px;
+  height: 90px;
+}
+.mw-almond-pouch .catalog-related {
+  padding-block: 36px;
+}
+.mw-almond-pouch .catalog-related h2 {
+  margin-bottom: 22px;
+}
+.mw-almond-pouch .catalog-related img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.mw-almond-pouch .catalog-related .related-card {
+  min-width: 0;
+}
