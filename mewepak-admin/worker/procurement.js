@@ -229,14 +229,6 @@ export function applyProcurement(path, edit, replace, entry, entries, publishedP
       edit('main #mk-market-grid', (el) => el.after(directory, { html: true }));
     }
   }
-  if (path === '/blog/') {
-    addStyles();
-    edit('main .in-library-heading', (el) => el.after(`
-      <nav class="mw-directory mw-directory--guides" aria-labelledby="guide-directory-title">
-        <h3 id="guide-directory-title">Browse by topic</h3>
-        <ul>${Object.entries(guideCategories).map(([key, [title]]) => `<li>${link(['/category/' + key + '/', title], escape)}</li>`).join('')}</ul>
-      </nav>`, { html: true }));
-  }
   if (family === 'category' && Object.hasOwn(guideCategories, slug)) {
     const [title, intro] = guideCategories[slug];
     addStyles();
