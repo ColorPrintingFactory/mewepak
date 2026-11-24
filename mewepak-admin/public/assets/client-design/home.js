@@ -164,16 +164,18 @@ function bindFeaturedProducts() {
  let normalizer, scrolling=false;
  const productWindow=track.parentElement;
  const pauseButton=root.querySelector('#hy-product-pause');
+ const prevButton=root.querySelector('#hy-product-prev');
+ const nextButton=root.querySelector('#hy-product-next');
  function configureProducts(){
   const gap=parseFloat(getComputedStyle(track).columnGap)||0;
   const width=originals[0].getBoundingClientRect().width;
-  const overflow=count>1 && count*(width+gap)-gap>productWindow.clientWidth+1;
+  const overflow=count>1 && count*(width+gap)-gap>=productWindow.clientWidth-1;
+  prevButton.disabled=nextButton.disabled=pauseButton.disabled=!overflow;
   if(overflow===scrolling){
    if(scrolling){normalizeProduct();setProductPosition(false);}
    return;
   }
   scrolling=overflow;
-  root.querySelector('.hy-product-controls').hidden=!scrolling;
   clearTimeout(normalizer);
   busy=false;
   track.querySelectorAll('[data-product-clone]').forEach(card=>card.remove());
@@ -206,8 +208,8 @@ function bindFeaturedProducts() {
   if(reduce.matches)normalizeProduct();else normalizer=setTimeout(normalizeProduct,720);
  }
  track.addEventListener('transitionend',event=>{if(event.target===track&&event.propertyName==='transform')normalizeProduct();});
- root.querySelector('#hy-product-prev').addEventListener('click',()=>productMove(-1,true));
- root.querySelector('#hy-product-next').addEventListener('click',()=>productMove(1,true));
+ prevButton.addEventListener('click',()=>productMove(-1,true));
+ nextButton.addEventListener('click',()=>productMove(1,true));
  pauseButton.addEventListener('click',()=>{userPaused=!userPaused;pauseButton.setAttribute('aria-pressed',String(userPaused));pauseButton.textContent=localized(userPaused?'Resume auto-scroll':'Pause auto-scroll');});
  productWindow.addEventListener('mouseenter',()=>hoverPaused=true);
  productWindow.addEventListener('mouseleave',()=>hoverPaused=false);

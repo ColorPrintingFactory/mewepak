@@ -30,7 +30,7 @@
         return;
       event.preventDefault();
       const { bagTitle, application, recommendEnquiry } = link.dataset;
-      enquiryProduct = bagTitle ? `Artwork reference: ${bagTitle}` : productName;
+      enquiryProduct = bagTitle || productName;
       quoteForm.elements.size.value = bagTitle ? "" : size;
       quoteForm.elements.finish.value = bagTitle ? "Please advise" : finish;
       quoteForm.elements.application.value =
@@ -315,7 +315,7 @@
   }
   function recUI() {
     document.getElementById("recommend-status").textContent =
-      `Showing ${recIndex + 1}–${Math.min(recIndex + recVisible(), recommendCards.length)} of ${recommendCards.length} artwork examples`;
+      `Showing ${recIndex + 1}–${Math.min(recIndex + recVisible(), recommendCards.length)} of ${recommendCards.length} recommended bags`;
     document.getElementById("rec-toggle").textContent = recPaused
       ? "Play slideshow"
       : "Pause slideshow";

@@ -317,8 +317,8 @@ export async function connectStorefront(request, response, database, projectUrl,
   ]) {
     set(`link[href="${href}"]`, 'href', href.split('?')[0] + '?v=responsive');
   }
-  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=published-products');
-  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=published-products');
+  set('link[href="/assets/client-design/home.css"]', 'href', '/assets/client-design/home.css?v=mobile-layout');
+  set('script[src="/assets/client-design/home.js?shell=1"]', 'src', '/assets/client-design/home.js?v=catalogue-sync');
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
