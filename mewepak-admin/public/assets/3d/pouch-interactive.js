@@ -343,6 +343,16 @@
 				else link.removeAttribute( 'aria-current' );
 			} );
 			const activeLink = this.options?.querySelector( '[aria-current="true"]' );
+			if ( this.options && next.href ) {
+				const current = new URL( next.href, location.origin );
+				document.querySelectorAll( '.mwl-switch__panel a[href]' ).forEach( (link) => {
+					const target = new URL( link.href );
+					if ( !target.pathname.endsWith( '/3d-preview/' ) ) return;
+					target.search = current.search;
+					target.hash = location.hash;
+					link.href = target.href;
+				} );
+			}
 			if ( activeLink && this.options.scrollWidth > this.options.clientWidth ) {
 				const gallery = this.options.getBoundingClientRect();
 				const card = activeLink.getBoundingClientRect();

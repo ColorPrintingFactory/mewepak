@@ -1,6 +1,7 @@
 export const samplePath = '/contact/?topic=samples#project-enquiry';
 export const qualityPath = '/about-us/quality-certifications/';
 export const trialChecklist = '/assets/media/packaging-guides/filled-pack-trial-checklist.pdf';
+const dielinePath = (format) => '/solutions/dieline-generator/?format=' + format;
 
 export const formats = {
   'bag-in-box': {
@@ -25,7 +26,7 @@ export const formats = {
       ['Base, zipper and valve', 'Confirm how the base opens and whether the pack needs a zipper, tear notch or degassing valve. Review valve position on the dieline.'],
       ['First filled sample', 'Compare the standing footprint and top seal clearance. Test fill, reclosure and case fit on the sample before approving the drawing.'],
     ],
-    links: [['/markets/coffee-tea/', 'Coffee and tea packaging'], ['/how-to-choose-the-right-barrier-film-for-coffee-packaging/', 'How to choose coffee barrier film'], ['/solutions/prepress/', 'Prepare a flat-bottom pouch dieline']],
+    links: [['/markets/coffee-tea/', 'Coffee and tea packaging'], ['/how-to-choose-the-right-barrier-film-for-coffee-packaging/', 'How to choose coffee barrier film'], [dielinePath('flat-bottom-pouch'), 'Prepare a flat-bottom pouch dieline']],
   },
   'flat-pouch': {
     heading: 'Custom Flat Pouches and Sachets',
@@ -97,7 +98,7 @@ export const formats = {
       ['Registration and sealing', 'Confirm repeat length, eye-mark position and print side with the artwork and machine teams. Share your current film and seal criteria where available.'],
       ['Line trial', 'Record web tracking, registration, seal results and the conditions used. For frozen applications, include post-freezer handling of the finished pack.'],
     ],
-    links: [['/markets/frozen-food/', 'Frozen food packaging'], ['/solutions/prepress/', 'Prepare print registration and dielines'], ['/solutions/technical/', 'Review rollstock fit on your equipment']],
+    links: [['/markets/frozen-food/', 'Frozen food packaging'], [dielinePath('roll-stock-films'), 'Generate a roll stock dieline'], ['/solutions/technical/', 'Review rollstock fit on your equipment']],
   },
   'shaped-pouch': {
     heading: 'Custom-Shaped Pouches',
@@ -109,7 +110,7 @@ export const formats = {
       ['Cut and seal layout', 'Mark the trim, seal, opening and hang-hole positions on the dieline before artwork approval.'],
       ['Handling and display', 'Check a filled prototype for how it hangs or stands, where it flexes and how the product is removed.'],
     ],
-    links: [['/markets/snacks-sweets/', 'Snack and confectionery packaging'], ['/solutions/prepress/', 'Review a shaped-pouch dieline'], ['/solutions/technical/', 'Confirm prototype checks']],
+    links: [['/markets/snacks-sweets/', 'Snack and confectionery packaging'], [dielinePath('shaped-pouch'), 'Preview a shaped-pouch dieline'], ['/solutions/technical/', 'Confirm prototype checks']],
   },
   'spout-pouch': {
     heading: 'Custom Spout Pouches',

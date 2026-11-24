@@ -8,13 +8,16 @@ const pouchMarks = {
 
 export function brandedVisual(src, alt, caption, escape, { eager = false, className = '', expand = false, embeddedLogo = false } = {}) {
   const marks = embeddedLogo ? [] : pouchMarks[src.split('/').pop()] || [];
+  const media = expand
+    ? '<button class="mwp-visual__media image-magnifier" type="button" aria-pressed="false" aria-label="Zoom image of ' + escape(alt) + '">'
+    : '<div class="mwp-visual__media">';
   return `<figure class="mwp-visual ${className}">
-    <div class="mwp-visual__media">
+    ${media}
       <img class="mwp-visual__image" src="${escape(src)}" alt="${escape(alt)}" width="1200" height="800" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
       ${marks.map(mark => `<img class="mwp-visual__mark mwp-visual__mark--${mark}" src="${logo}" alt="" width="108" height="35" aria-hidden="true">`).join('')}
-    </div>
+    ${expand ? '</button>' : '</div>'}
     <figcaption>${embeddedLogo ? '' : `<img src="${logo}" alt="Mewepak" width="108" height="35" loading="lazy" decoding="async">`}<span>${escape(caption)}</span>
-      ${expand ? `<a href="${escape(src)}" target="_blank" rel="noopener">View larger <span aria-hidden="true">↗</span></a>` : ''}
+      ${expand ? '<span>Hover or tap the image to zoom</span>' : ''}
     </figcaption>
   </figure>`;
 }

@@ -402,16 +402,6 @@
       recStart();
     }
   });
-  document.querySelectorAll("[data-recommend-preview]").forEach((button) =>
-    button.addEventListener("click", () => {
-      const img = button.querySelector("img");
-      document.getElementById("recommend-large-image").src = img.src;
-      document.getElementById("recommend-large-image").alt = img.alt;
-      document.getElementById("recommend-preview-title").textContent =
-        button.dataset.recommendPreview;
-      document.getElementById("recommend-preview").showModal();
-    }),
-  );
   recUI();
   recStart();
 })();

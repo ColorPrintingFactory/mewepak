@@ -196,6 +196,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
   on('head', (el) => el.append(siteIcons, { html: true }));
   on('link[rel="pingback"],link[rel="EditURI"]', (el) => el.remove());
+  set('main a[href="/inquiry/#materials"]', 'href', '/solutions/material-specifications/');
   on('a[href^="/solutions"]', (el) => {
     const href = el.getAttribute('href');
     const legacySection = /^\/solutions\/?(#(?:process-stages|project-enquiry|why-mewepak|packaging-help|get-in-touch))$/.exec(href);
@@ -292,7 +293,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=flow-header');
   set('link[href="/assets/site.css"]', 'href', '/assets/site.css?v=flow-header');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=localized-tools');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=same-format');
   if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=company-enquiry');
   if (path === '/booking' || path === '/inquiry') {
     const serviceKey = url.searchParams.get('service');
@@ -300,6 +301,8 @@ export async function connectStorefront(request, response, database, projectUrl,
     const context = [];
     if (Object.hasOwn(solutions, serviceKey)) context.push('Packaging service: ' + solutions[serviceKey].heading);
     if (Object.hasOwn(markets, marketKey)) context.push('Packaging market: ' + markets[marketKey][0]);
+    const format = path === '/booking' && previewFormats.get(url.searchParams.get('format'));
+    if (format) context.push('Packaging format: ' + format.name);
     if (context.length) text(path === '/booking' ? '#booking-topic' : '#qt-form textarea[name="notes"]', context.join('\n'));
   }
   if (path === '/inquiry') {
@@ -319,7 +322,8 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('link[href="/assets/client-design/market-dialog.css"]', 'href', '/assets/client-design/market-dialog.css?v=mobile');
   set('link[href="/assets/3d/pouch-viewer.css"]', 'href', '/assets/3d/pouch-viewer.css?v=touch');
   set('footer[class*="00cfca"]', 'data-storefront-footer', '');
-  if (path === '/markets') set('script[src="/assets/client-design/markets.js"]', 'src', '/assets/client-design/market-browser.js');
+  set('script[src="/assets/client-design/packaging.js?shell=1"]', 'src', '/assets/client-design/packaging.js?v=card-links');
+  if (path === '/markets') set('script[src="/assets/client-design/markets.js"]', 'src', '/assets/client-design/market-browser.js?v=card-links');
   if (/^\/(?:markets|products)\/[^/]+$/.test(path) || path === '/10-design-tips-for-maximum-shelf-impact') {
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/related-content.css">', { html: true }));
   }
@@ -337,6 +341,14 @@ export async function connectStorefront(request, response, database, projectUrl,
       el.replace(renderProductNextStep(context), { html: true });
     });
     on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/product-next-step.css">', { html: true }));
+  }
+  if (pageType === 'category' && categorySlug) {
+    const formatQuery = '?format=' + encodeURIComponent(categorySlug);
+    set('main .mewepak-booking-card__footer a[href="/contact/"]', 'href', '/booking/' + formatQuery);
+    on('main .mewepak-eco-samples__sample-copy a[href="/contact/"]', (el) => {
+      el.setAttribute('href', '/solutions/sample-kit/' + formatQuery + '#request');
+      el.setInnerContent('Request samples');
+    });
   }
   let themedMain = false;
   let bodyClass = '';
@@ -357,7 +369,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append(headerActionsAssets + compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=format-samples"><script src="/assets/3d/pouch-interactive.js?v=localized-tools" defer></script>', { html: true }));
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=format-samples"><script src="/assets/3d/pouch-interactive.js?v=same-format" defer></script>', { html: true }));
     const formatsSection = homeFormatSection(url.searchParams.get('format-color'));
     on('#mw-markets', (el) => el.after(formatsSection, { html: true }));
     on('#mw-sustainability', (el) => el.remove());

@@ -67,7 +67,7 @@
   outline: 2px solid var(--dg-green);
   outline-offset: 3px;
 }
-.design-page :is(#project-gallery, #design-resources, #design-help, #designer-network, #dg-request-type) {
+.design-page :is(#project-gallery, #design-resources, #design-help, #designer-network, #dg-request-type, .dg-project-card) {
   scroll-margin-top: calc(var(--mw-compact-header-height, 64px) + 18px);
 }
 .design-page .dg-arrow { display: inline-block; vertical-align: middle; }
@@ -289,7 +289,7 @@
   gap: 17px;
 }
 .design-page .dg-projects article { min-width: 0; }
-.design-page .dg-project-link {
+.design-page .dg-project-card {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -298,15 +298,15 @@
   border-radius: 13px;
   background: #fff;
 }
-.design-page .dg-project-link:hover { border-color: #9bbcac; }
-.design-page .dg-card-image { position: relative; background: var(--dg-surface); }
+.design-page .dg-project-card:hover { border-color: #9bbcac; }
+.design-page .dg-card-image { display: block; width: 100%; padding: 0; border: 0; background: var(--dg-surface); }
 .design-page .dg-card-image img {
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
-.design-page .dg-card-image > span {
+.design-page .dg-card-image > .dg-zoom-icon {
   position: absolute;
   right: 10px;
   bottom: 10px;
@@ -334,49 +334,26 @@
 .design-page .dg-card-copy p { margin: 0; color: var(--dg-muted); font-size: 12px; }
 .design-page .dg-more { margin-top: 22px; text-align: center; }
 
-.design-page .dg-dialog {
-  width: min(1020px, calc(100% - 28px));
-  max-height: calc(100% - 30px);
-  padding: 0;
-  border: 1px solid var(--dg-line);
-  border-radius: 15px;
-  background: #fff;
-  color: var(--dg-ink);
+.design-page .dg-card-details {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--dg-muted);
 }
-.design-page .dg-dialog::backdrop { background: #091d1bba; }
-.design-page .dg-dialog-content {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  align-items: center;
-}
-.design-page .dg-dialog-close {
-  position: absolute;
-  z-index: 1;
-  top: 10px;
-  right: 10px;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--dg-line);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--dg-deep);
-  font-size: 24px;
+.design-page .dg-card-details summary {
+  padding-block: 5px;
   cursor: pointer;
 }
-.design-page .dg-dialog-image {
-  display: grid;
-  place-items: center;
-  min-width: 0;
-  background: #edf2e9;
+.design-page .dg-card-details p { margin: 4px 0 8px; }
+.design-page .dg-card-details a,
+.design-page .dg-use-reference { color: var(--dg-green); text-decoration: underline; text-underline-offset: 2px; }
+.design-page .dg-use-reference {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  font-size: 12px;
+  font-weight: 700;
 }
-.design-page .dg-dialog-image img { width: 100%; max-height: 75vh; object-fit: contain; }
-.design-page .dg-dialog-copy { padding: 50px 25px 30px; }
-.design-page .dg-dialog-copy h2 { margin: 0 0 7px; font-size: clamp(25px, 3vw, 37px); letter-spacing: -.035em; line-height: 1.08; }
-.design-page .dg-dialog-copy .dg-dialog-format { margin: 0 0 11px; color: var(--dg-green); font-size: 12px; font-weight: 700; }
-.design-page .dg-dialog-copy #dg-dialog-note { margin: 0 0 17px; color: var(--dg-muted); }
 
 .design-page .dg-resources { border-block: 1px solid var(--dg-line); background: var(--dg-surface); }
 .design-page .dg-resource-grid {
@@ -515,9 +492,6 @@
   .design-page .dg-hero-images { height: clamp(215px, 55vw, 370px); }
   .design-page .dg-projects { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
   #mewepak-gallery-design .dg-section-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .design-page .dg-dialog-content { grid-template-columns: 1fr; }
-  .design-page .dg-dialog-image img { max-height: 51vh; }
-  .design-page .dg-dialog-copy { padding: 16px 18px 20px; }
   .design-page .dg-form :is(input, select, textarea) { font-size: 16px; }
 }
 @media (max-width: 480px) {
@@ -527,6 +501,6 @@
   .design-page .dg-card-copy { padding: 9px 9px 10px; }
   .design-page .dg-card-copy h3 { font-size: 14px; }
   .design-page .dg-card-market { font-size: 9px; }
-  .design-page .dg-card-image > span { width: 26px; height: 26px; bottom: 6px; right: 6px; font-size: 14px; }
+  .design-page .dg-card-image > .dg-zoom-icon { width: 26px; height: 26px; bottom: 6px; right: 6px; font-size: 14px; }
   .design-page :is(.dg-resource-grid, .dg-network-grid, .dg-form) { grid-template-columns: 1fr; }
 }

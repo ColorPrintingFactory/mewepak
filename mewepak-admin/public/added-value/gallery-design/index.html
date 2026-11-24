@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="/assets/original/tailwind.css">
   <link rel="stylesheet" href="/assets/original/custom.css">
   <link rel="stylesheet" href="/assets/site.css">
-  <link rel="stylesheet" href="/assets/client-design/gallery-design.css?v=original">
+  <link rel="stylesheet" href="/assets/client-design/gallery-design.css?v=inline-zoom">
+  <link rel="stylesheet" href="/assets/image-magnifier.css">
 </head>
 <body>
   <a class="sr-only focus:not-sr-only" href="#project-gallery">Skip to project gallery</a>
@@ -33,15 +34,15 @@
             </div>
           </div>
           <div class="dg-hero-images" aria-label="Featured packaging concepts">
-            <a class="dg-hero-tile" href="/assets/client-design/gallery-design/gallery/strawberry-matcha.webp" data-project="strawberry-matcha" download="strawberry-matcha.webp" aria-label="View featured Strawberry Matcha concept">
+            <a class="dg-hero-tile" href="#dg-strawberry-matcha" aria-label="View featured Strawberry Matcha concept">
               <img src="/assets/client-design/gallery-design/gallery/strawberry-matcha-thumb.webp" width="512" height="640" alt="Front and back of the Strawberry Matcha packaging concept" decoding="async" fetchpriority="high">
               <span>Strawberry Matcha</span>
             </a>
-            <a class="dg-hero-tile" href="/assets/client-design/gallery-design/gallery/shrimp.webp" data-project="shrimp" download="shrimp.webp" aria-label="View featured Frozen Shrimp concept">
+            <a class="dg-hero-tile" href="#dg-shrimp" aria-label="View featured Frozen Shrimp concept">
               <img src="/assets/client-design/gallery-design/gallery/shrimp-thumb.webp" width="640" height="480" alt="Front and back of the Frozen Shrimp packaging concept" decoding="async" loading="lazy">
               <span>Frozen Shrimp</span>
             </a>
-            <a class="dg-hero-tile" href="/assets/client-design/gallery-design/gallery/turkey-cheese.webp" data-project="turkey-cheese" download="turkey-cheese.webp" aria-label="View featured Turkey &amp; Cheese concept">
+            <a class="dg-hero-tile" href="#dg-turkey-cheese" aria-label="View featured Turkey &amp; Cheese concept">
               <img src="/assets/client-design/gallery-design/gallery/turkey-cheese-thumb.webp" width="640" height="480" alt="Front and back of the Turkey &amp; Cheese packaging concept" decoding="async" loading="lazy">
               <span>Turkey &amp; Cheese</span>
             </a>
@@ -61,7 +62,7 @@
               <p class="dg-eyebrow">Packaging across markets</p>
               <h2 id="dg-gallery-title">Projects and inspiration</h2>
             </div>
-            <p>Find ideas for your category, from a clear product window to a bolder front panel. Open any concept to see the full artwork view.</p>
+            <p>Find ideas for your category, from a clear product window to a bolder front panel. Hover over or tap a photo to see the artwork up close.</p>
           </div>
           <div class="dg-filter-row" id="dg-filter-row" hidden>
             <div class="dg-filters" role="group" aria-label="Filter packaging concepts by market">
@@ -76,226 +77,331 @@
             <p class="dg-result-count" id="dg-result-count" aria-live="polite"></p>
           </div>
           <div class="dg-projects" id="dg-projects">
-            <article id="dg-strawberry-matcha" data-gallery-card data-market="tea-wellness" data-format="Stand-up pouch" data-note="A green-to-red palette and large serif type connect the flavour to the front panel.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/strawberry-matcha.webp" data-project="strawberry-matcha" download="strawberry-matcha.webp" aria-label="View Strawberry Matcha packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/strawberry-matcha-thumb.webp" width="512" height="640" alt="Front and back of the Strawberry Matcha packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-strawberry-matcha" class="dg-project-card" data-gallery-card data-market="tea-wellness">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/strawberry-matcha.webp" aria-label="Zoom Strawberry Matcha packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/strawberry-matcha-thumb.webp" width="512" height="640" alt="Front and back of the Strawberry Matcha packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Tea &amp; Wellness</span>
                   <h3>Strawberry Matcha</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A green-to-red palette and large serif type connect the flavour to the front panel.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/strawberry-matcha.webp" download="strawberry-matcha.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-shrimp" data-gallery-card data-market="seafood" data-format="Stand-up pouch" data-note="Blue and white frame the seafood imagery, with a separate back panel for product information.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/shrimp.webp" data-project="shrimp" download="shrimp.webp" aria-label="View Frozen Shrimp packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/shrimp-thumb.webp" width="640" height="480" alt="Front and back of the Frozen Shrimp packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-shrimp" class="dg-project-card" data-gallery-card data-market="seafood">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/shrimp.webp" aria-label="Zoom Frozen Shrimp packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/shrimp-thumb.webp" width="640" height="480" alt="Front and back of the Frozen Shrimp packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Seafood</span>
                   <h3>Frozen Shrimp</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Blue and white frame the seafood imagery, with a separate back panel for product information.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/shrimp.webp" download="shrimp.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-turkey-cheese" data-gallery-card data-market="pet-care" data-format="Stand-up pouch" data-note="A warm pink and burgundy palette pairs with a pet portrait to give the pack a friendly character.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/turkey-cheese.webp" data-project="turkey-cheese" download="turkey-cheese.webp" aria-label="View Turkey &amp; Cheese packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/turkey-cheese-thumb.webp" width="640" height="480" alt="Front and back of the Turkey &amp; Cheese packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-turkey-cheese" class="dg-project-card" data-gallery-card data-market="pet-care">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/turkey-cheese.webp" aria-label="Zoom Turkey &amp; Cheese packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/turkey-cheese-thumb.webp" width="640" height="480" alt="Front and back of the Turkey &amp; Cheese packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Pet Care</span>
                   <h3>Turkey &amp; Cheese</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A warm pink and burgundy palette pairs with a pet portrait to give the pack a friendly character.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/turkey-cheese.webp" download="turkey-cheese.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-cookie-dough" data-gallery-card data-market="snacks-pantry" data-format="Pillow pack" data-note="Warm orange and cocoa tones frame the cookie image and make the flavour easy to spot.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/cookie-dough.webp" data-project="cookie-dough" download="cookie-dough.webp" aria-label="View Chocolate Chip Cookie Dough packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/cookie-dough-thumb.webp" width="512" height="640" alt="Front and back of the Chocolate Chip Cookie Dough packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-cookie-dough" class="dg-project-card" data-gallery-card data-market="snacks-pantry">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/cookie-dough.webp" aria-label="Zoom Chocolate Chip Cookie Dough packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/cookie-dough-thumb.webp" width="512" height="640" alt="Front and back of the Chocolate Chip Cookie Dough packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Snacks &amp; Pantry</span>
                   <h3>Chocolate Chip Cookie Dough</h3>
                   <p>Pillow pack</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Warm orange and cocoa tones frame the cookie image and make the flavour easy to spot.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/cookie-dough.webp" download="cookie-dough.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-pure-hydra" data-gallery-card data-market="beauty-care" data-format="Clear stand-up pouch" data-note="The transparent pack makes the blue crystals part of the design, with a round label framing the name.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/pure-hydra.webp" data-project="pure-hydra" download="pure-hydra.webp" aria-label="View Pure Hydra Body Soak packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/pure-hydra-thumb.webp" width="512" height="640" alt="Front and back of the Pure Hydra Body Soak packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-pure-hydra" class="dg-project-card" data-gallery-card data-market="beauty-care">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/pure-hydra.webp" aria-label="Zoom Pure Hydra Body Soak packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/pure-hydra-thumb.webp" width="512" height="640" alt="Front and back of the Pure Hydra Body Soak packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Beauty &amp; Care</span>
                   <h3>Pure Hydra Body Soak</h3>
                   <p>Clear stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>The transparent pack makes the blue crystals part of the design, with a round label framing the name.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/pure-hydra.webp" download="pure-hydra.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-chicken-momos" data-gallery-card data-market="frozen-food" data-format="Stand-up pouch" data-note="A lime panel against teal keeps the product name prominent above the serving image.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/chicken-momos.webp" data-project="chicken-momos" download="chicken-momos.webp" aria-label="View Chicken Momos packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/chicken-momos-thumb.webp" width="512" height="640" alt="Front and back of the Chicken Momos packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-chicken-momos" class="dg-project-card" data-gallery-card data-market="frozen-food">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/chicken-momos.webp" aria-label="Zoom Chicken Momos packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/chicken-momos-thumb.webp" width="512" height="640" alt="Front and back of the Chicken Momos packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Frozen Food</span>
                   <h3>Chicken Momos</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A lime panel against teal keeps the product name prominent above the serving image.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/chicken-momos.webp" download="chicken-momos.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-anchovy-snack" data-gallery-card data-market="seafood" data-format="Window pouch" data-note="Red and gold details frame a generous window that puts the product in view.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/anchovy-snack.webp" data-project="anchovy-snack" download="anchovy-snack.webp" aria-label="View Crispy Anchovy Snack packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/anchovy-snack-thumb.webp" width="640" height="480" alt="Front and back of the Crispy Anchovy Snack packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-anchovy-snack" class="dg-project-card" data-gallery-card data-market="seafood">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/anchovy-snack.webp" aria-label="Zoom Crispy Anchovy Snack packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/anchovy-snack-thumb.webp" width="640" height="480" alt="Front and back of the Crispy Anchovy Snack packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Seafood</span>
                   <h3>Crispy Anchovy Snack</h3>
                   <p>Window pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Red and gold details frame a generous window that puts the product in view.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/anchovy-snack.webp" download="anchovy-snack.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-dried-sea-moss" data-gallery-card data-market="tea-wellness" data-format="Window pouch" data-note="An ocean-inspired palette and a circular window give the dry product a clear place in the design.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/dried-sea-moss.webp" data-project="dried-sea-moss" download="dried-sea-moss.webp" aria-label="View Dried Sea Moss packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/dried-sea-moss-thumb.webp" width="512" height="640" alt="Front and back of the Dried Sea Moss packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-dried-sea-moss" class="dg-project-card" data-gallery-card data-market="tea-wellness">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/dried-sea-moss.webp" aria-label="Zoom Dried Sea Moss packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/dried-sea-moss-thumb.webp" width="512" height="640" alt="Front and back of the Dried Sea Moss packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Tea &amp; Wellness</span>
                   <h3>Dried Sea Moss</h3>
                   <p>Window pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>An ocean-inspired palette and a circular window give the dry product a clear place in the design.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/dried-sea-moss.webp" download="dried-sea-moss.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-puppy-development" data-gallery-card data-market="pet-care" data-format="Stand-up pouch" data-note="A restrained red-and-white palette and a simple line illustration lead the front panel.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/puppy-development.webp" data-project="puppy-development" download="puppy-development.webp" aria-label="View Puppy Development packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/puppy-development-thumb.webp" width="512" height="640" alt="Front and back of the Puppy Development packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-puppy-development" class="dg-project-card" data-gallery-card data-market="pet-care">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/puppy-development.webp" aria-label="Zoom Puppy Development packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/puppy-development-thumb.webp" width="512" height="640" alt="Front and back of the Puppy Development packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Pet Care</span>
                   <h3>Puppy Development</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A restrained red-and-white palette and a simple line illustration lead the front panel.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/puppy-development.webp" download="puppy-development.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-sourdough-croutons" data-gallery-card data-market="snacks-pantry" data-format="Stand-up pouch" data-note="Bread textures, purple accents and serving ideas create a different role for each side of the pouch.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/sourdough-croutons.webp" data-project="sourdough-croutons" download="sourdough-croutons.webp" aria-label="View Sourdough Croutons packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/sourdough-croutons-thumb.webp" width="512" height="640" alt="Front and back of the Sourdough Croutons packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-sourdough-croutons" class="dg-project-card" data-gallery-card data-market="snacks-pantry">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/sourdough-croutons.webp" aria-label="Zoom Sourdough Croutons packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/sourdough-croutons-thumb.webp" width="512" height="640" alt="Front and back of the Sourdough Croutons packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Snacks &amp; Pantry</span>
                   <h3>Sourdough Croutons</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Bread textures, purple accents and serving ideas create a different role for each side of the pouch.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/sourdough-croutons.webp" download="sourdough-croutons.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-frozen-lasagna" data-gallery-card data-market="frozen-food" data-format="Stand-up pouch" data-note="A dark green header and gold trim frame the front image, with a white information panel on the back.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/frozen-lasagna.webp" data-project="frozen-lasagna" download="frozen-lasagna.webp" aria-label="View Frozen Lasagna packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/frozen-lasagna-thumb.webp" width="512" height="640" alt="Front and back of the Frozen Lasagna packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-frozen-lasagna" class="dg-project-card" data-gallery-card data-market="frozen-food">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/frozen-lasagna.webp" aria-label="Zoom Frozen Lasagna packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/frozen-lasagna-thumb.webp" width="512" height="640" alt="Front and back of the Frozen Lasagna packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Frozen Food</span>
                   <h3>Frozen Lasagna</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A dark green header and gold trim frame the front image, with a white information panel on the back.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/frozen-lasagna.webp" download="frozen-lasagna.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-face-serum" data-gallery-card data-market="beauty-care" data-format="Stand-up pouch" data-note="Fine botanical linework and gold accents soften the deep burgundy design.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/face-serum.webp" data-project="face-serum" download="face-serum.webp" aria-label="View Luxe Face Serum packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/face-serum-thumb.webp" width="640" height="480" alt="Front and back of the Luxe Face Serum packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-face-serum" class="dg-project-card" data-gallery-card data-market="beauty-care">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/face-serum.webp" aria-label="Zoom Luxe Face Serum packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/face-serum-thumb.webp" width="640" height="480" alt="Front and back of the Luxe Face Serum packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Beauty &amp; Care</span>
                   <h3>Luxe Face Serum</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Fine botanical linework and gold accents soften the deep burgundy design.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/face-serum.webp" download="face-serum.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-tilapia-fillet" data-gallery-card data-market="seafood" data-format="Window pouch" data-note="An aqua panel sits alongside a clear section, balancing product visibility with a bold name.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/tilapia-fillet.webp" data-project="tilapia-fillet" download="tilapia-fillet.webp" aria-label="View Tilapia Fillet packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/tilapia-fillet-thumb.webp" width="640" height="480" alt="Front and back of the Tilapia Fillet packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-tilapia-fillet" class="dg-project-card" data-gallery-card data-market="seafood">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/tilapia-fillet.webp" aria-label="Zoom Tilapia Fillet packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/tilapia-fillet-thumb.webp" width="640" height="480" alt="Front and back of the Tilapia Fillet packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Seafood</span>
                   <h3>Tilapia Fillet</h3>
                   <p>Window pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>An aqua panel sits alongside a clear section, balancing product visibility with a bold name.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/tilapia-fillet.webp" download="tilapia-fillet.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-orange-biscuits" data-gallery-card data-market="snacks-pantry" data-format="Stand-up pouch" data-note="Citrus accents and biscuit photography carry the flavour across both sides of the pack.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/orange-biscuits.webp" data-project="orange-biscuits" download="orange-biscuits.webp" aria-label="View Orange Biscuits packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/orange-biscuits-thumb.webp" width="512" height="640" alt="Front and back of the Orange Biscuits packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-orange-biscuits" class="dg-project-card" data-gallery-card data-market="snacks-pantry">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/orange-biscuits.webp" aria-label="Zoom Orange Biscuits packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/orange-biscuits-thumb.webp" width="512" height="640" alt="Front and back of the Orange Biscuits packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Snacks &amp; Pantry</span>
                   <h3>Orange Biscuits</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Citrus accents and biscuit photography carry the flavour across both sides of the pack.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/orange-biscuits.webp" download="orange-biscuits.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-mixed-vegetables" data-gallery-card data-market="frozen-food" data-format="Pillow pack" data-note="Icy blues set the scene and give the bright vegetable photography a strong contrast.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/mixed-vegetables.webp" data-project="mixed-vegetables" download="mixed-vegetables.webp" aria-label="View Mixed Vegetables packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/mixed-vegetables-thumb.webp" width="640" height="427" alt="Front and back of the Mixed Vegetables packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-mixed-vegetables" class="dg-project-card" data-gallery-card data-market="frozen-food">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/mixed-vegetables.webp" aria-label="Zoom Mixed Vegetables packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/mixed-vegetables-thumb.webp" width="640" height="427" alt="Front and back of the Mixed Vegetables packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Frozen Food</span>
                   <h3>Mixed Vegetables</h3>
                   <p>Pillow pack</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Icy blues set the scene and give the bright vegetable photography a strong contrast.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/mixed-vegetables.webp" download="mixed-vegetables.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-fresh-mutton" data-gallery-card data-market="pet-care" data-format="Stand-up pouch" data-note="A red print field and high-contrast type keep the front panel focused on the product name.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/fresh-mutton.webp" data-project="fresh-mutton" download="fresh-mutton.webp" aria-label="View Fresh Mutton packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/fresh-mutton-thumb.webp" width="512" height="640" alt="Front and back of the Fresh Mutton packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-fresh-mutton" class="dg-project-card" data-gallery-card data-market="pet-care">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/fresh-mutton.webp" aria-label="Zoom Fresh Mutton packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/fresh-mutton-thumb.webp" width="512" height="640" alt="Front and back of the Fresh Mutton packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Pet Care</span>
                   <h3>Fresh Mutton</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A red print field and high-contrast type keep the front panel focused on the product name.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/fresh-mutton.webp" download="fresh-mutton.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-personal-care" data-gallery-card data-market="beauty-care" data-format="Stand-up pouch" data-note="Soft aqua, peach and botanical details create a calm, light look for personal care packaging.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/personal-care.webp" data-project="personal-care" download="personal-care.webp" aria-label="View Beauty &amp; Personal Care packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/personal-care-thumb.webp" width="512" height="640" alt="Front and back of the Beauty &amp; Personal Care packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-personal-care" class="dg-project-card" data-gallery-card data-market="beauty-care">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/personal-care.webp" aria-label="Zoom Beauty &amp; Personal Care packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/personal-care-thumb.webp" width="512" height="640" alt="Front and back of the Beauty &amp; Personal Care packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Beauty &amp; Care</span>
                   <h3>Beauty &amp; Personal Care</h3>
                   <p>Stand-up pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Soft aqua, peach and botanical details create a calm, light look for personal care packaging.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/personal-care.webp" download="personal-care.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-bacon-pieces" data-gallery-card data-market="snacks-pantry" data-format="Window pouch" data-note="Orange type and an outlined window stand out against a charcoal base.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/bacon-pieces.webp" data-project="bacon-pieces" download="bacon-pieces.webp" aria-label="View Bacon Pieces packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/bacon-pieces-thumb.webp" width="640" height="480" alt="Front and back of the Bacon Pieces packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-bacon-pieces" class="dg-project-card" data-gallery-card data-market="snacks-pantry">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/bacon-pieces.webp" aria-label="Zoom Bacon Pieces packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/bacon-pieces-thumb.webp" width="640" height="480" alt="Front and back of the Bacon Pieces packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Snacks &amp; Pantry</span>
                   <h3>Bacon Pieces</h3>
                   <p>Window pouch</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Orange type and an outlined window stand out against a charcoal base.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/bacon-pieces.webp" download="bacon-pieces.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-salmon-skin" data-gallery-card data-market="seafood" data-format="Pillow pack" data-note="A green print field and wave-shaped graphics tie the front and back panels together.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/salmon-skin.webp" data-project="salmon-skin" download="salmon-skin.webp" aria-label="View Crispy Salmon Skin packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/salmon-skin-thumb.webp" width="640" height="427" alt="Front and back of the Crispy Salmon Skin packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-salmon-skin" class="dg-project-card" data-gallery-card data-market="seafood">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/salmon-skin.webp" aria-label="Zoom Crispy Salmon Skin packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/salmon-skin-thumb.webp" width="640" height="427" alt="Front and back of the Crispy Salmon Skin packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Seafood</span>
                   <h3>Crispy Salmon Skin</h3>
                   <p>Pillow pack</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>A green print field and wave-shaped graphics tie the front and back panels together.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/salmon-skin.webp" download="salmon-skin.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
-            <article id="dg-mutter-paneer" data-gallery-card data-market="snacks-pantry" data-format="Pillow pack" data-note="Yellow and green set off the dish photography and give the front panel a warm, bold identity.">
-              <a class="dg-project-link" href="/assets/client-design/gallery-design/gallery/mutter-paneer.webp" data-project="mutter-paneer" download="mutter-paneer.webp" aria-label="View Mutter Paneer Spice Mix packaging concept">
-                <div class="dg-card-image"><img src="/assets/client-design/gallery-design/gallery/mutter-paneer-thumb.webp" width="512" height="640" alt="Front and back of the Mutter Paneer Spice Mix packaging concept" decoding="async" loading="lazy"><span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></div>
-                <div class="dg-card-copy">
+            <article id="dg-mutter-paneer" class="dg-project-card" data-gallery-card data-market="snacks-pantry">
+              <button type="button" class="dg-card-image image-magnifier" data-zoom-source="/assets/client-design/gallery-design/gallery/mutter-paneer.webp" aria-label="Zoom Mutter Paneer Spice Mix packaging concept" aria-pressed="false">
+                <img src="/assets/client-design/gallery-design/gallery/mutter-paneer-thumb.webp" width="512" height="640" alt="Front and back of the Mutter Paneer Spice Mix packaging concept" decoding="async" loading="lazy"><span class="dg-zoom-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="dg-card-copy">
                   <span class="dg-card-market">Snacks &amp; Pantry</span>
                   <h3>Mutter Paneer Spice Mix</h3>
                   <p>Pillow pack</p>
-                </div>
-              </a>
+                  <details class="dg-card-details">
+                  <summary>Concept details</summary>
+                  <p>Yellow and green set off the dish photography and give the front panel a warm, bold identity.</p>
+                  <a href="/assets/client-design/gallery-design/gallery/mutter-paneer.webp" download="mutter-paneer.webp">Download image</a>
+                </details>
+                <a class="dg-use-reference" href="#design-help" data-use-reference>Use as inspiration <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
           </div>
           <div class="dg-more" id="dg-more" hidden>
             <button class="dg-button dg-button-outline" id="dg-show-more" type="button">Show more concepts <span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"></path></svg></span></button>
           </div>
 
-          <dialog class="dg-dialog" id="dg-project-dialog" aria-labelledby="dg-dialog-title" aria-describedby="dg-dialog-note">
-            <div class="dg-dialog-content">
-              <form method="dialog">
-                <button class="dg-dialog-close" type="submit" aria-label="Close packaging concept" autofocus>×</button>
-              </form>
-              <div class="dg-dialog-image"><img id="dg-dialog-photo" alt=""></div>
-              <div class="dg-dialog-copy">
-                <p class="dg-eyebrow" id="dg-dialog-market"></p>
-                <h2 id="dg-dialog-title"></h2>
-                <p class="dg-dialog-format" id="dg-dialog-format"></p>
-                <p id="dg-dialog-note"></p>
-                <a class="dg-button" id="dg-use-reference" href="#design-help">Use as inspiration <span aria-hidden="true"><svg class="dg-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></span></a>
-              </div>
-            </div>
-          </dialog>
         </section>
 
         <section class="dg-resources" id="design-resources" aria-labelledby="dg-resources-title">
@@ -413,6 +519,7 @@
   <script src="/assets/original/runtime-data.js" defer></script>
   <script src="/api/frontend-navigation" defer></script>
   <script src="/assets/original/main.js" defer></script>
-  <script src="/assets/client-design/gallery-design/design.js" defer></script>
+  <script src="/assets/client-design/gallery-design/design.js?v=featured-links" defer></script>
+  <script type="module" src="/assets/image-magnifier.js"></script>
 </body>
 </html>

@@ -29,11 +29,20 @@
       updateGallery();
     });
   }
+  for (const link of page.querySelectorAll('.dg-hero-tile')) {
+    link.addEventListener('click', () => {
+      const card = document.getElementById(link.hash.slice(1));
+      if (!card?.hidden) return;
+      market = 'all';
+      limit = pageSize;
+      updateGallery();
+    });
+  }
   page.querySelector('#dg-show-more').addEventListener('click', () => {
     const previousLimit = limit;
     limit += pageSize;
     const visible = updateGallery();
-    visible[previousLimit]?.querySelector('a').focus();
+    visible[previousLimit]?.querySelector('.image-magnifier').focus();
   });
   page.querySelector('#dg-filter-row').hidden = false;
   updateGallery();
@@ -86,29 +95,12 @@
   });
   form.hidden = false;
 
-  const dialog = page.querySelector('#dg-project-dialog');
-  const dialogTitle = page.querySelector('#dg-dialog-title');
-  const dialogPhoto = page.querySelector('#dg-dialog-photo');
-  if (typeof dialog.showModal === 'function') {
-    for (const link of page.querySelectorAll('[data-project]')) {
-      link.setAttribute('aria-haspopup', 'dialog');
-      link.addEventListener('click', (event) => {
-        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        const card = document.getElementById(`dg-${link.dataset.project}`);
-        event.preventDefault();
-        dialogTitle.textContent = card.querySelector('h3').textContent;
-        dialogPhoto.src = card.querySelector('a').href;
-        dialogPhoto.alt = card.querySelector('img').alt;
-        page.querySelector('#dg-dialog-market').textContent = card.querySelector('.dg-card-market').textContent;
-        page.querySelector('#dg-dialog-format').textContent = card.dataset.format;
-        page.querySelector('#dg-dialog-note').textContent = card.dataset.note;
-        dialog.showModal();
-      });
-    }
-    page.querySelector('#dg-use-reference').addEventListener('click', () => {
-      reference.value = dialogTitle.textContent;
+  for (const link of page.querySelectorAll('[data-use-reference]')) {
+    link.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      reference.value = link.closest('[data-gallery-card]').querySelector('h3').textContent;
       clearDraft();
-      dialog.close();
+      requestAnimationFrame(() => reference.focus({ preventScroll: true }));
     });
   }
 })();

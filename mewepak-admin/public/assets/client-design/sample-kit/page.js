@@ -14,6 +14,15 @@ import { toolText } from '../../tool-language.js';
   const email = document.body.dataset.mewepakContactEmail || 'sales@mewepak.com';
   const sendForm = page.querySelector('#sample-send');
   const scrollBehavior = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  const formatsBySlug = new Map([
+    ['stand-up-pouch', 'Stand-up pouches'],
+    ['flat-bottom-pouch', 'Flat-bottom pouches'],
+    ['flat-pouch', 'Flat pouches'],
+    ['roll-stock-films', 'Rollstock'],
+  ]);
+  const requestedFormat = formatsBySlug.get(new URLSearchParams(location.search).get('format'));
+  const matchingInput = formatInputs.find(input => input.value === requestedFormat);
+  if (matchingInput) matchingInput.checked = true;
   let brief = '';
 
   function syncFormats() {

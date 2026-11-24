@@ -11,7 +11,7 @@
  formats = await window.mewepakClient.catalogue(formats);
  const cards=formats.map((format,index)=>{
   const card=element('article','pk-card');card.dataset.format=format.id;
-  const media=element('button','pk-card-media'+(format.original?' pk-original':''));media.type='button';media.dataset.detail=format.id;media.setAttribute('aria-label','Explore '+format.name);
+  const media=element('a','pk-card-media'+(format.original?' pk-original':''));media.href='/products/'+encodeURIComponent(format.slug)+'/';media.setAttribute('aria-label','View format page: '+format.name);
   const image=element('img');if (format.image) image.dataset.asset=format.image; else image.src=window.mewepakClient.formatImage(format, assets); image.loading='lazy';image.alt=format.alt;image.width=600;image.height=450;media.append(image,element('span','pk-card-number',String(index+1).padStart(2,'0')));
   const copy=element('div','pk-card-copy');copy.append(element('p','pk-card-kicker',format.kicker),element('h3','',format.name),element('p','pk-card-summary',format.summary));
   const formatIcon = window.mewepakClient.formatIcon(format.slug);

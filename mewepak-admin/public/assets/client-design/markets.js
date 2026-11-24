@@ -7,10 +7,15 @@
  const filters=[...root.querySelectorAll('[data-filter]')];
  const help=root.querySelector('#mk-library-help');
  let activeFilter='all',selectedMarket=null;
+ const marketPages = {
+  coffee: 'coffee-tea', snacks: 'snacks-sweets', supplement: 'supplement', pet: 'pet-food',
+  sauce: 'sauce-soup', baby: 'baby-food', beverage: 'beverage', frozen: 'frozen-food',
+  home: 'home-care', produce: 'fruits-veggies',
+ };
  function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
  const cards=markets.map((market,index)=>{
   const card=el('article','mk-card');card.dataset.market=market.id;
-  const photo=el('button','mk-card-photo');photo.type='button';photo.dataset.marketDetail=market.id;photo.setAttribute('aria-label','Explore '+market.name);
+  const photo=el('a','mk-card-photo');photo.href='/markets/'+marketPages[market.id]+'/';photo.setAttribute('aria-label','View market page: '+market.name);
   const image=el('img');image.dataset.asset=market.image;image.alt=market.name+' illustrative packaging scene';image.width=850;image.height=850;photo.append(image,el('span','mk-card-number',String(index+1).padStart(2,'0')));
   const copy=el('div','mk-card-copy');copy.append(el('p','mk-card-kicker',market.kicker));
   const title=el('div','mk-card-title'),icon=el('img','mk-card-icon');icon.dataset.asset=market.icon;icon.alt='';icon.setAttribute('aria-hidden','true');icon.width=38;icon.height=38;title.append(icon,el('h3','',market.name));copy.append(title,el('p','mk-card-description',market.summary));
@@ -35,11 +40,6 @@
  root.querySelectorAll('[data-sector]').forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.sector;search.value='';apply();scrollToSection('#markets');}));
  apply();
  const dialog=root.querySelector('#mk-market-dialog'),form=root.querySelector('#mk-enquiry-form'),review=root.querySelector('#mk-review');
- const marketPages = {
-  coffee: 'coffee-tea', snacks: 'snacks-sweets', supplement: 'supplement', pet: 'pet-food',
-  sauce: 'sauce-soup', baby: 'baby-food', beverage: 'beverage', frozen: 'frozen-food',
-  home: 'home-care', produce: 'fruits-veggies',
- };
  const dialogScroll = root.querySelector('.mk-dialog-scroll');
  const viewMarket = root.querySelector('#mk-view-market');
  let trigger = null;
