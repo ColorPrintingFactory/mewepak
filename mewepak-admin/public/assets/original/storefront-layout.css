@@ -19,6 +19,12 @@ dialog:modal {
   margin: auto;
 }
 
+.storefront-search h1 { overflow-wrap: anywhere; }
+.storefront-search form { display: flex; gap: 8px; max-width: 36rem; margin-block: 20px; }
+.storefront-search input { flex: 1 1 12rem; min-width: 0; min-height: 44px; padding-inline: 12px; border: 1px solid #9aafaa; border-radius: 5px; }
+.storefront-search button { padding-inline: 14px; border-radius: 5px; background: #102b35; color: #fff; }
+.storefront-search > a { display: inline-block; margin-block-start: 12px; text-decoration: underline; color: #00655f; }
+
 #mewepak-homepage main[data-client-page] {
   color: var(--chrome-deep);
   font-family: var(--chrome-font);

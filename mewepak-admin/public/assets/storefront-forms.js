@@ -71,11 +71,12 @@
     }
     async function submit() {
       if (!token || sending) return;
-      if (form.closest('[hidden]') || !form.reportValidity()) {
+      if (form.closest('[hidden], dialog:not([open])') || !form.reportValidity()) {
         pending = false;
         token = '';
         button.disabled = false;
         if (widget !== undefined) window.turnstile.reset(widget);
+        verification.hidden = true;
         return;
       }
       sending = true;
@@ -131,7 +132,8 @@
           show(formChecking || 'Loading verification…');
           const sitekey = await loadProtection();
           widget = window.turnstile.render(verification, {
-            sitekey, action: type, size: 'flexible', execution: 'execute', ...(locale ? { language: locale } : {}),
+            sitekey, action: type, size: verification.clientWidth < 300 ? 'compact' : 'flexible',
+            execution: 'execute', ...(locale ? { language: locale } : {}),
             appearance: 'interaction-only', retry: 'never',
             callback: (value) => {
               if (!pending || sending) return;

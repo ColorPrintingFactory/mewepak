@@ -2,6 +2,7 @@ import ui from './i18n/ui.json' with { type: 'json' };
 import { compactHeaderAssets } from './compact-header.js';
 import { headerActionsAssets, renderHeaderActions } from './header-actions.js';
 import { siteIcons } from './site-icons.js';
+import { notFoundPage } from './not-found.js';
 import bookingUi from './i18n/booking.json' with { type: 'json' };
 import pages from './i18n/pages.json' with { type: 'json' };
 import formatsCopy from './i18n/formats.json' with { type: 'json' };
@@ -237,11 +238,11 @@ function pageMarkup({ path, lang, available, origin, url, settings, production }
 <title>${escape(metaTitle)}</title><meta name="description" content="${escape(lead)}">
 <link rel="canonical" href="${escape(canonical)}">${query ? '' : alternateTags(path,origin)}
 <meta name="robots" content="${showIndex ? 'index,follow,max-image-preview:large' : 'noindex,follow'}">
-${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=shared-nav">
+${siteIcons}<link rel="stylesheet" href="/assets/language-switch.css?v=1"><link rel="stylesheet" href="/assets/localized-storefront.css?v=word-wrap">
 ${headerActionsAssets}${compactHeaderAssets}
 ${openGraph}<script type="application/ld+json">${schema}</script>
-${customerRequest || appointment ? '<script src="/assets/storefront-forms.js?v=locale-1" defer></script>' : ''}
-${appointment ? '<script type="module" src="/assets/localized-booking.js?v=global-timezones"></script>' : ''}
+${customerRequest || appointment ? '<script src="/assets/storefront-forms.js?v=compact-verification" defer></script>' : ''}
+${appointment ? '<script type="module" src="/assets/localized-booking.js?v=booking-window"></script>' : ''}
 </head><body class="mwl-body">
 <a class="mwl-skip" href="#content">${escape(t.skip)}</a>
 <header class="mwl-header">
@@ -293,10 +294,7 @@ export async function localizedResponse(request, match, { policy, settings, path
   const url = new URL(request.url);
   const available = new Set(paths);
   if (!validSlug.test(path) || !hasLocalizedVersion(path,lang) || !available.has(path)) {
-    const home = localizedPath('/',lang);
-    const text = ui[lang];
-    return new Response(request.method === 'HEAD' ? null : `<!doctype html><html lang="${lang}"><meta charset="utf-8"><title>404 | Mewepak</title><h1>404</h1><p>${escape(text.empty)}</p><a href="${home}">${escape(nav[lang][0])}</a></html>`,
-      { status:404, headers:{'content-type':'text/html; charset=utf-8','x-robots-tag':'noindex'} });
+    return notFoundPage(lang, request.method);
   }
   if (url.pathname !== canonicalPath) {
     url.pathname = canonicalPath;

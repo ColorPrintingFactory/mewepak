@@ -33,9 +33,9 @@ html:not([dir="rtl"]) .mwl-primary-nav>a { letter-spacing:.03em; }
 .mwl-body .mwl-secondary:hover { background:#e3efe6; }
 .mwl-crumb { display:flex;flex-wrap:wrap;gap:6px 15px;padding-block:17px 0;color:#45615e;font-size:.86rem; }
 .mwl-crumb span::before { content:"/";display:inline-block;padding-inline-end:15px;color:#82938b; }
-.mwl-hero { display:grid;gap:clamp(18px,4vw,54px);align-items:center;padding-block:clamp(35px,6vw,76px); }
+.mwl-hero { display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(18px,4vw,54px);align-items:center;padding-block:clamp(35px,6vw,76px); }
 .mwl-hero--with-image { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
-.mwl-hero h1 { max-width:20ch;font-size:clamp(2rem,1.25rem + 3vw,3.8rem);overflow-wrap:break-word; }
+.mwl-hero h1 { max-width:20ch;font-size:clamp(2rem,1.25rem + 3vw,3.8rem);hyphens:auto;overflow-wrap:anywhere; }
 .mwl-hero:not(.mwl-hero--with-image) h1 { max-width:28ch; }
 .mwl-hero p { max-width:63ch;color:#415d60;font-size:clamp(1.0625rem,.95rem + .35vw,1.25rem); }
 .mwl-hero__actions { display:flex;flex-wrap:wrap;gap:10px;margin-block-start:22px; }

@@ -34,6 +34,7 @@ import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v
       const initialDate = !scheduleZone && requested === date.min;
       scheduleZone=data.timezone;
       date.min=bookingDateNow(scheduleZone);
+      date.max=data.last_date || '';
       if (requested < date.min || (initialDate && requested !== date.min)) {
         date.value=date.min;
         return load();

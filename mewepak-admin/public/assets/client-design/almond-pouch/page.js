@@ -18,8 +18,6 @@
   const quoteForm = $("quote-form");
   const quoteDialog = $("quote-dialog");
   const waDialog = $("wa-dialog");
-  const contactEmail =
-    document.body.dataset.mewepakContactEmail || "sales@mewepak.com";
   const productUrl = new URL(location.pathname, location.origin).href;
   let enquiryProduct = productName;
 
@@ -81,16 +79,11 @@
     }
   }
 
-  quoteForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const query = new URLSearchParams({
-      subject: `Quote enquiry: ${enquiryProduct}`,
-      body: quoteBrief(),
-    });
-    const mailto = `mailto:${contactEmail}?${query.toString().replaceAll("+", "%20")}`;
-    $("form-status").textContent =
-      "Your email draft is ready. If your email app does not open, use Copy Brief.";
-    window.location.href = mailto;
+  quoteForm.addEventListener("formdata", ({ formData }) => {
+    formData.set("company", formData.get("company").trim() || "Not supplied");
+    formData.set("product_type", "Stand-up pouch");
+    formData.set("product_context", enquiryProduct);
+    formData.set("details", quoteBrief());
   });
   $("copy-brief").addEventListener("click", () => {
     if (quoteForm.reportValidity()) copyBrief(quoteBrief(), $("form-status"));

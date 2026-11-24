@@ -81,7 +81,7 @@ html:has(.mw-sample-kit) {scroll-behavior:smooth;scroll-padding-top:30px}
 .mw-sample-kit .selection-box a {font-size:14px;text-underline-offset:4px}
 .mw-sample-kit .small {font-size:13px;color:var(--muted)}
 .mw-sample-kit .contact-link {display:block;margin-top:25px;font-weight:600}
-.mw-sample-kit form {background:white;padding:34px;border:1px solid var(--line);border-radius:8px}
+.mw-sample-kit .request-card {min-width:0;background:white;padding:34px;border:1px solid var(--line);border-radius:8px}
 .mw-sample-kit .form-heading p {font-size:13px;color:var(--muted)}
 .mw-sample-kit .fields {display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .mw-sample-kit label {display:block;font-size:14px;font-weight:600}
@@ -100,7 +100,7 @@ html:has(.mw-sample-kit) {scroll-behavior:smooth;scroll-padding-top:30px}
 .mw-sample-kit .review {border-top:1px solid var(--line);margin-top:28px;padding-top:25px}
 .mw-sample-kit .review p {font-size:14px;color:var(--muted)}
 .mw-sample-kit .review pre {white-space:pre-wrap;font:14px/1.7 Arial;background:#f3f7f4;padding:16px;overflow-wrap:anywhere}
-.mw-sample-kit .review .actions {gap:10px}
+.mw-sample-kit .review .actions {gap:10px;margin-top:12px}
 .mw-sample-kit .text-button {background:none;border:0;text-decoration:underline;color:var(--teal);cursor:pointer;font-size:14px}
 .mw-sample-kit .faq-section {display:grid;grid-template-columns:.8fr 1.2fr;gap:85px}
 .mw-sample-kit .faq-section>div>p {color:var(--muted)}
@@ -130,7 +130,7 @@ html:has(.mw-sample-kit) {scroll-behavior:smooth;scroll-padding-top:30px}
 .mw-sample-kit .values span {font-size:12px}
 .mw-sample-kit .section-head {gap:35px}
 .mw-sample-kit .request-grid {grid-template-columns:.7fr 1.3fr}
-.mw-sample-kit form {padding:25px}
+.mw-sample-kit .request-card {padding:25px}
 .mw-sample-kit .closing {margin-inline:28px}
 }
 @media(max-width:700px) {
@@ -164,7 +164,7 @@ html:has(.mw-sample-kit) {scroll-behavior:smooth;scroll-padding-top:30px}
 .mw-sample-kit .steps h3 {margin-top:12px}
 .mw-sample-kit .steps article {padding-top:20px}
 .mw-sample-kit .fields {grid-template-columns:1fr;gap:17px}
-.mw-sample-kit form {padding:24px 20px}
+.mw-sample-kit .request-card {padding:24px 20px}
 .mw-sample-kit .request-grid aside>p {max-width:100%}
 .mw-sample-kit .selection-box {margin:23px 0}
 .mw-sample-kit .faq-section {gap:15px}

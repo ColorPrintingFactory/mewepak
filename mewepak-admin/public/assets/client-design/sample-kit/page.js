@@ -9,7 +9,8 @@
   const formatInputs = [...form.elements.formats];
   const approachButtons = [...page.querySelectorAll('.comparison-choice')];
   const approach = form.elements.approach;
-  const email = 'sales@mewepak.com';
+  const email = document.body.dataset.mewepakContactEmail || 'sales@mewepak.com';
+  const sendForm = page.querySelector('#sample-send');
   const scrollBehavior = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
   let brief = '';
 
@@ -34,8 +35,13 @@
     }
   }
 
-  form.addEventListener('input', event => {
+  function hideReview() {
     review.hidden = true;
+    sendForm.querySelector('[data-quote-message]').textContent = '';
+  }
+
+  form.addEventListener('input', event => {
+    hideReview();
     if (event.target.name === 'formats') syncFormats();
     if (event.target.name === 'approach') syncApproach();
   });
@@ -45,7 +51,7 @@
       const input = formatInputs.find(item => item.value === card.dataset.format);
       input.checked = !input.checked;
       syncFormats();
-      review.hidden = true;
+      hideReview();
     });
   }
 
@@ -53,7 +59,7 @@
     button.addEventListener('click', () => {
       approach.value = button.dataset.approach;
       syncApproach();
-      review.hidden = true;
+      hideReview();
       page.querySelector('#request').scrollIntoView({ behavior: scrollBehavior() });
     });
   }
@@ -84,6 +90,14 @@
     review.hidden = false;
     review.focus({ preventScroll: true });
     review.scrollIntoView({ behavior: scrollBehavior(), block: 'center' });
+  });
+
+  sendForm.addEventListener('formdata', ({ formData }) => {
+    const fields = new FormData(form);
+    for (const name of ['name', 'email', 'company']) formData.set(name, fields.get(name));
+    formData.set('product_type', 'Sample kit');
+    formData.set('product_context', fields.get('product'));
+    formData.set('details', brief);
   });
 
   page.querySelector('#copyBrief').addEventListener('click', async () => {

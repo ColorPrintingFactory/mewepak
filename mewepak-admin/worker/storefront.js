@@ -194,6 +194,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
   on('head', (el) => el.append(siteIcons, { html: true }));
+  on('link[rel="pingback"],link[rel="EditURI"]', (el) => el.remove());
   on('a[href^="/solutions"]', (el) => {
     const href = el.getAttribute('href');
     const legacySection = /^\/solutions\/?(#(?:process-stages|project-enquiry|why-mewepak|packaging-help|get-in-touch))$/.exec(href);
@@ -347,8 +348,8 @@ export async function connectStorefront(request, response, database, projectUrl,
     const type = article || (pageType === 'detail' && /(?:^|\s)single-post(?:\s|$)/.test(bodyClass)) ? 'article' : pageType;
     el.setAttribute('data-storefront-page', type);
   });
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=centered-dialogs"><script src="/assets/original/storefront-layout.js?v=compact-header" defer></script>', { html: true }));
-  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=mobile-toolbar"><script src="/assets/storefront-forms.js?v=locale-1" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=search-form"><script src="/assets/original/storefront-layout.js?v=compact-header" defer></script>', { html: true }));
+  on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=mobile-toolbar"><script src="/assets/storefront-forms.js?v=compact-verification" defer></script>', { html: true }));
   const switchPath = path === '/' ? '/' : path + '/';
   const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));

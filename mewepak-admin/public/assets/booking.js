@@ -91,6 +91,7 @@ import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v
       const day = new Date(start);
       day.setUTCDate(day.getUTCDate() + index);
       const key = day.toISOString().slice(0, 10);
+      if (dateInput.max && key > dateInput.max) return null;
       const button = document.createElement('button');
       button.className = 'bk-day';
       button.type = 'button';
@@ -103,7 +104,7 @@ import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v
       number.textContent = day.getUTCDate();
       button.append(name, number);
       return button;
-    });
+    }).filter(Boolean);
     week.replaceChildren(...buttons);
     week.hidden = false;
     if (focusDate) buttons.find(button => button.dataset.date === focusDate)?.focus({ preventScroll: true });
@@ -159,7 +160,9 @@ import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v
     slots.setAttribute('aria-busy', 'true');
     showSlotStatus('Loading available times…');
     try {
-      const response = await fetch('/api/booking-slots?date=' + encodeURIComponent(date), { signal: request.signal });
+      const response = await fetch('/api/booking-slots?date=' + encodeURIComponent(date), {
+        signal: AbortSignal.any([request.signal, AbortSignal.timeout(12000)]),
+      });
       const data = await response.json();
       if (request.signal.aborted) return;
       if (!response.ok) throw new Error(data.error || 'Could not load available times.');
@@ -167,11 +170,12 @@ import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v
       const initialDate = !scheduleTimezone && date === priorMinimum;
       scheduleTimezone = data.timezone;
       dateInput.min = bookingDateNow(scheduleTimezone);
+      dateInput.max = data.last_date || '';
       if (date < dateInput.min || (initialDate && date !== dateInput.min)) {
         dateInput.value = dateInput.min;
         return loadSlots();
       }
-      if (dateInput.min !== priorMinimum) renderWeek();
+      renderWeek();
       renderOptions(data, date);
       const windows = data.slots || [];
       const buttons = windows.map(window => {
@@ -259,6 +263,7 @@ import { bookingDateNow, renderBookingTimeZones } from './booking-timezones.js?v
     try {
       const response = await fetch('/api/bookings', {
         method: 'POST',
+        signal: AbortSignal.timeout(12000),
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           date: data.get('date'), time: data.get('time'), timezone: data.get('timezone'),

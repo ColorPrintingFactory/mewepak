@@ -314,11 +314,20 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       }
     }
     if (isSearch) {
-      const keyword = url.searchParams.get('s') ?? decodeURIComponent(path.slice(8, -1).replaceAll('+', ' '));
+      const keyword = (url.searchParams.get('s') ?? decodeURIComponent(path.slice(8, -1).replaceAll('+', ' '))).trim().slice(0, 120);
       const words = keyword.toLowerCase().trim().split(/\s+/).filter(Boolean);
       const matches = words.length ? entries.filter(({ row }) => words.every((word) => [row.name, row.title, row.short_description, row.excerpt, row.summary].join(' ').toLowerCase().includes(word))) : [];
       replace('title', 'Search | Mewepak');
-      replaceHtml('main', `<section class="max-w-7xl mx-auto px-6 py-16"><h1>Search results for ${escape(keyword)}</h1><div class="grid md:grid-cols-3 gap-5 mt-8">${renderCards(matches) || '<p>No matching pages or products.</p>'}</div></section>`);
+      const title = keyword ? `Search results for “${escape(keyword)}”` : 'Search packaging and resources';
+      const empty = keyword ? 'No matching pages or products. Try a packaging format or a shorter search.' : 'Enter a product, packaging format or topic.';
+      replaceHtml('main', `<section class="storefront-search max-w-7xl mx-auto px-6 py-16"><h1>${title}</h1>
+        <form role="search" aria-label="Search Mewepak" action="/" method="get">
+          <input type="search" name="s" value="${escape(keyword)}" maxlength="120" aria-label="Search products and resources" required>
+          <button type="submit">Search</button>
+        </form>
+        ${matches.length ? `<div class="grid md:grid-cols-3 gap-5 mt-8">${renderCards(matches)}</div>`
+          : `<p>${empty}</p><a href="/products/">Browse packaging formats</a>`}
+      </section>`);
     } else if (path === '/blog/') {
       const articles = entries.filter(({ table }) => table === 'articles');
       edit('#in-grid[data-featured-articles]', (el) => {

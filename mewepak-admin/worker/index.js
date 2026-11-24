@@ -4,6 +4,7 @@ import { detectLocale, localizedResponse } from './i18n.js';
 import { localizeSharedHome } from './localized-home.js';
 import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
+import { notFoundPage } from './not-found.js';
 
 const MAX_BODY_BYTES = 12_000;
 
@@ -51,19 +52,23 @@ function addCalendarDays(dateString, days) {
   return date.toISOString().slice(0, 10);
 }
 
-function todayInZone(timeZone, now = new Date()) {
-  const parts = new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);
+function scheduleClock(timeZone, now = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).formatToParts(now);
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
-  return `${values.year}-${values.month}-${values.day}`;
+  return { date: `${values.year}-${values.month}-${values.day}`, time: `${values.hour}:${values.minute}` };
 }
 
-function dateIsBookable(date, settings, now = new Date()) {
-  if (!isCalendarDate(date)) return false;
-  const today = todayInZone(settings.timezone || 'UTC', now);
-  const lastDate = addCalendarDays(today, Number(settings.advance_days || 0));
-  if (date < today || date > lastDate) return false;
+function dateIsBookable(date, settings, today, lastDate) {
+  if (!isCalendarDate(date) || date < today || date > lastDate) return false;
   const weekday = new Date(`${date}T00:00:00.000Z`).getUTCDay() || 7;
   return Array.isArray(settings.working_days) && settings.working_days.includes(weekday);
+}
+
+function slotHasNotStarted(date, start, clock) {
+  return date > clock.date || (date === clock.date && start > clock.time);
 }
 
 function slotsForDate(settings) {
@@ -116,8 +121,11 @@ async function bookingSlotsResponse(request, env) {
   if (!isCalendarDate(date)) return json({ error: 'A date in YYYY-MM-DD format is required.' }, 400);
   try {
     const settings = await getBookingSettings(env);
+    const clock = scheduleClock(settings.timezone || 'UTC');
+    const lastDate = addCalendarDays(clock.date, Number(settings.advance_days || 0));
     const publicSettings = {
       date,
+      last_date: lastDate,
       timezone: settings.timezone,
       slots: [],
       meeting_durations: settings.meeting_durations || [15, 30],
@@ -131,7 +139,7 @@ async function bookingSlotsResponse(request, env) {
       display_location: settings.display_location || 'Zoom / Factory Visit',
       avatar_url: settings.avatar_url || '',
     };
-    if (!dateIsBookable(date, settings)) return json(publicSettings);
+    if (!dateIsBookable(date, settings, clock.date, lastDate)) return json(publicSettings);
     const response = await databaseRequest(env, 'rpc/get_booked_slot_counts', {
       method: 'POST', body: JSON.stringify({ p_booking_date: date }),
     });
@@ -141,7 +149,10 @@ async function bookingSlotsResponse(request, env) {
       const time = String(booking.slot_start).slice(0, 5);
       counts.set(time, Number(booking.booked || 0));
     }
-    publicSettings.slots = slotsForDate(settings).filter((slot) => (counts.get(slot.slice(0, 5)) || 0) < settings.max_per_slot);
+    publicSettings.slots = slotsForDate(settings).filter((slot) => {
+      const start = slot.slice(0, 5);
+      return slotHasNotStarted(date, start, clock) && (counts.get(start) || 0) < settings.max_per_slot;
+    });
     return json(publicSettings);
   } catch {
     return json({ error: 'Availability is temporarily unavailable.' }, 503);
@@ -251,6 +262,10 @@ async function createBookingResponse(request, env) {
     if (!verified) return json({ error: 'Verification failed. Please try again.' }, 400);
     const bookingApiSecret = String(env.BOOKING_API_SECRET || '');
     if (!bookingApiSecret) return json({ error: 'Booking protection is not configured.' }, 503);
+    const settings = await getBookingSettings(env);
+    if (!slotHasNotStarted(date, slot.slice(0, 5), scheduleClock(settings.timezone || 'UTC'))) {
+      return json({ error: 'That time has already started. Please choose another slot.' }, 409);
+    }
     const modernPayload = {
       p_booking_date: date, p_slot_start: `${slot.slice(0, 5)}:00`, p_contact_name: contactName,
       p_company: company, p_email: email, p_phone: phone, p_topic: topic,
@@ -420,6 +435,7 @@ export default {
       catalog = entries;
       previous = baseline;
     });
+    if (documentRequest && cms.status === 404) return withSecurityHeaders(notFoundPage(), url.pathname, env);
     const storefront = await connectStorefront(
       homeRequest, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings,
       env.ENVIRONMENT === 'preview',
