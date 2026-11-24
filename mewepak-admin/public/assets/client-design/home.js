@@ -153,59 +153,79 @@ showSlide(0);
 rotationButton.hidden=false;
 setRotation(rotating);
 const expand=root.querySelector('#mw-expand-markets');expand.addEventListener('click',()=>{const open=expand.getAttribute('aria-expanded')!=='true';expand.setAttribute('aria-expanded',String(open));expand.textContent=open?localized('Show fewer markets')+' ↑':localized('View all markets')+' ↗';root.querySelectorAll('.mw-extra-market').forEach(card=>card.hidden=!open);});
-// Four original cards, with a hidden copy at either end for a continuous loop.
-const track=root.querySelector('.hy-product-track');
-const originals=[...track.children];
-const count=originals.length;
-function copyCard(card){const clone=card.cloneNode(true);clone.setAttribute('aria-hidden','true');clone.querySelectorAll('button,a,input').forEach(el=>el.tabIndex=-1);return clone;}
-originals.forEach(card=>track.appendChild(copyCard(card)));
-const before=document.createDocumentFragment();originals.forEach(card=>before.appendChild(copyCard(card)));track.prepend(before);
-let productIndex=count, busy=false, userPaused=false, hoverPaused=false, focusPaused=false;
-let normalizer;
-const productWindow=track.parentElement;
-const pauseButton=root.querySelector('#hy-product-pause');
-function setProductPosition(animated){
- const step=originals[0].getBoundingClientRect().width+parseFloat(getComputedStyle(track).columnGap);
- track.style.transition=animated?'':'none';
- track.style.transform='translateX(-'+productIndex*step+'px)';
- productWindow.scrollLeft=0;
- if(!animated){void track.offsetWidth;track.style.transition='';}
- const index=((productIndex-count)%count+count)%count;
- root.querySelector('#hy-product-status').textContent=announcement('product',index+1,count,'Featured packaging '+(index+1)+' of '+count);
- root.querySelector('#hy-product-page').textContent=String(index+1).padStart(2,'0')+' / '+String(count).padStart(2,'0');
+// A continuous loop is needed only when some published products are off-screen.
+function bindFeaturedProducts() {
+ const track=root.querySelector('.hy-product-track');
+ if(!track?.children.length)return;
+ const originals=[...track.children];
+ const count=originals.length;
+ function copyCard(card){const clone=card.cloneNode(true);clone.dataset.productClone="";clone.setAttribute('aria-hidden','true');clone.querySelectorAll('button,a,input').forEach(el=>el.tabIndex=-1);return clone;}
+ let productIndex=count, busy=false, userPaused=false, hoverPaused=false, focusPaused=false;
+ let normalizer, scrolling=false;
+ const productWindow=track.parentElement;
+ const pauseButton=root.querySelector('#hy-product-pause');
+ function configureProducts(){
+  const gap=parseFloat(getComputedStyle(track).columnGap)||0;
+  const width=originals[0].getBoundingClientRect().width;
+  const overflow=count>1 && count*(width+gap)-gap>productWindow.clientWidth+1;
+  if(overflow===scrolling){
+   if(scrolling){normalizeProduct();setProductPosition(false);}
+   return;
+  }
+  scrolling=overflow;
+  root.querySelector('.hy-product-controls').hidden=!scrolling;
+  clearTimeout(normalizer);
+  busy=false;
+  track.querySelectorAll('[data-product-clone]').forEach(card=>card.remove());
+  track.style.transform='';
+  if(!scrolling)return;
+  track.prepend(...originals.map(copyCard));
+  track.append(...originals.map(copyCard));
+  productIndex=count;
+  setProductPosition(false);
+ }
+ function setProductPosition(animated){
+  const step=originals[0].getBoundingClientRect().width+parseFloat(getComputedStyle(track).columnGap);
+  track.style.transition=animated?'':'none';
+  track.style.transform='translateX(-'+productIndex*step+'px)';
+  productWindow.scrollLeft=0;
+  if(!animated){void track.offsetWidth;track.style.transition='';}
+  const index=((productIndex-count)%count+count)%count;
+  root.querySelector('#hy-product-status').textContent=announcement('product',index+1,count,'Featured packaging '+(index+1)+' of '+count);
+  root.querySelector('#hy-product-page').textContent=String(index+1).padStart(2,'0')+' / '+String(count).padStart(2,'0');
+ }
+ function normalizeProduct(){
+  clearTimeout(normalizer);
+  if(productIndex>=count*2){productIndex-=count;setProductPosition(false);}
+  if(productIndex<count){productIndex+=count;setProductPosition(false);}
+  busy=false;
+ }
+ function productMove(delta,manual=false){
+  if(!scrolling||busy||(!manual&&(userPaused||hoverPaused||focusPaused)))return;
+  busy=true;productIndex+=delta;setProductPosition(!reduce.matches);
+  if(reduce.matches)normalizeProduct();else normalizer=setTimeout(normalizeProduct,720);
+ }
+ track.addEventListener('transitionend',event=>{if(event.target===track&&event.propertyName==='transform')normalizeProduct();});
+ root.querySelector('#hy-product-prev').addEventListener('click',()=>productMove(-1,true));
+ root.querySelector('#hy-product-next').addEventListener('click',()=>productMove(1,true));
+ pauseButton.addEventListener('click',()=>{userPaused=!userPaused;pauseButton.setAttribute('aria-pressed',String(userPaused));pauseButton.textContent=localized(userPaused?'Resume auto-scroll':'Pause auto-scroll');});
+ productWindow.addEventListener('mouseenter',()=>hoverPaused=true);
+ productWindow.addEventListener('mouseleave',()=>hoverPaused=false);
+ productWindow.addEventListener('focusin',event=>{
+  focusPaused=true;
+  const card=event.target.closest('.mw-product'), index=originals.indexOf(card);
+  if(!scrolling||index<0)return;
+  const bounds=card.getBoundingClientRect(), frame=productWindow.getBoundingClientRect();
+  if(bounds.left<frame.left-1||bounds.right>frame.right+1){normalizeProduct();productIndex=count+index;setProductPosition(false);}
+ });
+ productWindow.addEventListener('focusout',event=>{if(!productWindow.contains(event.relatedTarget))focusPaused=false;});
+ configureProducts();
+ const auto=setInterval(()=>{
+  if(!root.isConnected){clearInterval(auto);return;}
+  if(!reduce.matches&&!document.hidden&&!still)productMove(1);
+ },content.productIntervalMs);
+ window.addEventListener('resize',configureProducts);
 }
-function normalizeProduct(){
- clearTimeout(normalizer);
- if(productIndex>=count*2){productIndex-=count;setProductPosition(false);}
- if(productIndex<count){productIndex+=count;setProductPosition(false);}
- busy=false;
-}
-function productMove(delta,manual=false){
- if(busy||(!manual&&(userPaused||hoverPaused||focusPaused)))return;
- busy=true;productIndex+=delta;setProductPosition(!reduce.matches);
- if(reduce.matches)normalizeProduct();else normalizer=setTimeout(normalizeProduct,720);
-}
-track.addEventListener('transitionend',event=>{if(event.target===track&&event.propertyName==='transform')normalizeProduct();});
-root.querySelector('#hy-product-prev').addEventListener('click',()=>productMove(-1,true));
-root.querySelector('#hy-product-next').addEventListener('click',()=>productMove(1,true));
-pauseButton.addEventListener('click',()=>{userPaused=!userPaused;pauseButton.setAttribute('aria-pressed',String(userPaused));pauseButton.textContent=localized(userPaused?'Resume auto-scroll':'Pause auto-scroll');});
-productWindow.addEventListener('mouseenter',()=>hoverPaused=true);
-productWindow.addEventListener('mouseleave',()=>hoverPaused=false);
-productWindow.addEventListener('focusin',event=>{
- focusPaused=true;
- const card=event.target.closest('.mw-product'), index=originals.indexOf(card);
- if(index<0)return;
- const bounds=card.getBoundingClientRect(), frame=productWindow.getBoundingClientRect();
- if(bounds.left<frame.left-1||bounds.right>frame.right+1){normalizeProduct();productIndex=count+index;setProductPosition(false);}
-});
-productWindow.addEventListener('focusout',event=>{if(!productWindow.contains(event.relatedTarget))focusPaused=false;});
-setProductPosition(false);
-const auto=setInterval(()=>{
- if(!root.isConnected){clearInterval(auto);return;}
- if(!reduce.matches&&!document.hidden&&!still)productMove(1);
-},content.productIntervalMs);
-window.addEventListener('resize',()=>{normalizeProduct();setProductPosition(false);});
+bindFeaturedProducts();
 const images=[...root.querySelectorAll('img[src]')];Promise.all(images.map(img=>img.complete?Promise.resolve():new Promise(done=>{img.addEventListener('load',done,{once:true});img.addEventListener('error',done,{once:true});}))).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{document.body.dataset.homepageReady='1';document.body.dataset.homepageBrokenImages=String(images.filter(img=>!img.naturalWidth).length);})));
 })();
-
-window.mewepakClient.home();

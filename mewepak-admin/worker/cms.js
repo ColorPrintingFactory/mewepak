@@ -5,6 +5,7 @@ import { renderMarketLayout } from './market-layout.js';
 import { renderResourceLayout } from './resource-layout.js';
 import { renderSolutionsLayout } from './solutions-layout.js';
 import { applyProductDetail, productDetailTemplate } from './product-detail.js';
+import { applyHomeProducts, categoryCollection, withoutUnverifiedProducts } from './catalogue-listings.js';
 import storefrontChrome from './storefront-chrome.json' with { type: 'json' };
 
 const storefrontHeader = storefrontChrome.header.join('\n');
@@ -28,7 +29,7 @@ const tables = {
   pages: 'slug,title,summary,sections,seo_title,seo_description',
   articles: 'slug,title,excerpt,body,featured_image_url,seo_title,seo_description,published_at',
   product_categories: 'id,slug,name,short_description,image_url,menu_group,menu_order,show_in_menu,seo_title,seo_description',
-  products: 'slug,name,short_description,description,primary_image_url,gallery_urls,features,material_options,printing_options,applications,seo_title,seo_description,category:product_categories(slug)',
+  products: 'slug,name,short_description,description,primary_image_url,gallery_urls,features,material_options,printing_options,applications,seo_title,seo_description,is_featured,sort_order,category:product_categories(slug)',
 };
 
 export const processPath = '/sustainability/our-process/';
@@ -109,7 +110,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     })), getAsset('/assets/original/cms-baseline.json')]);
     const entries = lists.flat();
     const entry = entries.find((candidate) => candidate.path === path);
-    if (!base.ok) return asset;
+    if (!base.ok) return withoutUnverifiedProducts(path, asset);
     const baseline = await base.json();
     if (!entry && baseline[path]) return new Response('Page not found.', { status: 404 });
     const isSearch = path.startsWith('/search/') || (path === '/' && url.searchParams.has('s'));
@@ -134,6 +135,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     applyRecommendations(path, edit, publishedPaths, baseline);
 
     if (path === '/') {
+      if (!url.searchParams.has('s')) applyHomeProducts({ edit, replace, replaceHtml, entries, baseline, escape, safeUrl });
       const slides = sections.find((section) => section.type === 'home_banners')?.slides;
       if (Array.isArray(slides)) {
         const banners = slides.slice(0, 4).map((slide) => ({
@@ -240,6 +242,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
       }
       if (productDetail) await applyProductDetail({ entry, entries, previous, edit, replace, replaceHtml, escape, safeUrl, sanitize, digest });
       if (entry.table === 'product_categories' && asset.ok) {
+        edit('#product-grid', (el) => el.replace(categoryCollection({ entry, entries, safeUrl, escape }), { html: true }));
         if (row.short_description !== previous.short_description) replace('main h1 ~ p', row.short_description);
         const image = safeUrl(row.image_url);
         if (image && image !== previous.image_url) {
@@ -317,7 +320,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
           el.append(`<article class="in-card" data-article="${escape(row.slug)}">${media}<h3><a href="${escape(href)}">${escape(row.title)}</a></h3><p>${escape(row.excerpt || '')}</p><a class="in-read" href="${escape(href)}">Read guide <span aria-hidden="true">↗</span></a></article>`, { html: true });
         }
       });
-    } else if (path === '/products/' || entry?.table === 'product_categories') {
+    } else if (path === '/products/' || (entry?.table === 'product_categories' && !asset.ok)) {
       const existing = new Set(Object.keys(baseline));
       const newEntries = entries.filter((item) => !existing.has(item.path) && (
         path === '/products/' ? ['product_categories', 'products'].includes(item.table)
@@ -340,7 +343,7 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     result.headers.delete('content-length');
     return result;
   } catch {
-    return asset;
+    return withoutUnverifiedProducts(path, asset);
   }
 }
 
