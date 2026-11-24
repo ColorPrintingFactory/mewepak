@@ -450,6 +450,10 @@ export default {
     const preparedSettings = documentRequest ? publicSiteSettings(database).catch(() => ({})) : null;
     const defaults = documentRequest ? getAsset('/assets/original/seo-page-defaults.json').catch(() => null) : null;
     const asset = await fetchStaticAsset(assetRequest, env, context);
+    // Forward redirects for the public URL before selecting a CMS fallback template.
+    if (assetRequest === request && asset.status >= 300 && asset.status < 400 && asset.headers.has('location')) {
+      return withSecurityHeaders(asset, url.pathname, env);
+    }
     let page;
     let catalog;
     let previous;

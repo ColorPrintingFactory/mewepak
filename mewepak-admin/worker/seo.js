@@ -192,6 +192,11 @@ export function pageMetadata(policy, defaults, { page, catalog, previous, settin
 export async function optimizePageSeo(request, response, env, getAsset, data) {
   if (!response.headers.get('content-type')?.includes('text/html')) return response;
   const policy = seoPolicy(new URL(request.url), env);
+  if (request.method === 'HEAD') {
+    const result = new Response(null, response);
+    if (policy.noindex) result.headers.set('x-robots-tag', 'noindex, follow');
+    return result;
+  }
   const searchable = response.ok && !privatePaths.test(policy.path) && !new URL(request.url).searchParams.has('s');
   let defaults = {};
   if (searchable && request.method === 'GET') {
