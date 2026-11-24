@@ -1,4 +1,5 @@
 import { languageSwitcher } from './i18n.js';
+import { toolMetadata } from './i18n/tools.js';
 import { compactHeaderAssets } from './compact-header.js';
 import { headerActionsAssets, renderHeaderActions } from './header-actions.js';
 import { siteIcons } from './site-icons.js';
@@ -291,7 +292,7 @@ export async function connectStorefront(request, response, database, projectUrl,
   set('script[src="/assets/client-design/process.js"]', 'src', '/assets/client-design/process.js?v=settings-3');
   set('script[src="/assets/client-design/integration.js?shell=1"]', 'src', '/assets/client-design/integration.js?v=flow-header');
   set('link[href="/assets/site.css"]', 'href', '/assets/site.css?v=flow-header');
-  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=home-studio');
+  set('script[src="/assets/3d/pouch-viewer.js"]', 'src', '/assets/3d/pouch-interactive.js?v=localized-tools');
   if (path === '/contact') set('script[src="/assets/client-design/contact.js"]', 'src', '/assets/client-design/contact.js?v=company-enquiry');
   if (path === '/booking' || path === '/inquiry') {
     const serviceKey = url.searchParams.get('service');
@@ -351,12 +352,12 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-layout.css?v=search-form"><script src="/assets/original/storefront-layout.js?v=compact-header" defer></script>', { html: true }));
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/original/storefront-settings.css"><link rel="stylesheet" href="/assets/original/footer-products.css"><link rel="stylesheet" href="/assets/original/storefront-theme.css?v=mobile-toolbar"><script src="/assets/storefront-forms.js?v=compact-verification" defer></script>', { html: true }));
   const switchPath = path === '/' ? '/' : path + '/';
-  const query = ['/contact/', '/inquiry/'].includes(switchPath) ? url.search : '';
+  const query = ['/contact/', '/inquiry/'].includes(switchPath) || Object.hasOwn(toolMetadata, switchPath) ? url.search : '';
   on('head', (el) => el.append('<link rel="stylesheet" href="/assets/language-switch.css?v=1">', { html: true }));
   on('head', (el) => el.append(headerActionsAssets + compactHeaderAssets, { html: true }));
   on('button[aria-label="Language selector"]', (el) => el.replace(languageSwitcher(switchPath, 'en', query), { html: true }));
   if (path === '/') {
-    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=format-samples"><script src="/assets/3d/pouch-interactive.js?v=home-studio" defer></script>', { html: true }));
+    on('head', (el) => el.append('<link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1"><link rel="stylesheet" href="/assets/client-design/home-sections.css?v=format-samples"><script src="/assets/3d/pouch-interactive.js?v=localized-tools" defer></script>', { html: true }));
     const formatsSection = homeFormatSection(url.searchParams.get('format-color'));
     on('#mw-markets', (el) => el.after(formatsSection, { html: true }));
     on('#mw-sustainability', (el) => el.remove());

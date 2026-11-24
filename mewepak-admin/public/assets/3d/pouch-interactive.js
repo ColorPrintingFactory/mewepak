@@ -93,9 +93,9 @@
 
 	const homePhrases = JSON.parse( document.getElementById( 'mewepak-home-language' )?.textContent || '{}' ).phrases;
 	const translate = (text) => homePhrases?.[text] || text;
+	const locale = homePhrases ? '/' + document.documentElement.lang : '';
 
 	function quoteTarget( model ) {
-		const locale = homePhrases ? '/' + document.documentElement.lang : '';
 		return locale + '/inquiry/' + ( model.format ? '?format=' + encodeURIComponent( model.format ) : '' ) + '#quote-request';
 	}
 
@@ -319,7 +319,7 @@
 				if ( !next ) return;
 				event.preventDefault();
 				if ( next.id === this.selection.id && !this.loadFailed ) return;
-				if ( next.id !== this.selection.id ) history.pushState( { packagingModel: next.id }, '', next.href + '#packaging-preview' );
+				if ( next.id !== this.selection.id ) history.pushState( { packagingModel: next.id }, '', locale + next.href + '#packaging-preview' );
 				this.select( next );
 			} );
 			window.addEventListener( 'popstate', (event) => {

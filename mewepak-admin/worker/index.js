@@ -1,7 +1,8 @@
 import { dispatchLeadNotifications } from './notifications.js';
 import { optimizePageSeo, publishedSeoPaths, seoEndpoint, seoPolicy } from './seo.js';
 import { detectLocale, localizedResponse } from './i18n.js';
-import { localizeSharedHome } from './localized-home.js';
+import { localizeSharedPage } from './localized-home.js';
+import { toolMetadata } from './i18n/tools.js';
 import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
 import { notFoundPage } from './not-found.js';
@@ -374,12 +375,13 @@ export default {
     const seo = await seoEndpoint(request, env, database, getAsset);
     if (seo) return seo;
     const locale = detectLocale(url.pathname);
-    const sharedHome = locale?.path === '/' && !url.searchParams.has('s') && request.method === 'GET';
-    if (sharedHome && url.pathname !== locale.canonicalPath) {
+    const sharedPage = locale && request.method === 'GET' &&
+      (Object.hasOwn(toolMetadata, locale.path) || (locale.path === '/' && !url.searchParams.has('s')));
+    if (sharedPage && url.pathname !== locale.canonicalPath) {
       url.pathname = locale.canonicalPath;
       return Response.redirect(url,301);
     }
-    if (locale && !sharedHome) {
+    if (locale && !sharedPage) {
       const policy = seoPolicy(url,env);
       try {
         const [paths, settings] = await Promise.all([
@@ -412,8 +414,8 @@ export default {
       '/assets/client-design/market-browser.js': '/assets/client-design/markets.js',
     };
     const assetPath = aliases[url.pathname];
-    const homeRequest = sharedHome ? new Request(new URL('/',url),request) : request;
-    const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : homeRequest;
+    const contentRequest = sharedPage ? new Request(new URL(locale.path + url.search,url),request) : request;
+    const assetRequest = typeof assetPath === 'string' ? new Request(new URL(assetPath, url), request) : contentRequest;
     const cacheKey = storefrontCacheKey(request, url, env, context);
     const pageCache = cacheKey ? caches.default : null;
     if (pageCache) {
@@ -430,19 +432,19 @@ export default {
     let catalog;
     let previous;
     let settings;
-    const cms = await serveCms(homeRequest, asset, database, getAsset, (entry, entries, baseline) => {
+    const cms = await serveCms(contentRequest, asset, database, getAsset, (entry, entries, baseline) => {
       page = entry;
       catalog = entries;
       previous = baseline;
     });
-    if (documentRequest && cms.status === 404) return withSecurityHeaders(notFoundPage(), url.pathname, env);
+    if (documentRequest && cms.status === 404) return withSecurityHeaders(notFoundPage(locale?.lang), url.pathname, env);
     const storefront = await connectStorefront(
-      homeRequest, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings,
+      contentRequest, cms, database, env.SUPABASE_URL, (value) => { settings = value; }, preparedSettings,
       env.ENVIRONMENT === 'preview',
     );
     const seoAsset = (path) => defaults && path === '/assets/original/seo-page-defaults.json' ? defaults : getAsset(path);
-    const localized = sharedHome ? localizeSharedHome(storefront, locale.lang) : storefront;
-    const rendered = await optimizePageSeo(request, localized, env, seoAsset, { page, catalog, previous, settings, locale: sharedHome ? locale : null });
+    const localized = sharedPage ? localizeSharedPage(storefront, locale, url.search, settings) : storefront;
+    const rendered = await optimizePageSeo(request, localized, env, seoAsset, { page, catalog, previous, settings, locale: sharedPage ? locale : null });
     const result = withSecurityHeaders(rendered, url.pathname, env, settings);
     if (!pageCache || !result.ok || !catalog || !settings?.usLocations ||
         !result.headers.get('content-type')?.includes('text/html') || result.headers.has('set-cookie')) return result;

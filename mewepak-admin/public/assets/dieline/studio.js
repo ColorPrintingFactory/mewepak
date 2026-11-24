@@ -1,4 +1,5 @@
-import { buildDieline, exportPdf, exportSvg, formats } from './geometry.js?v=4';
+import { buildDieline, exportPdf, exportSvg, formats } from './geometry.js?v=localized';
+import { toolLink, toolText } from '../tool-language.js';
 
 const form = document.querySelector('#dl-form');
 const field = name => form.elements.namedItem(name);
@@ -21,7 +22,7 @@ const packFields = ['width', 'height', 'depth'];
 const numericFields = [...packFields, 'seal', 'bleed', 'safe', 'zipperPosition', 'notchPosition', 'valvePosition', 'holePosition', 'fitmentOffset'];
 const featureNames = [['zipper', 'zipper'], ['notch', 'tear notch'], ['valve', 'valve'], ['hole', 'hang hole']];
 const presetIndex = { small: 0, medium: 1, large: 2 };
-const defaultContext = '/inquiry/#quote-request';
+const defaultContext = toolLink('/inquiry/#quote-request');
 const short = (number, precision = 3) => String(Number(number.toFixed(precision)));
 const zoomStops = [1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
 let unit = field('unit').value;
@@ -42,23 +43,23 @@ function changeFormat() {
   if (field('preset').value === 'custom') field('preset').value = 'medium';
   const repeat = spec.web === 'repeat';
   field('seal').value = short((spec.seal ?? 8) / unitByName[unit], 8);
-  document.querySelector('#dl-width-label').textContent = repeat ? 'Web width' : 'Width';
-  document.querySelector('#dl-height-label').textContent = repeat ? 'Print repeat length' : 'Height';
+  document.querySelector('#dl-width-label').textContent = toolText(repeat ? 'Web width' : 'Width');
+  document.querySelector('#dl-height-label').textContent = toolText(repeat ? 'Print repeat length' : 'Height');
   document.querySelector('#dl-depth').hidden = !spec.depthLabel;
-  document.querySelector('#dl-depth-label').textContent = spec.depthLabel ?? '';
-  document.querySelector('#dl-features-title').textContent = spec.features.length || spec.fitment ? 'Features and guides' : 'Print guides';
+  document.querySelector('#dl-depth-label').textContent = toolText(spec.depthLabel ?? '');
+  document.querySelector('#dl-features-title').textContent = toolText(spec.features.length || spec.fitment ? 'Features and guides' : 'Print guides');
   document.querySelector('#dl-position-help').hidden = !spec.features.length;
   featureOptions.hidden = !spec.features.length;
   fitmentField.hidden = !spec.fitment;
-  fitmentField.firstElementChild.textContent = spec.fitment?.label ?? '';
-  formatNote.textContent = spec.note ?? '';
+  fitmentField.firstElementChild.textContent = toolText(spec.fitment?.label ?? '');
+  formatNote.textContent = toolText(spec.note ?? '');
   formatNote.hidden = !spec.note;
   applyPreset();
 }
 
 function sizePreview() {
   const zoom = zoomStops[zoomIndex];
-  fitButton.textContent = zoomIndex ? Math.round(zoom * 100) + '%' : 'Fit';
+  fitButton.textContent = zoomIndex ? Math.round(zoom * 100) + '%' : toolText('Fit');
   zoomOut.disabled = !model || zoomIndex === 0;
   zoomIn.disabled = !model || zoomIndex === zoomStops.length - 1;
   fitButton.disabled = !model || zoomIndex === 0;
@@ -87,22 +88,26 @@ function update() {
     model = buildDieline({ format, ...options });
     status.hidden = true;
     view.innerHTML = exportSvg(model, { preview: true });
-    dimensions.textContent = spec.name + ' · ' + [options.width, options.height, ...(spec.depthLabel ? [options.depth] : [])]
-      .map(n => short(n / unitByName[unit])).join(' × ') + ' ' + unit;
+    view.firstElementChild.setAttribute('aria-label', toolText('Dimensioned pouch panels and guides'));
+    const size = [options.width, options.height, ...(spec.depthLabel ? [options.depth] : [])]
+      .map(n => short(n / unitByName[unit])).join(' × ');
+    dimensions.textContent = toolText(spec.name) + ' · ' + size + ' ' + toolText(unit);
     const measured = (name) => short(options[name] / unitByName[unit]);
     const features = featureNames.filter(([key]) => options[key]).map(([key, label]) =>
       label + ' ' + measured(key + 'Position') + ' ' + unit);
     if (spec.fitment) features.push(spec.fitment.label + ' ' + measured('fitmentOffset') + ' ' + unit);
-    const context = dimensions.textContent + ', seal ' + measured('seal') + ' ' + unit +
+    const context = spec.name + ' · ' + size + ' ' + unit + ', seal ' + measured('seal') + ' ' + unit +
       (features.length ? ', ' + features.join(', ') : '');
-    quote.href = '/inquiry/?' + new URLSearchParams({ format, service: 'prepress', product: context }) + '#quote-request';
+    quote.href = toolLink('/inquiry/?') + new URLSearchParams({ format, service: 'prepress', product: context }) + '#quote-request';
   } catch (error) {
     if (!(error instanceof RangeError)) throw error;
     model = null;
     view.replaceChildren();
     dimensions.textContent = '';
     quote.href = defaultContext;
-    status.textContent = error.message;
+    status.textContent = toolText(error.template || error.message, Object.fromEntries(
+      Object.entries(error.values || {}).map(([key, value]) => [key, typeof value === 'string' ? toolText(value) : value])
+    ));
     status.hidden = false;
     for (const name of error.cause || []) {
       const input = field(name);

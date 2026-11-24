@@ -1,3 +1,5 @@
+import { toolText } from '../../tool-language.js';
+
 (() => {
   const page = document.querySelector('.mw-sample-kit');
   if (!page) return;
@@ -16,13 +18,13 @@
 
   function syncFormats() {
     const selected = formatInputs.filter(input => input.checked).map(input => input.value);
-    page.querySelector('#selectionSummary').textContent = selected.join(' · ') || 'No formats selected yet.';
+    page.querySelector('#selectionSummary').textContent = selected.map(value => toolText(value)).join(' · ') || toolText('No formats selected yet.');
     for (const card of formatCards) {
       const checked = selected.includes(card.dataset.format);
       card.classList.toggle('chosen', checked);
       const button = card.querySelector('.format-toggle');
       button.setAttribute('aria-pressed', String(checked));
-      button.textContent = checked ? 'Selected' : 'Add to my request';
+      button.textContent = toolText(checked ? 'Selected' : 'Add to my request');
     }
   }
 
@@ -31,7 +33,7 @@
       const active = button.dataset.approach === approach.value;
       button.setAttribute('aria-pressed', String(active));
       const label = button.dataset.approach === 'Fully custom printed bag' ? 'Explore fully printed bags' : 'Explore labelled bags';
-      button.textContent = active ? 'Added to your request' : label;
+      button.textContent = toolText(active ? 'Added to your request' : label);
     }
   }
 
@@ -64,27 +66,32 @@
     });
   }
 
+  function buildBrief(data, text) {
+    const line = (label, value) => text(label) + ': ' + value;
+    return [
+      text('Mewepak sample kit enquiry'),
+      '',
+      line('Name', data.get('name')),
+      line('Email address', data.get('email')),
+      line('Company', data.get('company')),
+      line('Country / region', data.get('country')),
+      line('Product / industry', data.get('product')),
+      line('Target fill weight', data.get('weight') || text('To discuss')),
+      line('Formats', data.getAll('formats').map(value => text(value)).join(', ') || text('Please recommend')),
+      line('Branding approach', text(data.get('approach'))),
+      '',
+      line('Project notes', data.get('notes') || text('Please help me select suitable examples.')),
+      '',
+      text('Please confirm sample availability, kit contents, any kit and shipping costs, and estimated delivery arrangements before dispatch.'),
+    ].join('\n');
+  }
+
   form.addEventListener('submit', event => {
     event.preventDefault();
     const data = new FormData(form);
-    brief = [
-      'MewePak sample kit enquiry',
-      '',
-      `Name: ${data.get('name')}`,
-      `Email: ${data.get('email')}`,
-      `Company: ${data.get('company')}`,
-      `Country / region: ${data.get('country')}`,
-      `Product / industry: ${data.get('product')}`,
-      `Target fill weight: ${data.get('weight') || 'To discuss'}`,
-      `Formats: ${data.getAll('formats').join(', ') || 'Please recommend'}`,
-      `Branding approach: ${data.get('approach')}`,
-      '',
-      `Project notes: ${data.get('notes') || 'Please help me select suitable examples.'}`,
-      '',
-      'Please confirm sample availability, kit contents, any kit and shipping costs, and estimated delivery arrangements before dispatch.',
-    ].join('\n');
+    brief = buildBrief(data, toolText);
     page.querySelector('#brief').textContent = brief;
-    const subject = encodeURIComponent(`Sample kit enquiry — ${data.get('company')}`);
+    const subject = encodeURIComponent(toolText('Sample kit enquiry — {company}', { company: data.get('company') }));
     page.querySelector('#emailDraft').href = `mailto:${email}?subject=${subject}&body=${encodeURIComponent(brief)}`;
     copyStatus.textContent = '';
     review.hidden = false;
@@ -97,15 +104,15 @@
     for (const name of ['name', 'email', 'company']) formData.set(name, fields.get(name));
     formData.set('product_type', 'Sample kit');
     formData.set('product_context', fields.get('product'));
-    formData.set('details', brief);
+    formData.set('details', buildBrief(fields, value => value));
   });
 
   page.querySelector('#copyBrief').addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(brief);
-      copyStatus.textContent = `Request copied. Paste it into your email to ${email}.`;
+      copyStatus.textContent = toolText('Request copied. Paste it into your email to {email}.', { email });
     } catch {
-      copyStatus.textContent = 'Select and copy the request text above, or download it below.';
+      copyStatus.textContent = toolText('Select and copy the request text above, or download it below.');
     }
   });
 

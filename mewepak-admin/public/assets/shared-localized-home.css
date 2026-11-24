@@ -33,3 +33,25 @@ html[dir="rtl"] #mewepak-homepage :is(#mw-slide-count,#hy-product-page) {
   direction: ltr;
   unicode-bidi: isolate;
 }
+
+:is(.mw-sample-kit,.dieline-studio,.preview-page) :is(h1,h2,h3) {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.dieline-studio .dl-intro a { white-space: normal; }
+.dieline-studio .dl-crumb { flex-wrap: wrap; }
+
+html[dir="rtl"] :is(.mw-sample-kit,.dieline-studio,.preview-page) {
+  font-family: Tahoma, Arial, sans-serif;
+}
+html[dir="rtl"] :is(.mw-sample-kit,.dieline-studio,.preview-page) :is(h1,h2,h3,p,legend,select,button) {
+  letter-spacing: normal;
+}
+html[dir="rtl"] .mw-sample-kit :is(.comparison-table,.comparison-table caption) { text-align: start; }
+html[dir="rtl"] .mw-sample-kit .comparison-copy ul { padding: 0 20px 0 0; }
+html[dir="rtl"] .mw-sample-kit .values div { border-right: 0; border-left: 1px solid #c9d9d2; }
+html[dir="rtl"] .mw-sample-kit .values div:last-child { border-left: 0; }
+html[dir="rtl"] .dieline-studio :is(.dl-stage,input[type="number"],#dl-dimensions) {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

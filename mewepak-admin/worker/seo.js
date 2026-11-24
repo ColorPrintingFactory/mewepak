@@ -1,4 +1,5 @@
 import localizedPages from './i18n/pages.json' with { type:'json' };
+import { toolMetadata } from './i18n/tools.js';
 import { catalogPaths } from './cms.js';
 import { alternateTags, localizedPaths } from './i18n.js';
 
@@ -131,7 +132,7 @@ export function pageMetadata(policy, defaults, { page, catalog, previous, settin
   const brand = settings?.name || 'Mewepak';
   const row = page?.row || {};
   const local = defaults[locale?.path || path] || {};
-  const translated = locale ? localizedPages[locale.path]?.[language] : null;
+  const translated = locale ? (toolMetadata[locale.path] || localizedPages[locale.path])?.[language] : null;
   const kind = page?.table || local.kind;
   const name = text(translated?.[0] || row.title || row.name || local.name || fromTitleMarkup(head.title || '') || brand);
   const editedTitle = previous && row.seo_title !== previous.seo_title ? row.seo_title : '';

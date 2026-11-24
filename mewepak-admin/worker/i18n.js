@@ -10,12 +10,14 @@ import specialist from './i18n/specialist.json' with { type: 'json' };
 import marketCopy from './i18n/markets.json' with { type: 'json' };
 import marketDetails from './market-detail-content.json' with { type: 'json' };
 import { previewFormats } from './preview-formats.js';
+import { toolMetadata } from './i18n/tools.js';
 
 const copy = {
   ...pages,
   ...Object.fromEntries(Object.entries(formatsCopy).map(([slug, value]) => ['/products/' + slug + '/', value])),
   ...Object.fromEntries(Object.entries(marketCopy).map(([slug, value]) => ['/markets/' + slug + '/', value])),
   ...specialist,
+  ...toolMetadata,
 };
 const labels = { en: 'English', ...Object.fromEntries(Object.entries(ui).map(([key, value]) => [key, value.name])) };
 const languages = Object.keys(ui);
@@ -139,6 +141,7 @@ function requestForm(path, lang, url, available) {
   const selected = [market, solution].find(key => available.has(key) && hasLocalizedVersion(key, lang));
   const inquiry = path === '/inquiry/' ? t.quote : (sample ? t.samples : t.contact);
   const context = `${contextLabels[lang]}: ${inquiry}${selected ? ' · ' + titleFor(selected,lang) : ''}`;
+  const product = (url.searchParams.get('product') || '').trim().slice(0, 150);
   const field = (label, name, attributes = '') => `<label>${escape(label)}<input name="${name}" ${attributes}></label>`;
   return `<form class="mwl-form" method="post" action="/api/submissions/quote" id="${path === '/inquiry/' ? 'quote-request' : 'project-enquiry'}"
     data-mewepak-quote data-locale="${lang}" data-form-success="${escape(t.success)}" data-form-failure="${escape(t.failure)}"
@@ -149,7 +152,7 @@ function requestForm(path, lang, url, available) {
       ${field(t.person,'name','required maxlength="120" autocomplete="name"')}
       ${field(t.company,'company','required maxlength="160" autocomplete="organization"')}
       ${field(t.email,'email','type="email" dir="ltr" required maxlength="254" autocomplete="email"')}
-      ${field(t.product,'product','required maxlength="150"')}
+      ${field(t.product,'product',`required maxlength="150" value="${escape(product)}"`)}
       <label>${escape(t.format)}<select name="product_type"><option value="other">${escape(t.other)}</option>
         ${formatPages.filter(key=>available.has(key)).map(key => {
           const slug = key.split('/')[2];

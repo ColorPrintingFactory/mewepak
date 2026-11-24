@@ -103,6 +103,9 @@ function arc(x, y, radius, start, end, radiusY = radius) {
 }
 
 const invalid = (message, ...fields) => new RangeError(message, { cause: fields });
+const invalidRange = (template, values, field) => Object.assign(
+  invalid(template.replace(/\{(\w+)\}/g, (_, key) => values[key]), field), { template, values },
+);
 
 export function buildDieline(options) {
   const { format, width, height, depth, seal } = options;
@@ -119,8 +122,14 @@ export function buildDieline(options) {
   const valve = enabled('valve');
   const hole = enabled('hole');
   const fitmentOffset = options.fitmentOffset ?? spec.fitment?.offset ?? width / 2;
-  if (!extent(width, 60, maxWidth)) throw invalid(`Enter a ${isRepeat ? 'web width' : 'width'} of 60–${maxWidth} mm or the equivalent in inches.`, 'width');
-  if (!extent(height, minHeight, maxHeight)) throw invalid(`Enter a ${isRepeat ? 'print repeat' : 'height'} of ${minHeight}–${maxHeight} mm or the equivalent in inches.`, 'height');
+  if (!extent(width, 60, maxWidth)) throw invalidRange(
+    'Enter a {field} of {min}–{max} mm or the equivalent in inches.',
+    { field: isRepeat ? 'web width' : 'width', min: 60, max: maxWidth }, 'width',
+  );
+  if (!extent(height, minHeight, maxHeight)) throw invalidRange(
+    'Enter a {field} of {min}–{max} mm or the equivalent in inches.',
+    { field: isRepeat ? 'print repeat' : 'height', min: minHeight, max: maxHeight }, 'height',
+  );
   if (!extent(seal, 3, 15)) throw invalid('Enter a seal margin of 3–15 mm or the equivalent in inches.', 'seal');
   if (!extent(bleed, 0, 8)) throw invalid('Enter a bleed of 0–8 mm or the equivalent in inches.', 'bleed');
   if (!extent(safe, 0, 10)) throw invalid('Enter an artwork inset of 0–10 mm or the equivalent in inches.', 'safe');
@@ -132,7 +141,8 @@ export function buildDieline(options) {
     const limit = spec.fitment.axis === 'left' ? width : height;
     const clearance = seal + 10;
     if (!extent(fitmentOffset, clearance, limit - clearance)) {
-      throw invalid(`${spec.fitment.label} must be ${display(clearance)}–${display(limit - clearance)} mm.`, 'fitmentOffset');
+      throw invalidRange('{field}: enter a value of {min}–{max} mm.',
+        { field: spec.fitment.label, min: display(clearance), max: display(limit - clearance) }, 'fitmentOffset');
     }
   }
   const featureLimits = [
@@ -143,7 +153,8 @@ export function buildDieline(options) {
   ];
   for (const [enabled, value, min, max, name, input] of featureLimits) {
     if (enabled && !extent(value, min, max)) {
-      throw invalid(name + ' position must be ' + display(min) + '–' + display(max) + ' mm from the top.', input);
+      throw invalidRange('{field}: enter a position of {min}–{max} mm from the top.',
+        { field: name, min: display(min), max: display(max) }, input);
     }
   }
   if (zipper && notch && zipperPosition - notchPosition < 4) {
