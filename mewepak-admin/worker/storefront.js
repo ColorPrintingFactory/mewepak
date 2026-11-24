@@ -287,6 +287,18 @@ export async function connectStorefront(request, response, database, projectUrl,
     `<span>${encode(settings.name || 'Mewepak')}</span>`, { html: true }));
   if (settings.name) set('.mewepak-header-logo,.mewepak-footer-logo', 'alt', settings.name + ' — Packaging Solutions Provider');
   const pageType = storefrontPageType(url, path);
+  if (categorySlug && !productSlug) {
+    on('head', (el) => el.append('<script src="/assets/category-booking.js" defer></script>', { html: true }));
+    text('.mewepak-booking-schedule__header p', 'Availability');
+    text('.mewepak-booking-schedule__header h3', 'Upcoming consultations');
+    text('.mewepak-booking-schedule__row', '');
+    set('.mewepak-booking-schedule__row', 'aria-label', 'Available consultation times');
+    on('.mewepak-booking-schedule__note', (el) => {
+      el.setAttribute('role', 'status');
+      el.setInnerContent('Checking consultation times…');
+    });
+  }
+
   const navigationScript = '/assets/original/storefront-navigation.js?v=shared-menu';
   set('script[src="/assets/original/main.js?cms=1"],script[src="/assets/original/main.js"]', 'src', navigationScript);
   set('link[href="/assets/original/custom.css"]', 'href', '/assets/original/custom.css?v=products-grid');

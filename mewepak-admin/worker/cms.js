@@ -282,15 +282,39 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
     }
     applyProcurement(path, edit, replace, entry, entries, publishedPaths, baseline, escape);
     if (path === '/' || path === '/blog/') {
-      for (const { table, row, path: href } of entries) {
-        if (table !== 'articles' || !/^\/[a-z0-9_-]+\/$/i.test(href)) continue;
-        const image = safeUrl(row.featured_image_url);
-        if (!image || image === baseline[href]?.featured_image_url) continue;
-        edit(`main a[href="${href}"] > img[data-asset]`, (el) => {
-          el.setAttribute('src', image);
+      const articles = new Map(entries.filter(({ table }) => table === 'articles').map(({ row }) => [row.slug, row]));
+      edit('main article[data-article-slug]', (el) => {
+        const article = articles.get(el.getAttribute('data-article-slug'));
+        if (!article) return el.remove();
+        if (path === '/') {
+          el.setAttribute('data-search', article.title);
+        }
+      });
+      for (const article of articles.values()) {
+        const { slug, title, excerpt } = article;
+        if (!/^[a-z0-9_-]+$/i.test(slug)) continue;
+        const href = '/' + slug + '/';
+        const card = `main article[data-article-slug="${slug}"]`;
+        if (path === '/') {
+          replace(card + ' .mw-blog-content h3', title);
+          edit(card + ' .mw-read', (el) => {
+            if (excerpt) el.setAttribute('aria-description', excerpt);
+          });
+        } else {
+          replace(card + ' h2 > a, ' + card + ' h3 > a', title);
+          const summary = (excerpt || '').trim();
+          const blurb = summary.length > 176 ? summary.slice(0, 176).replace(/\s+\S*$/, '') + '…' : summary;
+          replace(card + ' > p, ' + card + ' .in-feature-copy > p', blurb);
+        }
+        edit(card + ' a[aria-label]', (el) => el.setAttribute('aria-label', 'Read ' + title));
+        const image = safeUrl(article.featured_image_url);
+        edit(card + ' img', (el) => {
           el.setAttribute('alt', '');
-          el.removeAttribute('srcset');
-          el.removeAttribute('data-asset');
+          if (image && image !== baseline[href]?.featured_image_url) {
+            el.setAttribute('src', image);
+            el.removeAttribute('srcset');
+            el.removeAttribute('data-asset');
+          }
         });
       }
     }

@@ -117,6 +117,37 @@ async function contentResponse(request, env) {
   }
 }
 
+async function availableSlots(env, date, settings, clock) {
+  const windows = slotsForDate(settings).filter((slot) => slotHasNotStarted(date, slot.slice(0, 5), clock));
+  if (!windows.length) return [];
+  const response = await databaseRequest(env, 'rpc/get_booked_slot_counts', {
+    method: 'POST', body: JSON.stringify({ p_booking_date: date }),
+  });
+  if (!response.ok) return null;
+  const counts = new Map((await response.json()).map(({ slot_start, booked }) =>
+    [String(slot_start).slice(0, 5), Number(booked || 0)]));
+  return windows.filter((slot) => (counts.get(slot.slice(0, 5)) || 0) < settings.max_per_slot);
+}
+
+async function upcomingBookingResponse(env) {
+  try {
+    const settings = await getBookingSettings(env);
+    const timezone = settings.timezone || 'UTC';
+    const clock = scheduleClock(timezone);
+    const lastDate = addCalendarDays(clock.date, Math.min(Number(settings.advance_days || 0), 13));
+    const slots = [];
+    for (let date = clock.date; date <= lastDate && slots.length < 4; date = addCalendarDays(date, 1)) {
+      if (!dateIsBookable(date, settings, clock.date, lastDate)) continue;
+      const windows = await availableSlots(env, date, settings, clock);
+      if (!windows) return json({ error: 'Could not read appointment availability.' }, 502);
+      slots.push(...windows.slice(0, 4 - slots.length).map((window) => ({ date, window })));
+    }
+    return json({ timezone, slots });
+  } catch {
+    return json({ error: 'Availability is temporarily unavailable.' }, 503);
+  }
+}
+
 async function bookingSlotsResponse(request, env) {
   const date = new URL(request.url).searchParams.get('date') || '';
   if (!isCalendarDate(date)) return json({ error: 'A date in YYYY-MM-DD format is required.' }, 400);
@@ -141,19 +172,9 @@ async function bookingSlotsResponse(request, env) {
       avatar_url: settings.avatar_url || '',
     };
     if (!dateIsBookable(date, settings, clock.date, lastDate)) return json(publicSettings);
-    const response = await databaseRequest(env, 'rpc/get_booked_slot_counts', {
-      method: 'POST', body: JSON.stringify({ p_booking_date: date }),
-    });
-    if (!response.ok) return json({ error: 'Could not read appointment availability.' }, 502);
-    const counts = new Map();
-    for (const booking of await response.json()) {
-      const time = String(booking.slot_start).slice(0, 5);
-      counts.set(time, Number(booking.booked || 0));
-    }
-    publicSettings.slots = slotsForDate(settings).filter((slot) => {
-      const start = slot.slice(0, 5);
-      return slotHasNotStarted(date, start, clock) && (counts.get(start) || 0) < settings.max_per_slot;
-    });
+    const slots = await availableSlots(env, date, settings, clock);
+    if (!slots) return json({ error: 'Could not read appointment availability.' }, 502);
+    publicSettings.slots = slots;
     return json(publicSettings);
   } catch {
     return json({ error: 'Availability is temporarily unavailable.' }, 503);
@@ -404,6 +425,7 @@ export default {
     if (url.pathname === '/api/frontend-navigation' && request.method === 'GET') return frontendNavigation(database);
     if (url.pathname === '/api/content' && request.method === 'GET') return contentResponse(request, env);
     if (url.pathname === '/api/booking-slots' && request.method === 'GET') return bookingSlotsResponse(request, env);
+    if (url.pathname === '/api/booking-upcoming' && request.method === 'GET') return upcomingBookingResponse(env);
     if (url.pathname === '/api/bookings' && request.method === 'POST') return createBookingResponse(request, env);
     if (request.method === 'POST' && ['/api/submissions/quote', '/api/submissions/newsletter'].includes(url.pathname)) {
       return storefrontSubmission(request, env, url.pathname.split('/').pop());

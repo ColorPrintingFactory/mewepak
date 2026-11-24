@@ -145,7 +145,7 @@ const definitions = {
       { name: 'primary_image_url', label: '主图链接', type: 'text', full: true },
       { name: '_upload', label: '上传主图', type: 'file', full: true, accept: 'image/png,image/jpeg,image/webp,image/avif', target: 'primary_image_url', folder: 'product-images' },
       { name: 'gallery_urls', label: '产品图集链接', type: 'array', full: true, help: '每行填写一个图片链接。' },
-      { name: 'features', label: '包装特点', type: 'array', full: true, help: '每行填写一项。' },
+      { name: 'features', label: '包装特点', type: 'array', full: true, help: '每行填写一项，可以用「标题 — 说明」的格式。' },
       { name: 'material_options', label: '可选材料', type: 'array', full: true, help: '每行填写一项。' },
       { name: 'printing_options', label: '印刷与表面工艺', type: 'array', full: true, help: '每行填写一项。' },
       { name: 'applications', label: '适用场景', type: 'array', full: true, help: '每行填写一项。' },
