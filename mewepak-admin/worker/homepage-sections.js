@@ -14,7 +14,9 @@ const types = [
   ['roll-stock-films', 'Roll Stock Films'],
 ];
 
-const icon = (name, classes) => `<img class="${classes}" src="${customerFormatImages[name]}" alt="" width="219" height="210" loading="lazy" decoding="async">`;
+const formatIconDirectory = '/assets/client-design/format-icons';
+const lineIcon = (name) => `<img class="mw-format-line" src="${formatIconDirectory}/${name}-line.webp" alt="" width="219" height="210" loading="lazy" decoding="async">`;
+const customerHoverIcon = (name) => `<img class="mw-format-sample mw-format-customer" src="${customerFormatImages[name]}" alt="" width="219" height="210" loading="lazy" decoding="async">`;
 
 export function homeFormatSection(samplePreview) {
   const color = samplePreview === 'teal' ? 'teal' : 'deep-green';
@@ -31,7 +33,8 @@ export function homeFormatSection(samplePreview) {
         <li>
           <a class="mw-format-card" href="/products/${slug}/">
             <span class="mw-format-art">
-              ${icon(slug, 'mw-format-sample mw-format-customer')}
+              ${lineIcon(slug)}
+              ${customerHoverIcon(slug)}
             </span>
             <span class="mw-format-label">${label}</span>
           </a>
