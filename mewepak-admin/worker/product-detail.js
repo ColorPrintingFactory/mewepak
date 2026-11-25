@@ -58,6 +58,112 @@ function splitDetail(value) {
   return divider < 0 ? [value, ''] : [value.slice(0, divider), value.slice(divider + 3)];
 }
 
+const featureLabelAliases = new Map([
+  ['storage cue', 'Storage condition'],
+  ['declared quantity', 'Declared quantity'],
+  ['declared net weight', 'Declared net weight'],
+  ['declared net content', 'Declared net content'],
+  ['declared weight shown', 'Declared weight'],
+  ['declared quantity shown', 'Declared quantity'],
+  ['declared capacity', 'Declared capacity'],
+  ['declared volume', 'Declared volume'],
+  ['net quantity', 'Net quantity'],
+  ['nominal content', 'Nominal content'],
+  ['nominal fill', 'Nominal fill'],
+  ['pack count', 'Pack count'],
+  ['declared count', 'Declared count'],
+  ['format', 'Format'],
+  ['bag format', 'Bag format'],
+  ['bag style', 'Bag style'],
+  ['pouch style', 'Pouch style'],
+  ['pack style', 'Pack style'],
+  ['packaging style', 'Packaging style'],
+  ['container style', 'Container style'],
+  ['pack type', 'Pack type'],
+  ['package family', 'Package family'],
+  ['closure', 'Closure'],
+  ['closure type', 'Closure'],
+  ['closure system', 'Closure'],
+  ['opening method', 'Opening method'],
+  ['access', 'Opening / closure'],
+  ['product visibility', 'Product visibility'],
+  ['dispensing feature', 'Dispensing feature'],
+  ['base style', 'Base style'],
+  ['product category', 'Product category'],
+  ['product identity', 'Product identity'],
+  ['product identity shown', 'Product identity'],
+  ['front product identity', 'Product identity'],
+  ['age communication', 'Age communication'],
+  ['variant shown', 'Variant shown'],
+  ['dieline marks found in source pdf', 'Dieline markers'],
+  ['capacity shown on artwork', 'Displayed capacity'],
+  ['capacity references shown on artwork', 'Displayed capacity'],
+]);
+
+function normalizedFeatureLabel(label) {
+  const clean = String(label || '').trim().replace(/\s+/g, ' ');
+  return featureLabelAliases.get(clean.toLowerCase()) || clean;
+}
+
+function generatedFeatureHeading(value) {
+  const text = String(value || '').trim();
+  const rules = [
+    [/low-temperature|cold-chain|freezer/i, 'Low-temperature performance'],
+    [/puncture resistance/i, 'Puncture resistance'],
+    [/seal retention|seal integrity|seal strength/i, 'Seal integrity'],
+    [/moisture-vapour|moisture protection|freezer burn|dehydration/i, 'Moisture protection'],
+    [/oxygen|aroma barrier/i, 'Barrier performance'],
+    [/print and lamination adhesion|lamination adhesion/i, 'Print & lamination durability'],
+    [/scuff resistance|abrasion resistance/i, 'Scuff resistance'],
+    [/material gauge|material.*validated|validation/i, 'Material validation'],
+    [/multi-layer laminated flexible packaging film/i, 'Film construction'],
+    [/rotogravure|flexographic printing/i, 'Printing process'],
+    [/digital printing/i, 'Digital print option'],
+    [/cmyk|pantone|up to \d+ colors|up to \d+ colours/i, 'Colour capability'],
+    [/matte|matt|gloss|soft[- ]?touch|spot uv|spot gloss/i, 'Finish options'],
+    [/solvent-based|solvent-free lamination/i, 'Lamination options'],
+    [/hang hole|pegboard|hanging display/i, 'Retail display'],
+    [/resealable|reclosure|zipper/i, 'Reclosure'],
+    [/transparent window|clear window|product window/i, 'Product visibility'],
+    [/heat seal|heat-sealed|sealed top|sealed bottom/i, 'Seal format'],
+    [/barcode|variable-code|lot and date/i, 'Barcode & coding'],
+    [/white ink/i, 'White ink coverage'],
+    [/artwork|graphics|photography/i, 'Artwork details'],
+  ];
+  for (const [pattern, heading] of rules) if (pattern.test(text)) return heading;
+  if (text.length <= 58) return text;
+  const clause = text.split(/\s+(?:for|to|with|against|where|while|when|that)\s+/i)[0].trim();
+  if (clause.length >= 12 && clause.length <= 58) return clause;
+  const words = text.split(/\s+/);
+  const short = words.slice(0, 6).join(' ').replace(/[,:;.]$/, '');
+  return short + (words.length > 6 ? '…' : '');
+}
+
+function splitFeatureDetail(value) {
+  const clean = String(value || '').trim().replace(/\s+/g, ' ');
+  const dash = clean.indexOf(' — ');
+  if (dash > 0) return [normalizedFeatureLabel(clean.slice(0, dash)), clean.slice(dash + 3).trim()];
+
+  const colon = clean.indexOf(':');
+  if (colon > 0 && colon <= 60) {
+    const label = clean.slice(0, colon).trim();
+    const copy = clean.slice(colon + 1).trim();
+    if (label && copy) return [normalizedFeatureLabel(label), copy];
+  }
+
+  const heading = generatedFeatureHeading(clean);
+  return heading === clean ? [heading, ''] : [heading, clean];
+}
+
+function featureIcon(title, copy = '') {
+  const text = (title + ' ' + copy).toLowerCase();
+  if (/window|visibility/.test(text)) return 'window';
+  if (/closure|reclosure|zipper|opening/.test(text)) return 'zip';
+  if (/print|artwork|colour|color|finish|ink|barcode/.test(text)) return 'print';
+  if (/format|style|gusset|pouch|bag|seal/.test(text)) return 'bag';
+  return 'tune';
+}
+
 function isFinishGuidance(value) {
   const normalized = String(value || '').toLowerCase();
   if (/\b(?:matte|matt|gloss|soft[- ]?touch|spot[- ]?gloss|spot uv|selective gloss|satin|pearlescent)\b/.test(normalized)) return true;
@@ -89,8 +195,10 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
     : [];
   const finishes = [...explicitFinishes, 'Please advise'];
   const defaultFinish = explicitFinishes[0] || 'Please advise';
-  const featureIcons = ['art', 'bag', 'tune', 'print'];
-  const featureCards = values(row.features).map((value, index) => [featureIcons[index] || 'bag', ...splitDetail(value)]);
+  const featureCards = values(row.features).map((value) => {
+    const [title, copy] = splitFeatureDetail(value);
+    return [featureIcon(title, copy), title, copy];
+  });
   const application = applications[0] || '';
   const inquiry = (context = {}) => '/inquiry/?' + new URLSearchParams({
     ...(format && { format }), product: name, ...context,
@@ -104,8 +212,12 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   }).join('');
   const quickFeatures = featureCards.slice(0, 4).map(([, title]) =>
     `<li><span class="tick" aria-hidden="true">✓</span>${text(title)}</li>`).join('');
-  const featureMarkup = featureCards.map(([name, title, copy]) =>
+  const featureMarkup = featureCards.slice(0, 4).map(([name, title, copy]) =>
     `<article class="almond-feature-card">${icon(name)}<h3>${text(title)}</h3>${copy ? `<p>${text(copy)}</p>` : ''}</article>`).join('');
+  const additionalFeatures = featureCards.slice(4);
+  const additionalFeatureMarkup = additionalFeatures.length
+    ? `<details style="margin-top:24px"><summary style="cursor:pointer;font-weight:600">More product details (${additionalFeatures.length})</summary><ul class="custom-list" style="margin-top:16px">${additionalFeatures.map(([, title, copy]) => `<li><strong>${text(title)}</strong>${copy ? ` — ${text(copy)}` : ''}</li>`).join('')}</ul></details>`
+    : '';
   const applicationTags = applications.map((value) => `<span>${text(value)}</span>`).join('');
   replaceHtml('.quick-features', quickFeatures);
   replaceHtml('#form-finish', finishes.map((value) =>
@@ -172,7 +284,7 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   const overview = description || `<p>${text(row.short_description)}</p>`;
   replaceHtml('#overview .intro-grid', `<div><span class="eyebrow">Designed around your product</span><h2>Packaging that fits your product.</h2><p>${text(profile?.benefit[1] || row.short_description)}</p></div><div class="description-copy">${overview}</div>`);
   replaceHtml('#features .container', sectionHeading('Packaging features', 'Small details. Stronger shelf presence.') +
-    (featureMarkup ? `<div class="features">${featureMarkup}</div>` : '<p>Confirm the pack structure and handling requirements as part of your quote.</p>'));
+    (featureMarkup ? `<div class="features">${featureMarkup}</div>${additionalFeatureMarkup}` : '<p>Confirm the pack structure and handling requirements as part of your quote.</p>'));
   const specifications = [['Packaging format', categoryName], ...technicalSpecs, ...(profile?.specifications || [])];
   if (applications.length) specifications.push(['Main applications', applications.slice(0, 4).join(', ')]);
   replaceHtml('#specifications', sectionHeading('Production & technical details', 'Know the format.', profile?.materialNote) +
