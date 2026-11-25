@@ -89,7 +89,7 @@ function splitMaterialDetail(value) {
     const comparable = structureTitle.match(/^(.{2,52}?)\s+or comparable\s+(.+)$/i);
     if (comparable && isLikelyMaterialStructure(comparable[1])) {
       structureTitle = comparable[1].trim();
-      noteText = `Or comparable ${comparable[2]}. ${noteText}`;
+      noteText = `Or comparable ${comparable[2]}. ${capitalizeNote(noteText)}`;
     }
     return [structureTitle, capitalizeNote(noteText)];
   }
@@ -162,6 +162,7 @@ function generatedFeatureHeading(value) {
     [/matte|matt|gloss|soft[- ]?touch|spot uv|spot gloss/i, 'Finish options'],
     [/solvent-based|solvent-free lamination/i, 'Lamination options'],
     [/hang hole|pegboard|hanging display/i, 'Retail display'],
+    [/\b(?:no|without)\b[^.]{0,40}\b(?:reclosure|resealable|zipper)\b|\bno reclosure shown\b/i, 'Closure format'],
     [/resealable|reclosure|zipper/i, 'Reclosure'],
     [/spout|dispensing fitment|screw cap/i, 'Dispensing & closure'],
     [/transparent window|clear window|product window/i, 'Product visibility'],
@@ -169,12 +170,19 @@ function generatedFeatureHeading(value) {
     [/barcode|variable-code|lot and date/i, 'Barcode & coding'],
     [/white ink/i, 'White ink coverage'],
     [/front[- ]and[- ]back|front.*back|back.*front/i, 'Front & back artwork'],
-    [/product imagery|fruit imagery|food imagery|ingredient imagery|photography/i, 'Product imagery'],
+    [/reverse-panel.*template copy|template copy.*replacement|template copy.*correction|requires .*correction/i, 'Artwork correction'],
+    [/cannabinoid|dose statements?/i, 'Regulatory statements'],
+    [/quick-preparation statement/i, 'Front-panel statement'],
+    [/pet-care iconography/i, 'Front-panel iconography'],
+    [/reverse ingredient line/i, 'Ingredient statement'],
+    [/reverse references/i, 'Reverse-panel details'],
+    [/striped retail design|red, blue and cream/i, 'Artwork colour & layout'],
+    [/moisture and aroma protection/i, 'Moisture & aroma protection'],
+    [/product imagery|fruit imagery|food imagery|ingredient imagery|photography|\bimagery\b/i, 'Product imagery'],
     [/product identity|positioning|variant shown/i, 'Product identity'],
     [/spanish-language|arabic|multilingual|language/i, 'Localized artwork'],
     [/distribution requirements|commercial distribution/i, 'Distribution readiness'],
     [/powder-safe|frozen handling|rough handling|handling performance/i, 'Handling performance'],
-    [/template copy.*correction|requires .*correction/i, 'Artwork correction'],
     [/claims|nutrition|dietary|organic|gluten|vegan|non-gmo/i, 'On-pack claims'],
     [/artwork|graphics/i, 'Artwork details'],
   ];
