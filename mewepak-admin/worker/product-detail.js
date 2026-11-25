@@ -3,6 +3,7 @@ export const productDetailTemplate = '/products/stand-up-pouch/premium-almonds-w
 const profiles = {
   'frozen-candied-grapes-atomic-sourberry-hanging-pouch': {
     name: 'Frozen Candied Grapes',
+    eyebrow: 'Custom printed hanging pouches',
     heading: ['Frozen Candied Grapes', 'Atomic Sourberry Hanging Pouch'],
     benefit: ['From pegboard to checkout.', 'The hang hole gives this high-contrast design a place on retail hooks, racks and seasonal displays.'],
     specifications: [
@@ -17,6 +18,7 @@ const profiles = {
   },
   'cotton-candy-pastel-pink-hanging-pouch': {
     name: 'Cotton Candy',
+    eyebrow: 'Custom printed hanging pouches',
     heading: ['Cotton Candy', 'Pastel Pink Hanging Pouch'],
     sampleSize: '4 g',
     benefit: ['A light pack made for the hook.', 'The pastel artwork and hang hole suit party treats, seasonal promotions and checkout displays.'],
@@ -31,6 +33,15 @@ const profiles = {
     artworkNote: 'Proof the pastel pink on the chosen film. A white print base can help control the colour, while clear film can be evaluated for partial product visibility.',
     question: ['Can the pouch hold a different amount of cotton candy?', 'Yes. Share the weight and approximate volume of a portion. The 4 g artwork is a reference, and the finished size should be checked with a filled sample.'],
   },
+  'premium-almonds-window-stand-up-pouch': {
+    name: 'Premium Almonds',
+    eyebrow: 'Custom printed nut packaging',
+    sampleSize: '100 g',
+    benefit: ['See the product. Keep the pack premium.', 'The transparent window, zipper and bottom gusset make this format practical for premium nuts and multi-serving snack ranges.'],
+    materialNote: 'Oil content, oxidation sensitivity, expected shelf life, distribution temperature and the visible window all inform the final laminate.',
+    artworkNote: 'Keep the warm cream field, deep maroon branding, almond photography and small back-panel text consistent on the selected material.',
+    question: ['Can I change the window, size and zipper?', 'Yes. Share the target fill weight, preferred window shape and reclosure needs so the pouch can be reviewed around the real product and shelf-life target.'],
+  },
 };
 
 const finishStyles = new Map([
@@ -38,12 +49,6 @@ const finishStyles = new Map([
   ['Gloss', ['Gloss', 'Gloss finish', 'gloss']],
   ['Soft-touch matte', ['Soft-touch', 'Soft-touch matte', 'soft']],
   ['Spot gloss / Spot UV', ['Spot gloss', 'Spot gloss / Spot UV', 'spot']],
-]);
-const almondBadges = new Map([
-  ['A window into quality', 'Custom die-cut window'],
-  ['Open. Enjoy. Reseal.', 'Resealable zipper'],
-  ['Built to stand out', 'Stand-up bottom gusset'],
-  ['Your brand, front to back', 'Full-colour front & back'],
 ]);
 const icon = (name) => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 const values = (field) => Array.isArray(field) ? field.filter((value) => typeof value === 'string' && value.trim()) : [];
@@ -53,9 +58,15 @@ function splitDetail(value) {
   return divider < 0 ? [value, ''] : [value.slice(0, divider), value.slice(divider + 3)];
 }
 
+function isFinishGuidance(value) {
+  const normalized = String(value || '').toLowerCase();
+  if (/\b(?:matte|matt|gloss|soft[- ]?touch|spot[- ]?gloss|spot uv|selective gloss|satin|pearlescent)\b/.test(normalized)) return true;
+  if (/\bmetallic\b/.test(normalized) && !/\bprinting\b/.test(normalized)) return true;
+  return /\b(?:cold-foil|foil accent)\b/.test(normalized);
+}
+
 export async function applyProductDetail({ entry, entries, previous, edit, replace, replaceHtml, safeUrl, escape, sanitize, digest }) {
   const { row, path } = entry;
-  const curated = path === productDetailTemplate;
   const profile = Object.hasOwn(profiles, row.slug) ? profiles[row.slug] : null;
   const category = entries.find((item) => item.table === 'product_categories' && item.row.slug === row.category?.slug);
   const categoryName = category?.row.name || 'Packaging';
@@ -64,7 +75,10 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   const name = row.name;
   const applications = values(row.applications);
   const materials = values(row.material_options);
-  const printing = [...new Set(values(row.printing_options).map((value) => value.trim()))].filter((value) => value !== 'Please advise');
+  const rawPrinting = [...new Set(values(row.printing_options).map((value) => value.trim()))].filter((value) => value !== 'Please advise');
+  const explicitFinishes = [...new Set(values(row.finishing_options).map((value) => value.trim()))].filter((value) => value !== 'Please advise');
+  const finishGuidance = [...new Set([...explicitFinishes, ...rawPrinting.filter(isFinishGuidance)])];
+  const printing = rawPrinting.filter((value) => !isFinishGuidance(value));
   const technicalSpecs = Array.isArray(row.technical_specs)
     ? row.technical_specs.map((item) => {
       if (!item || typeof item !== 'object') return null;
@@ -73,9 +87,9 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
       return label && value ? [label, value] : null;
     }).filter(Boolean)
     : [];
-  const finishes = [...printing, 'Please advise'];
-  const defaultFinish = curated ? finishes[0] : 'Please advise';
-  const featureIcons = curated ? ['window', 'zip', 'bag', 'print'] : ['art', 'bag', 'tune', 'print'];
+  const finishes = [...explicitFinishes, 'Please advise'];
+  const defaultFinish = explicitFinishes[0] || 'Please advise';
+  const featureIcons = ['art', 'bag', 'tune', 'print'];
   const featureCards = values(row.features).map((value, index) => [featureIcons[index] || 'bag', ...splitDetail(value)]);
   const application = applications[0] || '';
   const inquiry = (context = {}) => '/inquiry/?' + new URLSearchParams({
@@ -84,12 +98,12 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   const quote = (label, className = 'btn') => `<a class="${className}" data-quote href="${escape(inquiry())}">${label}</a>`;
   const text = (value) => escape(value || '');
   const pills = (options) => options.map((value) => `<button type="button" class="pill" data-finish="${text(value)}" aria-pressed="${value === defaultFinish}">${text(finishStyles.get(value)?.[0] || value)}</button>`).join('');
-  const finishGrid = printing.map((value) => {
-    const [shortLabel, label, dot] = finishStyles.get(value) || [value, value, ''];
-    return `<div class="finish-card"><span class="finish-dot${dot ? ' ' + dot : ''}"></span>${text(curated ? label : shortLabel)}</div>`;
+  const finishGrid = finishGuidance.map((value) => {
+    const [, label, dot] = finishStyles.get(value) || [value, value, ''];
+    return `<div class="finish-card"><span class="finish-dot${dot ? ' ' + dot : ''}"></span>${text(label)}</div>`;
   }).join('');
   const quickFeatures = featureCards.slice(0, 4).map(([, title]) =>
-    `<li><span class="tick" aria-hidden="true">✓</span>${text((curated && almondBadges.get(title)) || title)}</li>`).join('');
+    `<li><span class="tick" aria-hidden="true">✓</span>${text(title)}</li>`).join('');
   const featureMarkup = featureCards.map(([name, title, copy]) =>
     `<article class="almond-feature-card">${icon(name)}<h3>${text(title)}</h3>${copy ? `<p>${text(copy)}</p>` : ''}</article>`).join('');
   const applicationTags = applications.map((value) => `<span>${text(value)}</span>`).join('');
@@ -98,11 +112,10 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
     `<option value="${text(value)}"${value === defaultFinish ? ' selected' : ''}>${text(value)}</option>`).join(''));
   edit('#form-application', (el) => el.setAttribute('value', application));
   edit('[data-quote]:not([data-recommend-enquiry])', (el) => {
-    const size = curated ? '100g' : profile?.sampleSize;
+    const size = profile?.sampleSize;
     el.setAttribute('href', inquiry({ ...(size && { size }), finish: defaultFinish }));
   });
-  const description = row.description && (!curated || await digest(row.description) !== previous.description_hash)
-    ? await sanitize(row.description) : '';
+  const description = row.description ? await sanitize(row.description) : '';
   const list = (items, className = '') => items.length
     ? `<ul class="${className}">${items.map((item) => `<li>${text(item)}</li>`).join('')}</ul>` : '';
   const rows = (items) => items.map(([key, value]) => `<tr><th scope="row">${text(key)}</th><td>${text(value)}</td></tr>`).join('');
@@ -126,7 +139,7 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   const updatedGallery = row.primary_image_url !== previous.primary_image_url ||
     JSON.stringify(row.gallery_urls || []) !== JSON.stringify(previous.gallery_urls || []);
   const images = [...new Set([row.primary_image_url, ...values(row.gallery_urls)].map(safeUrl).filter(Boolean))];
-  if (!curated || updatedGallery) {
+  if (true) {
     const hero = images[0] ? `<img id="productimage" fetchpriority="high" src="${text(images[0])}" alt="${text(name)} artwork">
       <span class="artwork-chip" id="artwork-label">Packaging artwork</span>
       <span id="product-lens" class="product-lens" aria-hidden="true" hidden></span>
@@ -137,29 +150,9 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
     replaceHtml('.thumbs', images.length > 1 ? images.map((src, index) => `<button class="thumb" type="button" data-image data-image-src="${text(src)}" data-image-alt="${text(name)} artwork, view ${index + 1}" data-image-label="Packaging artwork · View ${index + 1}" aria-pressed="${index === 0}" aria-label="View product image ${index + 1}"><img src="${text(src)}" alt="" width="84" height="84" decoding="async"></button>`).join('') : '');
     if (images.length <= 1) edit('.thumbs', (el) => el.remove());
   }
-  if (curated) {
-    if (row.short_description !== previous.short_description) replace('.product-info .lead', row.short_description);
-    if (name !== previous.title) {
-      replace('.breadcrumb [aria-current]', name);
-      replace('.product-info h1', name);
-    }
-    if (description) replaceHtml('#overview .description-copy', description);
-    replaceHtml('.finish-pills', pills(printing.length ? printing : finishes));
-    replaceHtml('#features .features', featureMarkup);
-    replaceHtml('#materials .material-list', materials.map((value) => {
-      const [structure, note] = splitDetail(value);
-      return `<li><strong>${text(structure)}</strong>${note ? `<span>${text(note)}</span>` : ''}</li>`;
-    }).join(''));
-    replaceHtml('#materials .finish-grid', finishGrid);
-    replaceHtml('#applications .applications', applicationTags);
-    replace('#specifications .spec-table tr:nth-child(7) td', applications.slice(0, 4).join(', '));
-    if (relatedMarkup) edit('#related', (el) => el.append(relatedMarkup, { html: true }));
-    return;
-  }
-
   replaceHtml('.breadcrumb', `<a href="/">Home</a><span aria-hidden="true">/</span><a href="/products/">Packaging</a><span aria-hidden="true">/</span><a href="${text(categoryPath)}">${text(categoryName)}</a><span class="current-crumb" aria-hidden="true">/</span><span class="current-crumb" aria-current="page">${text(name)}</span>`);
-  replaceHtml('.product-info h1', profile && previous.title === name ? profile.heading.map(text).join('<br>') : text(name));
-  replace('.product-info .category .eyebrow', profile ? 'Custom printed hanging pouches' : 'Custom printed packaging');
+  replaceHtml('.product-info h1', profile?.heading && previous.title === name ? profile.heading.map(text).join('<br>') : text(name));
+  replace('.product-info .category .eyebrow', profile?.eyebrow || 'Custom printed packaging');
   replace('.product-info .lead', row.short_description || '');
   replaceHtml('.gallery-benefit', `${icon('bag')}<div><strong>${text(profile?.benefit[0] || 'Packaging built around your product.')}</strong><p>${text(profile?.benefit[1] || 'Confirm the artwork, dimensions and pack structure with your project team.')}</p></div>`);
   replaceHtml('.selection-box', `<div class="selection-block">
@@ -174,7 +167,7 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   replaceHtml('.trust-strip .trust-grid', [
     ['art', 'Artwork with room for the details', 'Plan branding, required copy and the barcode.'],
     ['tune', 'A structure for your application', 'Review materials, seals and finish together.'],
-    ['bag', 'Designed around your retail display', profile ? 'Discuss the hang hole and how the pouch will be displayed.' : 'Confirm the filled dimensions and how customers will use the pack.'],
+    ['bag', 'Designed around your retail display', profile?.eyebrow === 'Custom printed hanging pouches' ? 'Discuss the hang hole and how the pouch will be displayed.' : 'Confirm the filled dimensions and how customers will use the pack.'],
   ].map(([i, heading, copy]) => `<article>${icon(i)}<div><strong>${heading}</strong><p>${copy}</p></div></article>`).join(''));
   const overview = description || `<p>${text(row.short_description)}</p>`;
   replaceHtml('#overview .intro-grid', `<div><span class="eyebrow">Designed around your product</span><h2>Packaging that fits your product.</h2><p>${text(profile?.benefit[1] || row.short_description)}</p></div><div class="description-copy">${overview}</div>`);
@@ -187,9 +180,24 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
     <p class="spec-note">Final dimensions, laminate and production specifications are confirmed for your project.</p></div>
     <aside class="brief-card"><span class="eyebrow">Make your brief count</span><h3>A better pack starts with the right details.</h3><p>Share the product and how it will be filled, stored and delivered.</p>${list(['Product and target fill weight', 'Quantity and delivery region', 'Artwork, closure and finish preferences'], 'custom-list')}${quote('Prepare Your Quote Brief')}</aside></div>`);
   replaceHtml('.expert-card ul', '<li>Materials and protection</li><li>Pack size and fill weight</li><li>Artwork and finishing details</li>');
-  replaceHtml('#materials .container', sectionHeading('Materials & finishing', 'The look you want. The structure you need.', profile?.materialNote) +
-    `<div class="config-grid"><article class="config-panel"><h3>Material options to review</h3>${materials.length ? list(materials, 'custom-list') : '<p>Tell us how the product is filled, stored and shipped so we can discuss a suitable film.</p>'}<a class="text-button" href="/solutions/material-specifications/">Compare material specifications <span aria-hidden="true">↗</span></a></article>
-    <article class="config-panel"><h3>A finish that feels right</h3><p>${text(profile?.artworkNote || 'Compare finishes on your artwork and review colour and small-text legibility.')}</p>${finishGrid ? `<div class="finish-grid">${finishGrid}</div>` : ''}</article></div>`);
+  const materialMarkup = materials.length
+    ? `<ul class="material-list">${materials.map((value) => {
+      const [structure, note] = splitDetail(value);
+      return `<li><strong>${text(structure)}</strong>${note ? `<span>${text(note)}</span>` : ''}</li>`;
+    }).join('')}</ul>`
+    : '<p>Tell us how the product is filled, stored and shipped so we can discuss a suitable film.</p>';
+  const printingMarkup = printing.length
+    ? list(printing, 'custom-list')
+    : '<p>No specific print process is fixed in the supplied source. Confirm the process with the final artwork, quantity and substrate.</p>';
+  const finishingMarkup = finishGrid
+    ? `<div class="finish-grid">${finishGrid}</div>`
+    : '<p>No specific surface finish is fixed in the supplied source. Matte, gloss or other effects can be reviewed during quoting where compatible.</p>';
+  replaceHtml('#materials .container', sectionHeading('Materials, printing & finishing', 'Separate the structure, print process and surface finish.', profile?.materialNote) +
+    `<div class="config-grid materials-grid">
+      <article class="config-panel"><h3>Material options to review</h3>${materialMarkup}<a class="text-button" href="/solutions/material-specifications/">Compare material specifications <span aria-hidden="true">↗</span></a></article>
+      <article class="config-panel"><h3>Printing process & artwork requirements</h3>${printingMarkup}<a class="text-button" href="/solutions/printing/">Explore printing options <span aria-hidden="true">↗</span></a></article>
+      <article class="config-panel"><h3>Surface finish & embellishment</h3><p>${text(profile?.artworkNote || 'Review the finish against the selected film, artwork and handling requirements.')}</p>${finishingMarkup}</article>
+    </div>`);
   replaceHtml('#customization .custom-section', `<article class="config-panel"><span class="eyebrow">Custom artwork</span><h2>A familiar format. Your own identity.</h2><p>${text(profile?.artworkNote || 'Bring your brand colours, artwork and key information to the packaging brief.')}</p>${quote('Discuss Your Custom Pouch', 'btn btn-teal')}</article><article class="config-panel"><span class="eyebrow">Before production</span><h3>Confirm the artwork and fit.</h3>${list(['Share target dimensions and fill weight', 'Check artwork placement and clearances', 'Review a proof or filled sample'], 'custom-list')}<a class="text-button" href="/solutions/prepress/">Explore prepress <span aria-hidden="true">↗</span></a></article>`);
   replaceHtml('#applications .container', `<span class="eyebrow">Suitable applications</span><h2>One format. Room for your range.</h2>${applications.length ? `<div class="applications">${applicationTags}</div>` : '<p>Share your application so we can discuss the material and configuration.</p>'}`);
   replace('.product-resources .resource-card:first-child p', 'Review laminate options and discuss the protection your product needs.');
