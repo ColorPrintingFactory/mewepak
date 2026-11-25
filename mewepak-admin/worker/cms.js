@@ -29,7 +29,7 @@ const tables = {
   pages: 'slug,title,summary,sections,seo_title,seo_description',
   articles: 'slug,title,excerpt,body,featured_image_url,seo_title,seo_description,published_at',
   product_categories: 'id,slug,name,short_description,image_url,menu_group,menu_order,show_in_menu,seo_title,seo_description',
-  products: 'slug,name,short_description,description,primary_image_url,gallery_urls,features,material_options,printing_options,applications,technical_specs,seo_title,seo_description,sort_order,category:product_categories(slug)',
+  products: 'slug,name,short_description,description,primary_image_url,gallery_urls,features,material_options,printing_options,finishing_options,applications,technical_specs,seo_title,seo_description,sort_order,category:product_categories(slug)',
 };
 
 export const processPath = '/sustainability/our-process/';
