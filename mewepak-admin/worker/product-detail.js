@@ -255,6 +255,37 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
     const [title, copy] = splitFeatureDetail(value);
     return [featureIcon(title, copy), title, copy];
   });
+  const featureKeys = new Set(featureCards.map(([, title, copy]) => `${title.toLowerCase()}|${copy.toLowerCase()}`));
+  const addFeatureFallback = (iconName, title, copy) => {
+    if (featureCards.length >= 4 || !copy) return;
+    const cleanTitle = String(title || '').trim();
+    const cleanCopy = String(copy || '').trim();
+    if (!cleanTitle || !cleanCopy) return;
+    const key = `${cleanTitle.toLowerCase()}|${cleanCopy.toLowerCase()}`;
+    if (featureKeys.has(key)) return;
+    featureKeys.add(key);
+    featureCards.push([iconName || featureIcon(cleanTitle, cleanCopy), cleanTitle, cleanCopy]);
+  };
+  if (featureCards.length < 4) {
+    for (const [label, value] of technicalSpecs) {
+      if (/^(?:packaging format|main applications)$/i.test(label)) continue;
+      addFeatureFallback(featureIcon(label, value), normalizedFeatureLabel(label), value);
+      if (featureCards.length >= 4) break;
+    }
+  }
+  if (featureCards.length < 4 && materials.length) {
+    const [structure, note] = splitMaterialDetail(materials[0]);
+    addFeatureFallback('tune', 'Material direction', note ? `${structure} — ${note}` : structure);
+  }
+  if (featureCards.length < 4 && printing.length) {
+    addFeatureFallback('print', 'Printing direction', printing[0]);
+  }
+  if (featureCards.length < 4 && finishGuidance.length) {
+    addFeatureFallback('art', 'Surface finish', finishGuidance[0]);
+  }
+  if (featureCards.length < 4 && applications.length) {
+    addFeatureFallback('bag', 'Application fit', applications[0]);
+  }
   const application = applications[0] || '';
   const inquiry = (context = {}) => '/inquiry/?' + new URLSearchParams({
     ...(format && { format }), product: name, ...context,
