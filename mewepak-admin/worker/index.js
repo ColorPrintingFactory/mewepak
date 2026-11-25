@@ -6,6 +6,7 @@ import { toolMetadata } from './i18n/tools.js';
 import { serveCms, frontendNavigation } from './cms.js';
 import { connectStorefront, publicSiteSettings } from './storefront.js';
 import { notFoundPage } from './not-found.js';
+import { applyCategoryTemplate } from './category-template.js';
 
 const MAX_BODY_BYTES = 12_000;
 
@@ -469,7 +470,8 @@ export default {
       env.ENVIRONMENT === 'preview',
     );
     const seoAsset = (path) => defaults && path === '/assets/original/seo-page-defaults.json' ? defaults : getAsset(path);
-    const localized = sharedPage ? localizeSharedPage(storefront, locale, url.search, settings) : storefront;
+    const categoryStorefront = await applyCategoryTemplate(request, storefront, database);
+    const localized = sharedPage ? localizeSharedPage(categoryStorefront, locale, url.search, settings) : categoryStorefront;
     const rendered = await optimizePageSeo(request, localized, env, seoAsset, { page, catalog, previous, settings, locale: sharedPage ? locale : null });
     const result = withSecurityHeaders(rendered, url.pathname, env, settings);
     if (!pageCache || !result.ok || !catalog || !settings?.usLocations ||
