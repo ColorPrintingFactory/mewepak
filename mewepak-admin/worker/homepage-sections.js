@@ -13,7 +13,7 @@ const types = [
   ['roll-stock-films', 'Roll Stock Films'],
 ];
 
-const directory = '/assets/client-design/format-icons';
+const directory = '/assets/client-design/format-icons/customer';
 const icon = (name, classes) => `<img class="${classes}" src="${directory}/${name}.webp" alt="" width="219" height="210" loading="lazy" decoding="async">`;
 
 export function homeFormatSection(samplePreview) {
@@ -31,10 +31,7 @@ export function homeFormatSection(samplePreview) {
         <li>
           <a class="mw-format-card" href="/products/${slug}/">
             <span class="mw-format-art">
-              ${icon(slug + '-line', 'mw-format-line')}
-              ${slug === 'stand-up-pouch'
-                ? icon(slug + '-sample-' + color, 'mw-format-sample')
-                : icon(slug + '-sample', 'mw-format-sample mw-format-sample-toned')}
+              ${icon(slug, 'mw-format-sample mw-format-customer')}
             </span>
             <span class="mw-format-label">${label}</span>
           </a>
