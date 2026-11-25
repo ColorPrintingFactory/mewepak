@@ -65,6 +65,14 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   const applications = values(row.applications);
   const materials = values(row.material_options);
   const printing = [...new Set(values(row.printing_options).map((value) => value.trim()))].filter((value) => value !== 'Please advise');
+  const technicalSpecs = Array.isArray(row.technical_specs)
+    ? row.technical_specs.map((item) => {
+      if (!item || typeof item !== 'object') return null;
+      const label = typeof item.label === 'string' ? item.label.trim() : '';
+      const value = typeof item.value === 'string' ? item.value.trim() : '';
+      return label && value ? [label, value] : null;
+    }).filter(Boolean)
+    : [];
   const finishes = [...printing, 'Please advise'];
   const defaultFinish = curated ? finishes[0] : 'Please advise';
   const featureIcons = curated ? ['window', 'zip', 'bag', 'print'] : ['art', 'bag', 'tune', 'print'];
@@ -172,7 +180,7 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   replaceHtml('#overview .intro-grid', `<div><span class="eyebrow">Designed around your product</span><h2>Packaging that fits your product.</h2><p>${text(profile?.benefit[1] || row.short_description)}</p></div><div class="description-copy">${overview}</div>`);
   replaceHtml('#features .container', sectionHeading('Packaging features', 'Small details. Stronger shelf presence.') +
     (featureMarkup ? `<div class="features">${featureMarkup}</div>` : '<p>Confirm the pack structure and handling requirements as part of your quote.</p>'));
-  const specifications = [['Packaging format', categoryName], ...(profile?.specifications || [])];
+  const specifications = [['Packaging format', categoryName], ...technicalSpecs, ...(profile?.specifications || [])];
   if (applications.length) specifications.push(['Main applications', applications.slice(0, 4).join(', ')]);
   replaceHtml('#specifications', sectionHeading('Production & technical details', 'Know the format.', profile?.materialNote) +
     `<div class="details-grid"><div><table class="spec-table"><caption class="sr">${text(name)} specifications</caption><tbody>${rows(specifications)}</tbody></table>
