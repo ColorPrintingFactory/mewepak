@@ -1,4 +1,5 @@
 import { previewFormats } from './preview-formats.js';
+import { customerFormatImages } from './customer-format-images.js';
 
 const types = [
   ['stand-up-pouch', 'Stand Up Pouch'],
@@ -13,8 +14,7 @@ const types = [
   ['roll-stock-films', 'Roll Stock Films'],
 ];
 
-const directory = '/assets/client-design/format-icons/customer';
-const icon = (name, classes) => `<img class="${classes}" src="${directory}/${name}.webp" alt="" width="219" height="210" loading="lazy" decoding="async">`;
+const icon = (name, classes) => `<img class="${classes}" src="${customerFormatImages[name]}" alt="" width="219" height="210" loading="lazy" decoding="async">`;
 
 export function homeFormatSection(samplePreview) {
   const color = samplePreview === 'teal' ? 'teal' : 'deep-green';
