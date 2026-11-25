@@ -58,6 +58,38 @@ function splitDetail(value) {
   return divider < 0 ? [value, ''] : [value.slice(0, divider), value.slice(divider + 3)];
 }
 
+function isLikelyMaterialStructure(value) {
+  return /\b(?:PET|PE|BOPA|PA|BOPP|OPP|CPP|RCPP|VMPET|MET[- ]?PET|AL|EVOH|LLDPE|HDPE|LDPE|PP|NY(?:LON)?|METALLOCENE|ALUMINIUM|ALUMINUM|FOIL|LAMINATE|LAMINATED|MONO[- ]?MATERIAL|PE[- ]?BASED|PE[- ]?RICH|PAPER|METALLI[ZS]ED)\b/i.test(value);
+}
+
+function capitalizeNote(value) {
+  const clean = String(value || '').trim();
+  return clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : '';
+}
+
+function splitMaterialDetail(value) {
+  const clean = String(value || '').trim().replace(/\s+/g, ' ');
+  const [dashTitle, dashNote] = splitDetail(clean);
+  if (dashNote) return [dashTitle.trim(), capitalizeNote(dashNote)];
+
+  const parenthetical = clean.match(/^(.+?)\s+\(([^()]+)\)$/);
+  if (parenthetical && parenthetical[1].length <= 90 && isLikelyMaterialStructure(parenthetical[1])) {
+    return [parenthetical[1].trim(), capitalizeNote(parenthetical[2])];
+  }
+
+  const qualified = clean.match(/^(.{2,90}?)\s+(for|where|when|if|subject to|only where|designed with|designed for|with)\s+(.+)$/i);
+  if (qualified && isLikelyMaterialStructure(qualified[1])) {
+    const [, structure, connector, remainder] = qualified;
+    if (/^with$/i.test(connector) && clean.length <= 58) return [clean, ''];
+    const prefix = /^(when|if|subject to|only where|designed with|designed for|with)$/i.test(connector)
+      ? connector + ' '
+      : '';
+    return [structure.trim(), capitalizeNote(prefix + remainder)];
+  }
+
+  return [clean, ''];
+}
+
 const featureLabelAliases = new Map([
   ['storage cue', 'Storage condition'],
   ['declared quantity', 'Declared quantity'],
@@ -294,7 +326,7 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   replaceHtml('.expert-card ul', '<li>Materials and protection</li><li>Pack size and fill weight</li><li>Artwork and finishing details</li>');
   const materialMarkup = materials.length
     ? `<ul class="material-list">${materials.map((value) => {
-      const [structure, note] = splitDetail(value);
+      const [structure, note] = splitMaterialDetail(value);
       return `<li><strong>${text(structure)}</strong>${note ? `<span>${text(note)}</span>` : ''}</li>`;
     }).join('')}</ul>`
     : '<p>Tell us how the product is filled, stored and shipped so we can discuss a suitable film.</p>';
