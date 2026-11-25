@@ -193,10 +193,10 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
     ? `<div class="finish-grid">${finishGrid}</div>`
     : '<p>No specific surface finish is fixed in the supplied source. Matte, gloss or other effects can be reviewed during quoting where compatible.</p>';
   replaceHtml('#materials .container', sectionHeading('Materials, printing & finishing', 'Separate the structure, print process and surface finish.', profile?.materialNote) +
-    `<div class="config-grid materials-grid">
+    `<div class="config-grid">
       <article class="config-panel"><h3>Material options to review</h3>${materialMarkup}<a class="text-button" href="/solutions/material-specifications/">Compare material specifications <span aria-hidden="true">↗</span></a></article>
       <article class="config-panel"><h3>Printing process & artwork requirements</h3>${printingMarkup}<a class="text-button" href="/solutions/printing/">Explore printing options <span aria-hidden="true">↗</span></a></article>
-      <article class="config-panel"><h3>Surface finish & embellishment</h3><p>${text(profile?.artworkNote || 'Review the finish against the selected film, artwork and handling requirements.')}</p>${finishingMarkup}</article>
+      <article class="config-panel" style="grid-column:1 / -1"><h3>Surface finish & embellishment</h3><p>${text(profile?.artworkNote || 'Review the finish against the selected film, artwork and handling requirements.')}</p>${finishingMarkup}</article>
     </div>`);
   replaceHtml('#customization .custom-section', `<article class="config-panel"><span class="eyebrow">Custom artwork</span><h2>A familiar format. Your own identity.</h2><p>${text(profile?.artworkNote || 'Bring your brand colours, artwork and key information to the packaging brief.')}</p>${quote('Discuss Your Custom Pouch', 'btn btn-teal')}</article><article class="config-panel"><span class="eyebrow">Before production</span><h3>Confirm the artwork and fit.</h3>${list(['Share target dimensions and fill weight', 'Check artwork placement and clearances', 'Review a proof or filled sample'], 'custom-list')}<a class="text-button" href="/solutions/prepress/">Explore prepress <span aria-hidden="true">↗</span></a></article>`);
   replaceHtml('#applications .container', `<span class="eyebrow">Suitable applications</span><h2>One format. Room for your range.</h2>${applications.length ? `<div class="applications">${applicationTags}</div>` : '<p>Share your application so we can discuss the material and configuration.</p>'}`);
