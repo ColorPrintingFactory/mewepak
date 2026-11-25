@@ -137,7 +137,7 @@ export async function applyCategoryTemplate(request, response, database) {
         status: 'eq.published',
         category_id: 'eq.' + category.id,
         order: 'sort_order.asc,name.asc',
-        limit: '100'
+        limit: '1000'
       })),
       database(queryPath('product_categories', {
         select: 'id,name,slug,short_description,image_url,menu_order',
@@ -150,8 +150,21 @@ export async function applyCategoryTemplate(request, response, database) {
     const products = await productsResponse.json();
     const categories = await categoriesResponse.json();
     const html = categoryTemplate(category, products, categories);
+    const liveGrid = products.map((product) => {
+      const image = product.primary_image_url
+        ? '<div class="mewepak-category-grid__media"><img src="' + esc(product.primary_image_url) + '" alt="' + esc(titleCase(product.name)) + '" class="mewepak-category-grid__image" loading="lazy" decoding="async"></div>'
+        : '';
+      return '<article class="mewepak-category-grid__item" data-product-slug="' + esc(product.slug) + '">' +
+        '<a href="/products/' + encodeURIComponent(category.slug) + '/' + encodeURIComponent(product.slug) + '/" class="mewepak-category-grid__link !no-underline">' +
+        image +
+        '<div class="mewepak-category-grid__body"><h3 class="mewepak-category-grid__title">' + esc(titleCase(product.name)) + '</h3></div>' +
+        '</a></article>';
+    }).join('');
     const rewrite = new HTMLRewriter()
       .on('head', { element: (el) => el.append('<style id="mwcd-v3">' + CATEGORY_CSS + '</style>', { html: true }) })
+      .on('#product-grid .mewepak-category-grid__count', { element: (el) => el.setInnerContent(String(products.length)) })
+      .on('#product-grid .mewepak-category-grid__count-label', { element: (el) => el.setInnerContent(products.length === 1 ? 'Product in this collection' : 'Products in this collection') })
+      .on('#product-grid .mewepak-category-grid', { element: (el) => el.setInnerContent(liveGrid, { html: true }) })
       .on('main[data-storefront-page="category"]', { element: (el) => el.replace(html, { html: true }) });
     const output = rewrite.transform(new Response(response.body, { status: response.status, headers: response.headers }));
     output.headers.delete('content-length');
