@@ -619,15 +619,6 @@ html:has(.mw-almond-pouch) {
   grid-template-columns: 1fr 1fr;
   gap: 25px;
 }
-.mw-almond-pouch .materials-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.mw-almond-pouch .materials-grid .config-panel {
-  min-width: 0;
-}
-.mw-almond-pouch .materials-grid .material-list li {
-  grid-template-columns: minmax(90px, 120px) 1fr;
-}
 .mw-almond-pouch .config-panel {
   background: #fff;
   border: 1px solid var(--line);
