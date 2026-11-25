@@ -84,7 +84,14 @@ function splitMaterialDetail(value) {
     const prefix = /^(when|if|subject to|only where|designed with|designed for|with)$/i.test(connector)
       ? connector + ' '
       : '';
-    return [structure.trim(), capitalizeNote(prefix + remainder)];
+    let structureTitle = structure.trim();
+    let noteText = prefix + remainder;
+    const comparable = structureTitle.match(/^(.{2,52}?)\s+or comparable\s+(.+)$/i);
+    if (comparable && isLikelyMaterialStructure(comparable[1])) {
+      structureTitle = comparable[1].trim();
+      noteText = `Or comparable ${comparable[2]}. ${noteText}`;
+    }
+    return [structureTitle, capitalizeNote(noteText)];
   }
 
   return [clean, ''];
@@ -156,19 +163,28 @@ function generatedFeatureHeading(value) {
     [/solvent-based|solvent-free lamination/i, 'Lamination options'],
     [/hang hole|pegboard|hanging display/i, 'Retail display'],
     [/resealable|reclosure|zipper/i, 'Reclosure'],
+    [/spout|dispensing fitment|screw cap/i, 'Dispensing & closure'],
     [/transparent window|clear window|product window/i, 'Product visibility'],
     [/heat seal|heat-sealed|sealed top|sealed bottom/i, 'Seal format'],
     [/barcode|variable-code|lot and date/i, 'Barcode & coding'],
     [/white ink/i, 'White ink coverage'],
-    [/artwork|graphics|photography/i, 'Artwork details'],
+    [/front[- ]and[- ]back|front.*back|back.*front/i, 'Front & back artwork'],
+    [/product imagery|fruit imagery|food imagery|ingredient imagery|photography/i, 'Product imagery'],
+    [/product identity|positioning|variant shown/i, 'Product identity'],
+    [/spanish-language|arabic|multilingual|language/i, 'Localized artwork'],
+    [/distribution requirements|commercial distribution/i, 'Distribution readiness'],
+    [/powder-safe|frozen handling|rough handling|handling performance/i, 'Handling performance'],
+    [/template copy.*correction|requires .*correction/i, 'Artwork correction'],
+    [/claims|nutrition|dietary|organic|gluten|vegan|non-gmo/i, 'On-pack claims'],
+    [/artwork|graphics/i, 'Artwork details'],
   ];
   for (const [pattern, heading] of rules) if (pattern.test(text)) return heading;
-  if (text.length <= 58) return text;
+  if (text.length <= 34) return text;
   const clause = text.split(/\s+(?:for|to|with|against|where|while|when|that)\s+/i)[0].trim();
-  if (clause.length >= 12 && clause.length <= 58) return clause;
+  if (clause.length >= 12 && clause.length <= 42 && clause.length <= text.length - 8) return clause;
   const words = text.split(/\s+/);
-  const short = words.slice(0, 6).join(' ').replace(/[,:;.]$/, '');
-  return short + (words.length > 6 ? '…' : '');
+  const short = words.slice(0, 4).join(' ').replace(/[,:;.]$/, '');
+  return short + (words.length > 4 ? '…' : '');
 }
 
 function splitFeatureDetail(value) {
@@ -184,7 +200,7 @@ function splitFeatureDetail(value) {
   }
 
   const heading = generatedFeatureHeading(clean);
-  return heading === clean ? [heading, ''] : [heading, clean];
+  return heading === clean && clean.length <= 34 ? [heading, ''] : [heading, clean];
 }
 
 function featureIcon(title, copy = '') {
@@ -250,7 +266,12 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
   const additionalFeatureMarkup = additionalFeatures.length
     ? `<details style="margin-top:24px"><summary style="cursor:pointer;font-weight:600">More product details (${additionalFeatures.length})</summary><ul class="custom-list" style="margin-top:16px">${additionalFeatures.map(([, title, copy]) => `<li><strong>${text(title)}</strong>${copy ? ` — ${text(copy)}` : ''}</li>`).join('')}</ul></details>`
     : '';
-  const applicationTags = applications.map((value) => `<span>${text(value)}</span>`).join('');
+  const visibleApplications = applications.slice(0, 10);
+  const additionalApplications = applications.slice(10);
+  const applicationTags = visibleApplications.map((value) => `<span>${text(value)}</span>`).join('');
+  const additionalApplicationMarkup = additionalApplications.length
+    ? `<details style="margin-top:20px"><summary style="cursor:pointer;font-weight:600">More applications (${additionalApplications.length})</summary><div class="applications" style="margin-top:14px">${additionalApplications.map((value) => `<span>${text(value)}</span>`).join('')}</div></details>`
+    : '';
   replaceHtml('.quick-features', quickFeatures);
   replaceHtml('#form-finish', finishes.map((value) =>
     `<option value="${text(value)}"${value === defaultFinish ? ' selected' : ''}>${text(value)}</option>`).join(''));
@@ -343,7 +364,7 @@ export async function applyProductDetail({ entry, entries, previous, edit, repla
       <article class="config-panel" style="grid-column:1 / -1"><h3>Surface finish & embellishment</h3><p>${text(profile?.artworkNote || 'Review the finish against the selected film, artwork and handling requirements.')}</p>${finishingMarkup}</article>
     </div>`);
   replaceHtml('#customization .custom-section', `<article class="config-panel"><span class="eyebrow">Custom artwork</span><h2>A familiar format. Your own identity.</h2><p>${text(profile?.artworkNote || 'Bring your brand colours, artwork and key information to the packaging brief.')}</p>${quote('Discuss Your Custom Pouch', 'btn btn-teal')}</article><article class="config-panel"><span class="eyebrow">Before production</span><h3>Confirm the artwork and fit.</h3>${list(['Share target dimensions and fill weight', 'Check artwork placement and clearances', 'Review a proof or filled sample'], 'custom-list')}<a class="text-button" href="/solutions/prepress/">Explore prepress <span aria-hidden="true">↗</span></a></article>`);
-  replaceHtml('#applications .container', `<span class="eyebrow">Suitable applications</span><h2>One format. Room for your range.</h2>${applications.length ? `<div class="applications">${applicationTags}</div>` : '<p>Share your application so we can discuss the material and configuration.</p>'}`);
+  replaceHtml('#applications .container', `<span class="eyebrow">Suitable applications</span><h2>One format. Room for your range.</h2>${applications.length ? `<div class="applications">${applicationTags}</div>${additionalApplicationMarkup}` : '<p>Share your application so we can discuss the material and configuration.</p>'}`);
   replace('.product-resources .resource-card:first-child p', 'Review laminate options and discuss the protection your product needs.');
   replace('.product-resources .resource-card:nth-child(2) p', 'Review the pouch features, display method and details you want in your pack.');
   replace('.product-resources .resource-cta h3', 'Ready to shape your packaging?');
