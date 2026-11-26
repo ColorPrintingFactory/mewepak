@@ -1119,6 +1119,8 @@ async function saveSchedule(event) {
     try { avatarUrl = await uploadFile(avatarFile, 'booking-host'); }
     catch (error) { return showToast(error.message || '头像上传失败，请重试。', true); }
   }
+  if (!data.getAll('working_days').length) return showToast('请至少选择一个可预约工作日。', true);
+  if (String(data.get('start_time')) >= String(data.get('end_time'))) return showToast('营业结束时间必须晚于开始时间。', true);
   const payload = {
     id: 1,
     working_days: data.getAll('working_days').map(Number).sort((a,b)=>a-b),
@@ -1137,7 +1139,7 @@ async function saveSchedule(event) {
     updated_at: new Date().toISOString(),
   };
   const { error } = await supabase.from('booking_settings').upsert(payload);
-  if (error) return showToast(error.message || '预约设置保存失败，请重试。', true);
+  if (error) return showToast(friendlyError(error, '预约设置保存失败，请检查营业时间和预约参数。'), true);
   showToast('预约设置已保存');
 }
 
