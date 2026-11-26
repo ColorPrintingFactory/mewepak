@@ -229,6 +229,11 @@ export async function connectStorefront(request, response, database, projectUrl,
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
   on('head', (el) => el.append(siteIcons + '<style>@media(max-width:767px){[data-scroll-top]{bottom:6.5rem!important;right:1rem!important;width:48px!important;height:48px!important}[data-mobile-subitem]{font-size:13px!important;padding-left:2rem!important}}</style>', { html: true }));
   text('a[href="#content"]', 'Skip to content');
+  on('a[href^="/"]', (el) => {
+    const href = el.getAttribute('href') || '';
+    if (href === '/' || href.endsWith('/') || href.includes('#') || href.includes('?') || /\.[a-z0-9]+$/i.test(href) || /^\/(?:api|assets|admin)(?:\/|$)/.test(href)) return;
+    el.setAttribute('href', href + '/');
+  });
   on('link[rel="pingback"],link[rel="EditURI"]', (el) => el.remove());
   set('main a[href="/inquiry/#materials"]', 'href', '/solutions/material-specifications/');
   on('a[href^="/solutions"]', (el) => {
