@@ -356,3 +356,17 @@ html{scroll-behavior:smooth;color-scheme:light}html,body{margin:0;padding:0;back
   #mewepak-homepage .v2-hero-circle { scale: .84; transform: none; }
   #mewepak-homepage .v2-hero-round-caption { top: 296px; }
 }
+
+/* Mobile readability floor */
+@media (max-width: 600px) {
+  #mewepak-homepage .v2-hero-copy .mw-eyebrow,
+  #mewepak-homepage .v2-hero-round-caption,
+  #mewepak-homepage .v2-cover-kicker,
+  #mewepak-homepage .hy-video-caption,
+  #mewepak-homepage .hy-connect .v3-certification-eyebrow,
+  #mewepak-homepage .hy-connect .v3-certification-note,
+  #mewepak-homepage .v2-cert-item span {
+    font-size: 12px !important;
+    line-height: 1.45;
+  }
+}
