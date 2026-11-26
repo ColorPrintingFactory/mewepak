@@ -362,6 +362,34 @@ async function fetchStaticAsset(request, env, context) {
   return request.method === 'HEAD' ? new Response(null, result) : result;
 }
 
+function patchAdminAppScript(script) {
+  if (script.includes("social_media: { title: '社交媒体'")) return script;
+  const editorAnchor = "  languages: { title: '语言入口', fields: [] },";
+  const editor = `  social_media: { title: '社交媒体', fields: [
+    { name: 'whatsapp_url', label: 'WhatsApp 链接', full: true, help: '例如：https://wa.me/8613537663353' },
+    { name: 'facebook_url', label: 'Facebook 链接', full: true },
+    { name: 'instagram_url', label: 'Instagram 链接', full: true },
+    { name: 'linkedin_url', label: 'LinkedIn 链接', full: true },
+    { name: 'twitter_url', label: 'X / Twitter 链接', full: true },
+    { name: 'youtube_url', label: 'YouTube 链接', full: true },
+    { name: 'tiktok_url', label: 'TikTok 链接', full: true },
+    { name: 'pinterest_url', label: 'Pinterest 链接', full: true },
+  ] },
+  languages: { title: '语言入口', fields: [] },`;
+  if (!script.includes(editorAnchor)) return script;
+  script = script.replace(editorAnchor, editor);
+  const summaryAnchor = "  if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';\n  if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';";
+  const summary = `  if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';
+  if (row.key === 'social_media') {
+    const active = ['whatsapp_url','facebook_url','instagram_url','linkedin_url','twitter_url','youtube_url','tiktok_url','pinterest_url'].filter((key) => value[key]).length;
+    return active ? '已设置 ' + active + ' 个社媒入口' : '尚未添加社媒链接';
+  }
+  if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';`;
+  script = script.replace(summaryAnchor, summary);
+  script = script.replace('修改网站名称、联系方式、工厂视频和语言入口。', '修改网站名称、联系方式、社交媒体、工厂视频和语言入口。');
+  return script;
+}
+
 function storefrontCacheKey(request, url, env, context) {
   // Cache only anonymous, query-free storefront pages. The commit partitions deployments.
   if (!context?.waitUntil || request.method !== 'GET' || url.search || !env.ASSET_COMMIT_SHA ||
@@ -418,6 +446,16 @@ export default {
     if (url.pathname === '/admin' && ['GET', 'HEAD'].includes(request.method)) {
       url.pathname = '/admin/';
       return Response.redirect(url, 308);
+    }
+    if (url.pathname === '/admin/app.js' && request.method === 'GET') {
+      const adminAsset = await fetchStaticAsset(request, env, context);
+      if (!adminAsset.ok) return withSecurityHeaders(adminAsset, url.pathname, env);
+      const headers = new Headers(adminAsset.headers);
+      headers.set('content-type', 'text/javascript; charset=utf-8');
+      headers.set('cache-control', 'no-store');
+      headers.delete('content-length');
+      const script = patchAdminAppScript(await adminAsset.text());
+      return withSecurityHeaders(new Response(script, { status: 200, headers }), url.pathname, env);
     }
     if (url.pathname === '/api/public-site' && request.method === 'GET') {
       try { return json(await publicSiteSettings(database)); }
