@@ -57,7 +57,7 @@ begin
   where key = 'booking_api_secret';
 
   if expected_hash is null
-     or encode(digest(coalesce(p_api_secret, ''), 'sha256'), 'hex') <> expected_hash then
+     or encode(extensions.digest(coalesce(p_api_secret, ''), 'sha256'), 'hex') <> expected_hash then
     raise exception using errcode = '42501', message = 'booking_gateway_denied';
   end if;
 
