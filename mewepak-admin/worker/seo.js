@@ -64,9 +64,9 @@ export async function seoEndpoint(request, env, database, getAsset) {
   }
   if (url.pathname === '/robots.txt') {
     const exclusions = 'Disallow: /admin/\nDisallow: /api/\n';
-    const body = 'User-agent: *\n' + exclusions + (policy.production
-      ? '\nUser-agent: OAI-SearchBot\nAllow: /\n' + exclusions + '\nSitemap: ' + policy.origin + '/sitemap.xml\n'
-      : '');
+    const body = 'User-agent: *\n' + exclusions +
+      '\nSitemap: ' + policy.origin + '/sitemap.xml\n' +
+      (policy.production ? '\nUser-agent: OAI-SearchBot\nAllow: /\n' + exclusions : '');
     return new Response(request.method === 'HEAD' ? null : body, {
       headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=300' },
     });
