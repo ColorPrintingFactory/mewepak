@@ -1,0 +1,305 @@
+/* Customer design colors, applied to the existing storefront navigation and footer. */
+:root {
+  --chrome-font: Arial, Helvetica, sans-serif;
+  --chrome-deep: #102b35;
+  --chrome-deep-hover: #1b4450;
+  --chrome-nav: #465b63;
+  --chrome-accent: #007b79;
+  --chrome-soft: #f2f6f5;
+  --chrome-line: #d9e4e2;
+  --chrome-muted: #5c7279;
+}
+
+[data-mewepak-header] > div:first-child,
+.site-header > .utility {
+  background: var(--chrome-deep) !important;
+  color: #e1efee;
+}
+
+
+:is([data-mewepak-header], [data-mobile-menu], [data-search-overlay], .site-header, .mobile-panel,
+    footer[data-storefront-footer], footer.site-footer) {
+  font-family: var(--chrome-font) !important;
+}
+
+:is([data-mewepak-header], [data-mobile-menu], [data-search-overlay], .site-header, .mobile-panel,
+    footer[data-storefront-footer], footer.site-footer) :is(a, button, input, h3, h4, p) {
+  font-family: inherit !important;
+}
+
+[data-mewepak-header] > div:first-child,
+.site-header > .utility {
+  font-size: .8125rem;
+  letter-spacing: .2px;
+}
+
+[data-mewepak-header] > div:first-child .text-xs,
+[data-mewepak-header] > div:first-child p {
+  font-size: inherit;
+}
+
+:is([data-mewepak-header], [data-search-overlay], .site-header) [role="search"] input {
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+[data-mewepak-header] .mw-header-actions a[data-header-action] {
+  font-size: .8125rem;
+}
+
+:is(footer[data-storefront-footer], footer.site-footer) {
+  padding-block: 48px 22px;
+  font-size: .875rem;
+  line-height: 1.6;
+}
+
+footer[data-storefront-footer] > div > .grid,
+.site-footer .footer-grid {
+  gap: clamp(22px, 3vw, 42px);
+  padding-block-end: 36px;
+}
+
+footer[data-storefront-footer] > div > .border-t,
+.site-footer .footer-bottom {
+  padding-block-start: 19px;
+}
+
+.site-footer .footer-bottom {
+  margin-block-start: 0;
+  font-size: .8125rem;
+}
+
+[data-mewepak-header] .mewepak-header-logo,
+.site-header .brand img {
+  width: 146px;
+  height: auto;
+}
+
+:is(footer[data-storefront-footer], footer.site-footer) :is(.mewepak-footer-logo, .footer-logo) {
+  width: 151px;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  :is(footer[data-storefront-footer], footer.site-footer) {
+    padding-block-start: 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  [data-mewepak-header] > .max-w-7xl > .h-16 {
+    column-gap: 8px;
+  }
+
+  [data-mewepak-header] > .max-w-7xl > .h-16 > a:first-child,
+  [data-mewepak-header] .mewepak-header-logo {
+    min-width: 0;
+  }
+
+  [data-mewepak-header] .mewepak-header-logo {
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  [data-mewepak-header] > .max-w-7xl > .h-16 > .gap-4 {
+    flex: none;
+    gap: 6px;
+  }
+
+  [data-mewepak-header] :is([data-search-open], [data-mobile-open]) {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
+  }
+}
+
+@layer utilities {
+  [data-mewepak-header] > div:first-child p {
+    color: #e1efee;
+  }
+
+  [data-mewepak-header] > div:first-child a,
+  .site-header > .utility a {
+    color: #c2d4d8 !important;
+  }
+
+  [data-mewepak-header] > div:first-child a:hover,
+  .site-header > .utility a:hover {
+    color: #fff !important;
+  }
+
+  [data-mewepak-header] [data-nav-link],
+  .site-header .nav-item > a {
+    color: var(--chrome-nav) !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  [data-mewepak-header] [data-nav] [data-nav-link] {
+    padding-inline: clamp(5px, 1.5vw - 10px, 14px);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1180px) {
+    [data-mewepak-header] [data-nav] [data-nav-link] svg {
+      flex: none;
+      width: .75rem;
+      height: .75rem;
+    }
+  }
+
+  html:not([dir="rtl"]) :is([data-mewepak-header] [data-nav-link], .site-header .nav-item > a) {
+    letter-spacing: .03em;
+  }
+
+  html[lang="de"] [data-mewepak-header] [data-nav] [data-nav-link] {
+    font-size: clamp(13px, 1.06vw, 14px);
+    padding-inline: clamp(4px, 1.25vw - 8px, 11px);
+    letter-spacing: .01em;
+  }
+
+  [data-mobile-menu] nav > a,
+  [data-mobile-menu] [data-mobile-group-trigger] {
+    font-size: 14px;
+  }
+
+  [data-mobile-menu] nav > a:not([data-mobile-subitem]),
+  [data-mobile-menu] [data-mobile-group-trigger] {
+    text-transform: uppercase;
+  }
+
+  :is([data-mewepak-header], .mw-compact-header) [data-mega-panel] :is(a, p).text-sm,
+  [data-mobile-menu] [data-mobile-group-panel] a {
+    font-size: 14px;
+  }
+
+  [data-mewepak-header] [data-nav-link]:is(:hover, :focus-visible, .is-current, [aria-expanded="true"]),
+  .site-header .nav-item > a:is(:hover, :focus-visible),
+  .site-header .nav-item.active > a,
+  [data-mobile-menu] nav :is(a, button):is(:hover, :focus-visible) {
+    color: var(--chrome-accent) !important;
+  }
+
+  [data-mewepak-header] [role="search"] input {
+    border-color: var(--chrome-line);
+  }
+
+  [data-mewepak-header] [role="search"] input:focus,
+  .site-header [role="search"] input:focus {
+    border-color: var(--chrome-accent);
+    box-shadow: 0 0 0 3px #007b791a;
+  }
+
+  [data-mewepak-header] a.shadow-lg,
+  [data-mobile-menu] a.w-full.h-12,
+  .site-header .header-actions .button-primary,
+  .mobile-panel .button-primary,
+  [data-scroll-top] {
+    background: var(--chrome-deep) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+  }
+
+  [data-mewepak-header] a.shadow-lg,
+  [data-mobile-menu] a.w-full.h-12,
+  .site-header .header-actions .button-primary,
+  .mobile-panel .button-primary {
+    border: 1px solid var(--chrome-deep);
+    border-radius: 5px !important;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  [data-mewepak-header] a.shadow-lg:hover,
+  [data-mobile-menu] a.w-full.h-12:hover,
+  .site-header .header-actions .button-primary:hover,
+  .mobile-panel .button-primary:hover,
+  [data-scroll-top]:hover {
+    background: var(--chrome-deep-hover) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) {
+    background: var(--chrome-soft) !important;
+    color: var(--chrome-muted);
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(h4, .mewepak-category-menu-title) {
+    color: var(--chrome-deep) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) h4 {
+    font-size: .9375rem !important;
+    line-height: 1.4;
+    font-weight: 600 !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span) {
+    font-size: .875rem !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) p {
+    line-height: 1.7;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(a, p, span, svg) {
+    color: var(--chrome-muted) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) a:is(:hover, :focus-visible),
+  :is(footer[data-storefront-footer], footer.site-footer) a[href^="mailto:"] {
+    color: var(--chrome-accent) !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(.mewepak-footer-logo, .footer-logo) {
+    filter: none !important;
+  }
+
+  :is(footer[data-storefront-footer], footer.site-footer) :is(.border-t, .footer-bottom) {
+    border-color: var(--chrome-line) !important;
+    color: var(--chrome-muted);
+  }
+
+  footer[data-storefront-footer] :is(a.rounded-full, a[class~="!rounded-full"]) {
+    background: #fff !important;
+    border: 1px solid var(--chrome-line);
+    border-radius: 5px !important;
+    color: var(--chrome-accent) !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] input {
+    background: #fff !important;
+    border-color: var(--chrome-line) !important;
+    border-radius: 5px !important;
+    font-size: .875rem;
+    color: var(--chrome-deep) !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] input::placeholder {
+    color: var(--chrome-muted) !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] button {
+    background: var(--chrome-deep) !important;
+    border-radius: 5px !important;
+    font-size: .875rem;
+    font-weight: 600;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] button span {
+    color: #fff !important;
+  }
+
+  footer[data-storefront-footer] [data-mewepak-subscribe] button:hover {
+    background: var(--chrome-deep-hover) !important;
+  }
+
+  footer[data-storefront-footer] > div > .border-t > p {
+    font-size: .8125rem !important;
+  }
+
+  footer[data-storefront-footer] ul:has(> li > a[href="/products/stand-up-pouch"]) a:is(:hover, :focus-visible) {
+    background: #e2edeb;
+  }
+}

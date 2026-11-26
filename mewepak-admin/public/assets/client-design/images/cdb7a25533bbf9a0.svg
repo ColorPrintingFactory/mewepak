@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="235" viewBox="0 0 360 235">
+  <title>Finished flat-bottom and spout pouches</title>
+  <defs>
+    <linearGradient id="front" x1="70" y1="35" x2="221" y2="193" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f5f5df"/>
+      <stop offset=".65" stop-color="#e4ead4"/>
+      <stop offset="1" stop-color="#b7cbb5"/>
+    </linearGradient>
+    <linearGradient id="base" x1="70" y1="106" x2="230" y2="195" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#558d74"/>
+      <stop offset="1" stop-color="#174f49"/>
+    </linearGradient>
+    <linearGradient id="side" x1="185" y1="49" x2="237" y2="198" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#abbfa5"/>
+      <stop offset="1" stop-color="#386459"/>
+    </linearGradient>
+    <linearGradient id="spout-pack" x1="234" y1="95" x2="309" y2="201" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c6dfc8"/>
+      <stop offset=".63" stop-color="#a7ccb2"/>
+      <stop offset="1" stop-color="#779c85"/>
+    </linearGradient>
+    <clipPath id="front-face">
+      <path d="M83 38l112-4 4 19 10 127c0 12-8 18-22 18l-105-2c-12 0-18-6-17-17l13-126z"/>
+    </clipPath>
+    <clipPath id="spout-face">
+      <path d="M229 113q11-9 24-8l33-3 16 14 13 69c3 14-5 23-20 25h-54c-15-1-23-9-21-23z"/>
+    </clipPath>
+  </defs>
+  <ellipse cx="186" cy="209" rx="139" ry="15" fill="#285c46" opacity=".12"/>
+  <ellipse cx="168" cy="203" rx="107" ry="8" fill="#285c46" opacity=".07"/>
+  <path d="M195 34l20 13 17 130c1 9-3 15-15 19l-30 2 22-21-10-124z" fill="url(#side)" stroke="#6b907b" stroke-width="1.4"/>
+  <path d="M83 38l112-4 4 19 10 127c0 12-8 18-22 18l-105-2c-12 0-18-6-17-17l13-126z" fill="url(#front)" stroke="#829f87" stroke-width="1.4"/>
+  <g clip-path="url(#front-face)">
+    <path d="M61 152c34 3 55-13 84-25 23-10 49-10 68 3v74H61z" fill="#9bbda0"/>
+    <path d="M58 171c51 7 85-45 155-21v57H58z" fill="url(#base)"/>
+    <path d="M59 179c64 7 90-39 155-25" fill="none" stroke="#c9e3be" stroke-width="1.7" opacity=".65"/>
+    <path d="M78 49l123-4m-124 11 125-4" fill="none" stroke="#91a88f" stroke-width="1.4"/>
+    <path d="M81 46l116-4M69 186q18 6 37 6l81 1" fill="none" stroke="#fdfdf0" stroke-width="1.7" stroke-linecap="round" opacity=".68"/>
+    <path d="M132 114c-15-21-1-36 20-36-1 20-8 31-20 36Zm0 0 12-22" fill="none" stroke="#438270" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M133 114c-17 0-25-10-26-25 14 3 23 10 26 25Zm-15-15 14 14" fill="none" stroke="#438270" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="M215 64l12 109q2 11-5 15" fill="none" stroke="#dde9ce" stroke-width="1.3" opacity=".65"/>
+  <g transform="rotate(8 267 155)">
+    <rect x="263" y="83" width="24" height="23" rx="5" fill="#e7ead6" stroke="#829e85" stroke-width="1.2"/>
+    <rect x="260" y="76" width="30" height="14" rx="4" fill="#2e7163"/>
+    <path d="M266 79v8m5-8v8m5-8v8m5-8v8m5-8v8" stroke="#c5e0c7" stroke-width="1.1" opacity=".6"/>
+    <path d="M229 113q11-9 24-8l33-3 16 14 13 69c3 14-5 23-20 25h-54c-15-1-23-9-21-23z" fill="url(#spout-pack)" stroke="#628b73" stroke-width="1.4"/>
+    <g clip-path="url(#spout-face)">
+      <path d="M217 160c34-9 59 14 103 2v51H217z" fill="#e6eed8"/>
+      <path d="M216 176c37-11 66 14 105-1v41H216z" fill="#649681"/>
+      <path d="M216 178c36-7 68 15 104 2m-90-62q21-9 68-9m-66 88q10 8 30 7h37" fill="none" stroke="#eef5e3" stroke-width="1.6" opacity=".8"/>
+      <path d="M246 136h38m-32 6h26" fill="none" stroke="#327364" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

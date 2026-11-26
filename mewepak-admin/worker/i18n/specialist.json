@@ -1,0 +1,460 @@
+{
+  "/markets/coffee-tea/": {
+    "de": [
+      "Verpackungen für Kaffee und Tee",
+      "Bedruckte Kaffeebeutel und Teeverpackungen für Röstereien, Marken und Händler. Wählen Sie Format und Barriere passend zu ganzen Bohnen, Mahlkaffee oder losem Tee.",
+      "Ventil, Folienbarriere und Abfüllung",
+      "Bei frisch gerösteten Bohnen prüfen Sie, ob ein Entgasungsventil erforderlich ist und wo es sitzen soll. Bei gemahlenem Kaffee legen Sie den Sauerstoff- und Aromaschutz anhand des Haltbarkeitsziels fest. Für losen Tee erleichtern Blattgröße und Schüttdichte die Wahl der Beutelmaße.",
+      "Ein Muster für jede Füllmenge",
+      "Vergleichen Sie Flachboden- und Standbodenbeutel mit dem tatsächlichen Füllgut. Prüfen Sie Standfläche, Zipper und Kartonmaß. Geben Sie bei mehreren Sorten die Menge pro Druckmotiv an."
+    ],
+    "es": [
+      "Envases para café y té",
+      "Bolsas impresas para tostadores, marcas y distribuidores. El formato y la barrera se eligen según el café en grano, el café molido o el té a granel.",
+      "Válvula, barrera y llenado",
+      "En el café recién tostado, valore si necesita una válvula desgasificadora y dónde situarla. Para el café molido, defina la barrera al oxígeno y al aroma de acuerdo con la vida útil prevista. Para el té a granel, tenga en cuenta el tamaño de la hoja y su densidad aparente.",
+      "Una muestra por peso de llenado",
+      "Compare bolsas de fondo plano y doypack con el producto real. Compruebe la estabilidad, el cierre y el encaje en caja. Si hay varios diseños, indique las unidades de cada uno."
+    ],
+    "fr": [
+      "Emballages pour café et thé",
+      "Sachets imprimés pour torréfacteurs, marques et distributeurs. Choisissez le format et la barrière selon qu’il s’agit de café en grains, moulu ou de thé en vrac.",
+      "Valve, barrière et conditionnement",
+      "Pour le café fraîchement torréfié, vérifiez si une valve de dégazage est nécessaire et où la placer. Pour le café moulu, fixez les exigences de protection contre l’oxygène et la perte d’arôme. Pour le thé en vrac, tenez compte de la taille des feuilles et de la densité apparente.",
+      "Échantillonner chaque poids de remplissage",
+      "Comparez le fond plat et le stand-up avec votre produit. Vérifiez la stabilité, le zip et le calage en carton. Précisez le volume par visuel pour les gammes qui partagent un même format."
+    ],
+    "ar": [
+      "عبوات القهوة والشاي",
+      "أكياس مطبوعة للمحامص والعلامات التجارية والموزعين. اختر شكل العبوة وطبقات الحماية بحسب نوع المنتج، سواء كان حبوب قهوة أو قهوة مطحونة أو شاي أوراق.",
+      "الصمام وحماية النكهة والتعبئة",
+      "للقهوة المحمّصة حديثاً، حدّد هل تحتاج إلى صمام أحادي الاتجاه لتنفيس الغازات وأين يوضع. وللقهوة المطحونة، حدّد الحماية من الأكسجين وفقدان الرائحة حسب مدة الصلاحية. أما الشاي السائب، فحجم الأوراق وكثافتها يؤثران في أبعاد الكيس.",
+      "عينة لكل وزن تعبئة",
+      "جرّب الكيس القائم والكيس ذي القاعدة المسطحة بمنتجك الفعلي. افحص الثبات والإغلاق ومقاس الكرتون، واذكر الكمية المطلوبة لكل تصميم."
+    ]
+  },
+  "/markets/frozen-food/": {
+    "de": [
+      "Verpackungen für Tiefkühlkost",
+      "Beutel und Rollenware für Tiefkühlprodukte. Berücksichtigen Sie Füllverfahren, Gefrierzyklus und Belastungen beim Transport.",
+      "Gefrierzyklus und Siegelnaht gemeinsam prüfen",
+      "Halten Sie Produktform, Fülltemperatur und Lagerbedingungen fest. Vergleichen Sie die gefüllten Packungen nach demselben Gefrierzyklus auf Nahtfestigkeit, Durchstiche, Knickschäden und Kartonpassform.",
+      "Beutel oder Rollenware?",
+      "Flachbeutel sind eine Option für Einzelportionen. Bei automatischer Verpackung prüfen Sie zusätzlich Bahnbreite, Rapport und Siegelung auf Ihrer Linie."
+    ],
+    "es": [
+      "Envases para alimentos congelados",
+      "Bolsas y film en bobina para congelados. Tenga en cuenta el llenado, el ciclo de congelación y la manipulación durante el transporte.",
+      "Verificar congelación y sellado",
+      "Anote la forma del producto, la temperatura de llenado y las condiciones de conservación. Tras aplicar el mismo ciclo, compare resistencia de la soldadura, perforaciones, daños por flexión y encaje en caja.",
+      "¿Bolsa preformada o bobina?",
+      "Una bolsa plana puede ajustarse a porciones individuales. Si usa una línea automática, compruebe el ancho de banda, el paso y el sellado en la máquina."
+    ],
+    "fr": [
+      "Emballages pour produits surgelés",
+      "Sachets et films en bobine pour le surgelé. Prenez en compte le remplissage, le cycle de congélation et les contraintes de manutention.",
+      "Contrôler ensemble la congélation et la soudure",
+      "Consignez la forme du produit, la température de remplissage et les conditions de stockage. Après un cycle identique, comparez la tenue des soudures, les perforations, les fissures de pliage et le calage en carton.",
+      "Sachet préformé ou film en bobine ?",
+      "Le sachet plat convient à certaines portions individuelles. Sur une ligne automatique, vérifiez aussi la laize, le pas d’impression et la soudure sur votre machine."
+    ],
+    "ar": [
+      "عبوات للأغذية المجمّدة",
+      "أكياس وأفلام على بكرات للمنتجات المجمّدة. راعِ طريقة التعبئة ودورة التجميد وظروف المناولة أثناء الشحن.",
+      "اختبر اللحام بعد دورة التجميد",
+      "سجّل شكل المنتج وحرارة التعبئة وظروف التخزين. بعد دورة تجميد متماثلة، قارن بين العينات من حيث متانة اللحام والثقوب والتشققات عند الثني والملاءمة للكرتون.",
+      "كيس جاهز أم فيلم على بكرة؟",
+      "قد يناسب الكيس المسطّح الحصص الفردية. في التعبئة الآلية تحقّق أيضاً من عرض الفيلم وتكرار الطباعة وجودة اللحام على خطك."
+    ]
+  },
+  "/markets/pet-food/": {
+    "de": [
+      "Verpackungen für Tiernahrung und Snacks",
+      "Vergleichen Sie Beutel für Trockenfutter, Leckerlis und Nassfutter. Füllgewicht, Wiederverschluss und Herstellungsverfahren beeinflussen die Auswahl.",
+      "Handhabung am gefüllten Muster",
+      "Prüfen Sie den tatsächlichen Futtermix, den Verschluss und das Handling im Karton. Bei Nassfutter klären Sie den geplanten Prozess mit Ihrem Fachteam."
+    ],
+    "es": [
+      "Envases para alimentos y premios para mascotas",
+      "Compare bolsas para pienso seco, premios y producto húmedo según el peso, el cierre y el proceso de fabricación.",
+      "Probar con el producto real",
+      "Compruebe el cierre y la manipulación en la caja con el contenido previsto. Para productos húmedos, confirme el proceso con su equipo técnico."
+    ],
+    "fr": [
+      "Emballages pour aliments et friandises pour animaux",
+      "Comparez les sachets pour croquettes, friandises et aliments humides selon le poids, la fermeture et le procédé.",
+      "Tester avec le produit prévu",
+      "Vérifiez la fermeture et la manutention en carton avec le contenu réel. Pour les aliments humides, confirmez le procédé avec votre équipe technique."
+    ],
+    "ar": [
+      "عبوات أغذية الحيوانات الأليفة ومكافآتها",
+      "قارن بين الأكياس للأغذية الجافة والمكافآت والأغذية الرطبة وفق الوزن والإغلاق وطريقة الإنتاج.",
+      "جرّب العبوة بمنتجك الفعلي",
+      "افحص الإغلاق والمناولة داخل الكرتون للوزن المطلوب. بالنسبة إلى الأغذية الرطبة تأكّد من العملية المقررة مع فريقك الفني."
+    ]
+  },
+  "/markets/snacks-sweets/": {
+    "de": [
+      "Verpackungen für Snacks und Süßwaren",
+      "Standbodenbeutel, Flachbeutel und Sonderformen für Einzelportionen, Familiengrößen und den Verkauf am Display.",
+      "Füllung und Präsentation abstimmen",
+      "Klären Sie Stückgröße, eventuelle scharfe Kanten, gewünschte Aufhängung und Wiederverschluss mit einer gefüllten Packung."
+    ],
+    "es": [
+      "Envases para aperitivos y confitería",
+      "Bolsas doypack, planas y troqueladas para porciones individuales, formatos para compartir y venta en expositor.",
+      "Coordinar llenado y presentación",
+      "Compruebe dimensiones del producto, aristas, suspensión y cierre con una bolsa llena."
+    ],
+    "fr": [
+      "Emballages pour snacks et confiseries",
+      "Sachets stand-up, plats et découpés pour portions individuelles, formats à partager et présentation en présentoir.",
+      "Faire coïncider remplissage et présentation",
+      "Vérifiez les dimensions du produit, les arêtes éventuelles, la suspension et la refermeture sur un sachet rempli."
+    ],
+    "ar": [
+      "عبوات الوجبات الخفيفة والحلويات",
+      "أكياس قائمة ومسطّحة وبقصّات خاصة للحصص الفردية والعبوات العائلية والعرض في المتاجر.",
+      "وازن بين التعبئة وطريقة العرض",
+      "استخدم عينة ممتلئة للتحقّق من حجم القطع والحواف الحادة إن وجدت، والتعليق وإمكانية إعادة الإغلاق."
+    ]
+  },
+  "/solutions/prepress/": {
+    "de": [
+      "Druckvorstufe für Beutel und Rollenware",
+      "Bereiten Sie Stanzzeichnung, Layout und Varianten für die Druckfreigabe vor.",
+      "Zeichnung und Druckdaten abstimmen",
+      "Kennzeichnen Sie Nahtbereiche, Anschnitt, Lesebereiche für Barcodes, Druckfarben und Lacke. Halten Sie die freigegebenen Dateiversionen je Artikel fest."
+    ],
+    "es": [
+      "Preimpresión para bolsas y bobinas",
+      "Prepare el plano de troquel, el arte final y las variantes antes de aprobar la impresión.",
+      "Revisión del plano y de los archivos",
+      "Marque las soldaduras, el sangrado, el área de lectura del código de barras, las tintas y los barnices. Registre la versión aprobada de cada referencia."
+    ],
+    "fr": [
+      "Prépresse pour sachets et films en bobine",
+      "Préparez le tracé de découpe, les fichiers graphiques et les déclinaisons avant le bon à tirer.",
+      "Vérifier le tracé et les fichiers",
+      "Repérez les zones de soudure, les fonds perdus, les zones de lecture du code-barres, les encres et les vernis. Consignez la version approuvée pour chaque référence."
+    ],
+    "ar": [
+      "إعداد ملفات الطباعة للأكياس والأفلام",
+      "جهّز مخطط القص وملفات التصميم ونسخها المختلفة قبل اعتماد الطباعة.",
+      "مطابقة الرسم مع التصميم",
+      "حدّد حواف اللحام وهوامش القص ومساحات قراءة الباركود والأحبار والطبقات النهائية. وثّق نسخة الملف المعتمدة لكل صنف."
+    ]
+  },
+  "/solutions/printing/": {
+    "de": [
+      "Druck und Veredelung für flexible Verpackungen",
+      "Stimmen Sie Motiv, Farbwirkung und Oberflächenfinish auf die gewählte Folie ab.",
+      "Farbmuster und Freigabe",
+      "Geben Sie Referenzfarben sowie anwendungsrelevante Bereiche wie das Sichtfenster oder die Codierfläche an. Vergleichen Sie die Muster unter denselben Lichtbedingungen."
+    ],
+    "es": [
+      "Impresión y acabados de envases flexibles",
+      "Coordine el diseño, la reproducción del color y el acabado con el film elegido.",
+      "Muestra de color y aprobación",
+      "Comparta las referencias de color y las áreas funcionales, como la ventana o la zona de codificación. Compare las muestras con la misma luz."
+    ],
+    "fr": [
+      "Impression et finitions des emballages souples",
+      "Adaptez le visuel, le rendu des couleurs et la finition au film retenu.",
+      "Références couleur et bon à tirer",
+      "Indiquez les teintes de référence ainsi que les zones fonctionnelles comme la fenêtre ou le marquage. Comparez les échantillons sous le même éclairage."
+    ],
+    "ar": [
+      "الطباعة والتشطيبات للتغليف المرن",
+      "نسّق التصميم والألوان وتشطيب السطح مع الفيلم المختار.",
+      "عينة اللون واعتماد الطباعة",
+      "أرسل مراجع الألوان وحدّد الأماكن الوظيفية مثل النافذة أو منطقة طباعة الرمز. قارن العينات في الإضاءة نفسها."
+    ]
+  },
+  "/solutions/technical/": {
+    "de": [
+      "Abfüllversuche und technische Abstimmung",
+      "Prüfen Sie Format, Folie, Siegelung und Anlagenkompatibilität vor der Serienfreigabe.",
+      "Einen vergleichbaren Versuch planen",
+      "Notieren Sie Maschinenmodell, Füllgut und Lagerbedingungen. Definieren Sie mit Ihrer Qualitätssicherung, welche Prüfungen für Naht, Öffnung und gefüllte Packung gelten und wie die Ergebnisse dokumentiert werden."
+    ],
+    "es": [
+      "Pruebas de envasado y asistencia técnica",
+      "Verifique el formato, el film, el sellado y su compatibilidad con la línea antes de aprobar la producción.",
+      "Planificar una prueba comparable",
+      "Anote el modelo de máquina, el producto y las condiciones de conservación. Acuerde con calidad los criterios para evaluar soldaduras, apertura y envase lleno, así como el registro de resultados."
+    ],
+    "fr": [
+      "Essais de conditionnement et appui technique",
+      "Vérifiez le format, le film, les soudures et la compatibilité machine avant la mise en production.",
+      "Planifier des essais comparables",
+      "Notez le modèle de la ligne, le produit et les conditions de stockage. Définissez avec l’équipe qualité les contrôles des soudures, de l’ouverture et du sachet rempli, ainsi que la façon de consigner les résultats."
+    ],
+    "ar": [
+      "اختبارات التعبئة والدعم الفني",
+      "تحقّق من شكل العبوة والفيلم واللحام وملاءمتها للآلة قبل اعتماد الإنتاج.",
+      "خطّط لاختبارات قابلة للمقارنة",
+      "سجّل طراز خط التعبئة والمنتج وظروف التخزين. اتفق مع فريق الجودة على فحوص اللحام والفتح والعبوة الممتلئة وطريقة توثيق النتائج."
+    ]
+  },
+  "/about-us/quality-certifications/": {
+    "de": [
+      "Qualitätsnachweise und Lieferantenunterlagen",
+      "Fordern Sie Nachweise an, die zum vorgesehenen Produkt, Material und Fertigungsstandort passen.",
+      "Was bei der Anfrage anzugeben ist",
+      "Nennen Sie Prüf- oder Dokumentart, Standort, Geltungsbereich und erforderliche Gültigkeit. Für Prüfberichte helfen Angaben zum Aufbau, zur Zeichnungsrevision und zur Mustercharge."
+    ],
+    "es": [
+      "Documentación de calidad y del proveedor",
+      "Solicite la documentación que corresponda al producto, al material y a la planta de fabricación previstos.",
+      "Qué indicar en la solicitud",
+      "Especifique el documento o ensayo, la planta, el alcance y la vigencia requerida. Para informes de ensayo, añada la estructura, la versión del plano y el lote de muestra."
+    ],
+    "fr": [
+      "Qualité et documents fournisseur",
+      "Demandez les justificatifs correspondant au produit, au matériau et au site de fabrication envisagés.",
+      "Préciser le périmètre demandé",
+      "Indiquez le document ou l’essai, le site, le champ d’application et la période de validité souhaitée. Pour les rapports d’essai, précisez la structure, la révision du plan et le lot de l’échantillon."
+    ],
+    "ar": [
+      "وثائق الجودة واعتماد المورد",
+      "اطلب المستندات المتعلقة بالمنتج والمادة وموقع التصنيع المقترح.",
+      "ما الذي تذكره في الطلب؟",
+      "حدّد نوع المستند أو الاختبار والموقع والنطاق والصلاحية المطلوبة. عند طلب تقارير الفحص أضف بنية الفيلم وإصدار الرسم ورقم دفعة العينة."
+    ]
+  },
+  "/sustainability/our-process/": {
+    "de": [
+      "Von den Druckdaten zum fertigen Beutel",
+      "Der Produktionsweg richtet sich nach Folienaufbau, Druckmotiv und gewähltem Verpackungsformat.",
+      "Freigaben entlang des Produktionswegs",
+      "Klären Sie Druckdaten und Folienaufbau zuerst. Prüfen Sie anschließend Druck, Kaschierung, Zuschnitt und Beutelfertigung entsprechend der abgestimmten Spezifikation."
+    ],
+    "es": [
+      "Del arte final a la bolsa terminada",
+      "El proceso depende de la estructura del film, la impresión y el formato acordados.",
+      "Aprobaciones a lo largo de la producción",
+      "Confirme los archivos y la estructura del film. Después revise impresión, laminación, corte y confección de la bolsa según la especificación."
+    ],
+    "fr": [
+      "Des fichiers graphiques au sachet fini",
+      "Le parcours de fabrication dépend de la structure du film, de l’impression et du format retenu.",
+      "Valider les étapes de fabrication",
+      "Confirmez les fichiers et la structure du film. Contrôlez ensuite l’impression, le complexage, la refente et la confection selon le cahier des charges."
+    ],
+    "ar": [
+      "من ملفات الطباعة إلى الكيس النهائي",
+      "يعتمد مسار التصنيع على بنية الفيلم والطباعة ونوع العبوة المعتمد.",
+      "مراحل الاعتماد خلال الإنتاج",
+      "راجع ملفات التصميم وبنية الفيلم أولاً، ثم تابع الطباعة وتصفيح الطبقات والقص وتصنيع الأكياس وفق المواصفات المتفق عليها."
+    ]
+  },
+  "/added-value/faq/": {
+    "de": [
+      "Häufige Fragen zu Verpackungsanfragen",
+      "Hier erfahren Sie, welche Angaben wir für Muster und Angebote benötigen.",
+      "Welche Angaben helfen bei Preis und Termin?",
+      "Nennen Sie Produkt, Stückzahl je Druckmotiv, Format und Lieferland. Die Möglichkeiten für Muster und der Produktionszeitraum richten sich nach der Spezifikation und dem Stand der Druckfreigabe."
+    ],
+    "es": [
+      "Preguntas frecuentes sobre pedidos de envases",
+      "Qué datos necesitamos para preparar muestras y presupuestos.",
+      "¿Qué hace falta para calcular precio y plazo?",
+      "Indique el producto, la cantidad por diseño, el formato y el país de entrega. Las opciones de muestra y el plazo dependen de la especificación y de la aprobación del arte final."
+    ],
+    "fr": [
+      "Questions fréquentes sur les demandes d’emballage",
+      "Les informations à fournir pour demander des échantillons et un devis.",
+      "Quels éléments pour chiffrer et planifier ?",
+      "Indiquez le produit, la quantité par visuel, le format et le pays de livraison. Les options d’échantillonnage et les délais dépendent du cahier des charges et du stade de validation des fichiers."
+    ],
+    "ar": [
+      "أسئلة شائعة عن طلبات التغليف",
+      "تعرّف على البيانات اللازمة لطلب العينات وعروض الأسعار.",
+      "ما المطلوب لتحديد السعر والمدة؟",
+      "اذكر المنتج والكمية لكل تصميم ونوع العبوة وبلد التسليم. تعتمد خيارات العينات والجدول الزمني على المواصفات ومرحلة اعتماد ملفات الطباعة."
+    ]
+  },
+  "/choosing-packaging-for-frozen-chilled-foods/": {
+    "de": [
+      "Verpackungen für gekühlte und tiefgekühlte Lebensmittel auswählen",
+      "Dokumentieren Sie die Kühlkette vom Abfüllen bis zur Lagerung beim Kunden. Berücksichtigen Sie das Produkt und den gefüllten Beutel als Einheit.",
+      "Folie und Naht gemeinsam beurteilen",
+      "Vergleichen Sie die Proben nach denselben Temperatur- und Handhabungsbedingungen. Messen Sie die Passform im Karton und prüfen Sie Naht, Durchstiche und Knickstellen vor der Druckfreigabe."
+    ],
+    "es": [
+      "Cómo elegir envases para refrigerados y congelados",
+      "Documente la cadena de frío desde el llenado hasta el almacenamiento. Tenga en cuenta el producto junto con el envase lleno.",
+      "Evaluar film y sellado en la misma prueba",
+      "Compare las muestras tras las mismas condiciones térmicas y de manipulación. Compruebe soldaduras, perforaciones, pliegues y encaje en caja antes de aprobar la impresión."
+    ],
+    "fr": [
+      "Choisir un emballage pour produits réfrigérés ou surgelés",
+      "Documentez la chaîne du froid du remplissage au stockage. Évaluez le produit avec son sachet rempli.",
+      "Comparer le film et les soudures dans le même essai",
+      "Exposez les échantillons aux mêmes contraintes thermiques et de manutention. Vérifiez soudures, perforations, plis et mise en carton avant le bon à tirer."
+    ],
+    "ar": [
+      "كيف تختار عبوة للأغذية المبرّدة والمجمّدة؟",
+      "وثّق سلسلة التبريد من التعبئة إلى التخزين، وقيّم المنتج مع العبوة الممتلئة كوحدة واحدة.",
+      "قيّم الفيلم واللحام في الاختبار نفسه",
+      "عرّض العينات لظروف حرارية ومناولة متماثلة. افحص اللحام والثقوب والثنيات والملاءمة للكرتون قبل اعتماد الطباعة."
+    ]
+  },
+  "/how-to-choose-the-right-barrier-film-for-coffee-packaging/": {
+    "de": [
+      "Barrierefolien für Kaffee auswählen",
+      "Die richtige Barriere hängt von der Kaffeeform, dem Frischeziel und dem Vertrieb ab. Legen Sie die Anforderungen für ganze Bohnen und Mahlkaffee einzeln fest.",
+      "Eine Folienstruktur am Produkt vergleichen",
+      "Geben Sie geplante Lagerzeit, Temperatur und Verschluss an. Fragen Sie nach den Bedingungen, unter denen Barrierewerte gemessen wurden, und prüfen Sie das Muster mit dem fertigen Verschluss und gegebenenfalls einem Ventil."
+    ],
+    "es": [
+      "Cómo elegir un film barrera para café",
+      "La barrera se define según el tipo de café, el objetivo de frescura y la distribución. Distinga entre café en grano y molido.",
+      "Comparar estructuras con el producto real",
+      "Indique tiempo de conservación, temperatura y cierre. Compruebe en qué condiciones se midió la barrera y ensaye una muestra con el cierre y la válvula previstos."
+    ],
+    "fr": [
+      "Choisir un film barrière pour le café",
+      "La barrière dépend du type de café, de la fraîcheur visée et du circuit de distribution. Distinguez le café en grains du café moulu.",
+      "Comparer des structures sur le produit réel",
+      "Précisez durée de conservation, température et fermeture. Demandez les conditions de mesure des valeurs barrière et testez une poche équipée de la fermeture et de la valve prévues."
+    ],
+    "ar": [
+      "كيف تختار فيلماً حاجزاً لتغليف القهوة؟",
+      "تعتمد درجة الحماية على شكل القهوة ومدة المحافظة على النكهة وطريقة التوزيع. حدّد متطلبات الحبوب والقهوة المطحونة كلّاً على حدة.",
+      "قارن بين بنى الأفلام بمنتجك الفعلي",
+      "اذكر مدة التخزين والحرارة ونوع الإغلاق. اسأل عن ظروف قياس خصائص الحاجز واختبر العينة مع الإغلاق والصمام المقترحين."
+    ]
+  },
+  "/solutions/recycling/": {
+    "de": [
+      "Materialprüfung und Recyclingfähigkeit",
+      "Vergleichen Sie einen alternativen Folienaufbau anhand von Produktschutz, Siegelung und dem Entsorgungsweg im Zielmarkt.",
+      "Eine Änderung nachvollziehbar bewerten",
+      "Halten Sie den aktuellen Aufbau und die Anforderungen fest. Vergleichen Sie gefüllte Proben und fordern Sie Unterlagen für den konkreten Aufbau und Absatzmarkt an."
+    ],
+    "es": [
+      "Selección de materiales y reciclabilidad",
+      "Compare una estructura alternativa según la protección, el sellado y la gestión de residuos en el mercado de destino.",
+      "Evaluar el cambio de material",
+      "Documente la estructura actual y los requisitos. Compare muestras llenas y solicite documentación para esa estructura y su mercado."
+    ],
+    "fr": [
+      "Choix des matériaux et recyclabilité",
+      "Comparez une autre structure selon la protection, la soudure et la filière de traitement dans le marché visé.",
+      "Évaluer un changement de matériau",
+      "Consignez la structure actuelle et les exigences. Comparez les sachets remplis et demandez les justificatifs correspondant à la structure et au marché."
+    ],
+    "ar": [
+      "اختيار المواد وقابلية إعادة التدوير",
+      "قارن بنية فيلم بديلة وفق حماية المنتج واللحام وطريقة التعامل مع العبوة بعد الاستخدام في سوق البيع.",
+      "تقييم تغيير المادة",
+      "وثّق البنية الحالية والمتطلبات. قارن عينات ممتلئة واطلب المستندات التي تخص البنية والسوق المستهدفين."
+    ]
+  },
+  "/solutions/retort/": {
+    "de": [
+      "Technische Abstimmung für Retortenbeutel",
+      "Legen Sie Anforderungen an Beutel, Siegelung und gefülltes Muster anhand des mit Ihrem Prozessteam abgestimmten Verfahrens fest.",
+      "Vom Beutelversuch zur Freigabe",
+      "Teilen Sie Produkt, Füllgewicht, Abmessungen und Siegelbereich mit. Stimmen Sie Verantwortlichkeiten und Nachweise für den gefüllten Versuch mit Ihrem Verfahrensteam ab."
+    ],
+    "es": [
+      "Apoyo técnico para bolsas esterilizables",
+      "Defina los requisitos de bolsa, soldadura y muestra llena según el proceso acordado con su equipo.",
+      "De la prueba a la aprobación",
+      "Comparta producto, peso, dimensiones y zona de sellado. Acuerde las responsabilidades y la documentación de la prueba con su equipo de proceso."
+    ],
+    "fr": [
+      "Appui technique pour sachets stérilisables",
+      "Définissez les exigences du sachet, des soudures et de l’échantillon rempli selon le procédé validé par votre équipe.",
+      "De l’essai à la validation",
+      "Précisez produit, poids, dimensions et zone de soudure. Confiez à l’équipe procédé la définition des responsabilités et des justificatifs de l’essai."
+    ],
+    "ar": [
+      "دعم فني للأكياس القابلة للتعقيم",
+      "حدّد متطلبات الكيس واللحام والعينة الممتلئة بحسب العملية التي يعتمدها فريقك.",
+      "من الاختبار إلى الاعتماد",
+      "أرسل معلومات المنتج والوزن والأبعاد ومنطقة اللحام. اتفق مع فريق العمليات على المسؤوليات والمستندات اللازمة لاختبار العبوة الممتلئة."
+    ]
+  },
+  "/about-us/global-reach/": {
+    "de": [
+      "Verpackungsprojekte für internationale Märkte",
+      "Teilen Sie das Lieferland, die Verpackungsspezifikation und die geplante Stückzahl je Variante mit.",
+      "Die Lieferung von Anfang an einplanen",
+      "Klären Sie Außenkarton, Palettenmaß, Lieferadresse und gewünschte Ankunft. Nennen Sie die benötigten Dokumente und Kennzeichnungen für den Zielmarkt."
+    ],
+    "es": [
+      "Proyectos de envasado para mercados internacionales",
+      "Comparta el país de entrega, la especificación y las unidades previstas por variante.",
+      "Planificar la entrega desde el principio",
+      "Confirme la caja, la paletización, la dirección y la fecha de llegada deseada. Indique los documentos y el etiquetado que exige el mercado."
+    ],
+    "fr": [
+      "Projets d’emballage pour les marchés internationaux",
+      "Précisez le pays de livraison, le cahier des charges et la quantité prévue par référence.",
+      "Anticiper la livraison",
+      "Vérifiez le carton, la palettisation, l’adresse et la date d’arrivée souhaitée. Indiquez les documents et l’étiquetage requis dans le marché de destination."
+    ],
+    "ar": [
+      "مشاريع تغليف للأسواق الدولية",
+      "اذكر بلد التسليم ومواصفات العبوة والكمية المطلوبة لكل صنف.",
+      "خطّط للتسليم منذ البداية",
+      "أكّد مواصفات الكرتون والطبالي والعنوان وموعد الوصول المطلوب. اذكر المستندات والملصقات المطلوبة للسوق المستهدف."
+    ]
+  },
+  "/sustainability/impact-report/": {
+    "de": [
+      "Umweltbezogene Unterlagen und Berichte",
+      "Ermitteln Sie, welche Materialien, Fertigungsstandorte und Zeiträume Ihre Anfrage abdecken soll.",
+      "Unterlagen passend zur Fragestellung anfordern",
+      "Nennen Sie das gewünschte Berichtsjahr und den Standort. Geben Sie bei Aussagen zu einem Packmittel zusätzlich den Aufbau und den Absatzmarkt an."
+    ],
+    "es": [
+      "Informes y documentación ambiental",
+      "Identifique los materiales, las plantas y los periodos que debe cubrir la solicitud.",
+      "Solicitar documentación con un alcance concreto",
+      "Indique el año y la planta. Para una afirmación sobre un envase, añada también la estructura y el mercado de destino."
+    ],
+    "fr": [
+      "Rapports et documentation environnementale",
+      "Identifiez les matériaux, les sites et les périodes à couvrir dans votre demande.",
+      "Donner un périmètre à la demande",
+      "Précisez l’année et le site. Pour une affirmation relative à l’emballage, indiquez aussi la structure et le marché visé."
+    ],
+    "ar": [
+      "التقارير والمستندات البيئية",
+      "حدّد المواد ومواقع التصنيع والفترات التي يجب أن يغطيها الطلب.",
+      "اطلب المستندات بنطاق واضح",
+      "اذكر سنة التقرير والموقع. وإذا كان الطلب بشأن ادعاء يخص عبوة معينة، فأضف بنية العبوة وسوق البيع."
+    ]
+  },
+  "/about-us/impact-report/": {
+    "de": [
+      "Nachweise für die Lieferantenprüfung",
+      "Klären Sie, ob sich Ihre Anfrage auf das Unternehmen, einen Standort oder ein bestimmtes Verpackungsprojekt bezieht.",
+      "Was zur Prüfung vorzulegen ist",
+      "Nennen Sie Prüffrage, Zeitraum und Geltungsbereich. Verknüpfen Sie projektbezogene Nachweise mit Verpackungszeichnung und Materialspezifikation."
+    ],
+    "es": [
+      "Documentación para evaluar al proveedor",
+      "Determine si la solicitud se refiere a la empresa, una planta o un proyecto de envasado concreto.",
+      "Preparar la revisión",
+      "Indique el motivo, el periodo y el alcance. Vincule los documentos del proyecto con el plano y la especificación del material."
+    ],
+    "fr": [
+      "Justificatifs pour l’évaluation du fournisseur",
+      "Définissez si votre demande porte sur l’entreprise, un site ou un projet d’emballage précis.",
+      "Préparer l’évaluation",
+      "Précisez la question, la période et le périmètre. Rattachez les justificatifs du projet au plan et au cahier des charges matière."
+    ],
+    "ar": [
+      "المستندات اللازمة لتقييم المورد",
+      "حدّد هل يتعلق الطلب بالشركة أو موقع تصنيع أو مشروع تغليف محدّد.",
+      "التحضير للمراجعة",
+      "اذكر موضوع المراجعة والفترة والنطاق. اربط المستندات الخاصة بالمشروع برسم العبوة ومواصفات المادة."
+    ]
+  }
+}

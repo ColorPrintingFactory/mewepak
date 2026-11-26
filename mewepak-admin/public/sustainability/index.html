@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+
+
+
+
+
+
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-block-template-part-theme-inline-css">
+:root :where(.wp-block-template-part.has-background){margin-bottom:0;margin-top:0;padding:1.25em 2.375em}
+/*# sourceURL=/wp-includes/blocks/template-part/theme.min.css */
+</style>
+<style id="wp-block-group-inline-css">
+.wp-block-group{box-sizing:border-box}:where(.wp-block-group.wp-block-group-is-layout-constrained){position:relative}
+/*# sourceURL=/wp-includes/blocks/group/style.min.css */
+</style>
+<style id="wp-block-group-theme-inline-css">
+:where(.wp-block-group.has-background){padding:1.25em 2.375em}
+/*# sourceURL=/wp-includes/blocks/group/theme.min.css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}:root .has-text-align-center{text-align:center}:root .has-text-align-left{text-align:left}:root .has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{word-wrap:normal!important;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style^=border-color],[style*=";border-color"],[style*="; border-color"]){border-style:solid}html :where([style^=border-top-color],[style*=";border-top-color"],[style*="; border-top-color"]){border-top-style:solid}html :where([style^=border-right-color],[style*=";border-right-color"],[style*="; border-right-color"]){border-right-style:solid}html :where([style^=border-bottom-color],[style*=";border-bottom-color"],[style*="; border-bottom-color"]){border-bottom-style:solid}html :where([style^=border-left-color],[style*=";border-left-color"],[style*="; border-left-color"]){border-left-style:solid}html :where([style^=border-width],[style*=";border-width"],[style*="; border-width"]){border-style:solid}html :where([style^=border-top-width],[style*=";border-top-width"],[style*="; border-top-width"]){border-top-style:solid}html :where([style^=border-right-width],[style*=";border-right-width"],[style*="; border-right-width"]){border-right-style:solid}html :where([style^=border-bottom-width],[style*=";border-bottom-width"],[style*="; border-bottom-width"]){border-bottom-style:solid}html :where([style^=border-left-width],[style*=";border-left-width"],[style*="; border-left-width"]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+/*# sourceURL=/wp-includes/css/dist/block-library/common.min.css */
+</style>
+
+<link rel="stylesheet" id="fluentform-public-default-css" href="/assets/original/fluentform-public-default.css">
+<link rel="stylesheet" id="woocommerce-blocktheme-css" href="/assets/original/woocommerce-blocktheme.css">
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--accent: #00cfca;--wp--preset--color--accent-dark: #00b8b3;--wp--preset--color--navy: #0a1628;--wp--preset--color--navy-soft: #0d1d35;--wp--preset--color--slate: #334155;--wp--preset--color--muted: #64748b;--wp--preset--color--line: #e2e8f0;--wp--preset--color--surface: #f8fafc;--wp--preset--color--surface-2: #f1f5f9;--wp--preset--color--base: #ffffff;--wp--preset--color--contrast: #0f172a;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--gradient--navy-deep: linear-gradient(135deg, #0a1628 0%, #0d1d35 50%, #0a1628 100%);--wp--preset--gradient--accent-sheen: linear-gradient(135deg, #00cfca 0%, #00e5df 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.625), 20px);--wp--preset--font-size--large: clamp(22.041px, 1.378rem + ((1vw - 3.2px) * 1.454), 36px);--wp--preset--font-size--x-large: clamp(25.014px, 1.563rem + ((1vw - 3.2px) * 1.769), 42px);--wp--preset--font-size--xx-large: clamp(2rem, 2rem + ((1vw - 0.2rem) * 1.667), 3rem);--wp--preset--font-size--display: clamp(2.25rem, 2.25rem + ((1vw - 0.2rem) * 2.5), 3.75rem);--wp--preset--font-family--sans: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);--wp--preset--shadow--card: 0 1px 3px rgba(15,23,42,0.08), 0 10px 30px -12px rgba(15,23,42,0.12);--wp--preset--shadow--lift: 0 20px 45px -20px rgba(15,23,42,0.25);--wp--preset--shadow--accent: 0 18px 40px -16px rgba(0,207,202,0.45);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:root { --wp--style--global--content-size: 768px;--wp--style--global--wide-size: 1280px; }:where(body) { margin: 0; }.wp-site-blocks { padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom); }.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); }.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) { padding-right: 0; padding-left: 0; }.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) > .alignfull { margin-left: 0; margin-right: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 1.5rem; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 1.5rem; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 1.5rem;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 1.5rem;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 1.5rem;}:root :where(.is-layout-grid){gap: 1.5rem;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{background-color: var(--wp--preset--color--base);color: var(--wp--preset--color--contrast);font-family: var(--wp--preset--font-family--sans);font-size: var(--wp--preset--font-size--medium);font-weight: 400;line-height: 1.6;--wp--style--root--padding-top: 0px;--wp--style--root--padding-right: 1.25rem;--wp--style--root--padding-bottom: 0px;--wp--style--root--padding-left: 1.25rem;}a:where(:not(.wp-element-button)){color: var(--wp--preset--color--accent);}:root :where(a:where(:not(.wp-element-button)):hover){color: var(--wp--preset--color--accent-dark);}h1, h2, h3, h4, h5, h6{color: var(--wp--preset--color--navy);font-weight: 700;letter-spacing: -0.02em;line-height: 1.15;}h1{font-size: var(--wp--preset--font-size--display);}h2{font-size: var(--wp--preset--font-size--xx-large);}h3{font-size: var(--wp--preset--font-size--x-large);}:root :where(.wp-element-button, .wp-block-button__link){background-color: var(--wp--preset--color--accent);border-radius: 9999px;border-width: 0;color: var(--wp--preset--color--base);font-family: inherit;font-size: clamp(0.875rem, 0.875rem + ((1vw - 0.2rem) * 0.208), 1rem);font-style: inherit;font-weight: 600;letter-spacing: inherit;line-height: inherit;padding-top: 0.85rem;padding-right: 1.75rem;padding-bottom: 0.85rem;padding-left: 1.75rem;text-decoration: none;text-transform: inherit;}:root :where(.wp-element-button:hover, .wp-block-button__link:hover){background-color: var(--wp--preset--color--accent-dark);}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-accent-color{color: var(--wp--preset--color--accent) !important;}.has-accent-dark-color{color: var(--wp--preset--color--accent-dark) !important;}.has-navy-color{color: var(--wp--preset--color--navy) !important;}.has-navy-soft-color{color: var(--wp--preset--color--navy-soft) !important;}.has-slate-color{color: var(--wp--preset--color--slate) !important;}.has-muted-color{color: var(--wp--preset--color--muted) !important;}.has-line-color{color: var(--wp--preset--color--line) !important;}.has-surface-color{color: var(--wp--preset--color--surface) !important;}.has-surface-2-color{color: var(--wp--preset--color--surface-2) !important;}.has-base-color{color: var(--wp--preset--color--base) !important;}.has-contrast-color{color: var(--wp--preset--color--contrast) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-accent-background-color{background-color: var(--wp--preset--color--accent) !important;}.has-accent-dark-background-color{background-color: var(--wp--preset--color--accent-dark) !important;}.has-navy-background-color{background-color: var(--wp--preset--color--navy) !important;}.has-navy-soft-background-color{background-color: var(--wp--preset--color--navy-soft) !important;}.has-slate-background-color{background-color: var(--wp--preset--color--slate) !important;}.has-muted-background-color{background-color: var(--wp--preset--color--muted) !important;}.has-line-background-color{background-color: var(--wp--preset--color--line) !important;}.has-surface-background-color{background-color: var(--wp--preset--color--surface) !important;}.has-surface-2-background-color{background-color: var(--wp--preset--color--surface-2) !important;}.has-base-background-color{background-color: var(--wp--preset--color--base) !important;}.has-contrast-background-color{background-color: var(--wp--preset--color--contrast) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-accent-border-color{border-color: var(--wp--preset--color--accent) !important;}.has-accent-dark-border-color{border-color: var(--wp--preset--color--accent-dark) !important;}.has-navy-border-color{border-color: var(--wp--preset--color--navy) !important;}.has-navy-soft-border-color{border-color: var(--wp--preset--color--navy-soft) !important;}.has-slate-border-color{border-color: var(--wp--preset--color--slate) !important;}.has-muted-border-color{border-color: var(--wp--preset--color--muted) !important;}.has-line-border-color{border-color: var(--wp--preset--color--line) !important;}.has-surface-border-color{border-color: var(--wp--preset--color--surface) !important;}.has-surface-2-border-color{border-color: var(--wp--preset--color--surface-2) !important;}.has-base-border-color{border-color: var(--wp--preset--color--base) !important;}.has-contrast-border-color{border-color: var(--wp--preset--color--contrast) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-navy-deep-gradient-background{background: var(--wp--preset--gradient--navy-deep) !important;}.has-accent-sheen-gradient-background{background: var(--wp--preset--gradient--accent-sheen) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}.has-xx-large-font-size{font-size: var(--wp--preset--font-size--xx-large) !important;}.has-display-font-size{font-size: var(--wp--preset--font-size--display) !important;}.has-sans-font-family{font-family: var(--wp--preset--font-family--sans) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<style id="wp-block-template-skip-link-inline-css">
+/*! This file is auto-generated */
+.skip-link.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute!important;width:1px;word-wrap:normal!important;word-break:normal!important}.skip-link.screen-reader-text:focus{background-color:#eee;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}
+/*# sourceURL=/wp-includes/css/wp-block-template-skip-link.min.css */
+</style>
+<link rel="stylesheet" id="woocommerce-layout-css" href="/assets/original/woocommerce-layout.css">
+<link rel="stylesheet" id="woocommerce-smallscreen-css" href="/assets/original/woocommerce-smallscreen.css">
+<link rel="stylesheet" id="woocommerce-general-css" href="/assets/original/woocommerce.css">
+<style id="woocommerce-inline-inline-css">
+.woocommerce form .form-row .required { visibility: visible; }
+/*# sourceURL=woocommerce-inline-inline-css */
+</style>
+<link rel="stylesheet" id="mewepak-tailwind-css" href="/assets/original/tailwind.css">
+<link rel="stylesheet" id="mewepak-custom-css" href="/assets/original/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+	<title>Sustainability | MewePak</title>
+<meta name="description" content="Explore MewePak’s approach to circular packaging, recyclable, PCR and compostable material routes, pouch performance and a screening LCA scenario comparison.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="/sustainability/"><link rel="stylesheet" href="/assets/client-design/sustainability.css"><link rel="stylesheet" href="/assets/client-design/integration.css"></head>
+
+<body class="wp-singular page-template-default page page-id-11 wp-embed-responsive wp-theme-mewepak-fse theme-mewepak-fse woocommerce-uses-block-theme woocommerce-block-theme-has-button-styles woocommerce-no-js">
+
+<a class="skip-link screen-reader-text" id="wp-skip-link" href="#sustainability-top">跳至内容</a><div class="wp-site-blocks"><header class="wp-block-template-part">
+
+<header data-mewepak-header class="fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-500 data-[scrolled=true]:bg-white/95 data-[scrolled=true]:backdrop-blur-md data-[scrolled=true]:shadow-sm">
+  <!-- Utility bar -->
+  <div class="hidden md:block bg-[#0a1628] text-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-9 text-xs">
+        <p class="font-medium tracking-wide text-white/90">Customized Packaging Factory Since 2007.</p>
+        <div class="flex items-center gap-5">
+          <a href="https://wa.me/8613537663353" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 !text-white/80 hover:!text-[#00cfca] transition-colors">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <span>WhatsApp: +86 13537663353</span>
+          </a>
+          <span class="w-px h-3.5 bg-white/20"></span>
+          <a href="tel:+8613423118038" class="flex items-center gap-1.5 !text-white/80 hover:!text-[#00cfca] transition-colors">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>Call Us: +86-13423118038</span>
+          </a>
+          <span class="w-px h-3.5 bg-white/20"></span>
+          <a href="mailto:sales@mewepak.com" class="flex items-center gap-1.5 !text-white/80 hover:!text-[#00cfca] transition-colors">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>sales@mewepak.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top bar -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20 border-b border-gray-100">
+      <a href="/" class="flex items-center gap-3">
+        <img decoding="async" src="/assets/media/2026/06/logo.png" alt="Mewepak — Packaging Solutions Provider" class="mewepak-header-logo h-12 w-auto">
+      </a>
+
+      <!-- Search bar - desktop -->
+      <div class="hidden lg:flex items-center flex-1 max-w-xl mx-8">
+        <form action="/" method="get" role="search" class="relative w-full">
+          <input type="search" name="s" placeholder="Search for products |" aria-label="Search for products" class="w-full h-11 pl-5 pr-12 rounded-full border border-gray-200 bg-white text-sm text-gray-900 focus:outline-none focus:border-[#00cfca] focus:ring-2 focus:ring-[#00cfca]/20 transition-all">
+          <button type="submit" aria-label="Submit search" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#00cfca] transition-colors">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right actions -->
+      <div class="flex items-center gap-4">
+        <button type="button" data-search-open aria-label="Open search" class="lg:hidden p-2 text-gray-600 hover:text-[#00cfca] transition-colors">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        </button>
+        <button type="button" aria-label="Language selector" class="hidden lg:flex items-center gap-2 text-sm text-gray-600 hover:text-[#00cfca] transition-colors">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>EN</span>
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <a href="/contact" class="hidden lg:flex items-center gap-2 h-11 px-6 !bg-[#00cfca] hover:!bg-[#00b8b3] !text-white text-sm font-medium !rounded-full transition-colors shadow-lg shadow-[#00cfca]/25">
+          Request a Quote
+        </a>
+        <button type="button" data-mobile-open aria-label="Open menu" class="lg:hidden p-2 text-gray-600">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Desktop navigation -->
+    <nav class="hidden lg:flex items-center justify-center gap-1 h-14" data-nav>
+      <div class="relative"><a href="/" data-nav-link="home" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">Home</a></div>
+
+      <div class="relative" data-nav-item="Products">
+        <a href="/products" data-nav-link="products" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">
+          Products
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="relative" data-nav-item="Markets">
+        <a href="/markets" data-nav-link="markets" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">
+          Markets
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="relative" data-nav-item="Solutions">
+        <a href="/solutions" data-nav-link="solutions" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">
+          Solutions
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="relative" data-nav-item="Added Value">
+        <a href="/added-value" data-nav-link="added-value" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">
+          Added Value
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="relative" data-nav-item="Sustainability">
+        <a href="/sustainability" data-nav-link="sustainability" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">
+          Sustainability
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="relative"><a href="/blog" data-nav-link="blog" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">Blog</a></div>
+      <div class="relative"><a href="/contact" data-nav-link="contact" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">Contact</a></div>
+
+      <div class="relative" data-nav-item="About Us">
+        <a href="/about-us" data-nav-link="about-us" class="flex items-center gap-1 px-3 py-2 text-sm font-medium !text-gray-700 hover:!text-[#00cfca] transition-colors">
+          About Us
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mega menus -->
+  <div data-mega-panel="Products" class="mewepak-products-mega-panel hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl">
+    <div class="mewepak-products-mega-shell max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      <div class="mewepak-products-mega-grid grid grid-cols-12 gap-8">
+        <div class="mewepak-products-mega-main col-span-8">
+          <div class="mewepak-products-mega-columns grid grid-cols-3 gap-8">
+            <div class="mewepak-products-mega-column">
+              <h3 class="mewepak-products-mega-heading !text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200" data-products-group-heading="pouch-formats">Pouch Formats</h3>
+              <ul class="mewepak-products-mega-list mewepak-products-mega-list--pouch-primary space-y-2" data-products-group-list="pouch-formats-primary"></ul>
+            </div>
+            <div class="mewepak-products-mega-column">
+              <ul class="mewepak-products-mega-list mewepak-products-mega-list--pouch-secondary space-y-2" data-products-group-list="pouch-formats-secondary"></ul>
+            </div>
+            <div class="mewepak-products-mega-column">
+              <h3 class="mewepak-products-mega-heading !text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200" data-products-group-heading="specialty-packaging">Specialty Packaging</h3>
+              <ul class="mewepak-products-mega-list mewepak-products-mega-list--specialty space-y-2" data-products-group-list="specialty-packaging"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="mewepak-products-mega-feature col-span-4">
+          <div class="bg-gradient-to-br from-[#e6faf9] to-[#f0fffe] rounded-2xl p-6 h-full relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20">
+              <svg viewbox="0 0 100 100" fill="none" class="w-full h-full"><path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" stroke="#00cfca" stroke-width="2"></path><path d="M50 20L76.6 35V65L50 80L23.4 65V35L50 20Z" stroke="#00cfca" stroke-width="2"></path></svg>
+            </div>
+            <span class="text-xs font-semibold !text-[#00cfca] tracking-wider">FEATURED</span>
+            <h4 class="!text-xl !font-bold !text-gray-900 mt-2 mb-3">Explore Our Premium Products</h4>
+            <p class="text-sm !text-gray-600 mb-5 leading-relaxed">Discover high-quality, customized packaging solutions tailored for your business needs.</p>
+            <a href="/products" class="inline-flex items-center gap-2 h-10 px-5 !bg-[#1a2e35] hover:!bg-[#2a3e45] !text-white text-sm font-medium !rounded-lg transition-colors">View All Products</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-mega-panel="Markets" class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-8">
+          <div class="grid grid-cols-3 gap-8">
+            <div>
+              <h3 class="!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200">Foods</h3>
+              <ul class="space-y-2">
+                <li><a href="/markets/coffee-tea" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Coffee &amp; Tea</a></li>
+                <li><a href="/markets/snacks-sweets" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Snacks &amp; Sweets</a></li>
+                <li><a href="/markets/supplement" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Supplement</a></li>
+                <li><a href="/markets/pet-food" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Pet Food</a></li>
+                <li><a href="/markets/sauce-soup" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Sauce &amp; Soup</a></li>
+                <li><a href="/markets/baby-food" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Baby Food</a></li>
+                <li><a href="/markets/beverage" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Beverage</a></li>
+              </ul>
+            </div>
+            <div>
+              <ul class="space-y-2 lg:mt-12">
+                <li><a href="/markets/frozen-food" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Frozen Food</a></li>
+                <li><a href="/markets/home-care" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Home Care</a></li>
+                <li><a href="/markets/meat-poultry" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Meat &amp; Poultry</a></li>
+                <li><a href="/markets/beauty-care" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Beauty &amp; Personal Care</a></li>
+                <li><a href="/markets/sea-food" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Sea Food</a></li>
+                <li><a href="/markets/fruits-veggies" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Fruits &amp; Veggies</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200">Nonfoods</h3>
+              <ul class="space-y-2">
+                <li><a href="/markets/cbd" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">CBD</a></li>
+                <li><a href="/markets/cosmetics" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Cosmetics</a></li>
+                <li><a href="/markets/powder-spices" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Powder &amp; Spices</a></li>
+                <li><a href="/markets/fashion" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Fashion</a></li>
+                <li><a href="/markets/tobacco-filters" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Tobacco &amp; Filters</a></li>
+                <li><a href="/markets/cbd-thc" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">CBD &amp; THC</a></li>
+                <li><a href="/markets/cannabis" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Cannabis</a></li>
+                <li><a href="/markets/accessories" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Accessories</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-4">
+          <div class="bg-gradient-to-br from-[#e6faf9] to-[#f0fffe] rounded-2xl p-6 h-full relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20">
+              <svg viewbox="0 0 100 100" fill="none" class="w-full h-full"><path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" stroke="#00cfca" stroke-width="2"></path><path d="M50 20L76.6 35V65L50 80L23.4 65V35L50 20Z" stroke="#00cfca" stroke-width="2"></path></svg>
+            </div>
+            <span class="text-xs font-semibold !text-[#00cfca] tracking-wider">INDUSTRIES</span>
+            <h4 class="!text-xl !font-bold !text-gray-900 mt-2 mb-3">Solutions for Every Market</h4>
+            <p class="text-sm !text-gray-600 mb-5 leading-relaxed">Tailored packaging solutions designed to meet the unique demands of your industry.</p>
+            <a href="/markets" class="inline-flex items-center gap-2 h-10 px-5 !bg-[#1a2e35] hover:!bg-[#2a3e45] !text-white text-sm font-medium !rounded-lg transition-colors">View All Markets</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-mega-panel="Solutions" class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-6">
+          <div class="grid grid-cols-1 gap-8">
+            <div>
+              <h3 class="!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200">Our Solutions</h3>
+              <ul class="space-y-2">
+                <li><a href="/solutions/prepress" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Prepress</a></li>
+                <li><a href="/solutions/printing" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Printing</a></li>
+                <li><a href="/solutions/technical" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Technical</a></li>
+                <li><a href="/solutions/recycling" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Recycling</a></li>
+                <li><a href="/solutions/retort" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Retort</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-6">
+          <div class="bg-gradient-to-br from-[#e6faf9] to-[#f0fffe] rounded-2xl p-6 h-full relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20">
+              <svg viewbox="0 0 100 100" fill="none" class="w-full h-full"><path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" stroke="#00cfca" stroke-width="2"></path><path d="M50 20L76.6 35V65L50 80L23.4 65V35L50 20Z" stroke="#00cfca" stroke-width="2"></path></svg>
+            </div>
+            <span class="text-xs font-semibold !text-[#00cfca] tracking-wider">CUSTOM SOLUTIONS</span>
+            <h4 class="!text-xl !font-bold !text-gray-900 mt-2 mb-3">Tailored for Your Brand</h4>
+            <p class="text-sm !text-gray-600 mb-5 leading-relaxed">Work with our experts to create packaging that perfectly represents your brand.</p>
+            <a href="/contact" class="inline-flex items-center gap-2 h-10 px-5 !bg-[#1a2e35] hover:!bg-[#2a3e45] !text-white text-sm font-medium !rounded-lg transition-colors">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-mega-panel="Added Value" class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-6">
+          <div class="grid grid-cols-1 gap-8">
+            <div>
+              <h3 class="!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200">Resources</h3>
+              <ul class="space-y-2">
+                <li><a href="/added-value/pouch-patrol" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Pouch Patrol</a></li>
+                <li><a href="/added-value/on-the-road" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">On The Road</a></li>
+                <li><a href="/added-value/keepin-it-green" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Keepin’it Green</a></li>
+                <li><a href="/added-value/faq" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">FAQ</a></li>
+                <li><a href="/added-value/help-center" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Help Center</a></li>
+                <li><a href="/added-value/careers" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Careers</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-6">
+          <div class="bg-gradient-to-br from-[#e6faf9] to-[#f0fffe] rounded-2xl p-6 h-full relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20">
+              <svg viewbox="0 0 100 100" fill="none" class="w-full h-full"><path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" stroke="#00cfca" stroke-width="2"></path><path d="M50 20L76.6 35V65L50 80L23.4 65V35L50 20Z" stroke="#00cfca" stroke-width="2"></path></svg>
+            </div>
+            <span class="text-xs font-semibold !text-[#00cfca] tracking-wider">SUPPORT</span>
+            <h4 class="!text-xl !font-bold !text-gray-900 mt-2 mb-3">We’re Here to Help</h4>
+            <p class="text-sm !text-gray-600 mb-5 leading-relaxed">Access our resources, get answers to common questions, and explore career opportunities.</p>
+            <a href="/added-value" class="inline-flex items-center gap-2 h-10 px-5 !bg-[#1a2e35] hover:!bg-[#2a3e45] !text-white text-sm font-medium !rounded-lg transition-colors">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-mega-panel="Sustainability" class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-6">
+          <div class="grid grid-cols-1 gap-8">
+            <div>
+              <h3 class="!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200">Our Commitment</h3>
+              <ul class="space-y-2">
+                <li><a href="/sustainability/sustainable-packaging" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Sustainable Packaging</a></li>
+                <li><a href="/sustainability/operations" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Operations Sustainability</a></li>
+                <li><a href="/sustainability/social" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Social Sustainability</a></li>
+                <li><a href="/sustainability/impact-report" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Mewepak Impact Report</a></li>
+                <li><a href="/sustainability/lca-tool" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Life Cycle Analysis Tool</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-6">
+          <div class="bg-gradient-to-br from-[#e6faf9] to-[#f0fffe] rounded-2xl p-6 h-full relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20">
+              <svg viewbox="0 0 100 100" fill="none" class="w-full h-full"><path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" stroke="#00cfca" stroke-width="2"></path><path d="M50 20L76.6 35V65L50 80L23.4 65V35L50 20Z" stroke="#00cfca" stroke-width="2"></path></svg>
+            </div>
+            <span class="text-xs font-semibold !text-[#00cfca] tracking-wider">ECO-FRIENDLY</span>
+            <h4 class="!text-xl !font-bold !text-gray-900 mt-2 mb-3">Building a Sustainable Future</h4>
+            <p class="text-sm !text-gray-600 mb-5 leading-relaxed">Discover our commitment to environmental responsibility and sustainable practices.</p>
+            <a href="/sustainability/impact-report" class="inline-flex items-center gap-2 h-10 px-5 !bg-[#1a2e35] hover:!bg-[#2a3e45] !text-white text-sm font-medium !rounded-lg transition-colors">View Report</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-mega-panel="About Us" class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-6">
+          <div class="grid grid-cols-1 gap-8">
+            <div>
+              <h3 class="!text-base !font-semibold !text-gray-900 mb-4 pb-3 border-b border-gray-200">Company</h3>
+              <ul class="space-y-2">
+                <li><a href="/about-us/global-reach" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Global Reach</a></li>
+                <li><a href="/about-us/impact-report" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Impact Report</a></li>
+                <li><a href="/about-us/quality-certifications" class="text-sm !text-gray-600 hover:!text-[#00cfca] transition-colors">Quality Certifications</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-6">
+          <div class="bg-gradient-to-br from-[#e6faf9] to-[#f0fffe] rounded-2xl p-6 h-full relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20">
+              <svg viewbox="0 0 100 100" fill="none" class="w-full h-full"><path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" stroke="#00cfca" stroke-width="2"></path><path d="M50 20L76.6 35V65L50 80L23.4 65V35L50 20Z" stroke="#00cfca" stroke-width="2"></path></svg>
+            </div>
+            <span class="text-xs font-semibold !text-[#00cfca] tracking-wider">ABOUT US</span>
+            <h4 class="!text-xl !font-bold !text-gray-900 mt-2 mb-3">Who We Are</h4>
+            <p class="text-sm !text-gray-600 mb-5 leading-relaxed">Learn about our global presence, quality standards, and commitment to excellence.</p>
+            <a href="/about-us" class="inline-flex items-center gap-2 h-10 px-5 !bg-[#1a2e35] hover:!bg-[#2a3e45] !text-white text-sm font-medium !rounded-lg transition-colors">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div data-mobile-menu class="hidden fixed inset-0 z-50 lg:hidden">
+  <div data-mobile-close class="absolute inset-0 bg-black/50"></div>
+  <div data-mobile-drawer class="absolute right-0 top-0 bottom-0 w-80 max-w-[92vw] bg-white p-6 overflow-y-auto translate-x-full transition-transform duration-300 ease-out">
+    <div class="flex items-center justify-between mb-8">
+      <span class="text-xl font-bold text-[#00cfca]">Menu</span>
+      <button type="button" data-mobile-close class="p-2 text-gray-500" aria-label="Close menu">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <nav class="space-y-1">
+      <a href="/" class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">Home</a>
+
+      <div data-mobile-group="Products">
+        <button type="button" data-mobile-group-trigger class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">
+          <span>Products</span>
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div data-mobile-group-panel class="hidden pl-4 py-2 space-y-1">
+          <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pouch Formats</div>
+          <a href="/products/stand-up-pouch" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Stand Up Pouch</a>
+          <a href="/products/flat-bottom-pouch" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Flat Bottom Pouch</a>
+          <a href="/products/retort-pouch" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Retort Pouch</a>
+          <a href="/products/spout-pouch" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Spout Pouch</a>
+          <a href="/products/roll-stock-films" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Roll Stock &amp; Lidding Films</a>
+          <a href="/products/stand-up-pouch-tap" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Stand Up Pouch with Tap</a>
+          <a href="/products/bag-in-box" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Bag-In-Box</a>
+          <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Specialty Packaging</div>
+          <a href="/products/quad-seal-bag" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Quad Seal Bag</a>
+          <a href="/products/flat-pouch" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Flat Pouch</a>
+          <a href="/products/shaped-pouch" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Shaped Pouch</a>
+        </div>
+      </div>
+
+      <div data-mobile-group="Markets">
+        <button type="button" data-mobile-group-trigger class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">
+          <span>Markets</span>
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div data-mobile-group-panel class="hidden pl-4 py-2 space-y-1">
+          <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Foods</div>
+          <a href="/markets/coffee-tea" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Coffee &amp; Tea</a>
+          <a href="/markets/snacks-sweets" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Snacks &amp; Sweets</a>
+          <a href="/markets/supplement" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Supplement</a>
+          <a href="/markets/pet-food" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Pet Food</a>
+          <a href="/markets/sauce-soup" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Sauce &amp; Soup</a>
+          <a href="/markets/baby-food" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Baby Food</a>
+          <a href="/markets/beverage" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Beverage</a>
+          <a href="/markets/frozen-food" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Frozen Food</a>
+          <a href="/markets/home-care" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Home Care</a>
+          <a href="/markets/meat-poultry" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Meat &amp; Poultry</a>
+          <a href="/markets/beauty-care" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Beauty &amp; Personal Care</a>
+          <a href="/markets/sea-food" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Sea Food</a>
+          <a href="/markets/fruits-veggies" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Fruits &amp; Veggies</a>
+          <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Nonfoods</div>
+          <a href="/markets/cbd" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">CBD</a>
+          <a href="/markets/cosmetics" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Cosmetics</a>
+          <a href="/markets/powder-spices" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Powder &amp; Spices</a>
+          <a href="/markets/fashion" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Fashion</a>
+          <a href="/markets/tobacco-filters" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Tobacco &amp; Filters</a>
+          <a href="/markets/cbd-thc" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">CBD &amp; THC</a>
+          <a href="/markets/cannabis" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Cannabis</a>
+          <a href="/markets/accessories" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Accessories</a>
+        </div>
+      </div>
+
+      <div data-mobile-group="Solutions">
+        <button type="button" data-mobile-group-trigger class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">
+          <span>Solutions</span>
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div data-mobile-group-panel class="hidden pl-4 py-2 space-y-1">
+          <a href="/solutions/prepress" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Prepress</a>
+          <a href="/solutions/printing" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Printing</a>
+          <a href="/solutions/technical" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Technical</a>
+          <a href="/solutions/recycling" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Recycling</a>
+          <a href="/solutions/retort" class="block px-4 py-2 text-sm !text-gray-500 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors">Retort</a>
+        </div>
+      </div>
+
+      <a href="/added-value" class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">Added Value</a>
+      <a href="/sustainability" class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">Sustainability</a>
+      <a href="/blog" class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">Blog</a>
+      <a href="/contact" class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">Contact</a>
+      <a href="/about-us" class="flex items-center justify-between w-full px-4 py-3 !text-gray-700 hover:!text-[#00cfca] hover:bg-[#00cfca]/5 rounded-lg transition-colors text-left">About Us</a>
+    </nav>
+    <a href="/contact" class="flex items-center justify-center gap-2 w-full h-12 mt-8 !bg-[#00cfca] !text-white font-medium !rounded-full">
+      Request a Quote
+      <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
+  </div>
+</div>
+
+<div data-search-overlay class="hidden fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-20">
+  <div data-search-close class="absolute inset-0"></div>
+  <div class="relative w-full max-w-lg mx-4 bg-white rounded-2xl p-4 shadow-2xl">
+    <form action="/" method="get" role="search" class="relative">
+      <input type="search" name="s" placeholder="Search for products..." aria-label="Search for products" class="w-full h-14 pl-5 pr-12 rounded-xl border-0 bg-gray-50 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#00cfca]/20">
+      <button type="submit" aria-label="Submit search" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<div style="height: 36px;"></div>
+
+</header>
+
+
+<div id="mewepak-homepage" class="sustainability-page">
+
+
+
+<main id="sustainability-top" tabindex="-1" data-client-page="sustainability">
+  <nav class="mw-inner su-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Sustainability</span>
+  </nav>
+
+  <section class="su-hero" aria-labelledby="su-title">
+    <div class="su-hero-picture"><img src="/assets/client-design/images/557a803e9dde5fd0.webp" width="1961" height="802" alt="Sunlight falling over a misty green forest canopy" fetchpriority="high" decoding="async"></div>
+    <div class="mw-inner su-hero-inner">
+      <div class="su-hero-copy">
+        <p class="su-eyebrow">MewePak Sustainability</p>
+        <h1 id="su-title">Better packaging.<br><em>More considered choices.</em></h1>
+        <p>Thoughtful material choices. Packaging that protects. A clearer view of what happens next.</p>
+        <div class="su-actions">
+          <a class="su-btn su-btn-lime" href="#our-approach">Explore our approach <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a>
+          <a class="su-btn su-btn-outline" href="#lca-explorer">Compare two packs <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <nav class="mw-inner su-section-nav" aria-label="Sustainability sections"><span>Explore the page</span><a href="#sustainability-overview">The bigger picture</a><a href="#our-approach">Our approach</a><a href="#pouch-advantages">Pouch benefits</a><a href="#material-pathways">Material routes</a><a href="#impact-dashboard">Impact dashboard</a><a href="#sustainable-materials">Gallery</a><a href="#practical-performance">Performance</a><a href="#manufacturing-journey">Manufacturing</a><a href="#certifications-reports">Documentation</a><a href="/sustainability/impact-report/">Reporting register</a><a href="#lca-explorer">LCA explorer</a></nav>
+
+  <section id="sustainability-overview" class="su-section su-overview" aria-labelledby="su-overview-title"><div class="mw-inner"><div class="su-overview-grid"><div class="su-overview-copy"><p class="su-eyebrow">The bigger picture</p><h2 id="su-overview-title">What makes packaging<br>more sustainable?</h2><p>It starts with a pack that protects what is inside. From there, consider material use, the customer experience and what can happen to the packaging after use.</p><p>Environmental goals sit alongside product safety, practical performance and commercial needs. A useful comparison looks at the complete life of the pack.</p><a class="su-text-link" href="#material-pathways">Explore material routes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div><svg class="su-balance" width="460" height="370" viewbox="0 0 460 370" role="img" aria-labelledby="su-balance-title su-balance-desc"><title id="su-balance-title">A balanced approach to packaging</title><desc id="su-balance-desc">Environmental choices, people and product needs overlap in a considered packaging design.</desc><circle cx="230" cy="125" r="110" fill="#e3edcd"></circle><circle cx="156" cy="244" r="110" fill="#e8efe7"></circle><circle cx="304" cy="244" r="110" fill="#d4e5de" fill-opacity=".82"></circle><circle cx="230" cy="125" r="110" fill="none" stroke="#416851" stroke-width="1.5"></circle><circle cx="156" cy="244" r="110" fill="none" stroke="#416851" stroke-width="1.5"></circle><circle cx="304" cy="244" r="110" fill="none" stroke="#416851" stroke-width="1.5"></circle><g fill="#183f34" text-anchor="middle" font-size="17" font-weight="700"><text x="230" y="88">Environment</text><text x="121" y="267">People</text><text x="338" y="258"><tspan x="338">Product</tspan><tspan x="338" dy="23">&amp; business</tspan></text></g><rect x="172" y="181" width="116" height="39" rx="19.5" fill="#103d34"></rect><text x="230" y="205" text-anchor="middle" fill="#deedac" font-size="12" font-weight="700">Better choices</text></svg></div><div id="circular-economy" class="su-circular-panel"><div><p class="su-eyebrow">Thinking in circles</p><h3>Keep value<br>in the loop.</h3><p>Circular design asks how a pack can use resources more carefully and fit a realistic route for reuse or recovery. It connects the first material decision with the pack’s next stage.</p><a class="su-text-link" href="#practical-performance">Build a practical brief <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div><ol class="su-cycle-grid"><li><span>01</span><strong>Design thoughtfully</strong><p>Match the pack and material to the product it protects.</p></li><li><span>02</span><strong>Use efficiently</strong><p>Review size, weight and the role of a refill format.</p></li><li><span>03</span><strong>Plan recovery</strong><p>Check collection and sorting in the destination market.</p></li><li><span>04</span><strong>Keep learning</strong><p>Use testing and project data to inform the next brief.</p></li></ol></div></div></section>
+<section id="our-approach" class="su-section" aria-labelledby="su-pillars-title">
+    <div class="mw-inner">
+      <div class="su-section-heading">
+        <div><p class="su-eyebrow">Our approach</p><h2 id="su-pillars-title">Three questions.<br>A more considered pack.</h2></div>
+        <p>How much material does the product need? Could a refill format work? What happens after use? Open a pillar to explore the decisions.</p>
+      </div>
+      <div class="su-pillars">
+        <details class="su-pillar">
+  <summary><img src="/assets/client-design/images/6a5e76f7f840a39c.webp" width="1400" height="933" alt="Reduce packaging concept" loading="lazy" decoding="async"><span class="su-pillar-summary">
+    <span class="su-pillar-title"><h3>Reduce</h3><span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></span>
+    <p>Start with what the product needs.</p>
+  </span></summary>
+  <div class="su-pillar-content"><p>Review the filled volume, pack dimensions and material structure together. Test a proposed reduction against filling, storage and transport requirements.</p><a class="su-text-link" href="/products/#formats">Compare packaging formats <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-pillar">
+  <summary><img src="/assets/client-design/images/bb29efda60a2902a.webp" width="1400" height="933" alt="Reuse packaging concept" loading="lazy" decoding="async"><span class="su-pillar-summary">
+    <span class="su-pillar-title"><h3>Reuse</h3><span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></span>
+    <p>Explore how a refill could fit.</p>
+  </span></summary>
+  <div class="su-pillar-content"><p>Consider a refill pouch where the product and customer routine support keeping a main container in use. Discuss the cap, opening and filling process.</p><a class="su-text-link" href="/contact/#project-enquiry">Discuss a refill format <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-pillar">
+  <summary><img src="/assets/client-design/images/55f0113ebe759009.webp" width="1400" height="933" alt="Recycle packaging concept" loading="lazy" decoding="async"><span class="su-pillar-summary">
+    <span class="su-pillar-title"><h3>Recycle</h3><span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></span>
+    <p>Plan for the market where it is used.</p>
+  </span></summary>
+  <div class="su-pillar-content"><p>Review the complete film and closure construction, then check the collection and recovery options available where the pack will be sold.</p><a class="su-text-link" href="/products/#packaging-eco-guide">Read the Eco Packaging Guide <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+      </div>
+    </div>
+  </section>
+<section id="pouch-advantages" class="su-section su-benefits-section" aria-labelledby="su-benefits-title"><div class="mw-inner"><div class="su-section-heading"><div><p class="su-eyebrow">Pouch advantages</p><h2 id="su-benefits-title">Small details.<br>Meaningful possibilities.</h2></div><p>A stand-up pouch brings several design choices into one format. Explore the opportunities, then assess them against the pack you use today.</p></div><div class="su-benefit-toolbar"><p id="su-benefit-status" role="status">4 packaging considerations</p><div class="su-carousel-controls" data-enhanced hidden><button type="button" data-benefit-prev aria-label="Previous benefit" aria-controls="su-benefit-track" disabled><svg class="su-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14 6-6 6 6 6"></path></svg></button><button type="button" data-benefit-next aria-label="Next benefit" aria-controls="su-benefit-track"><svg class="su-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m10 6 6 6-6 6"></path></svg></button></div></div><ul id="su-benefit-track" class="su-benefit-track" aria-label="Stand-up pouch considerations" tabindex="0"><li class="su-benefit-card"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 3c0 11-4 17-10 17a7 7 0 0 1-7-7C3 7 9 3 20 3zM6 18 16 8M10 14V9M10 14h5"></path></svg><h3>Use material thoughtfully</h3><p>Compare the weight of the complete pouch with your current pack. Confirm that any reduction still meets handling and protection needs.</p></li><li class="su-benefit-card"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h12v12H2zM14 9h4l4 4v4h-8z"></path><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg><h3>Plan for transport</h3><p>Review empty-pack dimensions, case quantities and pallet layout. Compare freight using the same delivery assumptions.</p></li><li class="su-benefit-card"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2-8 3v7c0 5 8 10 8 10s8-5 8-10V5zM8 12l3 3 5-6"></path></svg><h3>Protect product quality</h3><p>Choose a barrier and seal system around the product. Shelf-life testing helps establish how the proposed pack performs.</p></li><li class="su-benefit-card"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14l-1 18H6zM5 7h14M8 12h8M9 15h6"></path></svg><h3>Make room for your brand</h3><p>Explore sizes, print finishes and opening features that suit the shelf, the product and the way customers use it.</p></li></ul><p class="su-fineprint">The appropriate format depends on the product, its protection needs, the supply chain and the recovery systems available in your market.</p></div></section>
+<section id="material-pathways" class="su-section" aria-labelledby="su-routes-title"><div class="mw-inner"><div class="su-section-heading"><div><p class="su-eyebrow">Material pathways</p><h2 id="su-routes-title">Three routes.<br>A product-first decision.</h2></div><p>Recyclability, recycled content and compostability answer different questions. Open a route to see what to review for your packaging brief.</p></div><div class="su-route-grid"><details class="su-route"><summary><span class="su-route-icon"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9a8 8 0 0 1 14-3l2 3M16 9h5V4M19 15a8 8 0 0 1-14 3l-2-3M3 20v-5h5"></path></svg></span><span class="su-tag">Material route / 01</span><h3>Design for recycling</h3><span class="su-route-intro">Explore mono-material approaches where the barrier, seals and closures can be designed for a suitable recycling stream.</span><span class="su-route-toggle">What to review <span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></span></summary><div class="su-route-content"><strong>Project review checklist</strong><ul><li>Review the complete pack, including inks, adhesives and closures.</li><li>Check local collection, sorting and reprocessing options.</li><li>Request a recyclability assessment for the proposed specification.</li></ul><a class="su-text-link" href="/contact/#project-enquiry">Discuss this route <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div></details><details class="su-route"><summary><span class="su-route-icon"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h10a7 7 0 0 1 0 14H9M9 3 4 8l5 5"></path></svg></span><span class="su-tag">Material route / 02</span><h3>Recycled content (PCR)</h3><span class="su-route-intro">Discuss where post-consumer recycled content could fit your application and the requirements of the destination market.</span><span class="su-route-toggle">What to review <span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></span></summary><div class="su-route-content"><strong>Project review checklist</strong><ul><li>Confirm the proposed recycled content and its traceability.</li><li>Review suitability for the intended product and any contact requirements.</li><li>Validate appearance, sealing and barrier performance.</li></ul><a class="su-text-link" href="/contact/#project-enquiry">Discuss this route <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div></details><details class="su-route"><summary><span class="su-route-icon"><svg class="su-line-icon" width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 3c0 11-4 17-10 17a7 7 0 0 1-7-7C3 7 9 3 20 3zM6 18 16 8M10 14V9M10 14h5"></path></svg></span><span class="su-tag">Material route / 03</span><h3>Compostable materials</h3><span class="su-route-intro">Consider a compostable structure where the product, certified pack and available disposal route support that choice.</span><span class="su-route-toggle">What to review <span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></span></summary><div class="su-route-content"><strong>Project review checklist</strong><ul><li>Confirm the complete pack’s certification and its scope.</li><li>Distinguish industrial composting from home composting.</li><li>Check that the intended collection and composting system accepts it.</li></ul><a class="su-text-link" href="/contact/#project-enquiry">Discuss this route <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div></details></div><p class="su-fineprint">Material availability, certification scope and application suitability are confirmed for the selected specification. Disposal instructions should match the systems available where the pack is sold.</p></div></section>
+
+  <section id="impact-dashboard" class="su-section su-dashboard" aria-labelledby="su-impact-title">
+    <div class="mw-inner">
+      <div class="su-section-heading">
+        <div><p class="su-eyebrow">Environmental impact dashboard</p><h2 id="su-impact-title">See what changes<br>when the pack changes.</h2></div>
+        <p>These figures compare two packaging scenarios using the editable inputs in the LCA explorer. The starting example changes pack weight from 12 g to 9 g.</p>
+      </div>
+      <div class="su-dashboard-toolbar">
+        <span class="su-status-chip" id="su-scenario-label">Example scenario · 100,000 packs</span>
+        <div class="su-segmented" role="group" aria-label="Dashboard reporting basis" data-enhanced hidden>
+          <button type="button" data-basis="order" aria-pressed="true">Order total</button>
+          <button type="button" data-basis="thousand" aria-pressed="false">Per 1,000 packs</button>
+        </div>
+      </div>
+      <div class="su-metrics" aria-live="polite" aria-atomic="true">
+        <article><p>Proposed pack emissions</p><strong id="su-metric-emissions">3,330</strong><span>kg CO₂e for the modelled stages</span></article>
+        <article><p>Emissions difference</p><strong id="su-metric-difference">1,110 lower</strong><span id="su-metric-percentage">25% below the baseline</span></article>
+        <article><p>Proposed packaging mass</p><strong id="su-metric-mass">900</strong><span>kg of finished packaging</span></article>
+        <article><p>Packaging mass difference</p><strong id="su-metric-mass-change">300 lighter</strong><span>kg compared with the baseline</span></article>
+      </div>
+      <div class="su-chart">
+        <div class="su-chart-intro"><h3>Where the modelled emissions sit</h3><a class="su-text-link" href="#lca-explorer">Edit the inputs <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+        <div class="su-chart-row"><div><span>Baseline</span><strong id="su-base-total">4,440 kg CO₂e</strong></div><div class="su-bar" id="su-base-bar" aria-hidden="true"></div></div>
+        <div class="su-chart-row"><div><span>Proposed</span><strong id="su-proposed-total">3,330 kg CO₂e</strong></div><div class="su-bar" id="su-proposed-bar" aria-hidden="true"></div></div>
+        <ul class="su-chart-legend" aria-label="Emissions stages"><li><i class="su-key-materials"></i>Materials</li><li><i class="su-key-converting"></i>Converting</li><li><i class="su-key-freight"></i>Freight</li><li><i class="su-key-end"></i>End of life</li></ul>
+      </div>
+      <p class="su-fineprint">Illustrative inputs. The comparison assumes the same filled product quantity and protection. Validate the proposed pack and its data for your application.</p>
+    </div>
+  </section>
+
+  <section id="sustainable-materials" class="su-section" aria-labelledby="su-materials-title">
+    <div class="mw-inner">
+      <div class="su-section-heading">
+        <div><p class="su-eyebrow">Sustainable materials gallery</p><h2 id="su-materials-title">Look beyond<br>the surface finish.</h2></div>
+        <p>Explore film finishes and refill concepts, then review the complete structure, closure and local recovery route for your application.</p>
+      </div>
+      <div class="su-filterbar" role="group" aria-label="Filter material examples" data-enhanced hidden>
+        <button type="button" data-filter="all" aria-pressed="true">All examples</button>
+        <button type="button" data-filter="pp" aria-pressed="false">PP finishes</button>
+        <button type="button" data-filter="pet" aria-pressed="false">PET finishes</button>
+        <button type="button" data-filter="format" aria-pressed="false">Refill &amp; format</button>
+      </div>
+      <p class="su-filter-count" id="su-material-count" role="status">6 examples to explore</p>
+      <div class="su-material-grid"><details class="su-material" data-material="pp">
+  <summary><span class="su-material-thumb"><img src="/assets/client-design/images/85266cffc420365f.webp" width="512" height="512" alt="White matte BOPP design example" loading="lazy" decoding="async"></span><span class="su-material-summary"><span class="su-tag">PP finish</span><h3>White matte BOPP<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></h3><p>A white surface with a soft, low-sheen finish.</p></span></summary>
+  <div class="su-material-more"><p>Ask about the full laminate, seal layer and closure. Review barrier needs and local collection options alongside the appearance.</p><a class="su-text-link" href="/inquiry/#materials">Explore materials and finishes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-material" data-material="pp">
+  <summary><span class="su-material-thumb"><img src="/assets/client-design/images/05dadd5358558b63.webp" width="512" height="512" alt="Clear matte BOPP design example" loading="lazy" decoding="async"></span><span class="su-material-summary"><span class="su-tag">PP finish</span><h3>Clear matte BOPP<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></h3><p>A frosted finish that gives a softer view of the contents.</p></span></summary>
+  <div class="su-material-more"><p>Ask about the full laminate, seal layer and closure. Review barrier needs and local collection options alongside the appearance.</p><a class="su-text-link" href="/inquiry/#materials">Explore materials and finishes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-material" data-material="pet">
+  <summary><span class="su-material-thumb"><img src="/assets/client-design/images/8fc1f2f211c239b3.webp" width="512" height="512" alt="White gloss PET design example" loading="lazy" decoding="async"></span><span class="su-material-summary"><span class="su-tag">PET finish</span><h3>White gloss PET<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></h3><p>A white surface with a reflective outer finish.</p></span></summary>
+  <div class="su-material-more"><p>Ask about the full laminate, seal layer and closure. Review barrier needs and local collection options alongside the appearance.</p><a class="su-text-link" href="/inquiry/#materials">Explore materials and finishes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-material" data-material="pet">
+  <summary><span class="su-material-thumb"><img src="/assets/client-design/images/bd95e574c2e242ba.webp" width="512" height="512" alt="Clear gloss PET design example" loading="lazy" decoding="async"></span><span class="su-material-summary"><span class="su-tag">PET finish</span><h3>Clear gloss PET<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></h3><p>A clear, glossy appearance for product visibility.</p></span></summary>
+  <div class="su-material-more"><p>Ask about the full laminate, seal layer and closure. Review barrier needs and local collection options alongside the appearance.</p><a class="su-text-link" href="/inquiry/#materials">Explore materials and finishes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-material" data-material="format">
+  <summary><span class="su-material-thumb"><img src="/assets/client-design/images/bb29efda60a2902a.webp" width="1400" height="933" alt="Spouted refill pouch design example" loading="lazy" decoding="async"></span><span class="su-material-summary"><span class="su-tag">Refill concept</span><h3>Spouted refill pouch<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></h3><p>A format to discuss for refilling an existing container.</p></span></summary>
+  <div class="su-material-more"><p>Review the refill routine, spout, cap and filling conditions. The material specification follows the product requirements.</p><a class="su-text-link" href="/inquiry/#materials">Explore materials and finishes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details>
+<details class="su-material" data-material="format">
+  <summary><span class="su-material-thumb"><img src="/assets/client-design/images/c6e266bbc330e27c.webp" width="1000" height="666" alt="Printed rollstock design example" loading="lazy" decoding="async"></span><span class="su-material-summary"><span class="su-tag">Film format</span><h3>Printed rollstock<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></h3><p>Printed film planned around the filling or wrapping line.</p></span></summary>
+  <div class="su-material-more"><p>Review reel dimensions, film structure, print coverage and line requirements together when preparing a production brief.</p><a class="su-text-link" href="/inquiry/#materials">Explore materials and finishes <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div>
+</details></div>
+      <p class="su-fineprint">Finishes shown are design examples. Full film construction, performance, availability and recovery options are reviewed for each project.</p>
+    </div>
+  </section>
+
+  <section id="practical-performance" class="su-section su-performance" aria-labelledby="su-performance-title"><div class="mw-inner"><div class="su-performance-grid"><div class="su-performance-copy"><p class="su-eyebrow">Performance matters</p><h2 id="su-performance-title">Good intentions.<br>Practical questions.</h2><p>A material change has to work for the product, your operation and the people who use the pack. Bring these questions into the conversation early.</p><a class="su-text-link" href="/added-value/faq/">Explore packaging FAQs <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div><div><details class="su-concern"><summary>Will the product stay protected?<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></summary><p>Start with moisture, oxygen, light and storage requirements. Compare the proposed structure with the current pack and agree the testing needed to validate shelf life and product quality.</p></details><details class="su-concern"><summary>Will it work on our filling line?<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></summary><p>Share the equipment, filling conditions, seal settings and line speed requirements. Sample trials can help assess how the selected film or pouch behaves before a production decision.</p></details><details class="su-concern"><summary>How will the cost compare?<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></summary><p>Compare the complete specification, quantity, artwork and delivery assumptions. Include any changes to filling, storage and handling in the commercial discussion.</p></details><details class="su-concern"><summary>How do we support the claim?<span class="su-round-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></span></summary><p>Request material specifications, relevant assessment reports and current certificates. Confirm that the evidence covers the complete pack and the market where it will be used.</p></details></div></div><div class="su-strategy"><figure><img src="/assets/client-design/images/6a5e76f7f840a39c.webp" width="1400" height="933" alt="Refill pouch and flexible packaging design concepts on a sunlit surface" loading="lazy" decoding="async"><figcaption>Packaging design concepts</figcaption></figure><div class="su-strategy-copy"><p class="su-eyebrow">Vision &amp; strategy</p><h3>Make the next choice<br>a measured one.</h3><p>Our approach connects material selection, pack design and production requirements with the information needed to review the result. Start with a clear goal, compare the options and keep the evidence with your brief.</p><a class="su-btn su-btn-lime" href="#lca-explorer">Compare two packaging scenarios <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div></div></div></section>
+<section id="manufacturing-journey" class="su-section su-process-section" aria-labelledby="su-process-title">
+    <div class="mw-inner su-process-grid">
+      <div class="su-process-intro">
+        <p class="su-eyebrow">Manufacturing process timeline</p>
+        <h2 id="su-process-title">Consider the details<br>at every stage.</h2>
+        <p>Use this overview to discuss the production route for your selected material and format.</p>
+        <figure><img src="/assets/client-design/images/c6e266bbc330e27c.webp" width="1000" height="666" alt="MewePak printed film roll concept" loading="lazy" decoding="async"><figcaption>Printed film concept</figcaption></figure>
+        <a class="su-text-link" href="/solutions/#process-stages">Explore our production process <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a>
+      </div>
+      <ol class="su-timeline"><li><span aria-hidden="true">01</span><div><h3>Prepress</h3><p>Review the artwork, dieline and panel layout before printing. Build dimensions and print details into the brief.</p></div></li>
+<li><span aria-hidden="true">02</span><div><h3>Extrusion</h3><p>Discuss film construction and gauge around the handling, filling and protection requirements of the product.</p></div></li>
+<li><span aria-hidden="true">03</span><div><h3>Printing</h3><p>Confirm the artwork, print coverage and finish for the selected film and packaging format.</p></div></li>
+<li><span aria-hidden="true">04</span><div><h3>Lamination</h3><p>Consider the complete structure, including the layers and how they support the agreed barrier and sealing requirements.</p></div></li>
+<li><span aria-hidden="true">05</span><div><h3>Slitting</h3><p>Set reel widths around the agreed format and the requirements of the filling or pouch-making route.</p></div></li>
+<li><span aria-hidden="true">06</span><div><h3>Bag making</h3><p>Bring the seals, opening and closure details together. Review the finished pack for its intended use.</p></div></li></ol>
+    </div>
+  </section>
+
+  <section id="certifications-reports" class="su-section" aria-labelledby="su-docs-title">
+    <div class="mw-inner">
+      <div class="su-section-heading">
+        <div><p class="su-eyebrow">Certifications &amp; reports</p><h2 id="su-docs-title">Make room<br>for the evidence.</h2></div>
+        <p>Request documents for the proposed film and production route, and keep the assumptions behind a comparison with your project brief.</p>
+      </div>
+      <div class="su-document-grid">
+        <article class="su-document"><span class="su-doc-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"></path></svg></span><span class="su-tag">Material documentation</span><h3>Know your film structure.</h3><p>Ask for the complete specification, including barrier, sealing and handling data for your selected material.</p><a class="su-text-link" href="/contact/#project-enquiry">Request a specification <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></article>
+        <article class="su-document"><span class="su-doc-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v12H6zM9 8l2 2 4-4M9 15v6l3-2 3 2v-6"></path></svg></span><span class="su-tag">Certification enquiries</span><h3>Check scope and validity.</h3><p>Request current certificates relevant to your product, material and production site, with their scope and validity dates.</p><a class="su-text-link" href="/about-us/quality-certifications/">Review quality evidence <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></article>
+        <article class="su-document su-document-accent"><span class="su-doc-icon"><svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5zM9 16v-4m3 4V9m3 7V6"></path></svg></span><span class="su-tag">Scenario report</span><h3>Keep the comparison.</h3><p>Export the LCA explorer’s inputs, stage breakdown and assumptions for your packaging discussion.</p><button class="su-text-link" type="button" data-export data-enhanced hidden>Download scenario CSV <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 17v4h14v-4"></path></svg></button><a class="su-text-link" href="/sustainability/lca-tool/">Open the LCA tool <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="lca-explorer" class="su-section su-lca-section" aria-labelledby="su-lca-title">
+    <div class="mw-inner">
+      <div class="su-section-heading">
+        <div><p class="su-eyebrow">Interactive LCA explorer</p><h2 id="su-lca-title">Compare two<br>packaging scenarios.</h2></div>
+        <p>A screening estimate of packaging mass and climate impact across four stages. Replace the example inputs with data for the two packs you want to compare.</p>
+      </div>
+      <div class="su-model-note"><strong>Screening model · Example inputs</strong><span>Boundary covers packaging materials, conversion, freight and end of life. Filling, product losses, consumer use and other environmental impacts need additional study.</span></div>
+      <noscript><p>Enable JavaScript to edit the scenario and export the comparison. The figures shown use the default example inputs.</p></noscript>
+<form id="su-lca-form" class="su-lca-form">
+        <div class="su-lca-global">
+          <label for="su-volume">Number of equivalent filled packs<input id="su-volume" name="volume" type="number" min="1" max="100000000" step="1" value="100000" required data-label="Number of packs"></label>
+          <label for="su-source">Data source / comparison assumptions<input id="su-source" name="source" type="text" maxlength="300" value="Illustrative factors. Same product and protection, lower pack weight."></label>
+        </div>
+        <div class="su-scenario-grid">
+          <fieldset class="su-scenario"><legend>Baseline pack</legend>
+<label for="su-base-mass">Weight per finished pack (g)<input id="su-base-mass" name="baseMass" type="number" min="0.1" max="5000" step="any" value="12" required data-label="Baseline pack weight"></label>
+<span class="su-factor-label">Stage factors · kg CO₂e per kg of finished packaging. Use consistent supplier or project data.</span>
+<div class="su-factor-grid"><label for="su-base-materials">Materials<input id="su-base-materials" name="basematerials" type="number" min="0" max="1000" step="any" value="3" required data-label="Baseline pack Materials factor"></label>
+<label for="su-base-converting">Converting<input id="su-base-converting" name="baseconverting" type="number" min="0" max="1000" step="any" value="0.4" required data-label="Baseline pack Converting factor"></label>
+<label for="su-base-freight">Freight<input id="su-base-freight" name="basefreight" type="number" min="0" max="1000" step="any" value="0.1" required data-label="Baseline pack Freight factor"></label>
+<label for="su-base-end">End of life<input id="su-base-end" name="baseend" type="number" min="0" max="1000" step="any" value="0.2" required data-label="Baseline pack End of life factor"></label></div></fieldset>
+<fieldset class="su-scenario"><legend>Proposed pack</legend>
+<label for="su-proposed-mass">Weight per finished pack (g)<input id="su-proposed-mass" name="proposedMass" type="number" min="0.1" max="5000" step="any" value="9" required data-label="Proposed pack weight"></label>
+<span class="su-factor-label">Stage factors · kg CO₂e per kg of finished packaging. Use consistent supplier or project data.</span>
+<div class="su-factor-grid"><label for="su-proposed-materials">Materials<input id="su-proposed-materials" name="proposedmaterials" type="number" min="0" max="1000" step="any" value="3" required data-label="Proposed pack Materials factor"></label>
+<label for="su-proposed-converting">Converting<input id="su-proposed-converting" name="proposedconverting" type="number" min="0" max="1000" step="any" value="0.4" required data-label="Proposed pack Converting factor"></label>
+<label for="su-proposed-freight">Freight<input id="su-proposed-freight" name="proposedfreight" type="number" min="0" max="1000" step="any" value="0.1" required data-label="Proposed pack Freight factor"></label>
+<label for="su-proposed-end">End of life<input id="su-proposed-end" name="proposedend" type="number" min="0" max="1000" step="any" value="0.2" required data-label="Proposed pack End of life factor"></label></div></fieldset>
+        </div>
+        <p id="su-lca-error" class="su-error" role="status" hidden></p>
+        <div class="su-lca-actions" data-enhanced hidden>
+          <button class="su-btn su-btn-dark" type="submit">Update comparison <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></button>
+          <button class="su-quiet-button" type="reset">Reset example</button>
+          <button class="su-quiet-button" type="button" data-export>Download scenario CSV <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 17v4h14v-4"></path></svg></button>
+        </div>
+      </form>
+      <div class="su-lca-breakdown">
+        <div><h3>Modelled emissions by stage</h3><p>Order total · kg CO₂e</p></div>
+        <div class="su-table-wrap">
+          <table><caption class="su-sr">Modelled emissions for the entered number of packs in kilograms of carbon dioxide equivalent.</caption><thead><tr><th scope="col">Stage</th><th scope="col">Baseline</th><th scope="col">Proposed</th></tr></thead><tbody id="su-stage-rows"><tr><th scope="row">Materials</th><td>3,600</td><td>2,700</td></tr><tr><th scope="row">Converting</th><td>480</td><td>360</td></tr><tr><th scope="row">Freight</th><td>120</td><td>90</td></tr><tr><th scope="row">End of life</th><td>240</td><td>180</td></tr></tbody><tfoot><tr><th scope="row">Total</th><td id="su-table-base">4,440</td><td id="su-table-proposed">3,330</td></tr></tfoot></table>
+        </div>
+        <p id="su-comparison-summary" role="status">The example uses 25% less packaging mass and the same emissions factors at every stage.</p>
+      </div>
+      <details class="su-method"><summary>Method, assumptions and reading <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path class="su-plus-vertical" d="M12 5v14"></path></svg></summary>
+        <div>
+          <p>Packaging mass is the number of packs multiplied by grams per pack, divided by 1,000. Each stage’s emissions are packaging mass multiplied by its entered factor in kg CO₂e per kg of finished packaging. Stage totals are then added.</p>
+          <p>Use consistent boundaries, geography, time period and data quality for both packs. Enter each activity in one stage to avoid double counting. Factors here represent gross emissions. Document any recovery credits and additional impacts in a project assessment.</p>
+          <p>The default factors are illustrative values for exploring the tool. A full LCA requires a defined goal and scope, inventory data, impact assessment and interpretation.</p>
+          <p class="su-reading"><a href="https://www.iso.org/standard/37456.html" target="_blank" rel="noopener">Read the ISO 14040 framework <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a><a href="https://green-forum.ec.europa.eu/green-business/environmental-footprint-methods/lca-ef-methods_en" target="_blank" rel="noopener">Read the EU lifecycle overview <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="su-cta" aria-labelledby="su-cta-title"><div class="mw-inner"><div class="su-advice-panel"><div><p class="su-eyebrow">Your next packaging project</p><h2 id="su-cta-title">Need advice on<br>a better pack?</h2><p>Let’s turn your product needs and sustainability ambitions into a clear packaging brief.</p></div><div><ul class="su-advice-checklist"><li>Review your current pack</li><li>Explore materials and sample options</li><li>Agree the next steps for your project</li></ul><div class="su-actions"><a class="su-btn su-btn-lime" href="/contact/#project-enquiry">Get packaging advice <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a><a class="su-btn su-btn-outline" href="/inquiry/#quote-request">Start a packaging brief <svg class="su-icon" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"></path></svg></a></div></div></div></div></section>
+</main>
+
+</div>
+<footer class="wp-block-template-part">
+<footer class="!bg-[#00cfca] pt-20 pb-8">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-16">
+
+      <!-- Brand + Disclaimer + Newsletter -->
+      <div class="lg:col-span-1">
+        <a href="/" class="flex items-center gap-3 mb-6">
+          <img decoding="async" src="/assets/media/2026/06/logo.png" alt="Mewepak — Packaging Solutions Provider" class="mewepak-footer-logo h-10 w-auto brightness-0 invert">
+        </a>
+
+        <div class="mb-6">
+          <h4 class="!font-bold !text-white !text-base mb-2">Disclaimer</h4>
+          <p class="!text-sm !text-white/80 leading-relaxed">
+            The Mewepak Is A Top-Rated Packaging Company Known For Its Many Benefits. Our Aim Is To Streamline Printing And Packaging For A Profitable And Satisfying Client Experience.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="!font-bold !text-white !text-base mb-4">Sign Up For Exclusive Offers</h4>
+          <form data-mewepak-subscribe novalidate>
+            <input type="email" name="email" placeholder="Email Address" aria-label="Email Address" required class="w-full h-10 px-4 !rounded-lg !bg-white/20 !border !border-white/30 !text-white placeholder:!text-white/60 text-sm focus:outline-none focus:!border-white">
+            <button type="submit" class="w-full mt-3 h-10 !bg-white !text-[#00cfca] font-medium !rounded-lg hover:!bg-white/90 transition-colors disabled:opacity-60">
+              <span data-subscribe-label>Subscribe</span>
+            </button>
+            <p data-subscribe-message class="hidden mt-2 !text-sm !text-white/90"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div>
+        <h4 class="!font-bold !text-white !text-base mb-4">Products</h4>
+        <ul class="space-y-2 list-none !pl-0">
+          <li><a href="/products/stand-up-pouch" class="!text-sm !text-white/80 hover:!text-white transition-colors">Stand Up Pouch</a></li>
+          <li><a href="/products/flat-bottom-pouch" class="!text-sm !text-white/80 hover:!text-white transition-colors">Flat Bottom Pouch</a></li>
+          <li><a href="/products/retort-pouch" class="!text-sm !text-white/80 hover:!text-white transition-colors">Retort Pouch</a></li>
+          <li><a href="/products/spout-pouch" class="!text-sm !text-white/80 hover:!text-white transition-colors">Spout Pouch</a></li>
+          <li><a href="/products/roll-stock-films" class="!text-sm !text-white/80 hover:!text-white transition-colors">Roll Stock &amp; Lidding Films</a></li>
+          <li><a href="/products/stand-up-pouch-tap" class="!text-sm !text-white/80 hover:!text-white transition-colors">Stand Up Pouch with Tap</a></li>
+          <li><a href="/products/bag-in-box" class="!text-sm !text-white/80 hover:!text-white transition-colors">Bag-In-Box</a></li>
+          <li><a href="/products/quad-seal-bag" class="!text-sm !text-white/80 hover:!text-white transition-colors">Quad Seal Bag</a></li>
+          <li><a href="/products/flat-pouch" class="!text-sm !text-white/80 hover:!text-white transition-colors">Flat Pouch</a></li>
+          <li><a href="/products/shaped-pouch" class="!text-sm !text-white/80 hover:!text-white transition-colors">Shaped Pouch</a></li>
+        </ul>
+      </div>
+
+      <!-- Markets -->
+      <div>
+        <h4 class="!font-bold !text-white !text-base mb-4">Markets</h4>
+        <ul class="space-y-2 list-none !pl-0">
+          <li><a href="/markets/coffee-tea" class="!text-sm !text-white/80 hover:!text-white transition-colors">Coffee &amp; Tea</a></li>
+          <li><a href="/markets/snacks-sweets" class="!text-sm !text-white/80 hover:!text-white transition-colors">Snacks &amp; Sweets</a></li>
+          <li><a href="/markets/supplement" class="!text-sm !text-white/80 hover:!text-white transition-colors">Supplement</a></li>
+          <li><a href="/markets/pet-food" class="!text-sm !text-white/80 hover:!text-white transition-colors">Pet Food</a></li>
+          <li><a href="/markets/sauce-soup" class="!text-sm !text-white/80 hover:!text-white transition-colors">Sauce &amp; Soup</a></li>
+          <li><a href="/markets/baby-food" class="!text-sm !text-white/80 hover:!text-white transition-colors">Baby Food</a></li>
+          <li><a href="/markets/beverage" class="!text-sm !text-white/80 hover:!text-white transition-colors">Beverage</a></li>
+          <li><a href="/markets/frozen-food" class="!text-sm !text-white/80 hover:!text-white transition-colors">Frozen Food</a></li>
+          <li><a href="/markets/cosmetics" class="!text-sm !text-white/80 hover:!text-white transition-colors">Cosmetics</a></li>
+          <li><a href="/markets/cbd" class="!text-sm !text-white/80 hover:!text-white transition-colors">CBD</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 class="!font-bold !text-white !text-base mb-4">Company</h4>
+        <ul class="space-y-2 list-none !pl-0">
+          <li><a href="/" class="!text-sm !text-white/80 hover:!text-white transition-colors">Home</a></li>
+          <li><a href="/about-us" class="!text-sm !text-white/80 hover:!text-white transition-colors">About Us</a></li>
+          <li><a href="/about-us/global-reach" class="!text-sm !text-white/80 hover:!text-white transition-colors">Global Reach</a></li>
+          <li><a href="/about-us/quality-certifications" class="!text-sm !text-white/80 hover:!text-white transition-colors">Quality Certifications</a></li>
+          <li><a href="/blog" class="!text-sm !text-white/80 hover:!text-white transition-colors">Blog</a></li>
+          <li><a href="/contact" class="!text-sm !text-white/80 hover:!text-white transition-colors">Contact</a></li>
+          <li><a href="/added-value/faq" class="!text-sm !text-white/80 hover:!text-white transition-colors">FAQ</a></li>
+          <li><a href="/added-value/help-center" class="!text-sm !text-white/80 hover:!text-white transition-colors">Help Center</a></li>
+          <li><a href="/added-value/careers" class="!text-sm !text-white/80 hover:!text-white transition-colors">Careers</a></li>
+        </ul>
+      </div>
+
+      <!-- Locations + Contact -->
+      <div>
+        <h4 class="!font-bold !text-white !text-base mb-4">Locations</h4>
+        <ul class="space-y-4 list-none !pl-0">
+          <li class="flex items-start gap-3">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 !text-white mt-0.5 flex-shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="!text-sm !text-white/80">9933 Franklin Ave Franklin Park IL 60131</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 !text-white mt-0.5 flex-shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="!text-sm !text-white/80">4225 Executive Square, Suite 600 LA Jolla, CA 92037</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 !text-white mt-0.5 flex-shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="!text-sm !text-white/80">1000 Brickell Ave Ste 715 Miami, FL 33131</span>
+          </li>
+        </ul>
+
+        <div class="mt-6 space-y-3">
+          <div class="flex items-center gap-3">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 !text-white"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span class="!text-sm !text-white/80">Toll-Free: 1-800-396-1840</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 !text-white"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span class="!text-sm !text-white/80">Front Desk: 630-364-3944</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 !text-white"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <a href="mailto:support@mewepak.com" class="!text-sm !text-white/80 hover:!text-white transition-colors">support@mewepak.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="border-t !border-white/20 pt-8">
+      <div class="text-center mb-6">
+        <h4 class="!font-bold !text-white !text-base mb-4">Connect With Social</h4>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href="https://wa.me/8613537663353" class="px-4 py-2 !bg-white !text-[#00cfca] !text-sm font-medium !rounded-full hover:!bg-white/90 transition-colors">WhatsApp</a>
+          <a href="#" class="px-4 py-2 !bg-white !text-[#00cfca] !text-sm font-medium !rounded-full hover:!bg-white/90 transition-colors">Facebook</a>
+          <a href="#" class="px-4 py-2 !bg-white !text-[#00cfca] !text-sm font-medium !rounded-full hover:!bg-white/90 transition-colors">Twitter</a>
+          <a href="#" class="px-4 py-2 !bg-white !text-[#00cfca] !text-sm font-medium !rounded-full hover:!bg-white/90 transition-colors">Instagram</a>
+          <a href="#" class="px-4 py-2 !bg-white !text-[#00cfca] !text-sm font-medium !rounded-full hover:!bg-white/90 transition-colors">LinkedIn</a>
+        </div>
+      </div>
+
+      <p class="text-center !text-sm !text-white/60">© 2007–2026 Mewepak. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to top — floating, appears after scroll -->
+<button type="button" data-scroll-top aria-label="Scroll to top" class="hidden fixed bottom-8 right-8 z-50 w-14 h-14 !rounded-full !bg-[#00cfca] hover:!bg-[#00b8b3] !text-white shadow-2xl shadow-[#00cfca]/35 items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:scale-105">
+  <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</button>
+
+</footer>
+</div>
+
+	
+	<link rel="stylesheet" id="wc-blocks-style-css" href="/assets/original/wc-blocks.css">
+<script src="/assets/original/runtime-data.js"></script>
+<script id="mewepak-main-js" src="/assets/original/main.js"></script>
+
+
+
+
+
+<script src="/assets/client-design/integration.js?shell=1" defer></script><script src="/assets/client-design/sustainability.js?v=resource-depth" defer></script></body>
+</html>

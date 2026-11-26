@@ -1,0 +1,104 @@
+{
+  "accessories":{
+    "de":["Verpackungen für Zubehör und Kleinartikel","Beutel mit Sichtfenster, Aufhängung oder Verschluss für die Präsentation im Handel.","Maße am Artikel prüfen","Nennen Sie Artikelhöhe, Gewicht und empfindliche Oberflächen. Prüfen Sie Öffnung, Aufhängung und Barcodeposition am Muster."],
+    "es":["Envases para accesorios y artículos pequeños","Bolsas con ventana, orificio para colgar o cierre para exposición en tienda.","Medidas sobre el artículo real","Indique altura, peso y superficies delicadas. Revise la apertura, la suspensión y la posición del código de barras en una muestra."],
+    "fr":["Emballages pour accessoires et petits articles","Sachets avec fenêtre, trou de suspension ou fermeture pour la présentation en magasin.","Vérifier les dimensions sur l’article","Précisez la hauteur, le poids et les surfaces sensibles. Contrôlez l’ouverture, la suspension et le code-barres sur un échantillon."],
+    "ar":["عبوات الإكسسوارات والقطع الصغيرة","أكياس بفتحة عرض أو للتعليق أو بإغلاق مناسب للعرض في المتاجر.","تحقّق من القياسات على القطعة نفسها","اذكر الطول والوزن والأسطح الحساسة. افحص فتحة الكيس والتعليق ومكان الباركود على عينة."]
+  },
+  "baby-food":{
+    "de":["Beutel für Babynahrung","Vergleichen Sie Portions- und Ausgießbeutel anhand von Produkt, Dosierung und vorgesehenem Herstellungsverfahren.","Füllung, Kappe und Prozess","Klären Sie Füllvolumen, Produktkonsistenz und Verschluss mit Ihrem Prozessteam. Lassen Sie sich die für Ihr Produkt erforderlichen Prüfungen bestätigen."],
+    "es":["Envases para alimentación infantil","Compare bolsas monodosis y con boquilla según el producto, la dosificación y el proceso previsto.","Llenado, tapón y proceso","Defina el volumen, la consistencia y el cierre con el equipo técnico. Confirme las comprobaciones exigidas para su producto."],
+    "fr":["Sachets pour alimentation infantile","Comparez les unidoses et les sachets à bec en fonction du produit, de la dose et du procédé prévu.","Remplissage, bouchon et procédé","Définissez le volume, la consistance et la fermeture avec votre équipe technique. Confirmez les contrôles nécessaires pour votre produit."],
+    "ar":["أكياس أغذية الأطفال","قارن بين عبوات الحصة الفردية والأكياس ذات الفوهة وفق المنتج والجرعة وطريقة الإنتاج.","التعبئة والغطاء وعملية الإنتاج","حدّد حجم التعبئة وقوام المنتج والإغلاق مع فريق العمليات. أكّد الفحوص المطلوبة لمنتجك قبل الاختيار."]
+  },
+  "beauty-care":{
+    "de":["Nachfüllbeutel und Verpackungen für Körperpflege","Für Pflegeprodukte, Nachfüllmengen und Reisegrößen mit unterschiedlichen Anforderungen an Öffnung und Dosierung.","Nachfüllen und Entnehmen prüfen","Geben Sie Rezeptur, Viskosität und Füllvolumen an. Prüfen Sie Öffnung, sauberes Umfüllen und Materialverträglichkeit am Muster."],
+    "es":["Bolsas de recarga para cuidado personal","Envases para recargas, productos de cuidado personal y formatos de viaje que requieren distintas formas de apertura y dosificación.","Probar el uso y la recarga","Indique la fórmula, la viscosidad y el volumen. Revise la apertura, el trasvase y la compatibilidad del material con una muestra."],
+    "fr":["Sachets recharge pour produits de soin","Emballages pour recharges, produits de soin et formats voyage, avec des ouvertures et dosages adaptés à l’usage.","Tester la recharge et l’utilisation","Indiquez la formule, la viscosité et le volume. Vérifiez l’ouverture, le transvasement et la compatibilité du film sur un échantillon."],
+    "ar":["أكياس إعادة تعبئة منتجات العناية الشخصية","عبوات لمنتجات العناية الشخصية وإعادة التعبئة وأحجام السفر، باختيارات تناسب الفتح والجرعات المختلفة.","اختبر إعادة التعبئة والاستخدام","اذكر تركيبة المنتج ولزوجته وحجم التعبئة. اختبر الفتح والنقل إلى وعاء آخر وتوافق المادة مع المنتج."]
+  },
+  "beverage":{
+    "de":["Verpackungen für Getränke und Konzentrate","Vergleichen Sie Ausgießbeutel, Zapfbeutel und Bag-in-Box nach Füllvolumen und Entnahmeweise.","Anschluss und Durchfluss abstimmen","Nennen Sie Fülltemperatur, Anlagenanschluss und gewünschte Portion. Prüfen Sie Dichtheit und Durchfluss bei der vorgesehenen Anwendung."],
+    "es":["Envases para bebidas y concentrados","Compare bolsas con boquilla, bolsas con grifo y bag-in-box según el volumen y la forma de servir.","Conexión y caudal","Indique temperatura de llenado, conexión y tamaño de porción. Compruebe estanqueidad y caudal en condiciones de uso."],
+    "fr":["Emballages pour boissons et concentrés","Comparez les sachets à bec, les poches à robinet et le Bag-in-Box selon le volume et le mode de service.","Raccord et débit","Précisez la température de remplissage, le raccord machine et la portion. Vérifiez l’étanchéité et le débit en situation d’usage."],
+    "ar":["عبوات المشروبات والمركّزات","قارن بين أكياس الفوهة وأكياس الصنبور والكيس داخل صندوق بحسب السعة وطريقة التقديم.","الوصلة ومعدل التدفق","اذكر حرارة التعبئة ووصلة الخط وحجم الحصة. افحص التسرّب ومعدل التدفق في وضع الاستخدام الفعلي."]
+  },
+  "cannabis":{
+    "de":["Flexible Verpackungen für Cannabisprodukte","Vergleichen Sie Beutel und Rollenware nach Artikelgröße, Druckfläche und Anforderungen des Zielmarkts.","Anforderungen früh festhalten","Geben Sie Absatzmarkt, geplanten Verschluss und Etikettenflächen an. Klären Sie benötigte Nachweise für das konkrete Packmittel."],
+    "es":["Envases flexibles para productos de cannabis","Compare bolsas y bobinas según tamaño, superficie impresa y requisitos del mercado de destino.","Definir los requisitos desde el principio","Indique el mercado, el tipo de cierre y el espacio para etiquetado. Confirme qué documentación se exige para ese envase concreto."],
+    "fr":["Emballages souples pour produits à base de cannabis","Comparez les sachets et bobines selon la taille, la surface imprimable et les exigences du marché visé.","Cadrer les exigences en amont","Précisez le marché, la fermeture et la zone d’étiquetage. Confirmez les justificatifs requis pour le conditionnement envisagé."],
+    "ar":["عبوات مرنة لمنتجات القنب","قارن الأكياس والأفلام بحسب حجم المنتج ومساحة الطباعة ومتطلبات السوق المستهدف.","حدّد متطلبات السوق مبكراً","اذكر سوق البيع ونوع الإغلاق ومساحة الملصق. تأكّد من الوثائق المطلوبة لنوع العبوة المقترح."]
+  },
+  "cbd":{
+    "de":["Beutel für CBD-Produkte","Vergleichen Sie Flach- und Standbodenbeutel nach Produktgröße, Wiederverschluss und Druckfläche.","Produktform und Kennzeichnung","Geben Sie Produktform, Maße und Zielmarkt an. Reservieren Sie die für Kennzeichnung und Barcodes benötigten Bereiche."],
+    "es":["Bolsas para productos de CBD","Compare bolsas planas y autoportantes por tamaño, cierre y superficie de impresión.","Formato y etiquetado","Indique presentación, dimensiones y mercado. Reserve el espacio necesario para etiquetado y códigos de barras."],
+    "fr":["Sachets pour produits au CBD","Comparez les sachets plats et stand-up selon la taille, la refermeture et la surface d’impression.","Présentation et étiquetage","Précisez la présentation, les dimensions et le marché visé. Réservez les zones d’étiquetage et de code-barres."],
+    "ar":["أكياس لمنتجات CBD","قارن بين الأكياس المسطحة والقائمة بحسب الحجم وإعادة الإغلاق ومساحة الطباعة.","شكل المنتج والملصق","اذكر شكل المنتج وأبعاده وسوق البيع. خصّص المساحات اللازمة للملصق والباركود."]
+  },
+  "cbd-thc":{
+    "de":["Verpackungen für CBD- und THC-Produkte","Vergleichen Sie Beutel und Folien nach Abfüllung, Format und Verkaufskanal.","Anforderungen je Variante dokumentieren","Trennen Sie Maße und Stückzahlen je Variante. Bestätigen Sie Vorgaben zu Etikett, Verschluss und Unterlagen mit Ihrem zuständigen Team."],
+    "es":["Envases para productos de CBD y THC","Compare bolsas y films según el llenado, el formato y el canal de venta.","Requisitos por variante","Separe las medidas y unidades de cada variante. Confirme las exigencias de etiquetado, cierre y documentación con su equipo responsable."],
+    "fr":["Emballages pour produits au CBD et au THC","Comparez les sachets et films selon le remplissage, le format et le circuit de distribution.","Consigner les exigences par référence","Séparez dimensions et quantités par référence. Confirmez les exigences d’étiquetage, de fermeture et de documents avec l’équipe compétente."],
+    "ar":["عبوات لمنتجات CBD وTHC","قارن بين الأكياس والأفلام حسب التعبئة والشكل وقناة البيع.","متطلبات كل صنف على حدة","افصل أبعاد وكميات الأصناف. راجع متطلبات الملصق والإغلاق والمستندات مع الفريق المسؤول لديك."]
+  },
+  "cosmetics":{
+    "de":["Sachets und Probenbeutel für Kosmetik","Kompakte Beutel für Produktproben, Einzelanwendungen und kleine Nachfüllmengen.","Dosierung und Aufreißverhalten","Prüfen Sie Dosiermenge, Materialverträglichkeit und Öffnung. Halten Sie die Nahtbereiche im Druckmotiv frei."],
+    "es":["Sobres para muestras cosméticas","Sobres compactos para muestras, monodosis y recargas pequeñas.","Dosificación y apertura","Compruebe la dosis, la compatibilidad y la facilidad de apertura. Reserve las áreas de soldadura en el arte final."],
+    "fr":["Sachets pour échantillons cosmétiques","Sachets compacts pour les échantillons, unidoses et petites recharges.","Dosage et ouverture","Vérifiez la dose, la compatibilité du film et l’ouverture. Réservez les zones de soudure dans le fichier graphique."],
+    "ar":["أظرف لعينات مستحضرات التجميل","أظرف صغيرة للعينات والاستخدام لمرة واحدة وإعادة التعبئة بكميات قليلة.","الجرعة وسهولة الفتح","افحص الجرعة وتوافق الفيلم وطريقة الفتح. اترك مساحات اللحام خالية في التصميم."]
+  },
+  "fashion":{
+    "de":["Beutel für Bekleidung und Textilien","Flexible Beutel für gefaltete Kleidung, Accessoires und die Kommissionierung im Handel.","Faltmaß und Verpackungsarbeit","Nennen Sie Faltmaß, Materialstärke und gewünschte Öffnung. Prüfen Sie Einschieben, Schließen und Etikettieren bei einer Musterverpackung."],
+    "es":["Bolsas para ropa y textiles","Envases flexibles para prendas dobladas, accesorios y preparación de pedidos.","Prenda doblada y operaciones de envasado","Indique medidas plegadas, grosor y apertura. Pruebe la inserción, el cierre y el etiquetado con una muestra."],
+    "fr":["Sacs pour vêtements et textiles","Emballages souples pour vêtements pliés, accessoires et préparation de commandes.","Dimensions du pliage et ensachage","Indiquez les dimensions pliées, l’épaisseur et l’ouverture. Testez l’insertion, la fermeture et l’étiquetage."],
+    "ar":["أكياس للملابس والمنسوجات","عبوات مرنة للملابس المطوية والإكسسوارات وتجهيز طلبات المتاجر.","الأبعاد بعد الطيّ وسهولة التعبئة","اذكر الأبعاد بعد الطي والسماكة والفتحة المطلوبة. جرّب إدخال القطعة وإغلاق الكيس ووضع الملصق على عينة."]
+  },
+  "fruits-veggies":{
+    "de":["Verpackungen für Obst und Gemüse","Beutel und Folien für frische, vorbereitete oder portionierte Ware nach den jeweiligen Lagerbedingungen.","Produktzustand und Handhabung","Nennen Sie Schnittgröße, Feuchtigkeit, Lagertemperatur und die geplante Handhabung. Vergleichen Sie Form und Verschluss mit einer gefüllten Probe."],
+    "es":["Envases para frutas y hortalizas","Bolsas y films para producto fresco, preparado o porcionado según las condiciones de conservación.","Estado del producto y manipulación","Indique tamaño de corte, humedad, temperatura de conservación y manejo previsto. Compare forma y cierre con una muestra llena."],
+    "fr":["Emballages pour fruits et légumes","Sachets et films pour produits frais, préparés ou portionnés selon les conditions de conservation.","État du produit et manutention","Précisez la taille de coupe, l’humidité, la température et la manutention. Comparez le format et la fermeture sur un échantillon rempli."],
+    "ar":["عبوات الفواكه والخضروات","أكياس وأفلام للمنتج الطازج أو المجهز أو المقسّم إلى حصص بحسب ظروف التخزين.","حالة المنتج والمناولة","اذكر حجم القطع والرطوبة وحرارة التخزين وطريقة المناولة. قارن الشكل والإغلاق على عينة ممتلئة."]
+  },
+  "home-care":{
+    "de":["Nachfüll- und Dosierverpackungen für Haushaltsprodukte","Vergleichen Sie Ausgießbeutel, Zapfbeutel und Bag-in-Box für Nachfüllprodukte im Haushalt.","Verträglichkeit und Dosierung prüfen","Geben Sie Zusammensetzung, Viskosität und Lagerbedingungen an. Prüfen Sie Materialverträglichkeit, Dichtheit und Dosierbarkeit mit dem Füllgut."],
+    "es":["Bolsas de recarga y dispensación para el hogar","Compare envases con boquilla, con grifo y bag-in-box para productos de uso doméstico.","Compatibilidad y dosificación","Indique composición, viscosidad y almacenamiento. Compruebe compatibilidad, estanqueidad y dosificación con el producto real."],
+    "fr":["Sachets recharge et poches distributrices pour l’entretien","Comparez les sachets à bec, les poches à robinet et les Bag-in-Box pour les produits ménagers.","Compatibilité et dosage","Précisez la composition, la viscosité et le stockage. Vérifiez la compatibilité, l’étanchéité et le dosage avec le produit réel."],
+    "ar":["عبوات إعادة تعبئة وتوزيع للمنتجات المنزلية","قارن بين الأكياس ذات الفوهة أو الصنبور وعبوات الكيس داخل صندوق للمنتجات المنزلية.","توافق المادة والتحكّم بالكمية","اذكر التركيبة واللزوجة وظروف التخزين. اختبر توافق المادة والتسرّب والتحكّم بالكمية على المنتج الفعلي."]
+  },
+  "meat-poultry":{
+    "de":["Verpackungen für Fleisch und Geflügel","Flexible Verpackungen für portionierte Produkte. Teilen Sie Lagerung, Temperatur und vorgesehenen Verarbeitungsweg mit.","Nahtbereich und gefüllte Packung","Berücksichtigen Sie Feuchtigkeit im Siegelbereich, Produktkanten und Kältebelastung. Stimmen Sie die erforderlichen Prüfungen mit Ihrer Qualitätssicherung ab."],
+    "es":["Envases para carne y aves","Envases flexibles para productos porcionados. Defina almacenamiento, temperatura y proceso previsto.","Zona de sellado y envase lleno","Tenga en cuenta humedad, aristas y frío. Acuerde con el equipo de calidad las pruebas necesarias para el producto."],
+    "fr":["Emballages souples pour viandes et volailles","Emballages pour portions de viande et de volaille. Indiquez le stockage, la température et le procédé prévu.","Soudure et emballage rempli","Tenez compte de l’humidité, des arêtes et du froid. Définissez les essais nécessaires avec votre équipe qualité."],
+    "ar":["عبوات اللحوم والدواجن","عبوات مرنة للحصص المقسّمة من اللحوم والدواجن. حدّد التخزين والحرارة والمعالجة المقررة.","منطقة اللحام والعبوة الممتلئة","راعِ الرطوبة وحواف المنتج ودرجات الحرارة المنخفضة. اتفق مع فريق الجودة على الاختبارات اللازمة."]
+  },
+  "powder-spices":{
+    "de":["Verpackungen für Pulver und Gewürze","Beutel, Sachets und Rollenware für Dosiermengen oder größere Nachfüllpackungen.","Staub, Dosierung und Aromaschutz","Geben Sie Schüttdichte und Partikelgröße an. Prüfen Sie, ob Staub an der Siegelnaht entsteht und wie der Inhalt dosiert wird."],
+    "es":["Envases para polvos y especias","Bolsas, sobres y bobinas para porciones o recargas de mayor tamaño.","Polvo, dosificación y aroma","Indique densidad aparente y granulometría. Compruebe si queda polvo en la soldadura y cómo se dosifica el contenido."],
+    "fr":["Emballages pour poudres et épices","Sachets et bobines pour doses unitaires ou recharges de plus grand volume.","Poussière, dosage et protection des arômes","Précisez densité apparente et granulométrie. Vérifiez la présence de poudre dans les soudures et la facilité de dosage."],
+    "ar":["عبوات المساحيق والتوابل","أكياس وأظرف وأفلام على بكرات للحصص الصغيرة أو عبوات إعادة التعبئة الأكبر.","الغبار والجرعة وحماية الرائحة","اذكر الكثافة الظاهرية وحجم الحبيبات. افحص تراكم المسحوق في منطقة اللحام وسهولة تحديد الجرعة."]
+  },
+  "sauce-soup":{
+    "de":["Verpackungen für Saucen und Suppen","Flach-, Ausgieß- und Sterilisierbeutel für unterschiedliche Portionsgrößen und Verfahren.","Viskosität, Füllweg und Nutzung","Geben Sie Partikelgröße, Füllvolumen und Temperatur an. Prüfen Sie mit Ihrem Prozessteam, ob Verschluss, Siegelung und Folienaufbau zur Anwendung passen."],
+    "es":["Envases para salsas y sopas","Bolsas planas, con boquilla o esterilizables para distintos tamaños de porción y procesos.","Viscosidad, llenado y uso","Indique tamaño de partículas, volumen y temperatura. Revise con su equipo la compatibilidad de cierre, sellado y estructura con el proceso."],
+    "fr":["Emballages pour sauces et soupes","Sachets plats, à bec ou stérilisables selon la portion et le procédé.","Viscosité, remplissage et usage","Précisez la taille des particules, le volume et la température. Vérifiez avec l’équipe procédé la compatibilité de la fermeture, des soudures et du film."],
+    "ar":["عبوات الصلصات والشوربات","أكياس مسطحة أو بفوهة أو قابلة للتعقيم بحسب حجم الحصة وطريقة الإنتاج.","اللزوجة والتعبئة والاستخدام","اذكر حجم الجسيمات وحجم التعبئة والحرارة. تحقّق مع فريق العمليات من ملاءمة الإغلاق واللحام وبنية الفيلم."]
+  },
+  "sea-food":{
+    "de":["Verpackungen für Fisch und Meeresfrüchte","Vergleichen Sie Flachbeutel, Rollenware und prozessgeeignete Beutel nach Portionsgröße und Lagerung.","Kanten und Kältebelastung prüfen","Halten Sie Produktform, Feuchtigkeit und Kühlbedingungen fest. Prüfen Sie die gefüllte Verpackung auf Durchstiche und Siegelnahtschäden."],
+    "es":["Envases para pescados y productos del mar","Compare bolsas planas, film en bobina y bolsas adaptadas al proceso según porción y almacenamiento.","Aristas y exposición al frío","Indique forma, humedad y condiciones de conservación. Revise perforaciones y daños en las soldaduras con el envase lleno."],
+    "fr":["Emballages pour poissons et produits de la mer","Comparez sachets plats, films en bobine et formats adaptés au procédé selon portion et stockage.","Arêtes et exposition au froid","Notez forme, humidité et conservation. Vérifiez la résistance à la perforation et la tenue des soudures sur l’emballage rempli."],
+    "ar":["عبوات الأسماك والمأكولات البحرية","قارن الأكياس المسطحة والأفلام على بكرات والأكياس الملائمة للعملية بحسب الحصص والتخزين.","الحواف والتعرّض للبرودة","سجّل شكل المنتج والرطوبة وظروف التبريد. افحص الثقوب وتلف الأطراف الملحومة بعد التعبئة."]
+  },
+  "supplement":{
+    "de":["Beutel für Nahrungsergänzungsmittel","Vergleichen Sie Sachets, Standbodenbeutel und Rollenware für Pulver, Tabletten und Kapseln.","Portionsgröße und Kennzeichnung","Nennen Sie Füllmenge, Lagerbedingungen und Öffnung. Stimmen Sie die Fläche für Dosierhinweise und Etikettierung vor der Druckfreigabe ab."],
+    "es":["Envases para complementos alimenticios","Compare sobres, bolsas doypack y bobinas para polvos, comprimidos y cápsulas.","Porción y etiquetado","Indique cantidad de llenado, conservación y apertura. Reserve las superficies para instrucciones de dosis y etiquetado antes de aprobar el arte final."],
+    "fr":["Emballages pour compléments alimentaires","Comparez les unidoses, sachets stand-up et bobines pour poudres, comprimés et gélules.","Dose et étiquetage","Précisez quantité, conservation et ouverture. Réservez les zones de posologie et d’étiquetage avant le bon à tirer."],
+    "ar":["عبوات المكمّلات الغذائية","قارن الأظرف والأكياس القائمة والأفلام على بكرات للمساحيق والأقراص والكبسولات.","الجرعة ووضع الملصقات","اذكر كمية التعبئة والتخزين والفتح. خصّص مساحة لتعليمات الجرعة والملصق قبل اعتماد الطباعة."]
+  },
+  "tobacco-filters":{
+    "de":["Verpackungen für Tabakwaren und Filter","Flachbeutel, Standbodenbeutel und Rollenware nach Format und Vertriebskanal.","Maße, Verschluss und Kennzeichnung","Geben Sie Maße, gewünschte Öffnung und den Zielmarkt an. Klären Sie, welche Flächen für vorgeschriebene Hinweise reserviert werden müssen."],
+    "es":["Envases para tabaco y filtros","Bolsas planas, autoportantes y material en bobina según formato y canal de distribución.","Dimensiones, cierre y etiquetado","Indique medidas, apertura y mercado. Confirme qué zonas deben quedar reservadas para la información obligatoria."],
+    "fr":["Emballages pour produits du tabac et filtres","Sachets plats, stand-up et films en bobine selon le format et le circuit de distribution.","Dimensions, fermeture et étiquetage","Précisez dimensions, ouverture et marché. Déterminez les zones réservées aux mentions obligatoires."],
+    "ar":["عبوات منتجات التبغ والفلاتر","أكياس مسطحة وقائمة وأفلام على بكرات بحسب حجم المنتج وقناة التوزيع.","الأبعاد والإغلاق والملصق","اذكر الأبعاد والفتحة والسوق المستهدف. حدّد مساحة البيانات الإلزامية المطلوبة على الملصق."]
+  }
+}

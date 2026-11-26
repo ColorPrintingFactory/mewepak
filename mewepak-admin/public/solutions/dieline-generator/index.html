@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flexible Packaging Dieline Generator | Mewepak</title>
+  <meta name="description" content="Generate dimensioned design references for Mewepak pouches, bag-in-box liners and roll stock film. Export full-scale SVG and PDF files for artwork review.">
+  <link rel="stylesheet" href="/assets/original/tailwind.css">
+  <link rel="stylesheet" href="/assets/original/custom.css">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/dieline/studio.css?v=4">
+</head>
+<body>
+  <a class="sr-only focus:not-sr-only" href="#dieline-main">Skip to content</a>
+  <div class="wp-site-blocks">
+    <header class="wp-block-template-part"></header>
+    <main id="dieline-main" class="dieline-studio" data-client-page="dieline-generator">
+      <div class="dl-wrap">
+        <nav class="dl-crumb" aria-label="Breadcrumb"><a href="/solutions/">Solutions</a><span aria-hidden="true">/</span><span aria-current="page">Dieline Generator</span></nav>
+        <header class="dl-intro">
+          <div><h1>Packaging dieline generator</h1><p>Build a dimensioned layout for your pouch, bag or roll stock artwork.</p></div>
+          <a href="/solutions/material-specifications/">Compare packaging materials <span aria-hidden="true">↗</span></a>
+        </header>
+        <noscript><p>Enable JavaScript to generate a layout, or <a href="/solutions/prepress/">contact our prepress team</a> for help.</p></noscript>
+        <div class="dl-grid">
+          <form id="dl-form" class="dl-panel dl-config" novalidate>
+            <fieldset class="dl-form-section">
+              <legend id="dl-format-label">Packaging format</legend>
+              <select id="dl-format" name="format" aria-labelledby="dl-format-label" aria-describedby="dl-format-note">
+                <optgroup label="Pouches and bags">
+                  <option value="stand-up-pouch">Stand-up pouch</option>
+                  <option value="flat-pouch">Flat pouch</option>
+                  <option value="flat-bottom-pouch">Flat-bottom pouch</option>
+                  <option value="pinch-bottom-pouches">Pinch-bottom pouch</option>
+                  <option value="quad-seal-bag">Quad-seal bag</option>
+                  <option value="retort-pouch">Retort pouch</option>
+                  <option value="shaped-pouch">Shaped pouch</option>
+                  <option value="polybag">Polybag</option>
+                </optgroup>
+                <optgroup label="Liquid packaging">
+                  <option value="spout-pouch">Spout pouch</option>
+                  <option value="stand-up-pouch-tap">Stand-up pouch with tap</option>
+                  <option value="bag-in-box">Bag-in-box liner</option>
+                </optgroup>
+                <optgroup label="Film">
+                  <option value="roll-stock-films">Roll stock film</option>
+                </optgroup>
+              </select>
+              <p class="dl-format-note" id="dl-format-note" hidden></p>
+            </fieldset>
+            <fieldset class="dl-form-section">
+              <legend>Dimensions</legend>
+              <div class="dl-size-controls">
+                <label>Size <select name="preset"><option value="small">Compact</option><option value="medium" selected>Standard</option><option value="large">Large</option><option value="custom">Custom</option></select></label>
+                <label>Units <select name="unit"><option value="mm">mm</option><option value="in">in</option></select></label>
+              </div>
+              <div class="dl-dims">
+                <label><span id="dl-width-label">Width</span><input name="width" type="number" step="any" inputmode="decimal" required value="120"></label>
+                <label><span id="dl-height-label">Height</span><input name="height" type="number" step="any" inputmode="decimal" required value="200"></label>
+                <label id="dl-depth"><span id="dl-depth-label">Bottom gusset</span><input name="depth" type="number" step="any" inputmode="decimal" value="70"></label>
+                <label>Seal margin <input name="seal" type="number" step="any" inputmode="decimal" required value="8"></label>
+              </div>
+            </fieldset>
+            <fieldset class="dl-form-section">
+              <legend id="dl-features-title">Features and guides</legend>
+              <div class="dl-options">
+                <label><input name="zipper" type="checkbox" checked> Zipper</label>
+                <label><input name="notch" type="checkbox" checked> Tear notch</label>
+                <label><input name="valve" type="checkbox"> Valve</label>
+                <label><input name="hole" type="checkbox"> Hang hole</label>
+              </div>
+              <div class="dl-dims">
+                <label id="dl-fitment" hidden><span>Fitment position</span><input name="fitmentOffset" type="number" step="any" inputmode="decimal"></label>
+              </div>
+              <details class="dl-details">
+                <summary>Position and print guides</summary>
+                <p id="dl-position-help">Accessory positions are measured from the top edge.</p>
+                <div class="dl-dims">
+                  <label data-for-feature="zipper">Zipper <input name="zipperPosition" type="number" step="any" inputmode="decimal" value="25"></label>
+                  <label data-for-feature="notch">Tear notch <input name="notchPosition" type="number" step="any" inputmode="decimal" value="12"></label>
+                  <label data-for-feature="valve" hidden>Valve <input name="valvePosition" type="number" step="any" inputmode="decimal" value="62"></label>
+                  <label data-for-feature="hole" hidden>Hang hole <input name="holePosition" type="number" step="any" inputmode="decimal" value="12"></label>
+                  <label>Bleed <input name="bleed" type="number" step="any" inputmode="decimal" value="3"></label>
+                  <label>Artwork inset <input name="safe" type="number" step="any" inputmode="decimal" value="3"></label>
+                </div>
+              </details>
+            </fieldset>
+            <p class="dl-error" id="dl-error" role="status" hidden></p>
+            <a class="dl-jump" href="#dl-drawing-title">View updated drawing <span aria-hidden="true">↓</span></a>
+          </form>
+          <section class="dl-panel dl-drawing" aria-labelledby="dl-drawing-title">
+            <div class="dl-drawing-head"><div><h2 id="dl-drawing-title">Dieline preview</h2><p id="dl-dimensions"></p></div>
+              <div class="dl-tools" aria-label="Preview zoom">
+                <button type="button" id="dl-zoom-out" aria-label="Zoom out">−</button>
+                <button type="button" id="dl-fit" title="Fit drawing to view">Fit</button>
+                <button type="button" id="dl-zoom-in" aria-label="Zoom in">+</button>
+              </div>
+            </div>
+            <div id="dl-stage" class="dl-stage" tabindex="0" aria-label="Scrollable drawing preview">
+              <div id="dl-preview" class="dl-preview"></div>
+              <p id="dl-empty" hidden>Update the highlighted settings to redraw the layout.</p>
+            </div>
+            <ul class="dl-legend" aria-label="Drawing layers">
+              <li class="dl-cut">Panel outline</li><li class="dl-seal">Seal</li><li class="dl-fold">Fold / repeat</li><li class="dl-safe">Artwork safe area</li><li class="dl-bleed">Bleed</li><li class="dl-feature">Feature</li><li class="dl-center">Alignment</li>
+            </ul>
+            <div class="dl-export">
+              <div><h3>Export at 1:1 scale</h3><p>Vector artwork reference · print at actual size</p></div>
+              <div class="dl-actions"><button type="button" id="dl-svg" disabled>Download SVG</button><button type="button" id="dl-pdf" disabled>Download PDF</button></div>
+            </div>
+            <div class="dl-review"><p><strong>Design reference.</strong> Confirm the die, seal and feature positions with Mewepak prepress before production.</p><a id="dl-quote" href="/inquiry/#quote-request">Use these dimensions in a quote <span aria-hidden="true">↗</span></a></div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="wp-block-template-part"></footer>
+  </div>
+  <script src="/assets/original/runtime-data.js" defer></script>
+  <script src="/api/frontend-navigation" defer></script>
+  <script src="/assets/original/main.js" defer></script>
+  <script type="module" src="/assets/dieline/studio.js?v=localized"></script>
+</body>
+</html>

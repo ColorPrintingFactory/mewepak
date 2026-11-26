@@ -1,0 +1,11 @@
+#mewepak-homepage .client-crosslinks { display: flex; flex-wrap: wrap; gap: 16px 32px; margin-top: 24px; }
+#mewepak-homepage .client-crosslinks a { font-weight: 700; color: #106963; text-decoration: underline; text-underline-offset: .22em; }
+#mewepak-homepage .client-message:not(:empty) { margin-top: .65rem; color: #25383e; font-size: .875rem; }
+#mewepak-homepage .client-message[role="alert"] { color: #a02228; }
+#mewepak-homepage .client-message:empty { display: none; }
+#mewepak-homepage [data-client-brief] { max-width: 100%; min-width: 0; }
+#mewepak-homepage [data-client-brief] iframe { max-width: 100%; }
+#mewepak-homepage a.mw-artwork-button { display: block; }
+#mewepak-homepage img.client-format-icon { display: inline-block; vertical-align: middle; object-fit: contain; margin-inline-end: .45rem; }
+#mewepak-homepage a:focus-visible,
+#mewepak-homepage button:focus-visible { outline: 2px solid #087c74; outline-offset: 3px; }

@@ -1,0 +1,39 @@
+.mewepak-language-menu {
+  position: relative;
+}
+.mewepak-language-menu > summary {
+  min-height: 40px;
+  align-content: center;
+  cursor: pointer;
+}
+.mewepak-language-menu > nav {
+  display: grid;
+  min-width: 11rem;
+  padding: .35rem;
+  background: #fff;
+  color: #17363a;
+}
+.mewepak-language-menu a {
+  display: block;
+  padding: .55rem .7rem;
+}
+.mewepak-language-menu a:focus-visible {
+  outline: 2px solid #008d84;
+}
+@media (min-width: 1024px) {
+  .mewepak-language-menu > nav {
+    position: absolute;
+    inset-inline-end: 0;
+    z-index: 5;
+    border: 1px solid #e2ebeb;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px #17363a20;
+  }
+}
+#mewepak-homepage video.mewepak-factory-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #142e32;
+}

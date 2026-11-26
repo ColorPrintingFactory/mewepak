@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Isolate the original #616161 backdrop so the product and printed logo retain their tones. -->
+  <filter id="deep-green" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feColorMatrix in="SourceGraphic" values="
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      4.6772 15.7344 1.5884 0 -7.85"/>
+    <feComponentTransfer result="background-mask">
+      <feFuncA type="table" tableValues="0 1 1 0"/>
+    </feComponentTransfer>
+    <feFlood flood-color="#0f3c39"/>
+    <feComposite in2="background-mask" operator="in"/>
+    <feComposite in2="SourceGraphic" operator="atop"/>
+  </filter>
+  <filter id="teal" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feColorMatrix in="SourceGraphic" values="
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      4.6772 15.7344 1.5884 0 -7.85"/>
+    <feComponentTransfer result="background-mask">
+      <feFuncA type="table" tableValues="0 1 1 0"/>
+    </feComponentTransfer>
+    <feFlood flood-color="#118e86"/>
+    <feComposite in2="background-mask" operator="in"/>
+    <feComposite in2="SourceGraphic" operator="atop"/>
+  </filter>
+</svg>

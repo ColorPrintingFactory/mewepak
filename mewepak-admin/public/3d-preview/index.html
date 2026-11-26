@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>3D Packaging Preview — Mewepak</title>
+  <meta name="description" content="Choose a packaging format, add your artwork and rotate your design in Mewepak’s interactive 3D preview.">
+  <link rel="stylesheet" href="/assets/original/tailwind.css">
+  <link rel="stylesheet" href="/assets/original/custom.css">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/3d/pouch-viewer.css?v=packaging-1">
+</head>
+<body>
+  <a class="sr-only focus:not-sr-only" href="#tool-main">Skip to content</a>
+  <div class="wp-site-blocks">
+  <header class="wp-block-template-part"></header>
+  <main id="tool-main" class="preview-page">
+    <section class="preview-hero">
+      <div class="container preview-hero-inner">
+        <span class="eyebrow">Interactive 3D Mockup Tool</span>
+        <h1>See Your Design<br><span>Come to Life.</span></h1>
+        <p>Pick a packaging format, add your design and see how it looks from every angle.</p>
+      </div>
+    </section>
+    <section class="preview-tool-section" id="packaging-preview">
+      <div class="container">
+        <div class="preview-tool-head">
+          <h2 id="packaging-formats-title">Choose a packaging format</h2>
+          <p>Your artwork stays in this browser tab.</p>
+        </div>
+        <ul class="mewepak-3d-formats" data-packaging-options aria-labelledby="packaging-formats-title"></ul>
+        <div class="mewepak-3d-container" data-bg-color="#eff3f0" aria-label="Interactive 3D packaging preview"></div>
+      </div>
+    </section>
+    <section class="preview-steps-section">
+      <div class="container">
+        <div class="preview-section-title"><span class="eyebrow">Three Simple Steps</span><h2>How it works</h2></div>
+        <div class="preview-step-grid">
+          <article><b>01</b><h3>Pick a format</h3><p>Choose the pouch, box or film you want to preview. Check the recommended artwork ratio for that format.</p></article>
+          <article><b>02</b><h3>Add your design</h3><p>Upload a flat, edge-to-edge PNG or JPEG. Add a separate back design where the format supports it.</p></article>
+          <article><b>03</b><h3>Rotate &amp; review</h3><p>Drag to spin, scroll to zoom, and switch backgrounds. When ready, send us the project for a quote.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="preview-benefits-section">
+      <div class="container preview-benefits">
+        <div><strong>No mockup fees</strong><span>Preview unlimited designs for free.</span></div>
+        <div><strong>Instant results</strong><span>See the artwork wrapped in real time.</span></div>
+        <div><strong>Catch errors early</strong><span>Review placement before production.</span></div>
+        <div><strong>Order with confidence</strong><span>Discuss the approved direction with our team.</span></div>
+      </div>
+    </section>
+    <section class="cta"><div class="container"><div class="cta-card"><div><h2>Ready to produce it?</h2><p>Send your files and requirements, and our packaging team will prepare a quote.</p></div><a class="button button-primary" data-preview-quote href="/inquiry/#quote-request">Request a Quote</a></div></div></section>
+  </main>
+  <footer class="wp-block-template-part"></footer>
+  </div>
+  <script src="/assets/original/runtime-data.js" defer></script>
+  <script src="/api/frontend-navigation" defer></script>
+  <script src="/assets/original/main.js" defer></script>
+  <script src="/assets/3d/three.min.js"></script>
+  <script src="/assets/3d/OrbitControls.js"></script>
+  <script src="/assets/3d/GLTFLoader.js"></script>
+  <script src="/assets/3d/pouch-viewer.js"></script>
+</body>
+</html>

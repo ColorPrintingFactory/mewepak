@@ -1,0 +1,81 @@
+.mwl-body { margin:0;color:#102d38;background:#fff;font:1.0625rem/1.62 Arial,Helvetica,sans-serif; }
+.mwl-body[dir="rtl"],[dir="rtl"] .mwl-body { font-family:Tahoma,Arial,sans-serif; }
+.mwl-body *, .mwl-body *::before, .mwl-body *::after, .mwl-switch *, .mwl-switch *::after { box-sizing:border-box; }
+.mwl-body a { color:inherit; }
+.mwl-body :is(h1,h2,h3) { margin:0 0 .55em;line-height:1.15;letter-spacing:-.02em; }
+[dir="rtl"] .mwl-body :is(h1,h2,h3) { line-height:1.4;letter-spacing:0; }
+.mwl-body p { margin:0; }
+.mwl-body .hidden { display:none; }
+.mwl-body [data-quote-message]:not(.hidden) { margin-block-start:12px;color:#135b4e; }
+.mwl-body [data-quote-message][role="alert"] { color:#9a2d21; }
+.mwl-body img { display:block;max-width:100%; }
+.mwl-wrap { width:min(1240px,calc(100% - 64px));margin-inline:auto; }
+.mwl-skip { position:absolute;inset-block-start:8px;inset-inline-start:8px;z-index:100;padding:8px 12px;transform:translateY(-160%);background:#fff; }
+.mwl-skip:focus { transform:none; }
+.mwl-header { background:#fff;border-block-end:1px solid #dbe4de; }
+.mwl-utility { padding:6px 0;background:#102d38;color:#f1faf7;font-size:.83rem; }
+.mwl-utility .mwl-wrap,.mwl-utility .mwl-wrap>div { display:flex;justify-content:space-between;gap:18px;align-items:center; }
+.mwl-headline { display:grid;grid-template-columns:minmax(146px,.65fr) minmax(180px,1.7fr) max-content max-content;gap:16px;align-items:center;min-height:82px;border-block-end:1px solid #e5ebe7; }
+.mwl-brand { display:inline-flex;align-items:center;justify-self:start; }
+.mwl-brand img { width:min(100%,185px);height:auto;max-height:58px;object-fit:contain; }
+.mwl-search { display:flex;min-width:0;border:1px solid #d4dfdc;border-radius:6px; }
+.mwl-search input { flex:1;min-width:0;width:100%;border:0;background:transparent;padding:9px 12px;font:inherit;font-size:14px; }
+.mwl-search button { width:44px;min-height:42px;border:0;background:#f4f8f5;color:#123742;font-size:1.4rem;cursor:pointer; }
+.mwl-primary-nav { display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px clamp(12px,2vw,28px);min-height:56px;padding-block:10px; }
+.mwl-primary-nav>a,.mwl-mobile-nav>nav>a { text-decoration:none;font-size:14px;font-weight:600;color:#465b63;text-transform:uppercase; }
+html:not([dir="rtl"]) .mwl-primary-nav>a { letter-spacing:.03em; }
+.mwl-primary-nav>a:hover,.mwl-primary-nav>a[aria-current="page"] { color:#05766a; }
+.mwl-body .mwl-button,.mwl-body .mwl-secondary { display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:9px 17px;border-radius:6px;border:1px solid transparent;font:inherit;font-size:.9375rem;font-weight:700;line-height:1.35;text-align:center;text-decoration:none;cursor:pointer; }
+.mwl-body .mwl-button { color:#fff;background:#102d38; }
+.mwl-body .mwl-button:hover { background:#176355; }
+.mwl-body .mwl-button:disabled { opacity:.65;cursor:wait; }
+.mwl-body .mwl-secondary { color:#115448;background:#f1f7f1;border-color:#c9ddd3; }
+.mwl-body .mwl-secondary:hover { background:#e3efe6; }
+.mwl-crumb { display:flex;flex-wrap:wrap;gap:6px 15px;padding-block:17px 0;color:#45615e;font-size:.86rem; }
+.mwl-crumb span::before { content:"/";display:inline-block;padding-inline-end:15px;color:#82938b; }
+.mwl-hero { display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(18px,4vw,54px);align-items:center;padding-block:clamp(35px,6vw,76px); }
+.mwl-hero--with-image { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+.mwl-hero h1 { max-width:20ch;font-size:clamp(2rem,1.25rem + 3vw,3.8rem);hyphens:auto;overflow-wrap:anywhere; }
+.mwl-hero:not(.mwl-hero--with-image) h1 { max-width:28ch; }
+.mwl-hero p { max-width:63ch;color:#415d60;font-size:clamp(1.0625rem,.95rem + .35vw,1.25rem); }
+.mwl-hero__actions { display:flex;flex-wrap:wrap;gap:10px;margin-block-start:22px; }
+.mwl-hero-image { width:100%;height:auto;aspect-ratio:1.36;object-fit:cover;border:1px solid #d8e4db;border-radius:12px;background:#eff4ee; }
+.mwl-body h2 { font-size:clamp(1.5rem,1.15rem + 1.1vw,2.35rem); }
+.mwl-block,.mwl-details,.mwl-form { margin-block:0 43px; }
+.mwl-card-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px; }
+.mwl-card { display:flex;flex-direction:column;border:1px solid #d8e4db;border-radius:9px;text-decoration:none;background:#fff;overflow:hidden; }
+.mwl-card:hover { background:#f3f8f4;border-color:#779d89; }
+.mwl-card img { width:100%;height:auto;aspect-ratio:2;object-fit:cover;background:#eef3ed; }
+.mwl-card>div { padding:17px 18px; }
+.mwl-card strong { display:block;margin-block-end:7px;line-height:1.3;color:#163f45;font-size:1.125rem; }
+.mwl-card p,.mwl-detail p { color:#435d5f; }
+.mwl-details { padding:clamp(19px,4vw,40px);border:1px solid #d7e4dc;border-radius:10px;background:#f3f7f2; }
+.mwl-detail + .mwl-detail { margin-block-start:22px; }
+.mwl-detail p { max-width:76ch; }
+.mwl-details>.mwl-secondary { margin-block-start:16px; }
+.mwl-direct { margin-block:0 35px !important; }
+.mwl-form { max-width:950px;padding:clamp(19px,4vw,40px);border:1px solid #d7e4dc;border-radius:10px;background:#f3f7f2; }
+.mwl-form__grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px;margin-block:18px; }
+.mwl-form__grid label { display:flex;flex-direction:column;gap:4px;min-width:0;font-weight:700; }
+.mwl-form__details { grid-column:1/-1; }
+.mwl-form :is(input,textarea,select) { min-width:0;width:100%;border:1px solid #c8dbd2;border-radius:6px;padding:10px;color:#102d38;background:#fff;font:inherit;font-weight:400; }
+.mwl-form__notice { margin-block-start:12px !important;color:#475e5a;font-size:.875rem; }
+.mwl-footer { padding-block:32px;background:#102d38;color:#f7fff9; }
+.mwl-footer .mwl-wrap,.mwl-footer nav { display:flex;flex-wrap:wrap;gap:12px 18px;justify-content:space-between;align-items:center; }
+.mwl-footer-brand { font-weight:700; }
+.mwl-footer a { text-decoration:none; }
+.mwl-footer a:hover { text-decoration:underline; }
+@media (max-width: 920px) {
+ .mwl-wrap { width:calc(100% - 36px); }
+ .mwl-headline { gap:10px;grid-template-columns:minmax(115px,1fr) max-content max-content;min-height:66px;border-block-end:0; }
+ .mwl-search { grid-column:1/-1;grid-row:2;margin-block-end:10px; }
+ .mwl-primary-nav,.mwl-utility { display:none !important; }
+ .mwl-mobile-nav { display:block; }
+ .mwl-brand img { max-height:45px;width:138px; }
+}
+@media (max-width: 690px) {
+ .mwl-hero--with-image,.mwl-card-grid,.mwl-form__grid { grid-template-columns:minmax(0,1fr); }
+ .mwl-hero h1 { max-width:none; }
+ .mwl-hero-image { aspect-ratio:1.55; }
+ .mwl-card img { max-height:210px; }
+}

@@ -1,0 +1,68 @@
+{
+  "/": {
+    "de":["Flexible Verpackungen nach Maß","Bedruckte Beutel und Rollenware für Marken, Abfüller und den Handel. Wir stimmen Format, Folienaufbau und Druck auf Ihr Produkt und Ihre Abfüllung ab.","Vom ersten Muster zur Serienverpackung","Vergleichen Sie passende Beutelformen, klären Sie Barriere und Verschluss und besprechen Sie die Anforderungen an Druckdaten und Muster vor der Freigabe."],
+    "es":["Envases flexibles a medida","Fabricamos bolsas impresas y film en bobina para marcas, envasadores y distribuidores. Definimos el formato, la estructura y la impresión según el producto y la línea de envasado.","De la primera muestra a la producción en serie","Compare los formatos, concrete la barrera y el cierre y revise el arte final y las muestras antes de aprobar el envase."],
+    "fr":["Emballages souples sur mesure","Sachets imprimés et films en bobine pour les marques, les conditionneurs et les distributeurs. Nous adaptons le format, la structure du film et l’impression à votre produit et à votre ligne.","Du premier échantillon à la fabrication en série","Comparez les formats, définissez la barrière et la fermeture, puis validez les fichiers graphiques et les échantillons avant la mise en production."],
+    "ar":["عبوات تغليف مرنة حسب الطلب","أكياس مطبوعة وأفلام تغليف على بكرات للعلامات التجارية وشركات التعبئة والموزعين. نختار معك شكل العبوة وبنية الفيلم والطباعة بما يلائم منتجك وخط التعبئة.","من العينة الأولى إلى الإنتاج","قارن بين أشكال الأكياس، وحدّد حاجز الحماية ونوع الإغلاق، ثم راجع ملفات الطباعة والعينات قبل اعتماد العبوة."]
+  },
+  "/products/": {
+    "de":["Beutel und Rollenware nach Maß","Finden Sie das passende Format für Abfüllung, Schutz und Präsentation. Vergleichen Sie vorgefertigte Beutel mit bedruckter Rollenware für Ihre Anlage.","Das Format vor der Bemusterung eingrenzen","Menge und Produktdichte bestimmen den Platzbedarf. Nennen Sie außerdem die Abfüllanlage, das gewünschte Handling und die geplanten Lagerbedingungen."],
+    "es":["Bolsas y film en bobina a medida","Compare bolsas preformadas y film impreso en bobina según las necesidades de llenado, protección y exposición de su producto.","Del formato a la muestra","Indique el peso de llenado, la densidad del producto, la línea de envasado y las condiciones de almacenamiento antes de elegir el formato."],
+    "fr":["Sachets et films en bobine sur mesure","Comparez les sachets préformés et les films imprimés en bobine selon les contraintes de remplissage, de protection et de présentation.","Définir le format avant l’échantillonnage","Précisez le poids de remplissage, la densité du produit, la ligne de conditionnement et les conditions de stockage."],
+    "ar":["أكياس وأفلام تغليف على بكرات حسب الطلب","قارن بين الأكياس الجاهزة للتعبئة والأفلام المطبوعة على بكرات وفق احتياجات التعبئة والحماية والعرض.","حدّد نوع العبوة قبل طلب العينة","اذكر وزن التعبئة وكثافة المنتج ومواصفات خط التعبئة وظروف التخزين المتوقعة."]
+  },
+  "/markets/": {
+    "de":["Flexible Verpackungen nach Branche","Wählen Sie Ihre Anwendung und vergleichen Sie Beutel und Folien nach Abfüllung, Lagerung und Verwendung.","Die Anwendung bestimmt die Verpackung","Kaffee benötigt andere Barriere- und Verschlussoptionen als Tiefkühlware. Die Branchenseiten helfen, diese Anforderungen für Ihre Anfrage festzuhalten."],
+    "es":["Envases flexibles por sector","Elija el sector y compare bolsas y films según el llenado, la conservación y el uso del producto.","Cada aplicación tiene sus requisitos","El café y los congelados plantean necesidades distintas de barrera y cierre. Consulte la aplicación que corresponda antes de preparar la solicitud."],
+    "fr":["Emballages souples par secteur","Choisissez une application pour comparer les sachets et les films selon le remplissage, la conservation et l’utilisation du produit.","Partir de l’usage du produit","Le café et les surgelés présentent des contraintes différentes de barrière et de fermeture. Consultez votre secteur pour préparer votre cahier des charges."],
+    "ar":["عبوات التغليف المرن حسب القطاع","اختر نوع التطبيق وقارن بين الأكياس والأفلام وفق طريقة التعبئة والتخزين والاستخدام.","ابدأ بطريقة استخدام المنتج","تختلف احتياجات القهوة عن المنتجات المجمّدة في الحماية والإغلاق. اختر القطاع المناسب لتحديد متطلبات طلبك."]
+  },
+  "/solutions/": {
+    "de":["Technische Unterstützung für flexible Verpackungen","Von der Druckvorstufe bis zum Abfüllversuch helfen wir Ihnen, die Spezifikation für Folie, Beutel und Verschluss zu klären.","Was vor der Freigabe zu prüfen ist","Stimmen Sie Maßzeichnung, Druckdaten, Füllbedingungen und Prüfkriterien für das Muster mit Ihrem Team ab."],
+    "es":["Soluciones para envases flexibles","Desde la preimpresión hasta la prueba de llenado, le ayudamos a concretar las especificaciones del film, la bolsa y el cierre.","Qué comprobar antes de dar el visto bueno","Revise con su equipo el plano, el arte final, las condiciones de llenado y los criterios de aceptación de la muestra."],
+    "fr":["Accompagnement technique en emballage souple","Du prépresse à l’essai de conditionnement, nous vous aidons à définir les spécifications du film, du sachet et de la fermeture.","Les points à vérifier avant la validation","Convenez du plan, des fichiers graphiques, des conditions de remplissage et des critères de contrôle de l’échantillon."],
+    "ar":["حلول فنية للتغليف المرن","من إعداد ملفات الطباعة إلى اختبار التعبئة، نساعدك في تحديد مواصفات الفيلم والكيس والإغلاق.","ما الذي تراجعه قبل الاعتماد؟","اتفق مع فريقك على الرسم الفني وملفات التصميم وظروف التعبئة ومعايير قبول العينة."]
+  },
+  "/added-value/": {
+    "de":["Unterstützung für Ihr Verpackungsprojekt","Klären Sie Fragen zu Formaten, Mustern und Produktionsfreigabe, bevor Sie Ihre Anfrage absenden.","Ein Ansprechpartner für die nächste Entscheidung","Halten Sie Produkt, Stückzahl, Zeichnung und offene Fragen bereit. So kann unser Team das nächste Vorgehen mit Ihnen besprechen."],
+    "es":["Asistencia para su proyecto de envasado","Resuelva dudas sobre formatos, muestras y aprobación de producción antes de enviar la solicitud.","Prepare la próxima decisión","Reúna los datos del producto, las cantidades, el plano y las preguntas pendientes para revisarlos con nuestro equipo."],
+    "fr":["Accompagnement de votre projet d’emballage","Posez vos questions sur les formats, les échantillons et la validation de la production avant d’envoyer votre demande.","Préparer la prochaine décision","Rassemblez les informations produit, les quantités, le plan et les questions restantes pour en discuter avec notre équipe."],
+    "ar":["دعم مشروع التغليف","استفسر عن أشكال العبوات والعينات واعتماد الإنتاج قبل إرسال طلبك.","جهّز ما يلزم للخطوة التالية","اجمع معلومات المنتج والكميات والرسم الفني والأسئلة المفتوحة لمناقشتها مع فريقنا."]
+  },
+  "/sustainability/": {
+    "de":["Materialauswahl und Nachhaltigkeit","Vergleichen Sie Folienaufbauten nach Produktschutz, Verpackungsgewicht und dem vorgesehenen Entsorgungsweg im Absatzmarkt.","Aussagen mit Unterlagen belegen","Klären Sie, auf welches Material, welchen Markt und welche Methode sich eine Aussage stützt. Fordern Sie die passenden Unterlagen für Ihre Spezifikation an."],
+    "es":["Materiales y sostenibilidad en envases flexibles","Compare estructuras por protección del producto, peso del envase y gestión de residuos en el mercado de destino.","Documentación para respaldar cada afirmación","Compruebe a qué material, mercado y método se refiere la afirmación. Solicite la documentación aplicable a su especificación."],
+    "fr":["Matériaux et durabilité des emballages souples","Comparez les structures selon la protection du produit, le poids de l’emballage et la filière de fin de vie dans le marché visé.","Documenter les affirmations environnementales","Vérifiez le matériau, le marché et la méthode concernés. Demandez les pièces correspondant à votre cahier des charges."],
+    "ar":["اختيار المواد والاستدامة في التغليف المرن","قارن بين بنى الأفلام من حيث حماية المنتج ووزن العبوة وطريقة التعامل معها بعد الاستخدام في سوق البيع.","ادعم المطالبات بوثائق مناسبة","حدّد المادة والسوق وطريقة التقييم التي يتناولها الادعاء، واطلب المستندات المطابقة لمواصفات مشروعك."]
+  },
+  "/about-us/": {
+    "de":["Über Mewepak","Mewepak entwickelt und fertigt flexible Verpackungen nach Kundenanforderungen. Unser Angebot umfasst bedruckte Beutel, Rollenware und die Abstimmung vor der Produktion.","Lieferantenprüfung vorbereiten","Besprechen Sie Abfüllung, Freigabe und Lieferland mit unserem Team. Geben Sie bei Dokumentenanfragen den Fertigungsstandort und den benötigten Geltungsbereich an."],
+    "es":["Acerca de Mewepak","Mewepak desarrolla y fabrica envases flexibles a medida, desde bolsas impresas hasta material en bobina y la preparación previa a producción.","Evaluación del proveedor","Consulte con nuestro equipo el llenado, la aprobación y el país de entrega. Para solicitar documentación, indique la planta y el alcance requeridos."],
+    "fr":["À propos de Mewepak","Mewepak développe et fabrique des emballages souples sur mesure. Notre offre couvre les sachets imprimés, les films en bobine et la préparation avant fabrication.","Préparer l’évaluation du fournisseur","Échangez avec notre équipe sur le remplissage, la validation et le pays de livraison. Indiquez le site et le périmètre voulus pour toute demande de documents."],
+    "ar":["عن Mewepak","نطوّر ونصنّع عبوات تغليف مرنة وفق متطلبات العملاء، من الأكياس المطبوعة إلى الأفلام على بكرات، مع مراجعة المواصفات قبل الإنتاج.","التحضير لتقييم المورد","ناقش مع فريقنا طريقة التعبئة والاعتماد وبلد التسليم. عند طلب الوثائق حدّد موقع التصنيع والنطاق المطلوب."]
+  },
+  "/blog/": {
+    "de":["Ratgeber für flexible Verpackungen","Praxistipps zu Beutelformaten, Folienbarrieren, Druckdaten und Abfüllversuchen.","Fachwissen für Ihre Verpackungsauswahl","Beginnen Sie bei der Anwendung und lesen Sie die Hinweise zur passenden Folie, zum Verschluss und zur Freigabe."],
+    "es":["Guías sobre envases flexibles","Orientación sobre formatos de bolsa, films barrera, artes finales y pruebas de envasado.","Información para elegir su envase","Empiece por la aplicación y compare los criterios de material, cierre y validación."],
+    "fr":["Guides sur les emballages souples","Des conseils sur les formats de sachets, les films barrières, les fichiers graphiques et les essais de conditionnement.","Des repères pour choisir son emballage","Commencez par votre application, puis comparez les critères de matériau, de fermeture et de validation."],
+    "ar":["أدلة التغليف المرن","إرشادات حول أشكال الأكياس والأفلام الحاجزة وملفات الطباعة وتجارب التعبئة.","معلومات تساعدك على الاختيار","ابدأ باستخدام المنتج وقارن بين خيارات المادة والإغلاق ومعايير الاعتماد."]
+  },
+  "/inquiry/": {
+    "de":["Angebot für Ihre Verpackung anfragen","Nennen Sie Produkt, Stückzahl und Lieferland. Maße, Druckmotiv und gewünschte Folieneigenschaften helfen uns, das Projekt einzuordnen."],
+    "es":["Solicitar presupuesto para su envase","Indique el producto, la cantidad y el país de entrega. Adjunte a la descripción las medidas, el arte final disponible y los requisitos del material."],
+    "fr":["Demander un devis pour votre emballage","Indiquez le produit, la quantité et le pays de livraison. Ajoutez les dimensions, l’état des fichiers et les propriétés de film souhaitées."],
+    "ar":["اطلب عرض سعر لعبوتك","اذكر المنتج والكمية وبلد التسليم. أضف الأبعاد وحالة تصميم الطباعة وخصائص الفيلم المطلوبة إن كانت معروفة."]
+  },
+  "/contact/": {
+    "de":["Kontakt zu Mewepak","Fragen Sie nach einem Muster, einer Verpackungslösung oder einem technischen Gespräch. Beschreiben Sie kurz, was Sie verpacken möchten."],
+    "es":["Contacto con Mewepak","Solicite muestras, consulte un formato o proponga una reunión técnica. Cuéntenos qué producto quiere envasar."],
+    "fr":["Contacter Mewepak","Demandez des échantillons, renseignez-vous sur un format ou sollicitez un échange technique. Précisez le produit à conditionner."],
+    "ar":["تواصل مع Mewepak","اطلب عينات، أو استفسر عن نوع عبوة، أو اطلب مناقشة فنية. أخبرنا عن المنتج الذي تريد تعبئته."]
+  },
+  "/booking/": {
+    "de":["Verpackungsberatung vereinbaren","Besprechen Sie Beutelform, Material, Druckdaten oder die Vorbereitung eines Abfüllversuchs mit unserem Team. Die verfügbaren Termine finden Sie im Buchungskalender."],
+    "es":["Organizar una consulta de envasado","Hable con nuestro equipo sobre formatos, materiales, arte final o preparación de pruebas. Consulte las horas disponibles en el calendario de reservas."],
+    "fr":["Planifier un échange sur votre emballage","Échangez avec notre équipe sur le format, les matériaux, les fichiers d’impression ou la préparation des essais. Les créneaux disponibles figurent dans l’agenda."],
+    "ar":["احجز استشارة حول التغليف","ناقش مع فريقنا شكل العبوة والمواد وملفات الطباعة أو التحضير لاختبار التعبئة. تظهر المواعيد المتاحة في تقويم الحجز."]
+  }
+}
