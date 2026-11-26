@@ -143,7 +143,7 @@ const definitions = {
       { name: 'image_url', label: '导航图片链接', type: 'text', full: true, help: '可填写现有图片链接，或直接上传图片。' },
       { name: '_upload', label: '上传导航图片', type: 'file', full: true, accept: 'image/png,image/jpeg,image/webp,image/avif', target: 'image_url', folder: 'category-images' },
       { name: 'show_in_menu', label: '在产品菜单显示', type: 'checkbox', value: true },
-      { name: 'status', label: '状态', type: 'select', options: [['published', '已发布'], ['draft', '草稿'], ['archived', '已下架']] },
+      { name: 'status', label: '状态', type: 'select', value: 'draft', options: [['draft', '草稿'], ['published', '已发布'], ['archived', '已下架']] },
       { name: 'seo_title', label: '搜索结果标题', full: true },
       { name: 'seo_description', label: '搜索结果摘要', type: 'textarea', full: true },
     ],
@@ -512,7 +512,7 @@ async function renderBookingSettings() {
         <div class="field"><label for="booking-location">会议方式说明</label><input class="control" id="booking-location" name="display_location" value="${esc(data.display_location || 'Zoom / Factory Visit')}" required></div>
         <div class="field"><label for="booking-avatar">接待人头像链接</label><input class="control" id="booking-avatar" name="avatar_url" value="${esc(data.avatar_url || '')}"></div>
         <div class="field"><label for="booking-avatar-upload">上传头像</label><input class="control" id="booking-avatar-upload" name="avatar_file" type="file" accept="image/png,image/jpeg,image/webp,image/avif"></div>
-        <div class="field"><label for="booking-email">通知邮箱</label><input class="control" id="booking-email" name="notification_email" type="email" value="${esc(data.notification_email || '')}" placeholder="name@company.com"></div>
+        <div class="field"><label for="booking-email">预约 / 询价通知邮箱</label><input class="control" id="booking-email" name="notification_email" type="email" value="${esc(data.notification_email || '')}" placeholder="name@company.com"><span class="field-help">新预约和新询价的内部通知都会发送到这里。</span></div>
         <div class="field"><label for="meeting-durations">可选会议时长（分钟）</label><input class="control" id="meeting-durations" name="meeting_durations" value="${esc(durations)}" required><span class="field-help">用逗号分隔，例如 15, 30。</span></div>
         <div class="field full"><label for="timezone-options">客户可选时区</label><textarea class="control" id="timezone-options" name="timezone_options" rows="5" required>${esc(timezones)}</textarea><span class="field-help">每行一个时区，例如 Asia/Shanghai|北京时间。</span></div>
         <div class="field full"><label>开放预约的星期</label><div class="day-picker">${days.map(([n,label])=>`<label class="checkbox-field"><input type="checkbox" name="working_days" value="${n}"${selected.has(n)?' checked':''}><span>${label}</span></label>`).join('')}</div></div>
@@ -585,6 +585,14 @@ function fieldValue(item, field) {
   return field.value ?? '';
 }
 
+function formatDateTimeLocal(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) return '';
+  const pad = (part) => String(part).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 function renderEditorField(field, item) {
   const value = fieldValue(item, field);
   const name = esc(field.name);
@@ -609,7 +617,7 @@ function renderEditorField(field, item) {
     input = `<input class="control" id="${id}" type="file" name="${name}" accept="${esc(field.accept || '*/*')}">`;
   } else {
     let inputValue = value;
-    if (field.type === 'datetime-local' && value) inputValue = String(value).slice(0,16);
+    if (field.type === 'datetime-local' && value) inputValue = formatDateTimeLocal(value);
     input = `<input class="control" id="${id}" type="${esc(field.type || 'text')}" name="${name}" value="${esc(inputValue)}"${field.required?' required':''}${field.min!==undefined?` min="${field.min}"`:''}>`;
   }
   return `<div class="field${field.full ? ' full' : ''}"><label for="${id}">${esc(field.label)}${field.required ? ' *' : ''}</label>${input}${field.help ? `<span class="field-help">${esc(field.help)}</span>` : ''}</div>`;
@@ -844,6 +852,10 @@ async function saveEditor(event) {
       const file = form.elements.namedItem('_upload')?.files?.[0];
       if (file) payload.file_name = file.name;
     }
+    if (module === 'articles' && payload.status === 'published' && !payload.published_at) {
+      const existing = moduleState.get('articles')?.find((row) => String(row.id) === String(id));
+      payload.published_at = existing?.published_at || new Date().toISOString();
+    }
     if (module !== 'media') payload.updated_at = new Date().toISOString();
     const table = definition.table;
     let result;
@@ -875,7 +887,12 @@ async function deleteRecord(module, id) {
 }
 
 async function updateStatus(table, id, status) {
-  const { error } = await supabase.from(table).update({ status, updated_at: new Date().toISOString() }).eq('id', id);
+  const payload = { status, updated_at: new Date().toISOString() };
+  if (table === 'articles' && status === 'published') {
+    const existing = moduleState.get('articles')?.find((row) => String(row.id) === String(id));
+    if (!existing?.published_at) payload.published_at = new Date().toISOString();
+  }
+  const { error } = await supabase.from(table).update(payload).eq('id', id);
   if (error) return showToast(error.message || '状态更新失败，请重试。', true);
   showToast('状态已更新');
   await renderApp();
