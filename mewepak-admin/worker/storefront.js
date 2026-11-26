@@ -253,7 +253,7 @@ export async function connectStorefront(request, response, database, projectUrl,
     `<a data-mobile-subitem class="block py-2 pl-8 pr-4 text-sm !text-gray-700 hover:!text-[#00cfca]" href="${processPath}">Our Process</a>`, { html: true }));
   const { usLocations = {} } = settings;
   const footerSocials = renderFooterSocials(settings.socials);
-  on('footer .border-t > .text-center', (el) => {
+  on('footer .border-t > div.text-center.mb-6', (el) => {
     if (!footerSocials) {
       el.remove();
       return;
