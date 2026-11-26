@@ -11,7 +11,8 @@ export function applyHomeProducts({ edit, replace, replaceHtml, entries, baselin
   const categories = new Map(entries.filter(({ table }) => table === 'product_categories')
     .map(({ row }) => [row.slug, row.name]));
   const products = entries.filter(({ table, row }) => table === 'products' && categories.has(row.category?.slug))
-    .sort(byCatalogueOrder);
+    .sort((a, b) => Number(Boolean(b.row.is_featured)) - Number(Boolean(a.row.is_featured)) || byCatalogueOrder(a, b))
+    .slice(0, 16);
 
   replaceHtml('.hy-product-track', products.map(({ row, path }) => {
     const [shortName, format, thumbnail, original] = Object.hasOwn(homeArtwork, row.slug) ? homeArtwork[row.slug] : [];
