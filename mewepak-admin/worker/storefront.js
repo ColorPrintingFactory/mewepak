@@ -227,7 +227,8 @@ export async function connectStorefront(request, response, database, projectUrl,
   const on = (selector, element) => rewrite.on(selector, { element });
   const set = (selector, name, value) => on(selector, (el) => el.setAttribute(name, value));
   const text = (selector, value) => on(selector, (el) => el.setInnerContent(value));
-  on('head', (el) => el.append(siteIcons, { html: true }));
+  on('head', (el) => el.append(siteIcons + '<style>@media(max-width:767px){[data-scroll-top]{bottom:6.5rem!important;right:1rem!important;width:48px!important;height:48px!important}[data-mobile-subitem]{font-size:13px!important;padding-left:2rem!important}}</style>', { html: true }));
+  text('a[href="#content"]', 'Skip to content');
   on('link[rel="pingback"],link[rel="EditURI"]', (el) => el.remove());
   set('main a[href="/inquiry/#materials"]', 'href', '/solutions/material-specifications/');
   on('a[href^="/solutions"]', (el) => {
