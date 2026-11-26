@@ -363,9 +363,9 @@ async function fetchStaticAsset(request, env, context) {
 }
 
 function patchAdminAppScript(script) {
-  if (script.includes("social_media: { title: '社交媒体'")) return script;
   const editorAnchor = "  languages: { title: '语言入口', fields: [] },";
-  const editor = `  social_media: { title: '社交媒体', fields: [
+  if (!script.includes("social_media: { title: '社交媒体'") && script.includes(editorAnchor)) {
+    const editor = `  social_media: { title: '社交媒体', fields: [
     { name: 'whatsapp_url', label: 'WhatsApp 链接', full: true, help: '例如：https://wa.me/8613537663353' },
     { name: 'facebook_url', label: 'Facebook 链接', full: true },
     { name: 'instagram_url', label: 'Instagram 链接', full: true },
@@ -376,18 +376,112 @@ function patchAdminAppScript(script) {
     { name: 'pinterest_url', label: 'Pinterest 链接', full: true },
   ] },
   languages: { title: '语言入口', fields: [] },`;
-  if (!script.includes(editorAnchor)) return script;
-  script = script.replace(editorAnchor, editor);
-  const summaryAnchor = "  if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';\n  if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';";
-  const summary = `  if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';
+    script = script.replace(editorAnchor, editor);
+    const summaryAnchor = "  if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';\n  if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';";
+    const summary = `  if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';
   if (row.key === 'social_media') {
     const active = ['whatsapp_url','facebook_url','instagram_url','linkedin_url','twitter_url','youtube_url','tiktok_url','pinterest_url'].filter((key) => value[key]).length;
     return active ? '已设置 ' + active + ' 个社媒入口' : '尚未添加社媒链接';
   }
   if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';`;
-  script = script.replace(summaryAnchor, summary);
-  script = script.replace('修改网站名称、联系方式、工厂视频和语言入口。', '修改网站名称、联系方式、社交媒体、工厂视频和语言入口。');
+    script = script.replace(summaryAnchor, summary);
+    script = script.replace('修改网站名称、联系方式、工厂视频和语言入口。', '修改网站名称、联系方式、社交媒体、工厂视频和语言入口。');
+  }
+
+  script = script.replace(
+    "    if (field.type === 'datetime-local' && value) inputValue = String(value).slice(0,16);",
+    "    if (field.type === 'datetime-local' && value) { const date = new Date(value); const pad = (part) => String(part).padStart(2, '0'); if (!Number.isNaN(date.valueOf())) inputValue = date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate()) + 'T' + pad(date.getHours()) + ':' + pad(date.getMinutes()); }"
+  );
+  script = script.replace(
+    '<div class="field"><label for="booking-email">通知邮箱</label><input class="control" id="booking-email" name="notification_email" type="email"',
+    '<div class="field"><label for="booking-email">预约 / 询价通知邮箱</label><input class="control" id="booking-email" name="notification_email" type="email"'
+  );
+  script = script.replace(
+    "    if (module !== 'media') payload.updated_at = new Date().toISOString();",
+    "    if (module === 'articles' && payload.status === 'published' && !payload.published_at) { const existing = moduleState.get('articles')?.find((row) => String(row.id) === String(id)); payload.published_at = existing?.published_at || new Date().toISOString(); }\n    if (module !== 'media') payload.updated_at = new Date().toISOString();"
+  );
+  script = script.replace(
+    "{ name: 'status', label: '状态', type: 'select', options: [['published', '已发布'], ['draft', '草稿'], ['archived', '已下架']] },",
+    "{ name: 'status', label: '状态', type: 'select', value: 'draft', options: [['draft', '草稿'], ['published', '已发布'], ['archived', '已下架']] },"
+  );
+  const oldUpdate = "async function updateStatus(table, id, status) {\n  const { error } = await supabase.from(table).update({ status, updated_at: new Date().toISOString() }).eq('id', id);";
+  const newUpdate = "async function updateStatus(table, id, status) {\n  const payload = { status, updated_at: new Date().toISOString() };\n  if (table === 'articles' && status === 'published') { const existing = moduleState.get('articles')?.find((row) => String(row.id) === String(id)); if (!existing?.published_at) payload.published_at = new Date().toISOString(); }\n  const { error } = await supabase.from(table).update(payload).eq('id', id);";
+  script = script.replace(oldUpdate, newUpdate);
   return script;
+}
+
+function patchStorefrontFormsScript(script) {
+  if (!script.includes('verificationTimer = setTimeout')) return script;
+  script = script.replace('    let verificationTimer;\n', '');
+  script = script.replaceAll('      clearTimeout(verificationTimer);\n', '');
+  script = script.replaceAll('              clearTimeout(verificationTimer);\n', '');
+  script = script.replace("appearance: 'interaction-only', retry: 'never',", "appearance: 'interaction-only', retry: 'auto',");
+  script = script.replace("        verificationTimer = setTimeout(() => failVerification(formVerification || 'Verification is taking too long. Please try again.'), 15000);\n", '');
+  return script;
+}
+
+function patchCategoryBookingScript(script) {
+  if (script.includes('mewepakCategoryEnquiryV1')) return script;
+  const anchor = '(async () => {\n';
+  if (!script.includes(anchor)) return script;
+  const transfer = `(async () => {
+  const enquiryForm = document.querySelector('form[data-category-enquiry]');
+  if (enquiryForm) {
+    enquiryForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!enquiryForm.reportValidity()) return;
+      const data = new FormData(enquiryForm);
+      const field = (name) => String(data.get(name) || '').trim();
+      const payload = {
+        category: field('category').slice(0, 120), name: field('name').slice(0, 120),
+        email: field('email').slice(0, 254), company: field('company').slice(0, 160),
+        country: field('country').slice(0, 100), application: field('application').slice(0, 160),
+        quantity: field('quantity').slice(0, 100), dimensions: field('dimensions').slice(0, 120),
+        format: field('format').slice(0, 160), notes: field('notes').slice(0, 1500),
+      };
+      try { sessionStorage.setItem('mewepakCategoryEnquiryV1', JSON.stringify(payload)); } catch {}
+      window.location.assign('/inquiry/#quote-request');
+    });
+  }
+`;
+  return script.replace(anchor, transfer);
+}
+
+function patchQuoteScript(script) {
+  if (script.includes('mewepakCategoryEnquiryV1')) return script;
+  const anchor = '  showStep(0, false);\n';
+  if (!script.includes(anchor)) return script;
+  const restore = `  showStep(0, false);
+
+  try {
+    const stored = sessionStorage.getItem('mewepakCategoryEnquiryV1');
+    if (stored) {
+      sessionStorage.removeItem('mewepakCategoryEnquiryV1');
+      const source = JSON.parse(stored);
+      const setValue = (name, value) => {
+        const control = form.elements.namedItem(name);
+        if (control && typeof value === 'string' && value.trim()) control.value = value.trim();
+      };
+      setValue('product', source.application);
+      setValue('quantity', source.quantity);
+      setValue('size', source.dimensions);
+      setValue('name', source.name);
+      setValue('email', source.email);
+      setValue('company', source.company);
+      setValue('region', source.country);
+      const context = [
+        source.category ? 'Requested category: ' + source.category : '',
+        source.format ? 'Format interest: ' + source.format : '',
+        source.notes || '',
+      ].filter(Boolean).join('\\n');
+      if (context) form.elements.notes.value = context.slice(0, 1500);
+    }
+  } catch {
+    sessionStorage.removeItem('mewepakCategoryEnquiryV1');
+  }
+
+`;
+  return script.replace(anchor, restore);
 }
 
 function storefrontCacheKey(request, url, env, context) {
@@ -466,6 +560,20 @@ export default {
       headers.delete('content-length');
       const script = patchAdminAppScript(await adminAsset.text());
       return withSecurityHeaders(new Response(script, { status: 200, headers }), url.pathname, env);
+    }
+    const scriptPatcher = {
+      '/assets/storefront-forms.js': patchStorefrontFormsScript,
+      '/assets/category-booking.js': patchCategoryBookingScript,
+      '/assets/client-design/quote.js': patchQuoteScript,
+    }[url.pathname];
+    if (scriptPatcher && request.method === 'GET') {
+      const source = await fetchStaticAsset(request, env, context);
+      if (!source.ok) return withSecurityHeaders(source, url.pathname, env);
+      const headers = new Headers(source.headers);
+      headers.set('content-type', 'text/javascript; charset=utf-8');
+      headers.set('cache-control', 'no-store');
+      headers.delete('content-length');
+      return withSecurityHeaders(new Response(scriptPatcher(await source.text()), { status: 200, headers }), url.pathname, env);
     }
     if (url.pathname === '/api/public-site' && request.method === 'GET') {
       try { return json(await publicSiteSettings(database)); }
