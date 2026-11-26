@@ -407,6 +407,45 @@ function patchAdminAppScript(script) {
   const oldUpdate = "async function updateStatus(table, id, status) {\n  const { error } = await supabase.from(table).update({ status, updated_at: new Date().toISOString() }).eq('id', id);";
   const newUpdate = "async function updateStatus(table, id, status) {\n  const payload = { status, updated_at: new Date().toISOString() };\n  if (table === 'articles' && status === 'published') { const existing = moduleState.get('articles')?.find((row) => String(row.id) === String(id)); if (!existing?.published_at) payload.published_at = new Date().toISOString(); }\n  const { error } = await supabase.from(table).update(payload).eq('id', id);";
   script = script.replace(oldUpdate, newUpdate);
+  if (!script.includes('data-action="change-password"')) {
+    script = script.replace(
+      "  logout: '<path d=\"M10 17l5-5-5-5M15 12H3M21 3v18\"/>',",
+      "  lock: '<rect x=\"5\" y=\"10\" width=\"14\" height=\"11\" rx=\"2\"/><path d=\"M8 10V7a4 4 0 0 1 8 0v3M12 14v3\"/>',\n  logout: '<path d=\"M10 17l5-5-5-5M15 12H3M21 3v18\"/>',"
+    );
+    script = script.replace(
+      '<span class="user-name">${esc(email)}</span><button type="button" class="icon-btn" data-action="signout" aria-label="退出登录">${icon(\'logout\')}</button>',
+      '<span class="user-name">${esc(email)}</span><button type="button" class="icon-btn" data-action="change-password" aria-label="修改密码" title="修改密码">${icon(\'lock\')}</button><button type="button" class="icon-btn" data-action="signout" aria-label="退出登录">${icon(\'logout\')}</button>'
+    );
+    const passwordFunction = `function openPasswordDialog() {
+  dialog.innerHTML = \`<form id="password-form"><div class="dialog-head"><h2>修改登录密码</h2><button class="icon-btn" type="button" data-close aria-label="关闭">×</button></div><div class="dialog-body"><div class="field-grid"><div class="field full"><label for="new-password">新密码</label><input class="control" id="new-password" name="password" type="password" autocomplete="new-password" minlength="12" required><span class="field-help">至少 12 位，建议同时包含大小写字母、数字和符号。</span></div><div class="field full"><label for="confirm-password">确认新密码</label><input class="control" id="confirm-password" name="confirm" type="password" autocomplete="new-password" minlength="12" required></div></div><div class="error-box" role="alert" hidden></div></div><div class="dialog-foot"><button class="btn btn-plain" type="button" data-close>取消</button><button class="btn btn-primary" type="submit">更新密码</button></div></form>\`;
+  const form = dialog.querySelector('#password-form');
+  form.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', () => dialog.close()));
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const password = form.elements.password.value;
+    const confirm = form.elements.confirm.value;
+    const errorBox = form.querySelector('.error-box');
+    const button = form.querySelector('[type="submit"]');
+    errorBox.hidden = true;
+    if (password !== confirm) { errorBox.textContent = '两次输入的密码不一致。'; errorBox.hidden = false; return; }
+    if (password.length < 12 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\\d/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
+      errorBox.textContent = '密码至少 12 位，并需要包含大小写字母、数字和符号。'; errorBox.hidden = false; return;
+    }
+    button.disabled = true; button.textContent = '正在更新…';
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) { errorBox.textContent = error.message || '密码更新失败，请重试。'; errorBox.hidden = false; button.disabled = false; button.textContent = '更新密码'; return; }
+    dialog.close(); showToast('密码已更新，请妥善保存新密码。');
+  });
+  dialog.showModal();
+}
+
+`;
+    script = script.replace('function setupView() {', passwordFunction + 'function setupView() {');
+    script = script.replace(
+      "  app.querySelector('[data-action=\"signout\"]')?.addEventListener('click', async () => {",
+      "  app.querySelector('[data-action=\"change-password\"]')?.addEventListener('click', openPasswordDialog);\n  app.querySelector('[data-action=\"signout\"]')?.addEventListener('click', async () => {"
+    );
+  }
   return script;
 }
 
