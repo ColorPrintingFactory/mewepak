@@ -47,7 +47,6 @@
     let pending = false;
     let token = '';
     let sending = false;
-    let verificationTimer;
     form.addEventListener('focusin', () => { loadProtection().catch(() => {}); });
     form.addEventListener('input', () => { loadProtection().catch(() => {}); });
     const show = (text, error = false) => {
@@ -57,7 +56,6 @@
       message.setAttribute('role', error ? 'alert' : 'status');
     };
     function failVerification(text) {
-      clearTimeout(verificationTimer);
       if (!pending || sending) return;
       pending = false;
       token = '';
@@ -134,10 +132,9 @@
           widget = window.turnstile.render(verification, {
             sitekey, action: type, size: verification.clientWidth < 300 ? 'compact' : 'flexible',
             execution: 'execute', ...(locale ? { language: locale } : {}),
-            appearance: 'interaction-only', retry: 'never',
+            appearance: 'interaction-only', retry: 'auto',
             callback: (value) => {
               if (!pending || sending) return;
-              clearTimeout(verificationTimer);
               token = value;
               show(formChecking || 'Sending…');
               submit().catch((error) => show(formFailure || error.message || 'Unable to submit. Please try again.', true));
@@ -148,7 +145,6 @@
           });
         }
         show(formChecking || 'Checking verification…');
-        verificationTimer = setTimeout(() => failVerification(formVerification || 'Verification is taking too long. Please try again.'), 15000);
         window.turnstile.execute(verification);
       } catch (error) {
         failVerification(formVerification || error.message || 'Unable to submit. Please try again.');
