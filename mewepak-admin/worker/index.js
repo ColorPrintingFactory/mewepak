@@ -326,7 +326,7 @@ function withSecurityHeaders(response, path, env, settings) {
   return result;
 }
 
-const FRESH_ASSET_COMMIT = 'c6f8ee3089646f4ea2eb8e5bb0d2c1edacdd891c';
+const FRESH_ASSET_COMMIT = 'ae28e6da82d0b70d820298714dd426b84b2d8a22';
 const FRESH_PUBLIC_ASSETS = new Set([
   '/admin/index.html',
   '/admin/app.js',
