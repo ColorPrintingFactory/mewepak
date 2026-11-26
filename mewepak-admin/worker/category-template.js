@@ -22,7 +22,7 @@ function heroText(category) {
     tags: ['Custom dimensions', 'Material options', 'Custom artwork'],
     visual: name + ' • MewePak packaging format',
     noteStrong: 'Shape the pack.<br>Fit the product.',
-    noteSmall: 'Category image synced from the backend.'
+    noteSmall: ''
   };
 }
 
