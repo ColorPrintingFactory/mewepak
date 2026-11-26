@@ -13,11 +13,12 @@ const encode = (value) => String(value ?? '').replace(/[&<>"']/g, (char) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
 export async function publicSiteSettings(database) {
-  const response = await database('site_settings?select=key,value&is_public=eq.true&key=in.(brand,company_contact,factory_tour,languages,us_locations)');
+  const response = await database('site_settings?select=key,value&is_public=eq.true&key=in.(brand,company_contact,factory_tour,languages,us_locations,social_media)');
   if (!response.ok) return {};
   const values = Object.fromEntries((await response.json()).map(({ key, value }) => [key, value]));
   const contact = values.company_contact || {};
   const brand = values.brand || {};
+  const social = values.social_media || {};
   const line = (value) => typeof value === 'string' ? value.slice(0, 180).trim() : '';
   const email = line(contact.email);
   const phone = line(contact.phone);
@@ -41,6 +42,16 @@ export async function publicSiteSettings(database) {
     email: /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(email) ? email : '',
     phone: telephone(phone),
     whatsapp: telephone(whatsapp),
+    socials: {
+      whatsapp: link(social.whatsapp_url),
+      facebook: link(social.facebook_url),
+      instagram: link(social.instagram_url),
+      linkedin: link(social.linkedin_url),
+      twitter: link(social.twitter_url),
+      youtube: link(social.youtube_url),
+      tiktok: link(social.tiktok_url),
+      pinterest: link(social.pinterest_url),
+    },
     factory_tour: { video_url: video(link(values.factory_tour?.video_url)), poster_url: link(values.factory_tour?.poster_url) },
     usLocations: {
       addresses: ['address_1','address_2','address_3'].map((key) => line(office[key])).filter(Boolean),
@@ -49,6 +60,28 @@ export async function publicSiteSettings(database) {
     languages: Array.isArray(values.languages?.links) ? values.languages.links.slice(0, 20).flatMap((item) =>
       line(item?.label) && link(item?.url) ? [{ label: line(item.label), url: link(item.url) }] : []) : [],
   };
+}
+
+const socialIcons = {
+  whatsapp: '<path d="M21 11.5a8.5 8.5 0 0 1-12.35 7.6L3 21l1.9-5.65A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.4 8.2c.25-.55.5-.56.74-.57h.63c.2 0 .42.07.53.32l.75 1.8c.08.2.04.38-.08.55l-.53.7c-.11.15-.2.28-.08.49.36.62.82 1.16 1.37 1.62.6.5 1.22.88 1.92 1.16.2.08.35.04.48-.12l.85-1c.16-.2.34-.23.55-.13l1.86.88"/>',
+  facebook: '<path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v5h4v-5h3l1-4h-4V9c0-.7.3-1 1-1Z"/>',
+  instagram: '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/>',
+  linkedin: '<rect x="4" y="9" width="4" height="11"/><circle cx="6" cy="5.5" r="2"/><path d="M12 20v-6c0-3 1.5-5 4-5 2.4 0 4 1.7 4 5v6M12 9v11"/>',
+  twitter: '<path d="M5 4 19 20M19 4 5 20"/>',
+  youtube: '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3Z"/>',
+  tiktok: '<path d="M14 4v10.2a4.2 4.2 0 1 1-3.2-4.1"/><path d="M14 4c.8 2.2 2.4 3.5 5 3.8"/>',
+  pinterest: '<circle cx="12" cy="12" r="9"/><path d="M9.5 18 12 8.5c.5-2 4.5-1.5 4.5 1.4 0 2.4-1.6 4.2-3.6 4.2-1.2 0-2-.8-1.8-2.1"/>',
+};
+
+function renderFooterSocials(socials = {}) {
+  const entries = [
+    ['whatsapp', 'WhatsApp'], ['facebook', 'Facebook'], ['instagram', 'Instagram'],
+    ['linkedin', 'LinkedIn'], ['twitter', 'X / Twitter'], ['youtube', 'YouTube'],
+    ['tiktok', 'TikTok'], ['pinterest', 'Pinterest'],
+  ];
+  return entries.flatMap(([key, label]) => socials[key] ? [
+    `<a href="${encode(socials[key])}" target="_blank" rel="noopener noreferrer" aria-label="${label}" title="${label}" class="mewepak-social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid #079b97;border-radius:999px;background:#fff;color:#079b97;text-decoration:none"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${socialIcons[key]}</svg></a>`
+  ] : []).join('');
 }
 
 function storageAsset(url, projectUrl, model = false) {
@@ -219,6 +252,14 @@ export async function connectStorefront(request, response, database, projectUrl,
   on('[data-mobile-menu] a[href="/sustainability"],[data-mobile-menu] a[href="/sustainability/"]', (el) => el.after(
     `<a data-mobile-subitem class="block py-2 pl-8 pr-4 text-sm !text-gray-700 hover:!text-[#00cfca]" href="${processPath}">Our Process</a>`, { html: true }));
   const { usLocations = {} } = settings;
+  const footerSocials = renderFooterSocials(settings.socials);
+  on('footer .border-t > .text-center', (el) => {
+    if (!footerSocials) {
+      el.remove();
+      return;
+    }
+    el.setInnerContent(`<h4 class="!font-bold !text-white !text-base mb-4">Connect With Social</h4><div class="flex flex-wrap items-center justify-center gap-3">${footerSocials}</div>`, { html: true });
+  });
   set('body', 'data-mewepak-settings', JSON.stringify(settings));
   rewriteContactEmail(rewrite, settings.email);
   if (!settings.email) on('a[href^="mailto:"]', (el) => {
