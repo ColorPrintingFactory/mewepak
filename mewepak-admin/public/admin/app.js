@@ -123,6 +123,7 @@ const icons = {
   trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/>',
   menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
   logout: '<path d="M10 17l5-5-5-5M15 12H3M21 3v18"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
   external: '<path d="M14 3h7v7M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
@@ -270,6 +271,43 @@ function showToast(message, error = false) {
   window.setTimeout(() => toast.remove(), 3600);
 }
 
+function openPasswordDialog() {
+  dialog.innerHTML = `<form id="password-form"><div class="dialog-head"><h2>修改登录密码</h2><button class="icon-btn" type="button" data-close aria-label="关闭">×</button></div><div class="dialog-body"><div class="field-grid"><div class="field full"><label for="new-password">新密码</label><input class="control" id="new-password" name="password" type="password" autocomplete="new-password" minlength="12" required><span class="field-help">至少 12 位，建议同时包含大小写字母、数字和符号。</span></div><div class="field full"><label for="confirm-password">确认新密码</label><input class="control" id="confirm-password" name="confirm" type="password" autocomplete="new-password" minlength="12" required></div></div><div class="error-box" role="alert" hidden></div></div><div class="dialog-foot"><button class="btn btn-plain" type="button" data-close>取消</button><button class="btn btn-primary" type="submit">更新密码</button></div></form>`;
+  const form = dialog.querySelector('#password-form');
+  form.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', () => dialog.close()));
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const password = form.elements.password.value;
+    const confirm = form.elements.confirm.value;
+    const errorBox = form.querySelector('.error-box');
+    const button = form.querySelector('[type="submit"]');
+    errorBox.hidden = true;
+    if (password !== confirm) {
+      errorBox.textContent = '两次输入的密码不一致。';
+      errorBox.hidden = false;
+      return;
+    }
+    if (password.length < 12 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
+      errorBox.textContent = '密码至少 12 位，并需要包含大小写字母、数字和符号。';
+      errorBox.hidden = false;
+      return;
+    }
+    button.disabled = true;
+    button.textContent = '正在更新…';
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) {
+      errorBox.textContent = error.message || '密码更新失败，请重试。';
+      errorBox.hidden = false;
+      button.disabled = false;
+      button.textContent = '更新密码';
+      return;
+    }
+    dialog.close();
+    showToast('密码已更新，请妥善保存新密码。');
+  });
+  dialog.showModal();
+}
+
 function setupView() {
   app.innerHTML = `<div class="signin-wrap"><section class="setup-card">
     <div class="signin-brand"><span class="brand-mark">M</span><div class="brand-name">Mewepak 后台</div></div>
@@ -346,7 +384,7 @@ function shellMarkup(content) {
     <main class="main">
       <header class="topbar">
         <div class="crumbs"><button type="button" class="mobile-menu" data-action="mobile-menu" aria-label="打开菜单">${icon('menu')}</button><span>Mewepak</span><span>›</span><strong>${esc(pageTitle(activeSection))}</strong></div>
-        <div class="top-actions"><span class="env-pill"><span class="env-dot"></span>已连接</span><div class="user-chip"><span class="user-avatar">${esc(initial)}</span><span class="user-name">${esc(email)}</span><button type="button" class="icon-btn" data-action="signout" aria-label="退出登录">${icon('logout')}</button></div></div>
+        <div class="top-actions"><span class="env-pill"><span class="env-dot"></span>已连接</span><div class="user-chip"><span class="user-avatar">${esc(initial)}</span><span class="user-name">${esc(email)}</span><button type="button" class="icon-btn" data-action="change-password" aria-label="修改密码" title="修改密码">${icon('lock')}</button><button type="button" class="icon-btn" data-action="signout" aria-label="退出登录">${icon('logout')}</button></div></div>
       </header>
       <section class="content">${content}</section>
     </main>
@@ -554,6 +592,7 @@ function bindShellEvents() {
   }));
   app.querySelector('[data-action="mobile-menu"]')?.addEventListener('click', () => document.querySelector('#sidebar')?.classList.toggle('open'));
   app.querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
+  app.querySelector('[data-action="change-password"]')?.addEventListener('click', openPasswordDialog);
   app.querySelector('[data-action="signout"]')?.addEventListener('click', async () => {
     await supabase.auth.signOut();
     currentUser = null;
