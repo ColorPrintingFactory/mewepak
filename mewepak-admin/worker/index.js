@@ -311,6 +311,7 @@ function withSecurityHeaders(response, path, env, settings) {
   result.headers.set('x-content-type-options', 'nosniff');
   result.headers.set('referrer-policy', 'strict-origin-when-cross-origin');
   result.headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()');
+  if (env.ENVIRONMENT === 'production') result.headers.set('strict-transport-security', 'max-age=31536000; includeSubDomains; preload');
   const admin = path.startsWith('/admin');
   const storageOrigin = /^https:\/\/[a-z0-9]+\.supabase\.co\/?$/i.test(env.SUPABASE_URL || '') ? env.SUPABASE_URL.replace(/\/$/, '') : '';
   const videoUrl = settings?.factory_tour?.video_url;
