@@ -88,12 +88,10 @@ export function localizedPaths(englishPaths) {
   return englishPaths.flatMap(path => languages.filter(lang => hasLocalizedVersion(path, lang)).map(lang => localizedPath(path, lang)));
 }
 
-export function alternateTags(path, origin) {
-  const variants = languages.filter(lang => hasLocalizedVersion(path, lang));
-  if (!variants.length) return '';
-  return ['en', ...variants, 'x-default'].map((lang) =>
-    `<link rel="alternate" hreflang="${lang}" href="${escape(origin + localizedPath(path, lang === 'x-default' ? 'en' : lang))}">`
-  ).join('');
+export function alternateTags() {
+  // Translations remain available to users, but hreflang stays disabled until
+  // the localized pages have full content parity and are ready for indexing.
+  return '';
 }
 
 export function languageSwitcher(path, lang = 'en', query = '') {
@@ -226,7 +224,7 @@ function pageMarkup({ path, lang, available, origin, url, settings, production }
   const asset = hero || logo;
   const openGraph = `<meta property="og:title" content="${escape(metaTitle)}"><meta property="og:description" content="${escape(lead)}"><meta property="og:url" content="${escape(canonical)}"><meta property="og:image" content="${escape(new URL(asset,origin).href)}"><meta property="og:type" content="website">`;
   const schema = JSON.stringify({ '@context':'https://schema.org','@type':'WebPage', name:title, description:lead, url:canonical, inLanguage:lang, publisher:{'@type':'Organization',name:'Mewepak',url:origin+'/'} }).replace(/</g,'\\u003c');
-  const showIndex = production && !url.searchParams.has('s');
+  const showIndex = false;
   const email = /^[^\s<>"@]+@[^\s<>"@]+\.[^\s<>"@]+$/.test(settings?.email || '') ? settings.email : 'benson@mewepak.com';
   const phone = typeof settings?.phone === 'string' ? settings.phone.replace(/[^+\d]/g,'') : '';
   const normalizeSearch = value => value.normalize('NFKD').replace(/\p{M}/gu,'').toLocaleLowerCase(lang);
