@@ -140,6 +140,34 @@
   });
 
   showStep(0, false);
+
+  try {
+    const stored = sessionStorage.getItem('mewepakCategoryEnquiryV1');
+    if (stored) {
+      sessionStorage.removeItem('mewepakCategoryEnquiryV1');
+      const source = JSON.parse(stored);
+      const setValue = (name, value) => {
+        const control = form.elements.namedItem(name);
+        if (control && typeof value === 'string' && value.trim()) control.value = value.trim();
+      };
+      setValue('product', source.application);
+      setValue('quantity', source.quantity);
+      setValue('size', source.dimensions);
+      setValue('name', source.name);
+      setValue('email', source.email);
+      setValue('company', source.company);
+      setValue('region', source.country);
+      const context = [
+        source.category ? `Requested category: ${source.category}` : '',
+        source.format ? `Format interest: ${source.format}` : '',
+        source.notes || '',
+      ].filter(Boolean).join('\n');
+      if (context) form.elements.notes.value = context.slice(0, 1500);
+    }
+  } catch {
+    sessionStorage.removeItem('mewepakCategoryEnquiryV1');
+  }
+
   const enquiry = new URLSearchParams(location.search);
   form.elements.size.value = (enquiry.get('size') || '').trim().slice(0, 120);
   const finish = enquiry.get('finish');
