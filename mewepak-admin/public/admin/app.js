@@ -59,6 +59,16 @@ const siteSettingEditors = {
     { name: 'poster_url', label: '视频封面链接', full: true },
     { name: '_poster', label: '上传视频封面', type: 'file', accept: 'image/png,image/jpeg,image/webp,image/avif', target: 'poster_url', folder: 'factory-posters', full: true },
   ] },
+  social_media: { title: '社交媒体', fields: [
+    { name: 'whatsapp_url', label: 'WhatsApp 链接', full: true, help: '例如：https://wa.me/8613537663353' },
+    { name: 'facebook_url', label: 'Facebook 链接', full: true },
+    { name: 'instagram_url', label: 'Instagram 链接', full: true },
+    { name: 'linkedin_url', label: 'LinkedIn 链接', full: true },
+    { name: 'twitter_url', label: 'X / Twitter 链接', full: true },
+    { name: 'youtube_url', label: 'YouTube 链接', full: true },
+    { name: 'tiktok_url', label: 'TikTok 链接', full: true },
+    { name: 'pinterest_url', label: 'Pinterest 链接', full: true },
+  ] },
   languages: { title: '语言入口', fields: [] },
 };
 
@@ -86,6 +96,11 @@ function settingSummary(row) {
   if (row.key === 'company_contact') return [value.email, value.phone, value.whatsapp].filter(Boolean).join(' · ');
   if (row.key === 'us_locations') return [value.address_1, value.address_2, value.address_3, value.toll_free, value.front_desk].filter(Boolean).join(' · ');
   if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';
+  if (row.key === 'social_media') {
+    const active = ['whatsapp_url','facebook_url','instagram_url','linkedin_url','twitter_url','youtube_url','tiktok_url','pinterest_url']
+      .filter((key) => value[key]).length;
+    return active ? `已设置 ${active} 个社媒入口` : '尚未添加社媒链接';
+  }
   if (row.key === 'languages') return value.links?.length ? value.links.map((link) => link.label).join('、') : '尚未添加其他语言入口';
   return '高级设置';
 }
@@ -214,7 +229,7 @@ const definitions = {
     ],
   },
   settings: {
-    table: 'site_settings', title: '网站设置', description: '修改网站名称、联系方式、工厂视频和语言入口。', singular: 'setting', add: '新增高级设置',
+    table: 'site_settings', title: '网站设置', description: '修改网站名称、联系方式、社交媒体、工厂视频和语言入口。', singular: 'setting', add: '新增高级设置',
     columns: ['key', 'value', 'is_public'],
     fields: [
       { name: 'key', label: '设置名称', required: true },
