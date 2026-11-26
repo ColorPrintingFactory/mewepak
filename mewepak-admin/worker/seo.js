@@ -74,7 +74,7 @@ export async function seoEndpoint(request, env, database, getAsset) {
   if (url.pathname !== '/sitemap.xml') return null;
   try {
     const paths = await publishedSeoPaths(database, getAsset);
-    const sitemapPaths = [...paths, ...localizedPaths(paths)].sort();
+    const sitemapPaths = [...paths].sort();
     const body = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
       sitemapPaths.map((path) => `  <url><loc>${new URL(path, policy.origin).href.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>\n';
     return new Response(request.method === 'HEAD' ? null : body, {
@@ -173,12 +173,7 @@ export function pageMetadata(policy, defaults, { page, catalog, previous, settin
     })) });
     current.breadcrumb = { '@id': breadcrumbId };
   }
-  if (kind === 'products') {
-    const id = url + '#product';
-    graph.push({ '@type': 'Product', '@id': id, name, url, brand: { '@id': orgId },
-      ...(description && { description }), ...(image && { image }) });
-    current.mainEntity = { '@id': id };
-  } else if (kind === 'articles') {
+  if (kind === 'articles') {
     const id = url + '#article';
     graph.push({ '@type': 'BlogPosting', '@id': id, headline: name, publisher: { '@id': orgId },
       mainEntityOfPage: { '@id': current['@id'] },
