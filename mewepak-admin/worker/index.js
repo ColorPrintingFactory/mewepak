@@ -326,7 +326,47 @@ function withSecurityHeaders(response, path, env, settings) {
   return result;
 }
 
+const FRESH_ASSET_COMMIT = 'c6f8ee3089646f4ea2eb8e5bb0d2c1edacdd891c';
+const FRESH_PUBLIC_ASSETS = new Set([
+  '/admin/index.html',
+  '/admin/app.js',
+  '/admin/styles.css',
+  '/assets/storefront-forms.js',
+  '/assets/category-booking.js',
+  '/assets/client-design/home.js',
+  '/assets/client-design/home.css',
+  '/assets/client-design/quote.js',
+  '/assets/client-design/quote.css',
+  '/inquiry/index.html',
+]);
+
+async function fetchPinnedPublicAsset(request, requestedPath, context) {
+  const upstream = 'https://raw.githubusercontent.com/ColorPrintingFactory/mewepak/' + FRESH_ASSET_COMMIT + '/mewepak-admin/public' + requestedPath;
+  const cacheKey = new Request('https://mewepak-assets.invalid' + requestedPath + '?commit=' + FRESH_ASSET_COMMIT);
+  const cache = caches.default;
+  const cached = await cache.match(cacheKey);
+  if (cached) return request.method === 'HEAD' ? new Response(null, cached) : cached;
+  const response = await fetch(upstream, { headers: { accept: request.headers.get('accept') || '*/*' } });
+  if (!response.ok) return response;
+  const headers = new Headers(response.headers);
+  const extension = requestedPath.split('.').pop()?.toLowerCase() || '';
+  const mimeTypes = {
+    html: 'text/html; charset=utf-8', css: 'text/css; charset=utf-8',
+    js: 'text/javascript; charset=utf-8', json: 'application/json; charset=utf-8',
+  };
+  if (mimeTypes[extension]) headers.set('content-type', mimeTypes[extension]);
+  headers.set('cache-control', requestedPath.startsWith('/admin/') ? 'no-store' : 'public, max-age=31536000, immutable');
+  headers.delete('content-length');
+  const result = new Response(response.body, { status: response.status, headers });
+  if (context?.waitUntil) context.waitUntil(cache.put(cacheKey, result.clone()).catch(() => {}));
+  return request.method === 'HEAD' ? new Response(null, result) : result;
+}
+
 async function fetchStaticAsset(request, env, context) {
+  const assetUrl = new URL(request.url);
+  const freshRequestedPath = assetUrl.pathname.endsWith('/') ? assetUrl.pathname + 'index.html'
+    : /\.[a-z0-9]+$/i.test(assetUrl.pathname) || assetUrl.pathname.startsWith('/assets/') ? assetUrl.pathname : assetUrl.pathname + '/index.html';
+  if (FRESH_PUBLIC_ASSETS.has(freshRequestedPath)) return fetchPinnedPublicAsset(request, freshRequestedPath, context);
   if (env.ASSETS && typeof env.ASSETS.fetch === 'function') {
     const response = await env.ASSETS.fetch(request);
     if (!response.ok) return response;
