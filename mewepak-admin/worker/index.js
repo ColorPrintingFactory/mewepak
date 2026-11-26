@@ -326,7 +326,17 @@ function withSecurityHeaders(response, path, env, settings) {
 }
 
 async function fetchStaticAsset(request, env, context) {
-  if (env.ASSETS && typeof env.ASSETS.fetch === 'function') return env.ASSETS.fetch(request);
+  if (env.ASSETS && typeof env.ASSETS.fetch === 'function') {
+    const response = await env.ASSETS.fetch(request);
+    if (!response.ok) return response;
+    const url = new URL(request.url);
+    const headers = new Headers(response.headers);
+    if (url.pathname.startsWith('/assets/')) {
+      const versioned = url.searchParams.has('v') || /\/[a-f0-9]{12,}\.(?:css|js|png|jpe?g|webp|avif|svg|woff2?)$/i.test(url.pathname);
+      headers.set('cache-control', versioned ? 'public, max-age=31536000, immutable' : 'public, max-age=86400');
+    }
+    return new Response(request.method === 'HEAD' ? null : response.body, { status: response.status, headers });
+  }
   if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed.', { status: 405, headers: { allow: 'GET, HEAD' } });
   const commit = cleanText(env.ASSET_COMMIT_SHA, 64);
   if (!/^[a-f0-9]{40}$/.test(commit)) return new Response('Static asset source is not configured.', { status: 503 });
