@@ -1,4 +1,32 @@
 (async () => {
+  const enquiryForm = document.querySelector('form[data-category-enquiry]');
+  if (enquiryForm) {
+    enquiryForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!enquiryForm.reportValidity()) return;
+      const data = new FormData(enquiryForm);
+      const field = (name) => String(data.get(name) || '').trim();
+      const payload = {
+        category: field('category').slice(0, 120),
+        name: field('name').slice(0, 120),
+        email: field('email').slice(0, 254),
+        company: field('company').slice(0, 160),
+        country: field('country').slice(0, 100),
+        application: field('application').slice(0, 160),
+        quantity: field('quantity').slice(0, 100),
+        dimensions: field('dimensions').slice(0, 120),
+        format: field('format').slice(0, 160),
+        notes: field('notes').slice(0, 1500),
+      };
+      try {
+        sessionStorage.setItem('mewepakCategoryEnquiryV1', JSON.stringify(payload));
+      } catch {
+        // Do not fall back to a query string containing contact details.
+      }
+      window.location.assign('/inquiry/#quote-request');
+    });
+  }
+
   const preview = document.querySelector('.mewepak-booking-schedule--inline');
   if (!preview) return;
 
