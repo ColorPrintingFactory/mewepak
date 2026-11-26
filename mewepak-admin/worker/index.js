@@ -447,6 +447,16 @@ export default {
       url.pathname = '/admin/';
       return Response.redirect(url, 308);
     }
+    if (url.pathname === '/admin/' && request.method === 'GET') {
+      const adminPage = await fetchStaticAsset(request, env, context);
+      if (!adminPage.ok) return withSecurityHeaders(adminPage, url.pathname, env);
+      const headers = new Headers(adminPage.headers);
+      headers.set('content-type', 'text/html; charset=utf-8');
+      headers.set('cache-control', 'no-store');
+      headers.delete('content-length');
+      const html = (await adminPage.text()).replace('/admin/app.js?v=site-settings-3', '/admin/app.js?v=site-settings-4');
+      return withSecurityHeaders(new Response(html, { status: 200, headers }), url.pathname, env);
+    }
     if (url.pathname === '/admin/app.js' && request.method === 'GET') {
       const adminAsset = await fetchStaticAsset(request, env, context);
       if (!adminAsset.ok) return withSecurityHeaders(adminAsset, url.pathname, env);
