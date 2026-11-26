@@ -225,3 +225,30 @@ input[type="file"].control { padding: 7px; color: #667588; }
 .table-wrap { width: 100%; overflow-x: auto; }
 .day-picker { display: flex; flex-wrap: wrap; gap: 8px; }
 .day-picker .checkbox-field { min-width: 70px; }
+
+.quick-title, .quick-sub { display: block; }
+.media-thumb, .media-file-icon {
+  width: 44px; height: 44px; flex: 0 0 44px; border: 1px solid var(--line);
+  border-radius: 9px; background: #f4f8f8; object-fit: cover;
+}
+.media-file-icon { display: grid; place-items: center; color: var(--teal-dark); }
+.media-file-icon svg { width: 18px; height: 18px; }
+.pager { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px; border-top: 1px solid var(--line); }
+.pager .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+@media (max-width: 760px) {
+  .sidebar:not(.open) { box-shadow: none; }
+  .table-wrap { overflow: visible; padding: 10px; }
+  .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap td { display: block; width: 100%; min-width: 0; }
+  .table-wrap thead { display: none; }
+  .table-wrap tbody { display: grid; gap: 10px; }
+  .table-wrap tr { padding: 10px 11px; border: 1px solid var(--line); border-radius: 11px; background: #fff; box-shadow: 0 3px 12px rgba(10,22,40,.03); }
+  .table-wrap td { padding: 6px 0; border: 0; overflow-wrap: anywhere; }
+  .table-wrap td + td { border-top: 1px dashed #edf0f2; }
+  .table-wrap td:last-child { padding-top: 10px; }
+  .table-wrap .actions { justify-content: flex-start; flex-wrap: wrap; }
+  .table-wrap .row-product { min-width: 0; }
+  .toolbar-left { flex-wrap: wrap; }
+  .toolbar-left .select-small { flex: 1 1 140px; }
+  .pager { justify-content: space-between; }
+}
