@@ -563,7 +563,7 @@
     "      <div class=\"text-center mb-6\">",
     "        <h4 class=\"!font-bold !text-white !text-base mb-4\">Connect With Social</h4>",
     "        <div class=\"flex flex-wrap items-center justify-center gap-3\">",
-    "          <a href=\"https://wa.me/8613537663353\" class=\"px-4 py-2 !bg-white !text-[#00cfca] !text-sm font-medium !rounded-full hover:!bg-white/90 transition-colors\">WhatsApp</a>",
+    "          <a href=\"https://wa.me/8613537663353\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"WhatsApp\" title=\"WhatsApp\" class=\"mewepak-social-icon\" style=\"display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid #079b97;border-radius:999px;background:#fff;color:#079b97;text-decoration:none\" ><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 11.5a8.5 8.5 0 0 1-12.35 7.6L3 21l1.9-5.65A8.5 8.5 0 1 1 21 11.5Z\"/><path d=\"M8.4 8.2c.25-.55.5-.56.74-.57h.63c.2 0 .42.07.53.32l.75 1.8c.08.2.04.38-.08.55l-.53.7c-.11.15-.2.28-.08.49.36.62.82 1.16 1.37 1.62.6.5 1.22.88 1.92 1.16.2.08.35.04.48-.12l.85-1c.16-.2.34-.23.55-.13l1.86.88c.2.1.34.18.39.29.04.1.04.6-.15 1.17-.2.58-1.13 1.1-1.6 1.17-.4.06-.93.08-1.5-.1-.35-.11-.8-.26-1.38-.52a9.64 9.64 0 0 1-3.72-3.28c-.1-.14-.91-1.2-.91-2.29 0-1.09.57-1.62.78-1.84.2-.22.43-.28.58-.28Z\"/></svg><span style=\"position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0\">WhatsApp</span></a>",
     "        </div>",
     "      </div>",
     "",
