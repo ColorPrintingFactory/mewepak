@@ -72,7 +72,7 @@
 
     const subject = `Packaging quote request — ${value('product')}`;
     const brief = details.map(([label, detail]) => `${label}: ${detail}`).join('\n');
-    const body = `Hello MewePak,\n\nI’d like a quote for this packaging project.\n\n${brief}\n\nThank you.`;
+    const body = `Hello Mewepak,\n\nI’d like a quote for this packaging project.\n\n${brief}\n\nThank you.`;
     download.href = `data:text/plain;charset=utf-8,${encodeURIComponent(body)}`;
     window.mewepakClient.fillBrief('qt', formData, brief);
     form.hidden = true;
