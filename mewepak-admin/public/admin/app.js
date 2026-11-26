@@ -1058,6 +1058,9 @@ async function deleteRecord(module, id) {
     if (count) return showToast(`不能删除“${label}”：该分类下还有 ${count} 个产品，请先移动或删除产品。`, true);
   }
   if (!window.confirm(`确定删除“${label}”吗？此操作不可撤销。`)) return;
+  if (module === 'media' && row?.public_url?.startsWith('/assets/')) {
+    return showToast('这是随网站发布的内置素材，不能在媒体库里物理删除源文件。需要替换或删除站点资源时请通过网站发布流程处理。', true);
+  }
   if (module === 'media' && row?.public_url) {
     try {
       const marker = '/storage/v1/object/public/site-media/';
