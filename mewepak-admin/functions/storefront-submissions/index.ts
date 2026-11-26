@@ -54,6 +54,7 @@ Deno.serve(async (request: Request) => {
         contact_name, company, email, message, product_type,
         phone: read('phone', 60), quantity: read('quantity', 120),
         product_context: read('product_context', 180),
+        source_page: /^\/(?!\/)[a-z0-9/_-]*$/i.test(read('source_page', 250)) ? read('source_page', 250) : '',
       }),
     });
     return respond(response.ok ? 200 : 502);
