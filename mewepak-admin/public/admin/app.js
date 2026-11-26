@@ -10,6 +10,9 @@ let activeSection = 'overview';
 let cachedCategories = [];
 let cachedProducts = [];
 let renderToken = 0;
+const listViewState = {
+  products: { query: '', category: '', status: '', page: 1, pageSize: 25 },
+};
 
 const navGroups = [
   { label: '工作台', items: [{ id: 'overview', label: '工作台', icon: 'grid' }] },
@@ -271,6 +274,44 @@ function showToast(message, error = false) {
   window.setTimeout(() => toast.remove(), 3600);
 }
 
+function friendlyError(error, fallback = '操作失败，请重试。') {
+  const message = String(error?.message || error || '');
+  const known = [
+    ['category_has_products', '该分类下仍有产品，请先移动或删除这些产品。'],
+    ['published_product_requires_category', '发布产品前必须先选择产品分类。'],
+    ['published_product_requires_published_category', '发布产品前请先把所属分类设为“已发布”。'],
+    ['invalid_model_url', '3D 模型链接必须是有效的 HTTPS / 站内 GLB 或 GLTF 文件。'],
+    ['invalid_model_poster_url', '3D 预览图必须是有效的 HTTPS / 站内 PNG、JPG、WebP 或 AVIF 图片。'],
+    ['duplicate key value', '保存失败：网址路径或其他唯一字段已被占用。'],
+    ['violates check constraint', '保存内容不符合要求，请检查网址路径、状态或关联关系。'],
+    ['slot_end', '结束时间必须晚于开始时间。'],
+    ['booking_settings', '预约时间设置不符合要求，请检查营业时段和时长。'],
+  ];
+  return known.find(([needle]) => message.includes(needle))?.[1] || (message && !/database|postgres|constraint|violates/i.test(message) ? message : fallback);
+}
+
+function bindDirtyGuard(form) {
+  let dirty = false;
+  const mark = () => { dirty = true; };
+  form.addEventListener('input', mark);
+  form.addEventListener('change', mark);
+  form._markClean = () => { dirty = false; };
+  form.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (dirty && !window.confirm('有尚未保存的修改，确定关闭吗？')) return;
+    dialog.close();
+  }));
+  dialog.oncancel = (event) => {
+    if (dirty && !window.confirm('有尚未保存的修改，确定关闭吗？')) event.preventDefault();
+  };
+  dialog.onclose = () => { dialog.oncancel = null; dialog.onclose = null; };
+}
+
+function sectionFromHash() {
+  const value = location.hash.replace(/^#/, '');
+  return navGroups.flatMap((group) => group.items).some((item) => item.id === value) ? value : 'overview';
+}
+
 function openPasswordDialog() {
   dialog.innerHTML = `<form id="password-form"><div class="dialog-head"><h2>修改登录密码</h2><button class="icon-btn" type="button" data-close aria-label="关闭">×</button></div><div class="dialog-body"><div class="field-grid"><div class="field full"><label for="new-password">新密码</label><input class="control" id="new-password" name="password" type="password" autocomplete="new-password" minlength="12" required><span class="field-help">至少 12 位，建议同时包含大小写字母、数字和符号。</span></div><div class="field full"><label for="confirm-password">确认新密码</label><input class="control" id="confirm-password" name="confirm" type="password" autocomplete="new-password" minlength="12" required></div></div><div class="error-box" role="alert" hidden></div></div><div class="dialog-foot"><button class="btn btn-plain" type="button" data-close>取消</button><button class="btn btn-primary" type="submit">更新密码</button></div></form>`;
   const form = dialog.querySelector('#password-form');
@@ -480,9 +521,14 @@ function rowFor(module, row) {
   if (module === 'pages') return `<tr><td><div class="row-primary">${esc(row.title)}</div><div class="row-secondary">${esc(row.summary || '')}</div></td><td>${esc(row.slug)}</td><td>${esc(row.template_key)}</td><td>${statusBadge(row.status)}</td><td>${actionsFor(module,id)}</td></tr>`;
   if (module === 'articles') return `<tr><td><div class="row-primary">${esc(row.title)}</div><div class="row-secondary">${esc(row.excerpt || '')}</div></td><td>${esc(row.slug)}</td><td>${formatDate(row.published_at)}</td><td>${statusBadge(row.status)}</td><td>${actionsFor(module,id)}</td></tr>`;
   if (module === 'models') return `<tr><td><div class="row-primary">${esc(row.name)}</div><div class="row-secondary">${esc(row.model_url || '')}</div></td><td>${row.product?.name ? esc(row.product.name) : '未设置'}</td><td>${statusBadge(row.status)}</td><td>${actionsFor(module,id)}</td></tr>`;
-  if (module === 'media') return `<tr><td><div class="row-primary">${esc(row.file_name)}</div><div class="row-secondary">${esc(row.alt_text || '')}</div></td><td>${esc(row.mime_type || '—')}</td><td><a href="${esc(row.public_url)}" target="_blank" rel="noopener">查看文件 ${icon('external')}</a></td><td>${formatDate(row.created_at)}</td><td>${actionsFor(module,id)}</td></tr>`;
-  if (module === 'settings') return `<tr><td><div class="row-primary">${esc(findSettingEditor(row.key)?.title || row.key)}</div></td><td><div class="row-secondary">${esc(settingSummary(row) || '尚未填写')}</div></td><td>${row.is_public ? '<span class="badge published">启用</span>' : '<span class="badge archived">未启用</span>'}</td><td>${actionsFor(module,id,false)}</td></tr>`;
-  if (module === 'inquiries') return `<tr><td><div class="row-primary">${esc(row.contact_name)}</div><div class="row-secondary">${esc(row.phone || '')}</div></td><td>${esc(row.company || '—')}</td><td>${esc(row.email)}</td><td><select class="select-small" data-action="inquiry-status" data-id="${id}">${[['new','待跟进'],['in_progress','跟进中'],['replied','已回复'],['closed','已关闭']].map(([v,l])=>`<option value="${v}"${row.status===v?' selected':''}>${l}</option>`).join('')}</select></td><td>${formatDate(row.created_at)}</td><td><button class="btn btn-plain" type="button" data-inquiry-detail="${id}">查看详情</button></td></tr>`;
+  if (module === 'media') {
+    const imagePreview = /^image\//i.test(row.mime_type || '') && row.public_url
+      ? `<img class="media-thumb" src="${esc(row.public_url)}" alt="">`
+      : `<span class="media-file-icon">${icon('file')}</span>`;
+    return `<tr><td><div class="row-product">${imagePreview}<span><span class="row-primary">${esc(row.file_name)}</span><span class="row-secondary">${esc(row.alt_text || '')}</span></span></div></td><td>${esc(row.mime_type || '—')}</td><td><a href="${esc(row.public_url)}" target="_blank" rel="noopener">查看文件 ${icon('external')}</a></td><td>${formatDate(row.created_at)}</td><td>${actionsFor(module,id)}</td></tr>`;
+  }
+  if (module === 'settings') return `<tr><td><div class="row-primary">${esc(findSettingEditor(row.key)?.title || row.key)}</div></td><td><div class="row-secondary">${esc(settingSummary(row) || '尚未填写')}</div></td><td>${row.is_public ? '<span class="badge published">启用</span>' : '<span class="badge archived">未启用</span>'}</td><td>${actionsFor(module,id,!findSettingEditor(row.key))}</td></tr>`;
+  if (module === 'inquiries') return `<tr><td><div class="row-primary">${esc(row.contact_name)}</div><div class="row-secondary">${esc(row.phone || '')}</div></td><td>${esc(row.company || '—')}</td><td>${esc(row.email)}</td><td><select class="select-small" data-action="inquiry-status" data-id="${id}">${[['new','待跟进'],['in_progress','跟进中'],['replied','已回复'],['closed','已关闭']].map(([v,l])=>`<option value="${v}"${row.status===v?' selected':''}>${l}</option>`).join('')}</select></td><td>${formatDate(row.created_at)}</td><td><div class="actions"><button class="btn btn-plain" type="button" data-inquiry-detail="${id}">详情</button><button class="icon-btn" type="button" data-action="delete" data-module="inquiries" data-id="${id}" aria-label="删除询价">${icon('trash')}</button></div></td></tr>`;
   if (module === 'subscribers') return `<tr><td>${esc(row.email)}</td><td>${esc(row.source_page)}</td><td>${formatDate(row.created_at)}</td><td><button class="icon-btn" type="button" data-action="delete" data-module="subscribers" data-id="${id}" aria-label="删除订阅">${icon('trash')}</button></td></tr>`;
   return '';
 }
@@ -492,10 +538,15 @@ async function renderListModule(module) {
   try {
     let rows;
     if (module === 'products') {
-      const result = await supabase.from('products').select('*, category:product_categories(name)').order('sort_order').order('name');
+      const [result, categories] = await Promise.all([
+        supabase.from('products').select('*, category:product_categories(id,name,status)').order('sort_order').order('name'),
+        supabase.from('product_categories').select('id,name,status').order('name'),
+      ]);
       if (result.error) throw result.error;
+      if (categories.error) throw categories.error;
       rows = result.data || [];
       cachedProducts = rows;
+      cachedCategories = categories.data || [];
     } else if (module === 'models') {
       const result = await supabase.from('model_assets').select('*, product:products(name)').order('sort_order').order('name');
       if (result.error) throw result.error;
@@ -514,12 +565,34 @@ async function renderListModule(module) {
     if (module === 'categories') cachedCategories = rows;
     const title = definition.title;
     const addButton = definition.add ? `<button type="button" class="btn btn-primary" data-action="add" data-module="${module}">${icon('plus')}${esc(definition.add)}</button>` : '';
+    const exportButton = module === 'inquiries' ? '<button type="button" class="btn btn-plain" data-action="export-inquiries">导出 CSV</button>' : '';
     const menu = module === 'categories' ? categoryPreview(rows) : '';
-    const rowsHtml = rows.map((row) => rowFor(module,row)).join('');
-    const table = rows.length ? `<div class="table-wrap"><table>${tableHead(definition.columns)}<tbody>${rowsHtml}</tbody></table></div>` : emptyState(`暂无${recordNames[module]}`, `${definition.add ? '点击右上角按钮添加。' : '收到新记录后会在这里显示。'}`);
-    return `${heading(title, definition.description, addButton)}${menu}<section class="card"><div class="toolbar"><div class="toolbar-left"><label class="search-box">${icon('search')}<input id="list-search" type="search" placeholder="搜索${esc(definition.title)}" aria-label="搜索${esc(definition.title)}"></label></div><div class="toolbar-right"><span class="row-secondary">共 ${rows.length} 条</span></div></div>${table}</section>`;
+    let visibleRows = rows;
+    let toolbarExtra = '';
+    let countLabel = `共 ${rows.length} 条`;
+    let pager = '';
+    if (module === 'products') {
+      const state = listViewState.products;
+      const query = state.query.trim().toLowerCase();
+      visibleRows = rows.filter((row) =>
+        (!query || [row.name,row.slug,row.short_description,row.category?.name].some((value) => String(value || '').toLowerCase().includes(query))) &&
+        (!state.category || String(row.category?.id || '') === state.category) &&
+        (!state.status || row.status === state.status)
+      );
+      const total = visibleRows.length;
+      const pages = Math.max(1, Math.ceil(total / state.pageSize));
+      state.page = Math.min(Math.max(1, state.page), pages);
+      const start = (state.page - 1) * state.pageSize;
+      visibleRows = visibleRows.slice(start, start + state.pageSize);
+      countLabel = `筛选后 ${total} / 共 ${rows.length} 条`;
+      toolbarExtra = `<select class="select-small" id="product-category-filter" aria-label="按分类筛选"><option value="">全部分类</option>${cachedCategories.map((row)=>`<option value="${esc(row.id)}"${state.category===String(row.id)?' selected':''}>${esc(row.name)}</option>`).join('')}</select><select class="select-small" id="product-status-filter" aria-label="按状态筛选"><option value="">全部状态</option>${[['draft','草稿'],['published','已发布'],['archived','已下架']].map(([v,l])=>`<option value="${v}"${state.status===v?' selected':''}>${l}</option>`).join('')}</select>`;
+      pager = `<div class="pager"><button class="btn btn-plain btn-small" type="button" data-page-step="-1"${state.page<=1?' disabled':''}>上一页</button><span class="row-secondary">第 ${state.page} / ${pages} 页</span><button class="btn btn-plain btn-small" type="button" data-page-step="1"${state.page>=pages?' disabled':''}>下一页</button></div>`;
+    }
+    const rowsHtml = visibleRows.map((row) => rowFor(module,row)).join('');
+    const table = visibleRows.length ? `<div class="table-wrap"><table>${tableHead(definition.columns)}<tbody>${rowsHtml}</tbody></table></div>` : emptyState('没有匹配结果', '请调整搜索词或筛选条件。');
+    return `${heading(title, definition.description, addButton + exportButton)}${menu}<section class="card"><div class="toolbar"><div class="toolbar-left"><label class="search-box">${icon('search')}<input id="list-search" type="search" placeholder="搜索${esc(definition.title)}" aria-label="搜索${esc(definition.title)}" value="${esc(module === 'products' ? listViewState.products.query : '')}"></label>${toolbarExtra}</div><div class="toolbar-right"><span class="row-secondary">${countLabel}</span></div></div>${table}${pager}</section>`;
   } catch (error) {
-    return `${heading(definition.title, definition.description)}${errorState(`暂时无法加载${definition.title}。请刷新后重试。`)}`;
+    return `${heading(definition.title, definition.description)}${errorState('暂时无法加载' + definition.title + '。请刷新后重试。')}`;
   }
 }
 
@@ -584,15 +657,29 @@ async function renderApp() {
   bindShellEvents();
 }
 
+function exportInquiriesCsv() {
+  const rows = moduleState.get('inquiries') || [];
+  const fields = [['created_at','提交时间'],['contact_name','联系人'],['company','公司'],['email','邮箱'],['phone','电话'],['product_type','包装类型'],['product_context','产品/来源上下文'],['quantity','数量'],['message','需求详情'],['source_page','来源页面'],['internal_notes','内部备注'],['status','状态']];
+  const csv = [fields.map(([,label]) => label), ...rows.map((row) => fields.map(([key]) => row[key] ?? ''))]
+    .map((line) => line.map((value) => '"' + String(value).replaceAll('"','""') + '"').join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = Object.assign(document.createElement('a'), { href: url, download: 'mewepak-inquiries-' + new Date().toISOString().slice(0,10) + '.csv' });
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 function bindShellEvents() {
   app.querySelectorAll('[data-section]').forEach((button) => button.addEventListener('click', async () => {
     activeSection = button.dataset.section;
+    if (location.hash !== '#' + activeSection) history.pushState(null, '', '#' + activeSection);
     document.querySelector('#sidebar')?.classList.remove('open');
     await renderApp();
   }));
   app.querySelector('[data-action="mobile-menu"]')?.addEventListener('click', () => document.querySelector('#sidebar')?.classList.toggle('open'));
   app.querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
   app.querySelector('[data-action="change-password"]')?.addEventListener('click', openPasswordDialog);
+  app.querySelector('[data-action="export-inquiries"]')?.addEventListener('click', exportInquiriesCsv);
   app.querySelector('[data-action="signout"]')?.addEventListener('click', async () => {
     await supabase.auth.signOut();
     currentUser = null;
@@ -604,16 +691,47 @@ function bindShellEvents() {
   app.querySelectorAll('[data-inquiry-detail]').forEach((button) => button.addEventListener('click', () => {
     const inquiry = moduleState.get('inquiries')?.find((row) => row.id === button.dataset.inquiryDetail);
     if (!inquiry) return;
-    const fields = [['名称', inquiry.contact_name], ['公司', inquiry.company], ['邮箱', inquiry.email], ['电话', inquiry.phone], ['包装类型', inquiry.product_type], ['产品', inquiry.product_context], ['数量', inquiry.quantity], ['需求详情', inquiry.message]];
-    dialog.innerHTML = `<div class="dialog-head"><h2>询价详情</h2><button type="button" class="icon-btn" data-close aria-label="关闭">×</button></div><div class="dialog-body"><dl>${fields.filter(([,value]) => value).map(([label,value]) => `<dt class="row-primary">${esc(label)}</dt><dd style="margin:0 0 12px;white-space:pre-wrap;overflow-wrap:anywhere">${esc(value)}</dd>`).join('')}</dl></div>`;
-    dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
+    const fields = [['名称', inquiry.contact_name], ['公司', inquiry.company], ['邮箱', inquiry.email], ['电话', inquiry.phone], ['包装类型', inquiry.product_type], ['产品', inquiry.product_context], ['数量', inquiry.quantity], ['来源页面', inquiry.source_page], ['提交时间', inquiry.created_at], ['需求详情', inquiry.message]];
+    dialog.innerHTML = `<form id="inquiry-note-form" data-id="${esc(inquiry.id)}"><div class="dialog-head"><h2>询价详情</h2><button type="button" class="icon-btn" data-close aria-label="关闭">×</button></div><div class="dialog-body"><dl>${fields.filter(([,value]) => value).map(([label,value]) => `<dt class="row-primary">${esc(label)}</dt><dd style="margin:0 0 12px;white-space:pre-wrap;overflow-wrap:anywhere">${esc(value)}</dd>`).join('')}</dl><div class="field"><label for="inquiry-notes">内部备注</label><textarea class="control" id="inquiry-notes" name="internal_notes" rows="5">${esc(inquiry.internal_notes || '')}</textarea></div></div><div class="dialog-foot"><button class="btn btn-plain" type="button" data-close>关闭</button><button class="btn btn-primary" type="submit">保存备注</button></div></form>`;
+    const form = dialog.querySelector('#inquiry-note-form');
+    bindDirtyGuard(form);
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const { error } = await supabase.from('inquiries').update({ internal_notes: form.elements.internal_notes.value.trim(), updated_at: new Date().toISOString() }).eq('id', inquiry.id);
+      if (error) return showToast(friendlyError(error, '备注保存失败，请重试。'), true);
+      form._markClean?.();
+      dialog.close();
+      showToast('询价备注已保存');
+      await renderApp();
+    });
     dialog.showModal();
   }));
   app.querySelectorAll('[data-action="booking-status"],[data-action="inquiry-status"]').forEach((select) => select.addEventListener('change', async () => updateStatus(select.dataset.action === 'booking-status' ? 'appointments' : 'inquiries', select.dataset.id, select.value)));
-  app.querySelector('#list-search')?.addEventListener('input', (event) => {
+  app.querySelector('#list-search')?.addEventListener('input', async (event) => {
+    if (activeSection === 'products') {
+      listViewState.products.query = event.target.value;
+      listViewState.products.page = 1;
+      await renderApp();
+      app.querySelector('#list-search')?.focus();
+      return;
+    }
     const query = event.target.value.trim().toLowerCase();
     app.querySelectorAll('tbody tr').forEach((row) => { row.hidden = query && !row.textContent.toLowerCase().includes(query); });
   });
+  app.querySelector('#product-category-filter')?.addEventListener('change', async (event) => {
+    listViewState.products.category = event.target.value;
+    listViewState.products.page = 1;
+    await renderApp();
+  });
+  app.querySelector('#product-status-filter')?.addEventListener('change', async (event) => {
+    listViewState.products.status = event.target.value;
+    listViewState.products.page = 1;
+    await renderApp();
+  });
+  app.querySelectorAll('[data-page-step]').forEach((button) => button.addEventListener('click', async () => {
+    listViewState.products.page += Number(button.dataset.pageStep);
+    await renderApp();
+  }));
   app.querySelector('#schedule-form')?.addEventListener('submit', saveSchedule);
 }
 
@@ -670,8 +788,8 @@ function openSiteSetting(item, editor) {
     : `<div class="field-grid">${editor.fields.map((field) => renderEditorField(field, values)).join('')}</div>`;
   dialog.innerHTML = `<form id="setting-form"><div class="dialog-head"><h2>编辑${esc(editor.title)}</h2><button class="icon-btn" type="button" data-close aria-label="关闭">×</button></div><div class="dialog-body">${fields}<label class="checkbox-field setting-toggle"><input type="checkbox" name="enabled"${item.is_public ? ' checked' : ''}> 在网站启用</label><div class="error-box" role="alert" hidden></div></div><div class="dialog-foot"><button class="btn btn-plain" type="button" data-close>取消</button><button class="btn btn-primary" type="submit">保存</button></div></form>`;
   const form = dialog.querySelector('#setting-form');
+  bindDirtyGuard(form);
   form.addEventListener('click', (event) => {
-    if (event.target.closest('[data-close]')) dialog.close();
     if (event.target.closest('[data-remove-language]')) event.target.closest('[data-language-row]')?.remove();
     if (event.target.closest('[data-add-language]')) {
       const list = form.querySelector('[data-language-list]');
@@ -718,11 +836,12 @@ function openSiteSetting(item, editor) {
         value, is_public: data.has('enabled'), updated_at: new Date().toISOString(),
       }).eq('key', item.key);
       if (error) throw new Error('保存失败，请稍后重试。');
+      form._markClean?.();
       dialog.close();
       showToast(`${editor.title}已保存`);
       await renderApp();
     } catch (error) {
-      errorBox.textContent = error instanceof Error ? error.message : '保存失败，请重试。';
+      errorBox.textContent = friendlyError(error, '保存失败，请重试。');
       errorBox.hidden = false;
       button.disabled = false;
       button.textContent = '保存';
@@ -819,8 +938,9 @@ async function openEditor(module, id = '') {
   const basic = definition.fields.filter((field) => !advancedNames.has(field.name));
   const advanced = definition.fields.filter((field) => advancedNames.has(field.name) && !(field.name === 'page_html' && ['booking','3d-preview'].includes(item.slug)));
   dialog.innerHTML = `<form id="editor-form" data-module="${esc(module)}" data-id="${esc(id)}"><div class="dialog-head"><div><h2>${esc(dialogTitle)}</h2></div><button type="button" class="icon-btn" data-close aria-label="关闭">×</button></div><div class="dialog-body"><div class="field-grid">${basic.map((field)=>renderEditorField(field,item)).join('')}</div>${module === 'pages' ? renderPageOptions(item) : ''}${advanced.length ? `<details class="advanced-fields"><summary>高级选项</summary><div class="field-grid">${advanced.map((field)=>renderEditorField(field,item)).join('')}</div></details>` : ''}<div id="form-error" class="error-box" style="display:none;margin-top:14px"></div></div><div class="dialog-foot"><button type="button" class="btn btn-plain" data-close>取消</button><button type="submit" class="btn btn-primary">保存</button></div></form>`;
-  dialog.querySelectorAll('[data-close]').forEach((button)=>button.addEventListener('click',()=>dialog.close()));
-  dialog.querySelector('#editor-form').addEventListener('submit', saveEditor);
+  const editorForm = dialog.querySelector('#editor-form');
+  bindDirtyGuard(editorForm);
+  editorForm.addEventListener('submit', saveEditor);
   dialog.querySelectorAll('input[type="file"]').forEach((input) => input.addEventListener('change', () => {
     const file = input.files?.[0];
     if (!file) return;
@@ -880,7 +1000,18 @@ async function saveEditor(event) {
       }
       if (field.type === 'datetime-local') value = value ? new Date(value).toISOString() : null;
       if ((field.type === 'category' || field.type === 'product') && value === '') value = null;
-      if (value !== '' || ['textarea','array','json','select'].includes(field.type) || ['value','seo_title','primary_image_url','image_url','featured_image_url'].includes(field.name)) payload[field.name] = value;
+      if (value !== '' || ['textarea','array','json','select'].includes(field.type) || ['value','seo_title','primary_image_url','image_url','featured_image_url','model_url','poster_url'].includes(field.name)) payload[field.name] = value;
+    }
+    if (['categories','products','articles'].includes(module)) {
+      const slug = String(payload.slug || '').trim();
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('网址路径只能使用小写字母、数字和短横线，且不能有空格或 / ? #。');
+      const reserved = new Set(['admin','api','assets','search','contact','products','markets','solutions','blog','about-us','added-value','sustainability','booking','inquiry']);
+      if (module === 'articles' && reserved.has(slug)) throw new Error('这个网址路径属于系统保留路径，请换一个。');
+      payload.slug = slug;
+    }
+    if (module === 'models') {
+      if (payload.model_url && !/^(https:\/\/|\/).*\.(glb|gltf)(?:[?#].*)?$/i.test(payload.model_url)) throw new Error('3D 模型链接必须是 HTTPS / 站内 GLB 或 GLTF 文件。');
+      if (payload.poster_url && !/^(https:\/\/|\/).*\.(png|jpe?g|webp|avif)(?:[?#].*)?$/i.test(payload.poster_url)) throw new Error('预览图链接必须是 HTTPS / 站内图片文件。');
     }
     if (module === 'pages') {
       const previous = moduleState.get(module)?.find((row) => String(row.id) === id)?.sections || [];
@@ -904,6 +1035,7 @@ async function saveEditor(event) {
       result = await supabase.from(table).insert(payload);
     }
     if (result.error) throw result.error;
+    form._markClean?.();
     dialog.close();
     showToast(`${recordNames[module]}已保存`);
     await renderApp();
@@ -917,10 +1049,32 @@ async function saveEditor(event) {
 
 async function deleteRecord(module, id) {
   const definition = definitions[module];
-  if (!definition || !window.confirm(`确定删除这项${recordNames[module]}吗？`)) return;
+  if (!definition) return;
+  const row = moduleState.get(module)?.find((item) => String(item.id || item.key) === String(id));
+  const label = row?.name || row?.title || row?.file_name || row?.contact_name || row?.email || row?.key || recordNames[module];
+  if (module === 'categories') {
+    const { count, error } = await supabase.from('products').select('id', { count: 'exact', head: true }).eq('category_id', id);
+    if (error) return showToast(friendlyError(error, '无法检查分类关联产品。'), true);
+    if (count) return showToast(`不能删除“${label}”：该分类下还有 ${count} 个产品，请先移动或删除产品。`, true);
+  }
+  if (!window.confirm(`确定删除“${label}”吗？此操作不可撤销。`)) return;
+  if (module === 'media' && row?.public_url) {
+    try {
+      const marker = '/storage/v1/object/public/site-media/';
+      const url = new URL(row.public_url);
+      const index = url.pathname.indexOf(marker);
+      if (index >= 0) {
+        const storagePath = decodeURIComponent(url.pathname.slice(index + marker.length));
+        const { error } = await supabase.storage.from('site-media').remove([storagePath]);
+        if (error) throw error;
+      }
+    } catch (error) {
+      return showToast(friendlyError(error, '存储文件删除失败，素材记录未删除。'), true);
+    }
+  }
   const key = module === 'settings' ? 'key' : 'id';
   const { error } = await supabase.from(definition.table).delete().eq(key,id);
-  if (error) return showToast(error.message || '删除失败，请重试。', true);
+  if (error) return showToast(friendlyError(error, '删除失败，请重试。'), true);
   showToast(`${recordNames[module]}已删除`);
   await renderApp();
 }
@@ -932,7 +1086,7 @@ async function updateStatus(table, id, status) {
     if (!existing?.published_at) payload.published_at = new Date().toISOString();
   }
   const { error } = await supabase.from(table).update(payload).eq('id', id);
-  if (error) return showToast(error.message || '状态更新失败，请重试。', true);
+  if (error) return showToast(friendlyError(error, '状态更新失败，请重试。'), true);
   showToast('状态已更新');
   await renderApp();
 }
@@ -1001,6 +1155,8 @@ async function bootstrap() {
       const { data: userData } = await supabase.auth.getUser();
       if (!isStaff(userData?.user)) return loginView('此账号没有后台访问权限。');
       currentUser = userData.user;
+      activeSection = sectionFromHash();
+      if (adminOnlySections.has(activeSection) && !isAdministrator()) activeSection = 'overview';
       await renderApp();
     } else {
       loginView();
@@ -1015,5 +1171,13 @@ async function bootstrap() {
     app.innerHTML = `<div class="signin-wrap"><section class="setup-card"><h1>暂时无法连接后台</h1><p>${esc(error.message || '请稍后重试，或联系网站维护人员。')}</p><button class="btn btn-primary" type="button" data-action="reload">重试</button></section></div>`;
   }
 }
+
+window.addEventListener('hashchange', async () => {
+  if (!currentUser) return;
+  const next = sectionFromHash();
+  if (next === activeSection) return;
+  activeSection = adminOnlySections.has(next) && !isAdministrator() ? 'overview' : next;
+  await renderApp();
+});
 
 bootstrap();
