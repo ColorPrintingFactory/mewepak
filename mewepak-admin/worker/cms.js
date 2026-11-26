@@ -88,7 +88,9 @@ export async function catalogPaths(database) {
     products: 'slug,category:product_categories(slug)',
   };
   const lists = await Promise.all(Object.entries(fields).map(async ([table, select]) => {
-    const response = await database(table + '?' + new URLSearchParams({ select, status: 'eq.published' }));
+    const params = { select, status: 'eq.published' };
+    if (table === 'articles') params.published_at = 'lte.' + new Date().toISOString();
+    const response = await database(table + '?' + new URLSearchParams(params));
     if (!response.ok) throw new Error('Published content unavailable');
     return (await response.json()).map(pathFor[table]);
   }));
@@ -104,7 +106,9 @@ export async function serveCms(request, asset, database, getAsset, capturePage) 
   if (asset.ok && !asset.headers.get('content-type')?.includes('text/html')) return asset;
   try {
     const [lists, base] = await Promise.all([Promise.all(Object.entries(tables).map(async ([table, select]) => {
-      const response = await database(table + '?' + new URLSearchParams({ select, status: 'eq.published', order: table === 'product_categories' ? 'menu_order.asc,slug.asc' : 'slug.asc' }));
+      const params = { select, status: 'eq.published', order: table === 'product_categories' ? 'menu_order.asc,slug.asc' : 'slug.asc' };
+      if (table === 'articles') params.published_at = 'lte.' + new Date().toISOString();
+      const response = await database(table + '?' + new URLSearchParams(params));
       if (!response.ok) throw new Error('Published content unavailable');
       return (await response.json()).map((row) => ({ table, row, path: pathFor[table](row) }));
     })), getAsset('/assets/original/cms-baseline.json')]);
