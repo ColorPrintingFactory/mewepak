@@ -1193,3 +1193,25 @@
   .quote-page .qt-support-grid > div { padding: 16px 8px; }
   .quote-page :is(#qt-artwork-name, #qt-updates-email) { font-size: 16px; }
 }
+
+/* Review action layout */
+.quote-page .qt-review-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  gap: 10px;
+}
+.quote-page .qt-review-actions form {
+  order: -1;
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+.quote-page .qt-review-actions form .qt-button {
+  width: 100%;
+  justify-content: center;
+}
+#mewepak-homepage .qt-review-actions > .qt-secondary {
+  justify-self: start;
+  padding: 4px 0;
+}
