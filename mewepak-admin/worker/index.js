@@ -306,13 +306,22 @@ async function createBookingResponse(request, env) {
   }
 }
 
+const tawkWidgetHtml = '<script type="text/javascript">var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();(function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];s1.async=true;s1.src="https://embed.tawk.to/6b099ce8e9ac553cfe23a86f/default";s1.charset="UTF-8";s1.setAttribute("crossorigin","*");s0.parentNode.insertBefore(s1,s0);})();<\/script>';
+
 function withSecurityHeaders(response, path, env, settings) {
-  const result = new Response(response.body, response);
+  let result = new Response(response.body, response);
   result.headers.set('x-content-type-options', 'nosniff');
   result.headers.set('referrer-policy', 'strict-origin-when-cross-origin');
   result.headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()');
   if (env.ENVIRONMENT === 'production') result.headers.set('strict-transport-security', 'max-age=31536000; includeSubDomains; preload');
   const admin = path.startsWith('/admin');
+  if (!admin && result.headers.get('content-type')?.includes('text/html')) {
+    result = new HTMLRewriter().on('head', {
+      element: (el) => el.append(tawkWidgetHtml, { html: true }),
+    }).transform(result);
+    result.headers.delete('content-length');
+    result.headers.delete('etag');
+  }
   const storageOrigin = /^https:\/\/[a-z0-9]+\.supabase\.co\/?$/i.test(env.SUPABASE_URL || '') ? env.SUPABASE_URL.replace(/\/$/, '') : '';
   const videoUrl = settings?.factory_tour?.video_url;
   let mediaOrigin = '';
@@ -322,7 +331,7 @@ function withSecurityHeaders(response, path, env, settings) {
   }
   result.headers.set('content-security-policy', admin
     ? "default-src 'self'; script-src 'self' https://esm.sh; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://esm.sh; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-    : `default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' ${storageOrigin}${mediaOrigin}; connect-src 'self' blob: https://challenges.cloudflare.com ${storageOrigin}; frame-src https://challenges.cloudflare.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'`);
+    : `default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://cdn.jsdelivr.net https://*.tawk.to; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' ${storageOrigin}${mediaOrigin} https://*.tawk.to; connect-src 'self' blob: https://challenges.cloudflare.com ${storageOrigin} https://*.tawk.to wss://*.tawk.to; frame-src https://challenges.cloudflare.com https://*.tawk.to; font-src 'self' data: https://*.tawk.to; object-src 'none'; base-uri 'self'; form-action 'self'`);
   return result;
 }
 
