@@ -48,8 +48,9 @@ const siteSettingEditors = {
     { name: 'email', label: '联系邮箱', type: 'email', full: true },
     { name: 'phone', label: '联系电话', type: 'tel', help: '请包含国际区号。' },
     { name: 'whatsapp', label: 'WhatsApp 号码', type: 'tel', help: '请包含国际区号。' },
+    { name: 'address', label: '公司地址', full: true },
   ] },
-  us_locations: { title: '页脚美国联系方式', fields: [
+  us_locations: { title: '区域联系方式（可选）', fields: [
     { name: 'address_1', label: '美国地址 1', full: true },
     { name: 'address_2', label: '美国地址 2', full: true },
     { name: 'address_3', label: '美国地址 3', full: true },
@@ -96,7 +97,7 @@ function isSiteLink(value) {
 function settingSummary(row) {
   const value = row.value || {};
   if (row.key === 'brand') return [value.name, value.tagline].filter(Boolean).join(' · ');
-  if (row.key === 'company_contact') return [value.email, value.phone, value.whatsapp].filter(Boolean).join(' · ');
+  if (row.key === 'company_contact') return [value.email, value.phone, value.whatsapp, value.address].filter(Boolean).join(' · ');
   if (row.key === 'us_locations') return [value.address_1, value.address_2, value.address_3, value.toll_free, value.front_desk].filter(Boolean).join(' · ');
   if (row.key === 'factory_tour') return value.video_url ? '已设置视频' : '尚未上传视频';
   if (row.key === 'social_media') {
