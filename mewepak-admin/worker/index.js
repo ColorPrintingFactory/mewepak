@@ -306,7 +306,7 @@ async function createBookingResponse(request, env) {
   }
 }
 
-const tawkWidgetHtml = '<script type="text/javascript">var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();(function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];s1.async=true;s1.src="https://embed.tawk.to/6b099ce8e9ac553cfe23a86f/default";s1.charset="UTF-8";s1.setAttribute("crossorigin","*");s0.parentNode.insertBefore(s1,s0);})();<\/script>';
+const tawkWidgetHtml = '<script async src="https://embed.tawk.to/6b099ce8e9ac553cfe23a86f/default" charset="UTF-8" crossorigin="anonymous"><\/script>';
 
 function withSecurityHeaders(response, path, env, settings) {
   let result = new Response(response.body, response);
