@@ -23,6 +23,7 @@ export async function publicSiteSettings(database) {
   const email = line(contact.email);
   const phone = line(contact.phone);
   const whatsapp = line(contact.whatsapp);
+  const address = line(contact.address);
   const office = values.us_locations || {};
   const telephone = (value) => /^\+?[\d ().-]{6,30}$/.test(value) && /^\d{6,15}$/.test(value.replace(/\D/g, '')) ? value : '';
   const video = (url) => /\.(mp4|webm)(?:[?#]|$)/i.test(url) ? url : '';
@@ -42,6 +43,7 @@ export async function publicSiteSettings(database) {
     email: /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(email) ? email : '',
     phone: telephone(phone),
     whatsapp: telephone(whatsapp),
+    address,
     socials: {
       whatsapp: link(social.whatsapp_url),
       facebook: link(social.facebook_url),
@@ -54,7 +56,7 @@ export async function publicSiteSettings(database) {
     },
     factory_tour: { video_url: video(link(values.factory_tour?.video_url)), poster_url: link(values.factory_tour?.poster_url) },
     usLocations: {
-      addresses: ['address_1','address_2','address_3'].map((key) => line(office[key])).filter(Boolean),
+      addresses: address ? [address] : ['address_1','address_2','address_3'].map((key) => line(office[key])).filter(Boolean),
       tollFree: telephone(line(office.toll_free)), frontDesk: telephone(line(office.front_desk)),
     },
     languages: Array.isArray(values.languages?.links) ? values.languages.links.slice(0, 20).flatMap((item) =>
@@ -272,24 +274,31 @@ export async function connectStorefront(request, response, database, projectUrl,
     if (publicMailto.test(el.getAttribute('href'))) el.remove();
   });
   const locations = 'footer ul.space-y-4';
-  const { addresses = [], tollFree, frontDesk } = usLocations;
-  if (path === '/about-us/global-reach' && (addresses.length || tollFree || frontDesk)) {
-    const phones = [['Toll-free', tollFree], ['Front desk', frontDesk]].filter(([,number]) => number);
+  const { addresses = [] } = usLocations;
+  if (path === '/about-us/global-reach' && (addresses.length || settings.phone || settings.whatsapp)) {
+    text('#global-contact .company-columns article:nth-child(2) h3', 'Head office');
+    const contacts = [
+      settings.phone ? `<a class="company-link" href="tel:${dial(settings.phone)}">Phone: ${encode(settings.phone)}</a>` : '',
+      settings.whatsapp ? `<a class="company-link" href="https://wa.me/${settings.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener">WhatsApp: ${encode(settings.whatsapp)}</a>` : '',
+    ].filter(Boolean).join('');
     on('#company-us-locations', el => el.setInnerContent(
       `${addresses.length ? `<ul>${addresses.map(address => `<li>${encode(address)}</li>`).join('')}</ul>` : ''}
-      <div class="company-actions">${phones.map(([label, number]) =>
-        `<a class="company-link" href="tel:${usTel(number)}">${label}: ${encode(number)}</a>`).join('')}</div>`, { html: true }));
+      ${contacts ? `<div class="company-actions">${contacts}</div>` : ''}`, { html: true }));
   }
   for (let i = 0; i < 3; i++) {
     const row = `${locations} > li:nth-child(${i + 1})`;
     if (addresses[i]) text(row + ' > span', addresses[i]);
     else on(row, (el) => el.remove());
   }
-  for (const [position, title, number] of [[1, 'Toll-Free', tollFree], [2, 'Front Desk', frontDesk]]) {
+  const footerContacts = [
+    [1, 'Phone', settings.phone, settings.phone ? 'tel:' + dial(settings.phone) : ''],
+    [2, 'WhatsApp', settings.whatsapp, settings.whatsapp ? 'https://wa.me/' + settings.whatsapp.replace(/\D/g, '') : ''],
+  ];
+  for (const [position, title, number, href] of footerContacts) {
     const selector = `footer div.mt-6.space-y-3 > div:nth-child(${position})`;
     if (!number) on(selector, (el) => el.remove());
     else on(selector + ' > span', (el) => el.replace(
-      `<a class="!text-sm !text-white/80" href="tel:${usTel(number)}">${title}: ${encode(number)}</a>`, { html: true }));
+      `<a class="!text-sm !text-white/80" href="${href}"${title === 'WhatsApp' ? ' target="_blank" rel="noopener"' : ''}>${title}: ${encode(number)}</a>`, { html: true }));
   }
   const oldContact = [
     ['tel:+8613423118038', settings.phone, 'tel:' + (settings.phone || '').replace(/[^+\d]/g, ''), 'Call Us: ' + settings.phone],
